@@ -11,15 +11,13 @@ use App\Model\Configuracao;
 
 final class ServicoController 
 {
-    function __construct()
-    {
-        Usuario::verificarLogin();
-    }
+     
     public function servicos(
         ServerRequestInterface $request, 
         ResponseInterface $response,
         $args
     ) {
+        Usuario::verificarLogin();
         $servicos = new Servico();
 
         if(isset($_GET['pesquisa']) && $_GET['pesquisa'] !== ''){
@@ -43,7 +41,6 @@ final class ServicoController
         }
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
-
         $data['informacoes'] = array(
             'menu_active' => 'servicos',
             'lista' => $lista,
@@ -52,7 +49,6 @@ final class ServicoController
             'paginaAnterior' => $paginaAnterior,
             'nome_logo' => $nome_logo_site
         );
-
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/servico");
         return $renderer->render($response, "servicos.php", $data);
     }
@@ -61,12 +57,10 @@ final class ServicoController
         ResponseInterface $response,
         $args
     ) {
-        $config = new Configuracao();
-        $nome_logo_site = $config->getConfig('logo_site');
-
+        
         $data['informacoes'] = array(
             'menu_active' => 'servicos',
-            'nome_logo' => $nome_logo_site
+    
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/servico");
         return $renderer->render($response, "create.php", $data);
@@ -82,9 +76,7 @@ final class ServicoController
 
         $resultado = $servicos->selectServico('*', array('id' => $id))[0];
 
-        $resultado['galeria'] = $servicos->selectGaleria($id);
-
-         $config = new Configuracao();
+        $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
         $data['informacoes'] = array(
             'menu_active' => 'servicos',
@@ -102,7 +94,7 @@ final class ServicoController
         $titulo = $request->getParsedBody()['titulo'];
         $data = $request->getParsedBody()['data'];
         $descricao = $request->getParsedBody()['descricao'];
-        $status = $request->getParsedBody()['ativo'];
+        $tempo_servico = $request->getParsedBody()['tempo_servico'];
 
         $nome_imagem_principal = "";
 
@@ -130,7 +122,7 @@ final class ServicoController
             'descricao' => $descricao,
             'imagem_principal' => $nome_imagem_principal,
             'data_cadastro' => $data,
-            'status' => $status
+            'tempo_servico' => $tempo_servico
         );
         
         $servicos = new Servico();
@@ -138,32 +130,6 @@ final class ServicoController
         $servicos->insertServico($campos);
 
         $id_servico = $servicos->getUltimoServico()['id'];
-
-
-        if($request->getUploadedFiles()['galeria_imagens']){
-            $galeria = $request->getUploadedFiles()['galeria_imagens'];
-        } else {
-            $galeria = false;
-        }
-        if($galeria) {
-            foreach ($galeria as $imagem) {
-                $foto = array();
-                if($imagem->getError() === UPLOAD_ERR_OK) {
-
-                    $extensao = pathinfo($imagem->getClientFilename(), PATHINFO_EXTENSION);
-
-                    $nome = md5(uniqid(rand(), true)).pathinfo($imagem->getClientFilename(), PATHINFO_FILENAME).".".$extensao;
-    
-                    $foto["caminho_imagem"] = "resources/imagens/" . $nome;
-
-                    $imagem->moveTo($foto["caminho_imagem"]);
-                    
-                    $foto['id_servico'] = $id_servico;
-
-                    $servicos->insertFotoGaleria($foto);
-                }
-            }
-        }
 
 
         header('Location: '.URL_BASE.'admin/servicos');
@@ -182,7 +148,7 @@ final class ServicoController
         $titulo = $request->getParsedBody()['titulo'];
         $data = $request->getParsedBody()['data'];
         $descricao = $request->getParsedBody()['descricao'];
-        $status = $request->getParsedBody()['ativo'];
+        $tempo_servico = $request->getParsedBody()['tempo_servico'];
         
 
         $nome_imagem_atual = $request->getParsedBody()['nome_imagem_atual'];
@@ -221,7 +187,8 @@ final class ServicoController
             'url_amigavel' => $this->gerarUrlAmigavel($titulo),
             'descricao' => $descricao,
             'data_cadastro' => $data,
-            'status' => $status
+            'tempo_servico' => $tempo_servico
+            
         );
         if($imagem_atualizar) {
             $campos['imagem_principal'] = $nome_imagem_principal;
@@ -231,41 +198,6 @@ final class ServicoController
         
         $servicos->updateServico($campos, array('id' => $id));
         
-        $excluir_galeria = $request->getParsedBody()['excluir_imagem_galeria'];
-
-        foreach($excluir_galeria as $imagem) {
-            $servicos->deleteImagemGaleria($imagem, $id);
-            unlink($imagem); // deleta a imagem do diretorio
-        }
-
-        $id_servico = $id;
-
-        if($request->getUploadedFiles()['galeria_imagens']){
-            $galeria = $request->getUploadedFiles()['galeria_imagens'];
-        } else {
-            $galeria = false;
-        }
-        if($galeria) {
-            foreach ($galeria as $imagem) {
-                $foto = array();
-                if($imagem->getError() === UPLOAD_ERR_OK) {
-
-                    $extensao = pathinfo($imagem->getClientFilename(), PATHINFO_EXTENSION);
-
-                    $nome = md5(uniqid(rand(), true)).pathinfo($imagem->getClientFilename(), PATHINFO_FILENAME).".".$extensao;
-    
-                    $foto["caminho_imagem"] = "resources/imagens/" . $nome;
-
-                    $imagem->moveTo($foto["caminho_imagem"]);
-                    
-                    $foto['id_servico'] = $id_servico;
-
-                    $servicos->insertFotoGaleria($foto);
-                }
-            }
-        }
-
-
         header('Location: '.URL_BASE.'admin/servicos');
         exit();
     }
@@ -281,14 +213,7 @@ final class ServicoController
 
        $resultado = $servicos->selectServico('*', array('id' => $id))[0];
 
-       $resultado['galeria'] = $servicos->selectGaleria($id);
-
        unlink($resultado['imagem_principal']);
-
-       foreach($resultado['galeria'] as $imagem){
-        
-       unlink($imagem['caminho_imagem']);
-       }
 
        $servicos->deleteServico('id', $id);
 

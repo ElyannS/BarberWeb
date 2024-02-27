@@ -30,14 +30,14 @@ return function (App $app) {
     $app->post('/admin/agendamentos_delete', '\App\Controller\AgendamentoController:agendamentos_delete');
 
    //CONTROLADOR CAIXA
-   $app->get('/admin/caixa', '\App\Controller\AdminController:caixa');
-   $app->get('/admin/caixa-create', '\App\Controller\AdminController:caixa_create');
-   $app->get('/admin/caixa-edit/{id}', '\App\Controller\AdminController:caixa_edit');
-   $app->post('/admin/caixa_insert', '\App\Controller\AdminController:caixa_insert');
-   $app->get('/admin/caixa-edit-data/{id}', '\App\Controller\AdminController:caixa_edit_data');
-   $app->post('/admin/caixa_update', '\App\Controller\AdminController:caixa_update');
-   $app->post('/admin/caixa_delete', '\App\Controller\AdminController:caixa_delete');
-   $app->post('/admin/caixa_total_delete', '\App\Controller\AdminController:caixa_total_delete');
+   $app->get('/admin/caixa', '\App\Controller\CaixaController:caixa');
+   $app->get('/admin/caixa-create', '\App\Controller\CaixaController:caixa_create');
+   $app->get('/admin/caixa-edit/{id}', '\App\Controller\CaixaController:caixa_edit');
+   $app->post('/admin/caixa_insert', '\App\Controller\CaixaController:caixa_insert');
+   $app->get('/admin/caixa-edit-data/{id}', '\App\Controller\CaixaController:caixa_edit_data');
+   $app->post('/admin/caixa_update', '\App\Controller\CaixaController:caixa_update');
+   $app->post('/admin/caixa_delete', '\App\Controller\CaixaController:caixa_delete');
+   $app->post('/admin/caixa_total_delete', '\App\Controller\CaixaController:caixa_total_delete');
 
 
     //ROTAS DO WEB SITE

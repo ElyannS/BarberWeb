@@ -3,6 +3,7 @@ namespace App\Model;
 
 use App\Model\Model;
 
+
 class Servico extends Model {
 	
 	private $table = "servicos";
@@ -13,7 +14,7 @@ class Servico extends Model {
 		"descricao",
 		"imagem_principal",
         "data_cadastro",
-        "status"
+		"tempo_servico"
 	];
 
 	function insertServico($campos)
@@ -35,33 +36,26 @@ class Servico extends Model {
 	{
 		return $this->select($this->table, $campos, $where);
 	}
+
+	public function selectServicoId($id): array
+{
+    $fields = implode(", ", $this->fields); // Obter os nomes das colunas separados por vírgula
+    $sql = "SELECT $fields FROM $this->table WHERE id = :id";
+    $params = [":id" => $id];
+    return $this->querySelect($sql, $params);
+}
+
 	function getUltimoServico() 
 	{
 		$sql = "SELECT * FROM ".$this->table." ORDER BY id DESC LIMIT 1";
 
 		return $this->querySelect($sql)[0];
 	}
-	function insertFotoGaleria($campos)
-	{
-		$this->insert('galeria_'.$this->table, $campos);
-	}
 	function selectServicosPage($limit, $offset)
 	{
 		$sql = "SELECT * FROM ".$this->table." ORDER BY id DESC LIMIT ".$offset.", ".$limit;
 
 		return $this->querySelect($sql);
-	}
-	function selectGaleria($id)
-	{
-		$sql = "SELECT * FROM galeria_".$this->table." WHERE id_servico = ".$id;
-		
-		return $this->querySelect($sql);
-	}
-	function deleteImagemGaleria($nome, $id_servico)
-	{
-		$sql = "DELETE FROM galeria_".$this->table." WHERE id_servico = ".$id_servico." AND caminho_imagem = '".$nome."'";
-		
-		return $this->query($sql);
 	}
 	function selectServicosPesquisa($pesquisa)
 	{
