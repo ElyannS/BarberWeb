@@ -5,6 +5,6 @@
 	<script src="https://kit.fontawesome.com/9c14b7c190.js" crossorigin="anonymous"></script>
 	<script src="<?=URL_BASE?>resources/js/js.min.js"></script>	
 	<script src="<?=URL_BASE?>resources/js/menu.min.js"></script>
-	<script src="<?=URL_BASE?>resources/js/geraData.min.js"></script>
+	<script src="<?=URL_BASE?>resources/js/gerarData.min.js"></script>
 </body>
 </html>

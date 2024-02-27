@@ -9,13 +9,9 @@ use App\Model\Caixa;
 use App\Model\Usuario;
 use App\Model\Configuracao;
 
-final class ServicoController 
+final class CaixaController 
 {
-    
-    // CAIXA 
-
-
-    public function caixa(
+    public function caixa (
         ServerRequestInterface $request, 
         ResponseInterface $response,
         $args
@@ -55,8 +51,6 @@ final class ServicoController
         }
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
-
-        $caixa = new Caixa();
 
         $caixa = new Caixa();
 
