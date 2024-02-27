@@ -11,7 +11,10 @@ use App\Model\Configuracao;
 
 final class ServicoController 
 {
-     
+    
+    // CAIXA 
+
+
     public function caixa(
         ServerRequestInterface $request, 
         ResponseInterface $response,
@@ -29,42 +32,102 @@ final class ServicoController
         } else{
             $limit = 10;
             $paginaAtual = isset($_GET['page']) ? $_GET['page'] : 1;
-            $offset = ($paginaAtual*$limit) - $limit;
+            $offset = ($paginaAtual * $limit) - $limit;
 
-            $qntTotal = count($servicos->selectCaixa('*' , array('1'=>'1')));
+            // Obtenha as datas distintas agrupando por data e selecionando a transação mais recente
+            $sqlDatasDistintas = "SELECT MAX(id) as id FROM caixa GROUP BY data ORDER BY data DESC LIMIT {$offset}, {$limit}";
+            $datasDistintas = $servicos->querySelect($sqlDatasDistintas);
 
-            $proximaPagina = ($qntTotal > ($paginaAtual*$limit)) ? URL_BASE."admin/caixa?page=".($paginaAtual+1) : false;
+            $qntTotal = count($datasDistintas);
 
-            $paginaAnterior = ($paginaAtual > 1) ? URL_BASE."admin/caixa?page=".($paginaAtual-1) : false;
-
-            $lista = $servicos->selectCaixaPage($limit, $offset);
+            if($qntTotal > 0){
+                $proximaPagina = ($qntTotal > ($paginaAtual * $limit)) ? URL_BASE."admin/caixa?page=".($paginaAtual + 1) : false;
+                $paginaAnterior = ($paginaAtual > 1) ? URL_BASE."admin/caixa?page=".($paginaAtual - 1) : false;
+    
+                // Agora, obtenha as transações para a página atual usando os IDs obtidos anteriormente
+                $ids = implode(',', array_column($datasDistintas, 'id'));
+                $sqlLista = "SELECT * FROM caixa WHERE id IN ({$ids})";
+                $lista = $servicos->querySelect($sqlLista);
+            } else{
+                $lista = [];
+            }
+           
         }
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
+
+        $caixa = new Caixa();
+
+        $caixa = new Caixa();
+
+        // Data de uma semana atrás
+        $dataInicioW = date('Y-m-d', strtotime('-1 week'));
+        $dataFimW = date('Y-m-d');
+        
+        $sql = "SELECT SUM(dinheiro) + SUM(pix) + SUM(cartao) as valorTotal FROM caixa WHERE data BETWEEN '{$dataInicioW}' AND '{$dataFimW}'";
+        $resultado = $caixa->querySelect($sql);
+        
+        $valorTotalSemana = $resultado[0]['valorTotal'];
+        
+        $caixa = new Caixa();
+
+        // Data de um mês atrás
+        $dataInicioM = date('Y-m-d', strtotime('-1 month'));
+        $dataFimM = date('Y-m-d');
+
+        $sql = "SELECT SUM(dinheiro) + SUM(pix) + SUM(cartao) as valorTotal FROM caixa WHERE data BETWEEN '{$dataInicioM}' AND '{$dataFimM}'";
+        $resultado = $caixa->querySelect($sql);
+
+        $valorTotalMes = $resultado[0]['valorTotal'];
+
+      
+        $caixa = new Caixa();
+
+        // Data de um ano atrás
+        $dataInicioA = date('Y-m-d', strtotime('-1 year'));
+        $dataFimA = date('Y-m-d');
+        
+        $sql = "SELECT SUM(dinheiro) + SUM(pix) + SUM(cartao) as valorTotal FROM caixa WHERE data BETWEEN '{$dataInicioA}' AND '{$dataFimA}'";
+        $resultado = $caixa->querySelect($sql);
+        
+        $valorTotalAno = $resultado[0]['valorTotal'];
+        
         $data['informacoes'] = array(
-            'menu_active' => 'servicos',
+            'menu_active' => 'caixa',
             'lista' => $lista,
             'paginaAtual' => $paginaAtual,
             'proximaPagina' => $proximaPagina,
             'paginaAnterior' => $paginaAnterior,
-            'nome_logo' => $nome_logo_site
+            'nome_logo' => $nome_logo_site,
+            'resultadoSemana' => $valorTotalSemana,
+            'resultadoMes' => $valorTotalMes,
+            'resultadoAno' => $valorTotalAno
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/caixa");
         return $renderer->render($response, "caixa.php", $data);
-    }
+    } 
+    
+   
     public function caixa_create(
         ServerRequestInterface $request, 
         ResponseInterface $response,
         $args
     ) {
-        
+        $config = new Configuracao();
+        $nome_logo_site = $config->getConfig('logo_site');
+
+        $caixa = new Caixa();
+        $consultaCaixa = $caixa->selectCaixa('*', array(1 => '1'));
+
         $data['informacoes'] = array(
             'menu_active' => 'caixa',
-    
+            'nome_logo' => $nome_logo_site,
+            'lista' => $consultaCaixa,
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/caixa");
         return $renderer->render($response, "create.php", $data);
     }
+
     public function caixa_edit(
         ServerRequestInterface $request, 
         ResponseInterface $response,
@@ -72,72 +135,109 @@ final class ServicoController
     ) {
         $id = $args['id'];
 
-        $servicos = new Caixa();
+        $caixa = new Caixa();
 
-        $resultado = $servicos->selectCaixa('*', array('id' => $id))[0];
+        $resultado = $caixa->selectCaixa('*', array('id' => $id))[0];
+
+
 
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
         $data['informacoes'] = array(
-            'menu_active' => 'servicos',
-            'servico' => $resultado,
+            'menu_active' => 'caixa',
+            'lista' => $resultado,
             'nome_logo' => $nome_logo_site
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/caixa");
         return $renderer->render($response, "edit.php", $data);
+    }
+    public function caixa_edit_data(
+        ServerRequestInterface $request, 
+        ResponseInterface $response,
+        $args
+    ) {
+        $dataUrl = $args['id'];
+
+        $caixa = new Caixa();
+        $resultado = $caixa->selectPorData($dataUrl);
+
+
+        $valorTotalDinheiro = 0;
+        $valorTotalPix = 0;
+        $valorTotalCartao = 0;
+        $valorTotal = 0;
+        foreach ($resultado as $registro) {
+            $valorTotalDinheiro += $registro['dinheiro'];
+        }
+        foreach ($resultado as $registro) {
+            $valorTotalPix += $registro['pix'];
+        }
+        foreach ($resultado as $registro) {
+            $valorTotalCartao += $registro['cartao'];
+        }
+        foreach ($resultado as $registro) {
+            // Soma os valores das colunas 'dinheiro', 'pix' e 'cartao'
+            $valorTotal += $registro['dinheiro'] + $registro['pix'] + $registro['cartao'];
+        }
+        
+        
+        $config = new Configuracao();
+        $nome_logo_site = $config->getConfig('logo_site');
+        $data['informacoes'] = array(
+            'menu_active' => 'caixa',
+            'lista' => $resultado,
+            'nome_logo' => $nome_logo_site,
+            'dataUrl' => $dataUrl,
+            'valorDoDia' => $valorTotal,
+            'valorDinheiro' => $valorTotalDinheiro,
+            'valorPix' => $valorTotalPix,
+            'valorCartao' => $valorTotalCartao,
+        );
+        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/caixa");
+        return $renderer->render($response, "edit2.php", $data);
     }
     public function caixa_insert(
         ServerRequestInterface $request, 
         ResponseInterface $response,
         $args
     ) {
-        $titulo = $request->getParsedBody()['titulo'];
-        $data = $request->getParsedBody()['data'];
-        $descricao = $request->getParsedBody()['descricao'];
-        $tempo_servico = $request->getParsedBody()['tempo_servico'];
-
-        $nome_imagem_principal = "";
-
-        if($request->getUploadedFiles()['imagem_principal']) {
-            $imagem_principal = $request->getUploadedFiles()['imagem_principal'];
+        $nome_cliente = $request->getParsedBody()['nome_cliente'] ?? null;
+        $data = $request->getParsedBody()['data'] ?? null;
+        $dinheiro = $request->getParsedBody()['dinheiro'] ?? null;
+        $pix = $request->getParsedBody()['pix'] ?? null;
+        $cartao = $request->getParsedBody()['cartao'] ?? null;
+    
+        // Verifica e faz trim somente se a variável não for nula
+        $nome_cliente = ($nome_cliente !== null) ? trim($nome_cliente) : null;
+        $data = ($data !== null) ? trim($data) : null;
+        $dinheiro = ($dinheiro !== null) ? trim($dinheiro) : null;
+        $pix = ($pix !== null) ? trim($pix) : null;
+        $cartao = ($cartao !== null) ? trim($cartao) : null;
+    
+        // Verifica se pelo menos um dos valores não é nulo antes de inserir no banco de dados
+        if ($nome_cliente !== null || $data !== null || $dinheiro !== null || $pix !== null || $cartao !== null) {
+            $camposPreenchidos = array_filter(array(
+                'nome_cliente' => $nome_cliente,
+                'data' => $data,
+                'dinheiro' => $dinheiro,
+                'pix' => $pix,
+                'cartao' => $cartao,
+            ));
+            
+            $caixa = new Caixa();
+            $caixa->insertCaixa($camposPreenchidos);
+    
+            header('Location: '.URL_BASE.'admin/caixa-edit-data/'.$data);
+            exit();
         } else {
-            $imagem_principal = false;
+            echo "Nenhum dos valores informados. Nada a ser inserido.";
         }
-
-        if($imagem_principal) {
-            if ($imagem_principal->getError() === UPLOAD_ERR_OK) {
-                $extensao = pathinfo($imagem_principal->getClientFilename(), PATHINFO_EXTENSION);
-
-                $nome = md5(uniqid(rand(), true)).pathinfo($imagem_principal->getClientFilename(), PATHINFO_FILENAME).".".$extensao;
-
-                $nome_imagem_principal = "resources/imagens/" . $nome;
-
-                $imagem_principal->moveTo($nome_imagem_principal);
-            }
-        }
-
-        $campos = array(
-            'titulo' => $titulo,
-            'url_amigavel' => $this->gerarUrlAmigavel($titulo),
-            'descricao' => $descricao,
-            'imagem_principal' => $nome_imagem_principal,
-            'data_cadastro' => $data,
-            'tempo_servico' => $tempo_servico
-        );
-        
-        $servicos = new Caixa();
-        
-        $servicos->insertServico($campos);
-
-        $id_servico = $servicos->getUltimoServico()['id'];
-
-
-        header('Location: '.URL_BASE.'admin/caixa');
-        exit();
     }
+    
 
 
-//UPDATE SERVIÇOS
+
+//UPDATE CAIXA
 
     public function caixa_update(
         ServerRequestInterface $request, 
@@ -145,60 +245,29 @@ final class ServicoController
         $args
     ) {
         $id = $request->getParsedBody()['id'];
-        $titulo = $request->getParsedBody()['titulo'];
+        $nome_cliente = $request->getParsedBody()['nome_cliente'];
         $data = $request->getParsedBody()['data'];
-        $descricao = $request->getParsedBody()['descricao'];
-        $tempo_servico = $request->getParsedBody()['tempo_servico'];
+        $dinheiro = $request->getParsedBody()['dinheiro'];
+        $pix = $request->getParsedBody()['pix'];
+        $cartao = $request->getParsedBody()['cartao'];
+       
+       
+       
+
         
-
-        $nome_imagem_atual = $request->getParsedBody()['nome_imagem_atual'];
-
-        $imagem_atualizar = false;
-
-        if($request->getUploadedFiles()['imagem_principal']->getClientFilename() !== '') {
-            $imagem_atualizar = true;
-            $nome_imagem_principal = "";
-
-            //Usuario quer atualizar a imagem principal
-            if($request->getUploadedFiles()['imagem_principal']) {
-                $imagem_principal = $request->getUploadedFiles()['imagem_principal'];
-            } else {
-                $imagem_principal = false;
-            }
-    
-            if($imagem_principal) {
-                if ($imagem_principal->getError() === UPLOAD_ERR_OK) {
-                    $extensao = pathinfo($imagem_principal->getClientFilename(), PATHINFO_EXTENSION);
-    
-                    $nome = md5(uniqid(rand(), true)).pathinfo($imagem_principal->getClientFilename(), PATHINFO_FILENAME).".".$extensao;
-    
-                    $nome_imagem_principal = "resources/imagens/" . $nome;
-    
-                    $imagem_principal->moveTo($nome_imagem_principal);
-
-                    unlink($nome_imagem_atual); // deleta as imagens do diretorio
-                }
-            }
-        }
-
+        
         $campos = array(
-            'id' => $id,
-            'titulo' => $titulo,
-            'url_amigavel' => $this->gerarUrlAmigavel($titulo),
-            'descricao' => $descricao,
-            'data_cadastro' => $data,
-            'tempo_servico' => $tempo_servico
-            
+            'nome_cliente' => $nome_cliente,
+            'data' => $data,
+            'dinheiro' => $dinheiro,
+            'pix' => $pix,
+            'cartao' => $cartao,
         );
-        if($imagem_atualizar) {
-            $campos['imagem_principal'] = $nome_imagem_principal;
-        }
         
-        $servicos = new Caixa();
+        $caixa = new Caixa();
+        $caixa->updateCaixa($campos, array('id' => $id));
         
-        $servicos->updateServico($campos, array('id' => $id));
-        
-        header('Location: '.URL_BASE.'admin/caixa');
+        header('Location: '.URL_BASE.'admin/caixa-edit-data/'.$data);
         exit();
     }
 
@@ -207,17 +276,32 @@ final class ServicoController
         ResponseInterface $response,
         $args
     ) {
+        $data = $request->getParsedBody()['data'];
        $id = $request->getParsedBody()['id'];
 
-       $servicos = new Caixa();
+       $caixa = new Caixa();
 
-       $resultado = $servicos->selectServico('*', array('id' => $id))[0];
-
-       unlink($resultado['imagem_principal']);
-
-       $servicos->deleteServico('id', $id);
+       $caixa->deleteCaixa('id', $id);
 
        header('Location: '.URL_BASE.'admin/caixa');
        exit();
+
     }
+    public function caixa_total_delete(
+        ServerRequestInterface $request, 
+        ResponseInterface $response,
+        $args
+    ) {
+        $data = $request->getParsedBody()['data'];
+  
+
+       $caixa = new Caixa();
+
+       $caixa->deleteCaixa('data', $data);
+
+       header('Location: '.URL_BASE.'admin/caixa');
+       exit();
+
+    }
+
 } 
