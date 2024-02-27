@@ -1,0 +1,114 @@
+.listagem_noticias{
+    background-color: #292929;
+    padding: 85px 0px;
+
+    .descricao{
+        text-align: left;
+        margin: 0 auto;
+        margin-bottom: 25px;
+    }
+    .itens{
+        width: 100%;
+        display: inline-flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
+        .item{
+            width: 100%;
+            display: inline-block;
+            margin-bottom: 60px;
+
+            @include desktop{
+               
+            }
+            .img{
+                img{
+                    width: 100%;
+                }
+            }
+            .info{
+                padding: 20px;
+                background-color: #000;
+                margin: 0;
+                position: relative;
+                z-index: 2;
+
+                .titulo{
+                    font-size: 18px;
+                    font-family: 'Montserrat Bold';
+                    margin-bottom: 25px;
+                    &::after{
+                        display: none;
+                    }
+                }
+                .data{
+                    font-size: 14px;
+                    width: max-content;
+                    margin: -60px -20px 0 0;
+                    float: right;
+                    background-color: $color_destaque;
+                    padding: 10px 15px;
+                }
+                .link{
+                    a{
+                        font-size: 18px;
+                        color: $color_destaque;
+                        text-decoration: underline;
+                        font-family: 'Montserrat Bold';
+                        transition: .30s;
+                        &:hover{
+                            color: $color_destaque_hover;
+                        }
+                    }
+                }
+            }
+            @include tablet{
+                width: 48%;
+                margin-right: 4%;
+                &:nth-child(2n+2){
+                    margin-right: 0px;
+                }
+            }
+            @include desktop{
+                width: 30.66666667%;
+                margin-right: 4%;
+                &:nth-child(2n+2){
+                    margin-right: 4%;
+                }
+                &:nth-child(3n+3){
+                    margin-right: 0px;
+                }
+            }
+        }
+    }
+    .paginacao{
+        width: 100%;
+        display: block;
+        ul{
+            display: inline-flex;
+            width: 100%;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            li{
+                a{
+                    width: 40px;
+                    height: 40px;
+                    display: inline-flex;
+                    border: 1px solid #fff;
+                    justify-content: center;
+                    align-items: center;
+                    transition: .30s;
+                    &:hover{
+                        background-color: $color_destaque;
+                        border: 1px solid $color_destaque;
+                    }
+                    &.active{
+                        background-color: $color_destaque;
+                        border: 1px solid $color_destaque;
+                    }
+                }
+            }
+        }
+    }
+}

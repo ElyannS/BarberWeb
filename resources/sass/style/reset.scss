@@ -1,0 +1,672 @@
+$tablet:			768;
+$desktop:			1024;
+
+@mixin tablet		{ @media screen and (min-width: #{$tablet}px) { @content; } }
+@mixin desktop		{ @media screen and (min-width: #{$desktop}px) { @content; } }
+
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+body.menu-active{
+	height: 100vh;
+	overflow: hidden;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+*, *:before, *:after{
+	box-sizing: border-box;
+}
+body{
+	color: $color;
+	font-size: $font_size;
+	font-family: $font_family;
+	line-height: $line_height;
+	overflow-x: hidden;
+	background-color: #000;
+
+	&.active-lightbox{
+		width: 100vw;
+		height: 100vh;
+		overflow: hidden;
+	}
+}
+a{
+	color: $color;
+	text-decoration: none;
+}
+.container{
+	width: 100%;
+	max-width: 1360px;
+	margin: 0px auto;
+	padding: 0px 25px;
+}
+.titulo{
+	font-size: 25px;
+	font-family: 'Montserrat Medium';
+	position: relative;
+	margin-bottom: 30px;
+	@include desktop{
+		font-size: 40px;
+	}
+
+	&::after{
+		content: ' ';
+		width: 100px;
+		height: 5px;
+		background-color: $color_destaque;
+		position: absolute;
+	}
+
+	&.center{
+		text-align: center;
+
+		&::after{
+			left: 0;
+			right: 0;
+			margin: 0 auto;
+		}
+	}
+}
+body.admin{
+	.container{
+		max-width: 100vw;
+	
+		@include desktop{
+			padding-left: 275px;
+		}
+	}
+		.conteudo{
+			width: 100vw;
+			display: block;
+			color: #000;
+			
+			@include desktop{
+				margin-top: 60px;
+			}
+		}
+		section{
+			padding: 20px 0px;
+		}
+		p{
+			font-size: 16px;
+			font-family: 'Montserrat Medium';
+			margin-bottom: 15px;
+
+			&:last-child{
+				margin-bottom: 0px;
+			}
+		}
+}
+.titulo_pagina{
+	
+	position: relative;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+	line-height: 1;
+	padding: 5px 0px;
+	&::after{
+		content: ' ';
+		width: 100%;
+		height: 1px;
+		background-color: #a2a2a2;
+		position: absolute;
+		left: 0;
+		top: 100%;
+	}
+	i{
+		font-size: 8px;
+	}
+	.titulo-migalha{
+		display: flex;
+		align-items: center;
+		p{
+			font-size: 18px;
+			font-family: 'Montserrat Bold';
+		}
+		i{
+			margin-right: 5px;
+		}
+	}
+	
+}
+body.admin{
+	&.menu_active{
+		max-height: 100vh;
+		min-height: 100vh;
+		max-width: 100vw;
+		overflow: hidden;
+	}
+	section a{
+		color: #000;
+	}
+	.topo{
+		display: inline-flex;
+		justify-content: space-around;
+		flex-wrap: wrap;
+		@include tablet{
+			justify-content: space-between;
+		}
+		.btn{
+			margin-bottom: 0px;
+			width: 100%;
+			text-align: center;
+			@include tablet{
+				margin-bottom: 0px;
+				width: auto;
+			}
+			a{
+				padding: 8px;
+				font-size: 14px;
+				font-family: 'Montserrat Bold';
+				background-color: $color_destaque;
+				border: 0px;
+				border-radius: 5px;
+				color: #fff;
+				display: block;
+				transition: .30s;
+
+				&:hover{
+					background-color: $color_destaque_hover;
+				}
+			}
+		}
+		.form_pesquisa{
+			form{
+				display: inline-flex;
+				input[type="text"]{
+					border-radius: 10px;
+					border: 2px solid #ccc;
+					margin-right: 10px;
+					padding: 5px 15px;
+				}
+				button{
+				padding: 10px;
+				font-size: 14px;
+				font-family: 'Montserrat Bold';
+				background-color: $color_destaque;
+				border: 0px;
+				border-radius: 10px;
+				color: #fff;
+				display: block;
+				transition: .30s;
+				cursor: pointer;
+				&:hover{
+					background-color: $color_destaque_hover;
+				}
+				}
+			}	
+		}
+	}
+	.lista{
+		table{
+			width: 100%;
+			tbody{
+				tr{
+					width: 100%;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					td{
+						padding: 10px 0px;
+						font-size: 14px;
+					
+						&.id{
+							img{
+								width: 50px;
+							}
+							@include desktop{
+								display: table-cell;
+								width: 5%;
+								text-align: center;
+								
+							}
+						}
+						&.acao{
+							text-align: center;
+							display: inline-flex;
+							justify-content: center;
+							align-items: center;
+					
+							form button{
+								background: transparent;
+								border: 0px;
+								padding-left: 10px;
+								cursor: pointer;
+							}
+							.btn{
+								margin-bottom: 0px;
+								width: 100%;
+								text-align: center;
+								@include tablet{
+									margin-bottom: 0px;
+									width: auto;
+								}
+								a{
+									padding: 6px;
+									font-size: 14px;
+									font-family: 'Montserrat Bold';
+									background-color: $color_destaque;
+									border: 0px;
+									border-radius: 5px;
+									color: #fff;
+									display: block;
+									transition: .30s;
+					
+									&:hover{
+										background-color: $color_destaque_hover;
+									}
+								}
+							}
+						}
+						&.titulo_item{
+							width: 100%;
+							
+							.titulo-ser{
+								font-size: 1.2em;
+								font-weight: Bold;
+
+							}
+							.valor-ser{
+								font-size: .8em;
+								color: $color_destaque;
+								.span-clock{
+									margin-left: 30%;
+								}
+							}
+							@include desktop{
+								padding-left: 10px;
+							}
+						}
+						&.data{
+							display: none;
+							@include desktop{
+								width: 20%;
+								text-align: center;
+								display: table-cell;
+							}
+						}
+					}
+				}
+			}
+		}
+		.paginacao{
+			text-align: right;
+			font-size: 35px;
+			padding: 10px 0px;
+			display: inline-flex;
+			justify-content: flex-end;
+			align-items: center;
+			width: 100%;
+			span{
+				font-family: 'Montserrat Bold';
+				font-size: 25px;
+				margin: 0 10px;
+			}
+		}
+	}
+}
+body.admin{
+	.background-white{
+		background-color: #fff;
+	}
+	.dashboard{
+		background-color: #1a1a1a;
+		height: 100vh;
+		.logo{
+			display: flex;
+			justify-content: center;
+			margin-bottom: 50px;
+		
+			@include desktop{
+				display: none;
+			}
+		}
+		.menu_pagina_inicial{
+			width: 100%;
+			display: inline-flex;
+			justify-content: center;
+			flex-wrap: wrap;
+			a{
+				color: #fff;
+				font-size: 1em;
+			}
+			.itens_menu{
+				width: 100%;
+				display: flex;
+				justify-content: space-around;
+				margin-bottom: 50px;
+				.item_menu{
+					.circulo{
+						background-color: #fff;
+						border-radius: 50%; 
+						width: 80px;
+						height: 80px;
+						display: flex;
+						justify-content: center;
+						margin-bottom: 10px;
+						.icon_svg{
+							width: 80%;
+						}
+					}
+					p{
+						text-align: center;
+					}
+					
+				}
+				
+			}
+		}
+		.form{
+			width: 100%;
+			display: block;
+			margin-top: 25px;
+			padding: 15px;
+			background-color: #ebebeb;
+
+			form{
+				.row{
+					width: 100%;
+					display: inline-flex;
+					flex-wrap: wrap;
+					justify-content: space-between;
+					margin-bottom: 15px;
+					.w-80{
+						width: 100%;
+						@include desktop{
+							width: calc(80% - 45px);
+						}
+					}
+					.w-20{
+						width: 100%;
+						@include desktop{
+							width: 20%;
+						}
+					}
+					.d-flex{
+						width: 100%;
+						display: inline-flex;
+						flex-wrap: wrap;
+						.img{
+							margin-right: 15px;
+						}
+					}
+					button{
+						border: 0px;
+						border-radius: 10px;
+						background-color: $color_destaque;
+						display: block;
+						margin: 0;
+						max-width: max-content;
+						transition: .30s;
+						padding: 12px 25px;
+						text-transform: uppercase;
+						font-size: 16px;
+						color: #fff;
+						font-family: 'Montserrat Regular';
+						width: auto;
+						cursor: pointer;
+						&:hover{
+							background-color: $color_destaque_hover;
+						}
+					}
+					label{
+						width: 100%;
+						display: block;
+						font-family: 'Montserrat Bold';
+						input{
+							margin-top: 10px;
+							height: 40px;
+							border: 1px solid #000;
+							border-radius: 10px;
+							width: 100%;
+							display: block;
+							padding: 0px 15px;
+							color: #9c9c9c;
+						}
+						input[type="file"]{
+							background-color: #fff;
+							padding: 7px 15px;
+						}
+						textarea{
+							width: 100%;
+							display: block;
+							border: 1px solid #000;
+							max-width: 100%;
+							min-width: 100%;
+							color: #9c9c9c;
+						}
+						select{
+							display: block;
+							margin-top: 10px;
+							height: 40px;
+							border: 1px solid #000;
+							border-radius: 10px;
+							background-color: #fff;
+							padding: 0px 10px;
+							font-family: 'Montserrat Bold';
+							color: #9c9c9c;
+						}
+					}
+					.img{
+						width: 100px;
+						height: 120px;
+						margin-top: 10px;
+						display: block;
+						img{
+							width: 100px;
+							height: 100px;
+							border-radius: 10px;
+							background-color: #a2a2a2;
+						}
+						label{
+							width: 100%;
+							display: inline-flex;
+							font-size: 10px;
+							font-family: 'Montserrat Regular';
+							align-items: center;
+							justify-content: center;
+							input[type="checkbox"]{
+								width: 10px;
+								height: 10px;
+								margin: 0px 3px 0px 0px;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+body.admin{
+	.agenda{
+		.top-container{
+			.agenda-top{
+				.menu-agenda{
+					.title-menu{
+						display: flex;
+						justify-content: space-around;
+						align-items: center;
+						cursor: pointer;
+						.date{
+							align-items: center;
+							font-size: 0.9em;
+							font-weight: bold;
+							@include desktop{
+								font-size: 1.2em;
+							}
+						}
+						.icon-menu{
+							font-size: 23px;
+							width: 15%;
+							input{											
+								opacity: 0;
+								color: #fff;
+								z-index: 33;
+								position: relative;
+								width: 30%;
+							}
+							
+							.calendarIcon {
+								margin-left: -20px;
+								cursor: pointer;
+								@include desktop{
+									margin-left: -30px;
+									
+								}
+							}
+						}
+						i{
+							font-size: 15px;
+							cursor: pointer;
+						}
+						#nextButton{
+							width: 15%;
+							display: flex;
+							justify-content: end;
+						}
+					}
+					
+					.calendar {
+						text-align: center;
+						padding: 20px;
+					}
+					  
+					.week {
+						display: flex;
+						justify-content: space-around;
+						margin-bottom: 10px; 
+						@include desktop{
+							padding: 0 53px;
+						}
+					p {
+						font-size: 0.7em;
+						margin: 0;
+					}
+					}
+					
+					.date_ext {
+						display: flex;
+						justify-content: space-around;
+						font-weight: bold;
+						
+						@include desktop{
+							padding: 0 53px;
+						}
+					}
+					
+					.day {
+						padding: 3px;
+						cursor: pointer;
+					}
+					
+					.highlight {
+						width: 25px;
+						height: 25px;
+						border-radius: 50%;
+						color: #fff;
+						font-size: 14px;
+						background-color: #000; 
+						text-align: center;
+					}
+					  
+					  
+				}
+				table{
+					width: 100%;
+					tr{
+						position: relative;
+					}
+						.tr{
+							width: 11%;
+							height: 24px;
+							font-weight: bold;
+							font-family: 'Montserrat Regular';
+							color: #000;
+							font-size: 11px;
+							@include desktop{
+								width: 4%;
+							}
+						}
+						td{
+							position: absolute;
+							border-bottom: 1px solid #00000098;
+							width: 90%;
+							top: 12px;
+						}
+							.td{
+								width: 100%;
+								a{
+									width: 100%;
+									color: #fff;
+									font-size: 13px;
+									margin: 0 0 0 5px;
+								}
+								
+							}
+						
+							
+							.marcado{
+								background-color: #000;
+								border-radius: 4px;
+							}
+							.marcado-corte-barba{
+								background-color: #000;
+								margin-top: 0;
+								position: absolute;
+								width: 100%;
+								height: 48px;
+								border-radius: 4px;
+								z-index: 1;
+							}
+							.fechada{
+								background: #000;
+							}
+					
+				
+				}
+			}
+		}
+	}
+}

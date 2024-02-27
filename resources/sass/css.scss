@@ -1,0 +1,42 @@
+/* Variaveis
+-------------------------------------------------- */
+$color: #fff;
+$color_destaque: #004AAD;
+$color_destaque_hover: #3A76C6;
+$font_size: 16px;
+$font_family: 'Montserrat Regular';
+$line_height: 1.3;
+
+
+/* RESET CSS
+-------------------------------------------------- */
+@import "style/reset";
+
+
+/* Fontes
+-------------------------------------------------- */
+@import "fontes/montserrat";
+
+/* Plugins
+-------------------------------------------------- */
+@import "plugins/slick";
+@import "plugins/slick-theme";
+@import "plugins/swipebox.scss";
+
+
+/* Padrão
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+@import "style/header";
+@import "style/footer";
+@import "style/migalha";
+
+/* Páginas
+-------------------------------------------------- */
+@import "paginas/home";
+@import "paginas/a_rlbs_motors";
+@import "paginas/videos";
+@import "paginas/blog";
+@import "paginas/fale_conosco";
+@import "paginas/servico_detalhe";
+@import "paginas/blog_detalhe";
+@import "paginas/pagina_login";

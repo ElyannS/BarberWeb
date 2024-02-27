@@ -1,0 +1,94 @@
+.pagina_login{
+    height: 100vh;
+    min-height: 300px;
+    background-image: url(../imagens/fundo.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    .container{
+        height: 100%;
+        position: relative;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .center{
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            img{
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+            .form{
+                max-width: 400px;
+                background-color: #292929;
+                padding: 20px 25px;   
+                
+                h1{
+                    font-size: 22px;
+                    font-family: 'Montserrat Bold';
+                    margin-bottom: 20px;
+                }
+                input[type='text'],
+                input[type='password']{
+                width: 100%;
+                padding: 11px 15px;
+                background-color: #fff;
+                color: #292929;
+                border: 0px;
+                margin-bottom: 20px;
+                font-size: 16px;
+                }
+                button{
+                    width: 100%;
+                    padding: 11px 15px;
+                    background-color: $color_destaque;
+                    color: #fff;
+                    border: 0px;
+                    font-size: 16px;
+                    text-transform: uppercase;
+                    cursor: pointer;
+                    transition: .30s;
+                    &:hover{
+                        background-color: $color_destaque_hover;
+                    }
+                }
+                .resposta{
+                    width: 100%;
+                    display: block;
+                    padding: 10px 0px;
+                    font-size: 16px;
+                    margin-top: 20px;
+                }
+                .resposta.sucesso{
+                    border: 1px solid green;
+                    background-color: #95ff95;
+                    color: #050;
+                    font-family: 'Montserrat Bold';
+                }
+                .resposta.error{
+                    border: 1px solid red;
+                    background-color: #ffc5c5;
+                    color: #aa0202;
+                    font-family: 'Montserrat Bold';
+                }
+            }
+        }
+        .bottom{
+            position: absolute;
+            left: 25px;
+            bottom: 15px;
+            width: calc(100% - 50px);
+            display: inline-flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            
+            @include tablet{
+                justify-content: space-between;
+            }
+        }
+    }
+}
