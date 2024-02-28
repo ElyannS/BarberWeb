@@ -670,3 +670,59 @@ body.admin{
 		}
 	}
 }
+
+
+body.admin{
+	.container{
+		.top-container{
+			.container-popup{
+				display: none;
+				width: 90%;
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				background-color: #fff;
+				padding: 20px;
+				border: 1px solid #ccc;
+				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+				text-align: center;
+				z-index: 999;
+				background-color: #000000d3;
+				border-radius: 10px;
+				.opcao-popup{
+					margin: 0 auto;
+					width: 80%;
+					text-align: center;
+					padding-bottom: 10px;
+					@include tablet{
+						margin-bottom: 0px;
+						width: auto;
+					}
+					a{
+						padding: 8px;
+						font-size: 14px;
+						font-family: 'Montserrat Bold';
+						background-color: #e6e6e6;
+						border: 0px;
+						border-radius: 5px;
+						color: #000;
+						display: block;
+						transition: .30s;
+						margin-bottom: 16px;
+
+						&:hover{
+							background-color: #222222;
+							color: #e6e6e6;
+						}
+					}
+				}
+				.close-popup{
+					text-align: end;
+					padding: 0px 0px 25px 0px;					;
+					color: #e6e6e6;
+				}
+			}
+		}
+	}
+}

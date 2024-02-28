@@ -1,8 +1,16 @@
 <?=$this->fetch('../commons/header.php', $data)?>
 <section class="agenda">
     <div class="container">
-       
         <div class="top-container">
+            <div class="container-popup">
+                <div class="close-popup">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+                <div class="opcao-popup">
+                    <a href="#">Agendar</a>
+                    <a href="#">Bloquear</a>
+                </div>    
+        </div>
             <div class="agenda-top"> 
                 <div class="menu-agenda">
                     <div class="title-menu">
