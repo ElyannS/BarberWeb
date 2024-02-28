@@ -1,5 +1,16 @@
 $(document).ready(function(){
 
+  $('table tr td div.td').click(function() {
+    // Ação a ser executada quando a div é clicada
+    alert('Div clicada!');
+});
+  $('tr td .td').on('click' , function() {
+
+    var valorInput = $('table tr td div.td input[name="input-valor"]').val();
+            
+    // Exibir o valor do input
+    alert('Valor do input com name="valor-input": ' + valorInput);
+  });
 
   if ($('form.form_ajax').length) {
     if (!jQuery().ajaxForm)
@@ -37,7 +48,6 @@ $(document).ready(function(){
       return false;
     });
   }
-
 
 
 

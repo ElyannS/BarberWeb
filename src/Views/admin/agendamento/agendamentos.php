@@ -48,11 +48,11 @@
                     </tr>
                     <tr>
                         <th class="tr">_</th>
-                        <td><div class="td marcado" id="horario-07-30"><a href="">Elyann Soares - Corte Degrade - 51997610285</a></div></td>
+                        <td><div class="td marcado" id="horario-07-30"><input type="hidden" name="input-valor" value="07-30"><a href="">Elyann Soares - Corte Degrade - 51997610285</a></div></td>
                     </tr> 
                     <tr>
                         <th class="tr">08:00</th>
-                        <td><div class="td" id="horario-08-00"></div></td>
+                        <td><div class="td" id="horario-08-00"><input type="hidden" name="input-valor" value="08-00"></div></td>
                     </tr>
                     <tr>
                         <th class="tr">_</th>
@@ -72,7 +72,7 @@
                     </tr>
                     <tr>
                         <th class="tr">_</th>
-                        <td><div class="td marcado-corte-barba" id="horario-10-30"><a href="">Elyann Soares - Corte Social - 51997610285</a></div></td>
+                        <td><div class="td marcado-corte-barba" id="horario-10-30"> <input type="hidden" name="input-valor" value="10-30"><a href="">Elyann Soares - Corte Social - 51997610285</a></div></td>
                     </tr>
                     <tr>
                         <th class="tr">11:00</th>
