@@ -4,7 +4,7 @@
         <div class="top-container">
             <div class="container-popup">
                 <div class="close-popup">
-                    <i class="fa-solid fa-xmark"></i>
+                    <i class="fa-solid fa-xmark close"></i>
                 </div>
                 <div class="opcao-popup">
                     <a href="#">Agendar</a>
@@ -44,15 +44,15 @@
 
                     <tr>
                         <th class="tr">07:00</th>
-                        <td><div class="td marcado" id="horario-07-00"><a href="">Elyann Soares - Corte Social - 51997610285</a></div></td>
+                        <td><div class="td" id="horario-07-00"></div></td>
                     </tr>
                     <tr>
                         <th class="tr">_</th>
-                        <td><div class="td marcado" id="horario-07-30"><input type="hidden" name="input-valor" value="07-30"><a href="">Elyann Soares - Corte Degrade - 51997610285</a></div></td>
+                        <td><div class="td" id="horario-07-30"></div></td>
                     </tr> 
                     <tr>
                         <th class="tr">08:00</th>
-                        <td><div class="td" id="horario-08-00"><input type="hidden" name="input-valor" value="08-00"></div></td>
+                        <td><div class="td" id="horario-08-00"></div></td>
                     </tr>
                     <tr>
                         <th class="tr">_</th>
@@ -72,7 +72,7 @@
                     </tr>
                     <tr>
                         <th class="tr">_</th>
-                        <td><div class="td marcado-corte-barba" id="horario-10-30"> <input type="hidden" name="input-valor" value="10-30"><a href="">Elyann Soares - Corte Social - 51997610285</a></div></td>
+                        <td><div class="td" id="horario-10-30"></div></td>
                     </tr>
                     <tr>
                         <th class="tr">11:00</th>
@@ -128,15 +128,15 @@
                     </tr>
                     <tr>
                         <th class="tr">_</th>
-                        <td><div class="td fechada" id="horario-17-30"></div></td>
+                        <td><div class="td " id="horario-17-30"></div></td>
                     </tr>
                     <tr>
                         <th class="tr">18:00</th>
-                        <td><div class="td fechada" id="horario-18-00"></div></td>
+                        <td><div class="td " id="horario-18-00"></div></td>
                     </tr>
                     <tr>
                         <th class="tr">_</th>
-                        <td><div class="td fechada" id="horario-18-30"></div></td>
+                        <td><div class="td " id="horario-18-30"></div></td>
                     </tr>
                     <tr>
                         <th class="tr">19:00</th>

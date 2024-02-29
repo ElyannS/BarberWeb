@@ -13,7 +13,7 @@ $("body header .container .left a").on('click', function(){
   });
   $("header .container .bar").on('click', function(){
       $(this).next().toggleClass('active');
-      $(this).children().toggleClass('<fa-solid fa-xmark');
+      $(this).children().toggleClass('fa-solid fa-xmark');
       $('body').toggleClass('menu-active')
   });
 

@@ -616,7 +616,7 @@ body.admin{
 				table{
 					width: 100%;
 					tr{
-						position: relative;
+					
 					}
 						.tr{
 							width: 11%;
@@ -630,13 +630,17 @@ body.admin{
 							}
 						}
 						td{
-							position: absolute;
+							
 							border-bottom: 1px solid #00000098;
-							width: 90%;
-							top: 12px;
+							width: 72%;
+    						position: absolute;
+							div{
+								height: 21px;
+							}
 						}
 							.td{
 								width: 100%;
+								
 								a{
 									width: 100%;
 									color: #fff;
@@ -645,7 +649,11 @@ body.admin{
 								}
 								
 							}
-						
+							.clicado{									
+								background-color: #2e2e2e59;
+								border-radius: 5px;
+								transition: .3s;
+							}
 							
 							.marcado{
 								background-color: #000;
@@ -690,6 +698,7 @@ body.admin{
 				z-index: 999;
 				background-color: #000000d3;
 				border-radius: 10px;
+				transition: .3s;
 				.opcao-popup{
 					margin: 0 auto;
 					width: 80%;

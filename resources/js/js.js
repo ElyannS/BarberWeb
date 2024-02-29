@@ -1,15 +1,18 @@
 $(document).ready(function(){
 
-  $('table tr td div.td').click(function() {
-    // Ação a ser executada quando a div é clicada
-    alert('Div clicada!');
-});
+ 
   $('tr td .td').on('click' , function() {
+    var dataInput = $('#dataMarcada').val();
+  
+    var horarioId = $(this).attr('id');
+    
+    var horario = horarioId.split('-')[1] + ':' + horarioId.split('-')[2];
 
-    var valorInput = $('table tr td div.td input[name="input-valor"]').val();
-            
-    // Exibir o valor do input
-    alert('Valor do input com name="valor-input": ' + valorInput);
+    var celula = $('#' + horarioId);
+    celula.addClass('clicado');
+  
+    var btnClose = $('.close');
+    
   });
 
   if ($('form.form_ajax').length) {
