@@ -9,12 +9,16 @@ $(document).ready(function(){
     var horario = horarioId.split('-')[1] + ':' + horarioId.split('-')[2];
 
     var celula = $('#' + horarioId);
-    celula.addClass('clicado');
-  
-    var btnClose = $('.close');
+
+
+    $('body.admin .container-popup').toggleClass('active');
+    $('body.admin .conteudo').toggleClass('back');
     
   });
-
+  $('.close').on('click' , function() {
+    $('body.admin .container-popup').toggleClass('active');
+    $('body.admin .conteudo').toggleClass('back');
+  });
   if ($('form.form_ajax').length) {
     if (!jQuery().ajaxForm)
       return;

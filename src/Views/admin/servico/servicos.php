@@ -23,7 +23,15 @@
                         <td class="id">
                             <img class="icon_svg" src="<?=URL_BASE?>resources/imagens/servico.svg">
                         </td>
-                        <td class="titulo_item"><?=$servico['titulo']?></td>
+                        <td class="titulo_item">
+                            <div class="titulo-ser">
+                                <?=$servico['titulo']?>
+                            </div>
+                            <div class="valor-ser">
+                                R$ 20,00
+                                <span class="span-clock"><i class="fa-regular fa-clock"></i> 30 min </span>
+                            </div>
+                        </td>
                         <td class="acao">
                             <div class="btn">
                                 <a href="<?=URL_BASE?>admin/servicos-edit/<?=$servico['id']?>">Editar</a>

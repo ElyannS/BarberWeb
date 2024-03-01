@@ -2,9 +2,15 @@
 <section class="dashboard">
     <div class="container">
         <div class="titulo_pagina">
-            <i class="fas fa-user"></i>Perfil
+            <div class="titulo-migalha light-color">
+                <i class="fa-solid fa-circle"></i>
+                <p>Usuário</p>
+            </div>
+            <div class="topo">
+               &nbsp;
+            </div> 
         </div>
-        <div class="form">
+        <div class="form light">
             <form action="<?=URL_BASE?>admin/perfil_update" class="form_ajax" method="post" enctype="multipart/form-data">
                 <div class="row">
                     <label>
@@ -31,7 +37,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row light-color">
                     <p>Caso deseja alterar a sua senha atual, preencha os dois campos abaixo, caso não queira alterar, deixe em branco.</p>
                 </div>
                 <div class="row">
@@ -51,7 +57,7 @@
                 </div>
                 <input type="hidden" name="id" value="1">
                 <input type="hidden" name="nome_imagem_atual" value="<?=$data['informacoes']['usuario']['foto_usuario']?>">
-                <div class="alerta"></div>
+                <div class="alerta light-color"></div>
             </form>
         </div>
 </section>

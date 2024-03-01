@@ -6,7 +6,7 @@
         </div>
         <div class="menu_pagina_inicial">
            <div class="itens_menu">
-                <a href="#" class="item_menu">
+                <a href="<?=URL_BASE?>admin/agendamentos" class="item_menu">
                     <div class="circulo"><img class="icon_svg" src="<?=URL_BASE?>resources/imagens/calendar.svg"></div>
                     <p>Agenda</p>
                 </a>
@@ -16,7 +16,7 @@
                 </a>
             </div>
             <div class="itens_menu">    
-                <a href="#" class="item_menu">
+                <a href="<?=URL_BASE?>admin/servicos" class="item_menu">
                     <div class="circulo"><img class="icon_svg" src="<?=URL_BASE?>resources/imagens/servico.svg"></div>
                     <p>Serviços</p>
                 </a>

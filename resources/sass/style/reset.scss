@@ -137,6 +137,9 @@ body.admin{
 			}
 		}
 }
+.light-color{
+	color: #fff;
+}
 .titulo_pagina{
 	
 	position: relative;
@@ -250,7 +253,8 @@ body.admin{
 					td{
 						padding: 10px 0px;
 						font-size: 14px;
-					
+						height: 61px;
+						border-bottom: 1px solid #1a1a1a;
 						&.id{
 							img{
 								width: 50px;
@@ -305,7 +309,7 @@ body.admin{
 							.titulo-ser{
 								font-size: 1.2em;
 								font-weight: Bold;
-
+								margin-top: 7px;
 							}
 							.valor-ser{
 								font-size: .8em;
@@ -316,14 +320,6 @@ body.admin{
 							}
 							@include desktop{
 								padding-left: 10px;
-							}
-						}
-						&.data{
-							display: none;
-							@include desktop{
-								width: 20%;
-								text-align: center;
-								display: table-cell;
 							}
 						}
 					}
@@ -349,6 +345,27 @@ body.admin{
 body.admin{
 	.background-white{
 		background-color: #fff;
+	}
+	.light{
+		background-color: #1a1a1a !important;
+		form{
+			label{
+				color: #fff !important;
+			}
+			input{
+				background-color: #5B5B5B !important;
+				border: none !important;
+				color: #dfdfdf !important;
+				border-radius: 5px !important;
+			}
+			select{
+				background-color: #5B5B5B !important;
+				border: none !important;
+				color: #dfdfdf !important;
+				border-radius: 5px !important;
+			}
+		}
+
 	}
 	.dashboard{
 		background-color: #1a1a1a;
@@ -439,7 +456,7 @@ body.admin{
 						margin: 0;
 						max-width: max-content;
 						transition: .30s;
-						padding: 12px 25px;
+						padding: 12px 38%;
 						text-transform: uppercase;
 						font-size: 16px;
 						color: #fff;
@@ -449,6 +466,9 @@ body.admin{
 						&:hover{
 							background-color: $color_destaque_hover;
 						}
+						@include desktop{
+							padding: 13px 55px;
+						}
 					}
 					label{
 						width: 100%;
@@ -456,6 +476,7 @@ body.admin{
 						font-family: 'Montserrat Bold';
 						input{
 							margin-top: 10px;
+							margin-bottom: 10px;
 							height: 40px;
 							border: 1px solid #000;
 							border-radius: 10px;
@@ -632,11 +653,11 @@ body.admin{
 						td{
 							
 							border-bottom: 1px solid #00000098;
-							width: 72%;
-    						position: absolute;
+							width: 100%;
 							div{
 								height: 21px;
 							}
+							
 						}
 							.td{
 								width: 100%;
@@ -649,12 +670,6 @@ body.admin{
 								}
 								
 							}
-							.clicado{									
-								background-color: #2e2e2e59;
-								border-radius: 5px;
-								transition: .3s;
-							}
-							
 							.marcado{
 								background-color: #000;
 								border-radius: 4px;
@@ -681,6 +696,10 @@ body.admin{
 
 
 body.admin{
+	.back{
+		background-color: #00000075;
+		transition: .3s;
+	}
 	.container{
 		.top-container{
 			.container-popup{
@@ -695,10 +714,15 @@ body.admin{
 				border: 1px solid #ccc;
 				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 				text-align: center;
-				z-index: 999;
-				background-color: #000000d3;
+				z-index: 1;
+				background-color: #000;
 				border-radius: 10px;
 				transition: .3s;
+				
+				@include desktop{
+					width: 33%;
+					left: 56%;
+				}
 				.opcao-popup{
 					margin: 0 auto;
 					width: 80%;
@@ -706,7 +730,10 @@ body.admin{
 					padding-bottom: 10px;
 					@include tablet{
 						margin-bottom: 0px;
-						width: auto;
+						width: 57%;
+					}
+					@include desktop{
+						width: 57%;
 					}
 					a{
 						padding: 8px;
@@ -730,7 +757,17 @@ body.admin{
 					text-align: end;
 					padding: 0px 0px 25px 0px;					;
 					color: #e6e6e6;
+					i{
+						font-size: 2em;
+					}
+					&:hover{
+						color: $color_destaque;
+					}
 				}
+				
+			}
+			.active{
+				display: block;
 			}
 		}
 	}

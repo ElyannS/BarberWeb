@@ -57,10 +57,14 @@ final class ServicoController
         ResponseInterface $response,
         $args
     ) {
-        
+        Usuario::verificarLogin();
+        $servicos = new Servico();
+
+        $config = new Configuracao();
+        $nome_logo_site = $config->getConfig('logo_site');
         $data['informacoes'] = array(
             'menu_active' => 'servicos',
-    
+            'nome_logo' => $nome_logo_site
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/servico");
         return $renderer->render($response, "create.php", $data);
@@ -70,6 +74,9 @@ final class ServicoController
         ResponseInterface $response,
         $args
     ) {
+        Usuario::verificarLogin();
+        $servicos = new Servico();
+
         $id = $args['id'];
 
         $servicos = new Servico();

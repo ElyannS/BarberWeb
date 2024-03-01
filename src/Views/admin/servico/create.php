@@ -1,10 +1,16 @@
 <?=$this->fetch('../commons/header.php', $data)?>
 <section class="dashboard">
     <div class="container">
-        <div class="titulo_pagina">
-        <i class="fas fa-wrench"></i> Serviços - Novo 
-        </div> 
-        <div class="form">
+    <div class="titulo_pagina light-color">
+            <div class="titulo-migalha">
+                <i class="fa-solid fa-circle"></i>
+                <p>Novo - Serviço</p>
+            </div>
+            <div class="topo">
+                &nbsp;
+            </div> 
+        </div>
+        <div class="form light">
             <form action="<?=URL_BASE?>admin/servicos_insert" method="post" enctype="multipart/form-data">
                 <div class="row">
                     <div class="w-80">
@@ -19,12 +25,6 @@
                             <input type="date" name="data" required>
                         </label>
                     </div>
-                </div>
-                <div class="row">
-                    <label>
-                        Descrição*
-                        <textarea name="descricao" id="descricao" required></textarea>
-                    </label>
                 </div>
                 <div class="row">
                     <label>

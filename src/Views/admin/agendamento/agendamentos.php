@@ -2,16 +2,16 @@
 <section class="agenda">
     <div class="container">
         <div class="top-container">
-            <div class="container-popup">
-                <div class="close-popup">
-                    <i class="fa-solid fa-xmark close"></i>
-                </div>
-                <div class="opcao-popup">
-                    <a href="#">Agendar</a>
-                    <a href="#">Bloquear</a>
-                </div>    
-        </div>
             <div class="agenda-top"> 
+                <div class="container-popup">
+                    <div class="close-popup">
+                        <i class="fa-solid fa-xmark close"></i>
+                    </div>
+                    <div class="opcao-popup">
+                        <a href="#">Agendar</a>
+                        <a href="#">Bloquear</a>
+                    </div>    
+                </div>
                 <div class="menu-agenda">
                     <div class="title-menu">
                         <div class="icon-menu">
