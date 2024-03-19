@@ -1,9 +1,12 @@
 <?=$this->fetch('../commons/header.php', $data)?>
-<section class="dashboard">
-    <div class="container">
+<section class="dashboard background-white">
+    <div class="container"> 
         <div class="titulo_pagina">
-        <i class="fa-solid fa-cart-shopping"></i> Caixa - Novo 
-        </div> 
+            <div class="titulo-migalha">
+                <i class="fa-solid fa-circle"></i>
+                <p>Caixa - Novo</p>
+            </div>
+        </div>
         <div class="form">
             <form action="<?=URL_BASE?>admin/caixa_insert" method="post" enctype="multipart/form-data">
                 <div class="row">

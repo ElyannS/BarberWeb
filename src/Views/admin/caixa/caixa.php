@@ -1,39 +1,36 @@
 <?=$this->fetch('../commons/header.php', $data)?>
-<section class="dashboard">
+<section class="background-white">
     <div class="container">
         <div class="titulo_pagina">
-            <i class="fa-solid fa-cart-shopping"></i> Caixa
-            - Última semana R$ <?=$data['informacoes']['resultadoSemana']?>,00 - Último mês R$<?=$data['informacoes']['resultadoMes']?>,00 - Último ano R$ <?=$data['informacoes']['resultadoAno']?>,00
+            <div class="titulo-migalha">
+                <i class="fa-solid fa-circle"></i>
+                <p>Caixa</p>
+            </div>
+            <div class="topo">
+                <div class="btn">
+                    <a href="<?=URL_BASE?>admin/caixa-create">Relatório</a>
+                </div>
+                <div class="btn">
+                    <a href="<?=URL_BASE?>admin/caixa-create">Adicionar Caixa</a>
+                </div>
+            </div> 
         </div>
+       
 
-        <div class="topo">
-            <div class="btn">
-                <a href="<?=URL_BASE?>admin/caixa-create">Cadastrar novo</a>
-               
-            </div>
-            <div class="form_pesquisa">
-                <form action="<?=URL_BASE?>admin/caixa" method="GET">
-                    <input type="text" name="pesquisa" placeholder="Titulo do item...">
-                    <button type="submit">Pesquisar</button>
-                </form>
-            </div>
-        </div> 
+       
         <div class="lista">
             <table>
-                <thead>
-                    <tr>
-                        <td class="acao">AÇÕES</td>
-                        <td class="data">DATA DE CADASTRO</td>
-                    </tr>
-                </thead>
                 <tbody> 
                 <?php
                      
                      foreach($data['informacoes']['lista'] as $caixa) {?>
-                 <tr>
+                 <tr class="border-bottom">
                    
-                     <td class="acao">
-                         <a href="<?=URL_BASE?>admin/caixa-edit-data/<?=$caixa['data']?>"><i class="far fa-edit"></i></a>
+                     <td class="acao topo">
+                        <div class="btn">
+                            <a href="<?=URL_BASE?>admin/caixa-edit-data/<?=$caixa['data']?>">Editar caixa <i class="far fa-edit"></i></a>
+                        </div>
+                         
 
                          <form action="<?=URL_BASE?>admin/caixa_total_delete" method="post">
                              <input type="hidden" name="data" value="<?=$caixa['data']?>">

@@ -107,6 +107,9 @@ final class CaixaController
         ResponseInterface $response,
         $args
     ) {
+        Usuario::verificarLogin();
+        $servicos = new Caixa();
+        
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
 
@@ -127,6 +130,9 @@ final class CaixaController
         ResponseInterface $response,
         $args
     ) {
+        Usuario::verificarLogin();
+        $servicos = new Caixa();
+
         $id = $args['id'];
 
         $caixa = new Caixa();
@@ -150,6 +156,9 @@ final class CaixaController
         ResponseInterface $response,
         $args
     ) {
+        Usuario::verificarLogin();
+        $servicos = new Caixa();
+
         $dataUrl = $args['id'];
 
         $caixa = new Caixa();

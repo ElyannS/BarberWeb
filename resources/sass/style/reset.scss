@@ -192,7 +192,7 @@ body.admin{
 		}
 		.btn{
 			margin-bottom: 0px;
-			width: 100%;
+			margin-right: 5px;
 			text-align: center;
 			@include tablet{
 				margin-bottom: 0px;
@@ -200,7 +200,7 @@ body.admin{
 			}
 			a{
 				padding: 8px;
-				font-size: 14px;
+				font-size: 12px;
 				font-family: 'Montserrat Bold';
 				background-color: $color_destaque;
 				border: 0px;
@@ -209,6 +209,21 @@ body.admin{
 				display: block;
 				transition: .30s;
 
+				&:hover{
+					background-color: $color_destaque_hover;
+				}
+			}
+			form{
+				padding: 6px;
+				font-family: 'Montserrat Bold';
+				background-color: $color_destaque;
+				border: 0px;
+				border-radius: 5px;
+				display: block;
+				transition: .30s;
+				button{
+					color: #fff;
+				}
 				&:hover{
 					background-color: $color_destaque_hover;
 				}
@@ -245,16 +260,18 @@ body.admin{
 		table{
 			width: 100%;
 			tbody{
+				width: 100%;
 				tr{
 					width: 100%;
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
+					border-bottom: 1px solid #1a1a1a;
 					td{
+						width: 100%;
 						padding: 10px 0px;
 						font-size: 14px;
 						height: 61px;
-						border-bottom: 1px solid #1a1a1a;
 						&.id{
 							img{
 								width: 50px;
@@ -280,7 +297,6 @@ body.admin{
 							}
 							.btn{
 								margin-bottom: 0px;
-								width: 100%;
 								text-align: center;
 								@include tablet{
 									margin-bottom: 0px;
@@ -322,6 +338,37 @@ body.admin{
 								padding-left: 10px;
 							}
 						}
+						&.acao-btn{
+							text-align: center;
+							border-left: solid 1px #000;
+							border-right: solid 1px #000;
+							width: 31%;
+						}
+						&.nome_cliente{
+							text-align: center;
+							width: 25%;
+						}
+						&.dinheiro{
+							text-align: center;
+							border-left: solid 1px #000;
+							border-right: solid 1px #000;
+							width: 8%;
+						}
+						&.pix{
+							text-align: center;
+							width: 8%;
+						}
+						&.cartao{
+							text-align: center;
+							border-left: solid 1px #000;
+							border-right: solid 1px #000;
+							width: 8%;
+						}
+						&.data-caixa{
+							text-align: center;
+							border-right: solid 1px #000;
+							width: 20%;
+						}
 					}
 				}
 			}
@@ -344,7 +391,7 @@ body.admin{
 }
 body.admin{
 	.background-white{
-		background-color: #fff;
+		background-color: #fff !important;
 	}
 	.light{
 		background-color: #1a1a1a !important;

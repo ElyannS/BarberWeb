@@ -1,9 +1,13 @@
 <?=$this->fetch('../commons/header.php', $data)?>
-<section class="dashboard">
+<section class="dashboard background-white">
     <div class="container">
         <div class="titulo_pagina">
-        <i class="fa-solid fa-cart-shopping"></i> Caixa - Editar  <?=date("d/m/Y", strtotime($data['informacoes']['dataUrl']))?>
+            <div class="titulo-migalha">
+                <i class="fa-solid fa-circle"></i>
+                <p>Caixa - Editar  <?=date("d/m/Y", strtotime($data['informacoes']['dataUrl']))?></p>
+            </div>
         </div>
+    
         <div class="form">
             <form action="<?=URL_BASE?>admin/caixa_insert" method="post" enctype="multipart/form-data">
                 <div class="row">
@@ -49,13 +53,13 @@
             <table>
                 <thead>
                     <tr>
-                        <td class="id">ID</td>
-                        <td class="acao">AÇÕES</td>
+                       
+                        <td class="acao-btn">AÇÕES</td>
                         <td class="nome_cliente">NOME CLIENTE</td>
                         <td class="dinheiro">DINHEIRO</td>
                         <td class="pix">PIX</td>
                         <td class="cartao">CARTÃO</td>
-                        <td class="data">DATA</td>
+                        <td class="data-caixa">DATA</td>
                     </tr>
                 </thead>
                 <tbody> 
@@ -63,20 +67,18 @@
                        
                         foreach($data['informacoes']['lista'] as $caixa) {?>
                     <tr>
-                        <td class="id"><?=$caixa['id']?></td>
-                        <td class="acao">
-                            <a href="<?=URL_BASE?>admin/caixa-edit/<?=$caixa['id']?>"><i class="far fa-edit"></i></a>
-                            <div class="delete">
-                                <button type="submit" id="deleteButton"><i class="fa-solid fa-trash"></i></button>
-                                <div id="confirmationDialog" style="display: none;">
-                                    <h3>Tem certeza de que deseja excluir?</h3>
-                                    <div class="btn-cancel">
-                                        <form  action="<?=URL_BASE?>admin/caixa_delete"  id="deleteForm"  method="post">
-                                            <input type="hidden" name="id" value="<?=$caixa['id']?>">
-                                            <button id="confirmDeleteButton">Sim</button>
-                                        </form>
-                                        <button id="cancelDeleteButton">Fechar</button>
-                                    </div>
+                       
+                        <td class="acao-btn acao">
+                            <div class="topo">
+                                <div class="btn">
+                                    <a href="<?=URL_BASE?>admin/caixa-edit/<?=$caixa['id']?>">Editar <i class="far fa-edit"></i></a>
+                                </div>
+                                <div class="btn">
+                                   
+                                    <form  action="<?=URL_BASE?>admin/caixa_delete"  id="deleteForm"  method="post">
+                                        <input type="hidden" name="id" value="<?=$caixa['id']?>">
+                                        <button type="submit">Excluir <i class="fa-solid fa-trash"></i></button>
+                                    </form>
                                 </div>
                             </div>
                         </td>
@@ -84,19 +86,19 @@
                         <td class="dinheiro"><?=$caixa['dinheiro']?></td>
                         <td class="pix"><?=$caixa['pix']?></td>
                         <td class="cartao"><?=$caixa['cartao']?></td>
-                        <td class="data"><?=date("d/m/Y", strtotime($caixa['data']))?></td>
+                        <td class="data-caixa"><?=date("d/m/Y", strtotime($caixa['data']))?></td>
                     </tr>
                     <?php }?>
                 </tbody>
             </table>
             <div class="titulo_pagina">
-                Valor total do Dinheiro: R$ <?=$data['informacoes']['valorCartao']?>,00
+                Valor total do Dinheiro: R$ <?=$data['informacoes']['valorDinheiro']?>,00
             </div>
             <div class="titulo_pagina">
-                Valor total do Pix: R$ <?=$data['informacoes']['valorDinheiro']?>,00
+                Valor total do Pix: R$ <?=$data['informacoes']['valorPix']?>,00
             </div>
             <div class="titulo_pagina">
-                Valor total do Cartão: R$ <?=$data['informacoes']['valorPix']?>,00
+                Valor total do Cartão: R$ <?=$data['informacoes']['valorCartao']?>,00
             </div>
             <div class="titulo_pagina">
                 Valor total do dia: R$ <?=$data['informacoes']['valorDoDia']?>,00

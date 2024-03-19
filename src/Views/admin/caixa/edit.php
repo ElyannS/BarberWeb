@@ -1,5 +1,5 @@
 <?=$this->fetch('../commons/header.php', $data)?>
-<section class="dashboard">
+<section class="dashboard background-white">
     <div class="container">
         <div class="titulo_pagina">
         <i class="fa-solid fa-cart-shopping"></i> Caixa - Editar Informações
