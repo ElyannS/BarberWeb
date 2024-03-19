@@ -32,7 +32,7 @@ class Agendamento extends Model {
     public function selectAgendamento(): array
     {
         $sql = "SELECT A.*, B.nome AS nomebarbeiro, S.titulo AS servicoNome FROM agendamento AS A 
-                INNER JOIN barbeiros AS B ON B.id = A.barbeiro_id
+                INNER JOIN usuarios AS B ON B.id = A.barbeiro_id
                 INNER JOIN servicos AS S ON S.id = A.servico_id";
         return $this->querySelect($sql);
     }

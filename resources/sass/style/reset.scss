@@ -286,9 +286,47 @@ body.admin{
 						&.acao{
 							text-align: center;
 							display: inline-flex;
-							justify-content: center;
+							justify-content: end;
 							align-items: center;
+							form button{
+								background: transparent;
+								border: 0px;
+								padding-left: 10px;
+								cursor: pointer;
+							}
+							.btn{
+								margin-bottom: 0px;
+								text-align: center;
+								@include tablet{
+									margin-bottom: 0px;
+									width: auto;
+								}
+								a{
+									padding: 6px;
+									font-size: 14px;
+									font-family: 'Montserrat Bold';
+									background-color: $color_destaque;
+									border: 0px;
+									border-radius: 5px;
+									color: #fff;
+									display: block;
+									transition: .30s;
 					
+									&:hover{
+										background-color: $color_destaque_hover;
+									}
+								}
+							}
+						}
+						&.data{
+							display: flex;
+							justify-content: end;
+						}
+						&.acaoCaixa{
+							text-align: center;
+							display: inline-flex;
+							align-items: center;
+							justify-content: initial !important;
 							form button{
 								background: transparent;
 								border: 0px;

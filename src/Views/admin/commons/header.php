@@ -76,8 +76,8 @@
                             Barbeiros
                         </a>
                     </li>
-                    <li class="<?=($data['informacoes']['menu_active'] === 'recomendacoes') ? 'active' : ''?>">
-                        <a href="<?=URL_BASE?>admin/recomendacoes">
+                    <li class="<?=($data['informacoes']['menu_active'] === 'horarios') ? 'active' : ''?>">
+                        <a href="<?=URL_BASE?>admin/horarios">
                             <img class="icon_svg" src="<?=URL_BASE?>resources/imagens/relogio.svg">
                             Horários
                         </a>

@@ -40,6 +40,15 @@ return function (App $app) {
    $app->post('/admin/caixa_total_delete', '\App\Controller\CaixaController:caixa_total_delete');
 
 
+    //CONTROLADOR HORÁRIO
+    $app->get('/admin/horarios', '\App\Controller\HorarioController:horarios');
+    $app->get('/admin/horarios-create', '\App\Controller\HorarioController:horarios_create');
+    $app->get('/admin/horarios-edit/{id}', '\App\Controller\HorarioController:horarios_edit');
+    $app->post('/admin/horarios_insert', '\App\Controller\HorarioController:horarios_insert');
+    $app->post('/admin/horarios_update', '\App\Controller\HorarioController:horarios_update');
+    $app->post('/admin/horarios_delete', '\App\Controller\HorarioController:horarios_delete');
+
+
     //ROTAS DO WEB SITE
     $app->get('/', '\App\Controller\HomeController:home');
     $app->get('/a-rlbs-motors', '\App\Controller\HomeController:a_rlbs_motors');

@@ -26,7 +26,7 @@
                      foreach($data['informacoes']['lista'] as $caixa) {?>
                  <tr class="border-bottom">
                    
-                     <td class="acao topo">
+                     <td class="acaoCaixa topo">
                         <div class="btn">
                             <a href="<?=URL_BASE?>admin/caixa-edit-data/<?=$caixa['data']?>">Editar caixa <i class="far fa-edit"></i></a>
                         </div>

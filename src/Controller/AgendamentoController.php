@@ -8,7 +8,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\PhpRenderer;
 use App\Model\Agendamento;
-use App\Model\Barbeiro;
 use App\Model\Servico;
 use App\Model\Configuracao;
 use App\Model\Usuario;
@@ -27,9 +26,9 @@ final class AgendamentoController
 
         $consultaAgendamentos  = $agendamentos->selectAgendamento('*', array('*'));
 
-        $barbeiros = new Barbeiro();
+        $barbeiros = new Usuario();
 
-        $resultado = $barbeiros->selectBarbeiro('*', array('*'));
+        $resultado = $barbeiros->selectUsuario('*', array('*'));
 
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
@@ -59,7 +58,7 @@ final class AgendamentoController
                 
                 $tempoServico = $params['tempoServico'];
     
-                // Verificar se a data é domingo ou segunda-feira
+               
                 $diaSemana = date('w', strtotime($data));
                 if ($diaSemana == 0 || $diaSemana == 1) {
                     $responseData =  ['horarios' => 'fechada'];
@@ -67,15 +66,7 @@ final class AgendamentoController
                     $response->getBody()->write(json_encode($responseData));
                     return $response;
                 }
-                $data_referencia = strtotime("2023-11-11");
-                if(strtotime($data) > $data_referencia){
-                    $responseData =  ['horarios' => 'fechada'];
-                    $response = $response->withHeader('Content-Type', 'application/json');
-                    $response->getBody()->write(json_encode($responseData));
-                    return $response;
-                }
-
-                // Definir os horários de trabalho para terça a sexta-feira e sábado
+              
                 $horariosTrabalho = [];
                 if ($diaSemana == 6) { // Sábado
                     $horariosTrabalho = [
@@ -100,39 +91,39 @@ final class AgendamentoController
                     $horariosIndisponiveis[] = date('H:i', strtotime($agendamento['data_agendamento']));
                     $horarioAtual = $agendamento['servico_id'];
 
-                    // Verificar se o agendamento é de "Corte e barba" (id 2)
+                   
                     if ($horarioAtual == 2) {
                         $proximoHorario = date('H:i', strtotime($agendamento['data_agendamento']) + 1800);
                         $horariosIndisponiveis[] = $proximoHorario;
                     }
                 }
  
-                // Se não há horários indisponíveis, todos os horários de trabalho são considerados disponíveis
+               
                 if (empty($horariosIndisponiveis)) {
                     $horarios = $horariosTrabalho;
                 } else {
                     $horarios = [];
                     foreach ($horariosTrabalho as $horario) { 
-                        // Verificar se o horário está indisponível 
+                       
                         if (in_array($horario, $horariosIndisponiveis)) {
                             continue; 
                         } 
                 
-                        // Verificar se o horário é válido para o tempo de serviço selecionado
+                        
                         if ($tempoServico == 30) {
-                            // Verificar se o próximo horário também está disponível
+                         
                             $proximoHorario = date('H:i', strtotime($horario));
                             if (!in_array($proximoHorario, $horariosIndisponiveis)) {
                                 $horarios[] = $horario;
                             }
                         } elseif ($tempoServico == 60) {
-                            // Verificar se o horário e o próximo horário estão disponíveis
+                            
                             $proximoHorario = date('H:i', strtotime($horario));
                             $horarioFinal = date('H:i', strtotime($horario) + 1800);
                 
-                            // Verificar se o horário e o próximo horário estão disponíveis e se não estão ocupados por um agendamento de "Corte e barba"
+                           
                             if (!in_array($proximoHorario, $horariosIndisponiveis) && !in_array($horarioFinal, $horariosIndisponiveis)) {
-                                // Verificar se o horário ou o próximo horário estão ocupados por um agendamento de "Corte e barba"
+                             
                                 $horarioOcupado = false;
                                 foreach ($horariosIndisponiveis as $horarioIndisponivel) {
                                     if ($horarioIndisponivel == $horario || $horarioIndisponivel == $proximoHorario) {
@@ -175,7 +166,7 @@ final class AgendamentoController
             if (isset($params['data'])) {
                 $data = $params['data'];
 
-                // Verificar se a data é domingo ou segunda-feira
+               
                 $diaSemana = date('w', strtotime($data));
                 if ($diaSemana == 0 || $diaSemana == 1) {
                     $responseData =  ['horarios' => 'fechada'];
@@ -184,7 +175,7 @@ final class AgendamentoController
                     return $response;
                 }
 
-                // Definir os horários de trabalho para terça a sexta-feira e sábado
+               
                 $horariosTrabalho = [];
                 if ($diaSemana == 6) { // Sábado
                     $horariosTrabalho = [
@@ -210,14 +201,14 @@ final class AgendamentoController
                     $horariosIndisponiveis[] = date('H:i', strtotime($agendamento['data_agendamento']));
                 }
 
-                // Função para obter os horários disponíveis, levando em consideração o tempo de serviço selecionado
+               
                 foreach ($horariosTrabalho as $horario) {
                     $agendamentoEncontrado = false;
                     $agendamentoNome = '';
                     $nomeServico = '';
                     $idAgendamento = '';
                     
-                    // Verificar se o horário está indisponível
+                    
                     if (in_array($horario, $horariosIndisponiveis)) {
                         foreach ($consultaAgendamentos as $agendamento) {
                             if (date('H:i', strtotime($agendamento['data_agendamento'])) === $horario) {
@@ -245,48 +236,15 @@ final class AgendamentoController
     return $response;
 }
 
-public function criarAgendamento(Request $request, Response $response) {
-    $dadosDoCorpo = $request->getParsedBody();
-
-    // Imprima os dados recebidos para diagnóstico
-    var_dump($dadosDoCorpo);
-    // Certifique-se de que os campos esperados estão presentes nos dados do corpo
-    $campo1 = $dadosDoCorpo['nome_cliente'] ?? null;
-    $campo2 = $dadosDoCorpo['telefone_cliente'] ?? null;
-    $campo3 = $dadosDoCorpo['data_agendamento'] ?? null;
-    $campo4 = $dadosDoCorpo['servico_id'] ?? null;
-    $campo5 = $dadosDoCorpo['barbeiro_id'] ?? null;
-
-    // Verifique se todos os campos obrigatórios estão presentes
-    if ($campo1 !== null && $campo2 !== null && $campo3 !== null && $campo4 !== null && $campo5 !== null) {
-        // Crie uma nova instância de Agendamento e atribua os valores
-        $novoAgendamento = new Agendamento();
-        $novoAgendamento->nome_cliente = $campo1;
-        $novoAgendamento->telefone_cliente = $campo2;
-        $novoAgendamento->data_agendamento = $campo3;
-        $novoAgendamento->servico_id = $campo4;
-        $novoAgendamento->barbeiro_id = $campo5;
-
-        // Salve no banco de dados
-        $novoAgendamento->save();
-
-        // Retorne uma resposta adequada (pode ser um JSON indicando sucesso, por exemplo)
-        $response->getBody()->write(json_encode(['message' => 'Agendamento criado com sucesso']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
-    } else {
-        $response->getBody()->write(json_encode(['message' => 'Dados inválidos', 'dados' => $dadosDoCorpo]));
-            return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
-        }
-}
     public function agendamentos_create(
         ServerRequestInterface $request,
         ResponseInterface $response)
     {
         Usuario::verificarLogin();
 
-        $barbeiros = new Barbeiro();
+        $barbeiros = new Usuario();
 
-        $resultado = $barbeiros->selectBarbeiro('*', array('*'));
+        $resultado = $barbeiros->selectUsuario('*', array('*'));
 
         $servicos = new Servico();
 
@@ -384,12 +342,12 @@ public function criarAgendamento(Request $request, Response $response) {
         $numero_agendamentos = count($agendamentos_verificar->selectAgendamentoVerificar($datetime));
 
         if ($numero_agendamentos > 0) {
-            // Já existe um agendamento nesse horário, redirecione para a página de erro.
+           
             $errorUrl = URL_BASE . 'error?nome_cliente=' . urlencode($nome_cliente);
             header('Location: ' . $errorUrl);
             exit();
         } else {
-            // Não há conflito de horário, prossiga com a inserção.
+           
             $campos = array(
                 'nome_cliente' => $nome_cliente,
                 'telefone_cliente' => $telefone_cliente,
@@ -407,7 +365,7 @@ public function criarAgendamento(Request $request, Response $response) {
         }
     }
 
-//UPDATE SERVIÇOS
+//UPDATE Agendamentos
 
     public function agendamentos_update(
         ServerRequestInterface $request, 
