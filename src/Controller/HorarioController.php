@@ -32,17 +32,12 @@ final class HorarioController
         $paginaAnterior = ($paginaAtual > 1) ? URL_BASE."admin/horarios?page=".($paginaAtual-1) : false;
 
         $lista = $horarios->selectHorariosPage($limit, $offset);
-        
-        function getFirstLast($lista){
-            if($lista === "fechado"){
-                array("fechado", "fechado");
-                $horariosArray = explode(", ", $lista);
-                $primeiro = $horariosArray[0];
-                $ultimo = end($horariosArray);
-                return array($primeiro, $ultimo);
-            }
-        }
 
+
+        $horarios = new Horario();
+        $horariosExp = $horarios->selectHorario('*' , array('1'=>'1'));
+
+        $todosHorarios = explode(" - ", $horariosExp[0]);
 
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
@@ -53,7 +48,8 @@ final class HorarioController
             'paginaAtual' => $paginaAtual,
             'proximaPagina' => $proximaPagina,
             'paginaAnterior' => $paginaAnterior,
-            'nome_logo' => $nome_logo_site
+            'nome_logo' => $nome_logo_site,
+            
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/horario");
         return $renderer->render($response, "horario.php", $data);

@@ -13,7 +13,10 @@
             </div> 
         </div>
 
-        <?php var_dump($data);?> 
+        <?php
+
+            echo  var_dump($data);
+      ?> 
         <div class="lista">
             <table>
                 <tbody> 
