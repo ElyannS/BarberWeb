@@ -13,10 +13,6 @@
             </div> 
         </div>
 
-        <?php
-
-            echo  var_dump($data);
-      ?> 
         <div class="lista">
             <table>
                 <tbody> 
@@ -26,7 +22,22 @@
                                 Domingo
                             </div>
                             <div class="valor-ser">
-                                <?php echo $data['informacoes']['lista'][0]['domingo']?> 
+                                <?php 
+                                    $horarios = $data['informacoes']['lista'][0]['domingo'];
+                                    if($horarios === "Fechado"){
+                                        echo "Fechado";
+                                    } else{
+                                        $turno = explode(" - ", $horarios);
+                                        $turno1 = explode(", ", $turno[0]);
+    
+                                        echo $turno1[0] . " às " . end($turno1) . " - ";
+
+                                        $turno = explode(" - ", $horarios);
+                                        $turno2 = explode(", ", $turno[1]);
+    
+                                        echo $turno2[0] . " às " . end($turno2);
+                                    }
+                                ?> 
                                
                             </div>
                         </td>
@@ -46,8 +57,20 @@
                                 Segunda-Feira
                             </div>
                             <div class="valor-ser">
-                                <?php echo $data['informacoes']['lista'][0]['segunda']?> 
-                               
+                            <?php 
+                                $horarios = $data['informacoes']['lista'][0]['segunda'];
+                                if($horarios === "Fechado"){
+                                    echo "Fechado";
+                                } else{
+                                    $turno = explode(" - ", $horarios);
+                                    $turno1 = explode(", ", $turno[0]);
+                                    $turno2 = explode(", ", $turno[1]);
+
+                                    echo $turno1[0] . " às " . end($turno1) . " - ";
+
+                                    echo $turno2[0] . " às " . end($turno2);
+                                }
+                            ?> 
                             </div>
                         </td>
                         <td class="acao">
@@ -66,8 +89,21 @@
                                 Terça-Feira
                             </div>
                             <div class="valor-ser">
-                                <?php echo $data['informacoes']['lista'][0]['terca']?> 
-                               
+                            <?php 
+                                $horarios = $data['informacoes']['lista'][0]['terca'];
+                                if($horarios === "Fechado"){
+                                    echo "Fechado";
+                                } else{
+                                    $turno = explode(" - ", $horarios);
+                                    $turno1 = explode(", ", $turno[0]);
+
+                                    echo $turno1[0] . " às " . end($turno1) . " - ";
+
+                                    $turno2 = explode(", ", $turno[1]);
+
+                                    echo $turno2[0] . " às " . end($turno2);
+                                }
+                            ?> 
                             </div>
                         </td>
                         <td class="acao">
@@ -86,8 +122,20 @@
                                 Quarta-Feira
                             </div>
                             <div class="valor-ser">
-                                <?php echo $data['informacoes']['lista'][0]['quarta']?> 
-                               
+                            <?php 
+                                $horarios = $data['informacoes']['lista'][0]['quarta'];
+                                if($horarios === "Fechado"){
+                                    echo "Fechado";
+                                } else{
+                                    $turno = explode(" - ", $horarios);
+                                    $turno1 = explode(", ", $turno[0]);
+                                    $turno2 = explode(", ", $turno[1]);
+
+                                    echo $turno1[0] . " às " . end($turno1) . " - ";
+                                    echo $turno2[0] . " às " . end($turno2);
+                                       
+                                }
+                            ?> 
                             </div>
                         </td>
                         <td class="acao">
@@ -106,8 +154,21 @@
                                 Quinta-Feira
                             </div>
                             <div class="valor-ser">
-                                <?php echo $data['informacoes']['lista'][0]['quinta']?> 
-                               
+                            <?php 
+                                $horarios = $data['informacoes']['lista'][0]['quinta'];
+                                if($horarios === "Fechado"){
+                                    echo "Fechado";
+                                } else{
+                                    $turno = explode(" - ", $horarios);
+                                    $turno1 = explode(", ", $turno[0]);
+
+                                    echo $turno1[0] . " às " . end($turno1) . " - ";
+
+                                    $turno2 = explode(", ", $turno[1]);
+
+                                    echo $turno2[0] . " às " . end($turno2);
+                                }
+                            ?> 
                             </div>
                         </td>
                         <td class="acao">
@@ -126,8 +187,21 @@
                                 Sexta-Feira
                             </div>
                             <div class="valor-ser">
-                                <?php echo $data['informacoes']['lista'][0]['sexta']?> 
-                               
+                            <?php 
+                                $horarios = $data['informacoes']['lista'][0]['sexta'];
+                                if($horarios === "Fechado"){
+                                    echo "Fechado";
+                                } else{
+                                    $turno = explode(" - ", $horarios);
+                                    $turno1 = explode(", ", $turno[0]);
+
+                                    echo $turno1[0] . " às " . end($turno1) . " - ";
+
+                                    $turno2 = explode(", ", $turno[1]);
+
+                                    echo $turno2[0] . " às " . end($turno2);
+                                }
+                            ?> 
                             </div>
                         </td>
                         <td class="acao">
@@ -146,8 +220,21 @@
                                 Sábado
                             </div>
                             <div class="valor-ser">
-                                <?php echo $data['informacoes']['lista'][0]['sabado']?> 
-                               
+                            <?php 
+                                $horarios = $data['informacoes']['lista'][0]['sabado'];
+                                if($horarios === "Fechado"){
+                                    echo "Fechado";
+                                } else{
+                                    $turno = explode(" - ", $horarios);
+                                    $turno1 = explode(", ", $turno[0]);
+
+                                    echo $turno1[0] . " às " . end($turno1) . " - ";
+
+                                    $turno2 = explode(", ", $turno[1]);
+
+                                    echo $turno2[0] . " às " . end($turno2);
+                                }
+                            ?> 
                             </div>
                         </td>
                         <td class="acao">

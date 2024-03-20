@@ -34,11 +34,6 @@ final class HorarioController
         $lista = $horarios->selectHorariosPage($limit, $offset);
 
 
-        $horarios = new Horario();
-        $horariosExp = $horarios->selectHorario('*' , array('1'=>'1'));
-
-        $todosHorarios = explode(" - ", $horariosExp[0]);
-
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
         
