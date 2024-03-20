@@ -32,9 +32,21 @@ final class HorarioController
         $paginaAnterior = ($paginaAtual > 1) ? URL_BASE."admin/horarios?page=".($paginaAtual-1) : false;
 
         $lista = $horarios->selectHorariosPage($limit, $offset);
-    
+        
+        function getFirstLast($lista){
+            if($lista === "fechado"){
+                array("fechado", "fechado");
+                $horariosArray = explode(", ", $lista);
+                $primeiro = $horariosArray[0];
+                $ultimo = end($horariosArray);
+                return array($primeiro, $ultimo);
+            }
+        }
+
+
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
+        
         $data['informacoes'] = array(
             'menu_active' => 'horarios',
             'lista' => $lista,
