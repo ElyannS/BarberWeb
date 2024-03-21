@@ -29,13 +29,24 @@
                                     } else{
                                         $turno = explode(" - ", $horarios);
                                         $turno1 = explode(", ", $turno[0]);
-    
-                                        echo $turno1[0] . " às " . end($turno1) . " - ";
-
-                                        $turno = explode(" - ", $horarios);
                                         $turno2 = explode(", ", $turno[1]);
     
-                                        echo $turno2[0] . " às " . end($turno2);
+                                        $mostrar = " ";
+                                        if ($turno1 == " ") {
+                                            $mostrar = " ";
+                                        } else{
+                                            $mostrar = " às ";
+                                        }
+    
+                                        $mostrar2 = " ";
+                                        if ($turno2 == " ") {
+                                            $mostrar2 = " ";
+                                        } else{
+                                            $mostrar2 = " às ";
+                                        }
+                                        echo $turno1[0] . $mostrar . end($turno1) . "  ";
+    
+                                        echo $turno2[0] . $mostrar2 . end($turno2);
                                     }
                                 ?> 
                                
@@ -66,9 +77,22 @@
                                     $turno1 = explode(", ", $turno[0]);
                                     $turno2 = explode(", ", $turno[1]);
 
-                                    echo $turno1[0] . " às " . end($turno1) . " - ";
+                                    $mostrar = " ";
+                                    if ($turno1 == " ") {
+                                        $mostrar = " ";
+                                    } else{
+                                        $mostrar = " às ";
+                                    }
 
-                                    echo $turno2[0] . " às " . end($turno2);
+                                    $mostrar2 = " ";
+                                    if ($turno2 == " ") {
+                                        $mostrar2 = " ";
+                                    } else{
+                                        $mostrar2 = " às ";
+                                    }
+                                    echo $turno1[0] . $mostrar . end($turno1) . "  ";
+
+                                    echo $turno2[0] . $mostrar2 . end($turno2);
                                 }
                             ?> 
                             </div>
@@ -96,12 +120,24 @@
                                 } else{
                                     $turno = explode(" - ", $horarios);
                                     $turno1 = explode(", ", $turno[0]);
-
-                                    echo $turno1[0] . " às " . end($turno1) . " - ";
-
                                     $turno2 = explode(", ", $turno[1]);
 
-                                    echo $turno2[0] . " às " . end($turno2);
+                                    $mostrar = " ";
+                                    if ($turno1 == " ") {
+                                        $mostrar = " ";
+                                    } else{
+                                        $mostrar = " às ";
+                                    }
+
+                                    $mostrar2 = " ";
+                                    if ($turno2 == " ") {
+                                        $mostrar2 = " ";
+                                    } else{
+                                        $mostrar2 = " às ";
+                                    }
+                                    echo $turno1[0] . $mostrar . end($turno1) . "  ";
+
+                                    echo $turno2[0] . $mostrar2 . end($turno2);
                                 }
                             ?> 
                             </div>
@@ -131,9 +167,22 @@
                                     $turno1 = explode(", ", $turno[0]);
                                     $turno2 = explode(", ", $turno[1]);
 
-                                    echo $turno1[0] . " às " . end($turno1) . " - ";
-                                    echo $turno2[0] . " às " . end($turno2);
-                                       
+                                    $mostrar = " ";
+                                    if ($turno1 == " ") {
+                                        $mostrar = " ";
+                                    } else{
+                                        $mostrar = " às ";
+                                    }
+
+                                    $mostrar2 = " ";
+                                    if ($turno2 == " ") {
+                                        $mostrar2 = " ";
+                                    } else{
+                                        $mostrar2 = " às ";
+                                    }
+                                    echo $turno1[0] . $mostrar . end($turno1) . "  ";
+
+                                    echo $turno2[0] . $mostrar2 . end($turno2);
                                 }
                             ?> 
                             </div>
@@ -161,12 +210,24 @@
                                 } else{
                                     $turno = explode(" - ", $horarios);
                                     $turno1 = explode(", ", $turno[0]);
-
-                                    echo $turno1[0] . " às " . end($turno1) . " - ";
-
                                     $turno2 = explode(", ", $turno[1]);
 
-                                    echo $turno2[0] . " às " . end($turno2);
+                                    $mostrar = " ";
+                                    if ($turno1 == " ") {
+                                        $mostrar = " ";
+                                    } else{
+                                        $mostrar = " às ";
+                                    }
+
+                                    $mostrar2 = " ";
+                                    if ($turno2 == " ") {
+                                        $mostrar2 = " ";
+                                    } else{
+                                        $mostrar2 = " às ";
+                                    }
+                                    echo $turno1[0] . $mostrar . end($turno1) . "  ";
+
+                                    echo $turno2[0] . $mostrar2 . end($turno2);
                                 }
                             ?> 
                             </div>
@@ -194,12 +255,24 @@
                                 } else{
                                     $turno = explode(" - ", $horarios);
                                     $turno1 = explode(", ", $turno[0]);
-
-                                    echo $turno1[0] . " às " . end($turno1) . " - ";
-
                                     $turno2 = explode(", ", $turno[1]);
 
-                                    echo $turno2[0] . " às " . end($turno2);
+                                    $mostrar = " ";
+                                    if ($turno1 == " ") {
+                                        $mostrar = " ";
+                                    } else{
+                                        $mostrar = " às ";
+                                    }
+
+                                    $mostrar2 = " ";
+                                    if ($turno2 == " ") {
+                                        $mostrar2 = " ";
+                                    } else{
+                                        $mostrar2 = " às ";
+                                    }
+                                    echo $turno1[0] . $mostrar . end($turno1) . "  ";
+
+                                    echo $turno2[0] . $mostrar2 . end($turno2);
                                 }
                             ?> 
                             </div>
@@ -227,12 +300,24 @@
                                 } else{
                                     $turno = explode(" - ", $horarios);
                                     $turno1 = explode(", ", $turno[0]);
-
-                                    echo $turno1[0] . " às " . end($turno1) . " - ";
-
                                     $turno2 = explode(", ", $turno[1]);
 
-                                    echo $turno2[0] . " às " . end($turno2);
+                                    $mostrar = " ";
+                                    if ($turno1 == " ") {
+                                        $mostrar = " ";
+                                    } else{
+                                        $mostrar = " às ";
+                                    }
+
+                                    $mostrar2 = " ";
+                                    if ($turno2 == " ") {
+                                        $mostrar2 = " ";
+                                    } else{
+                                        $mostrar2 = " às ";
+                                    }
+                                    echo $turno1[0] . $mostrar . end($turno1) . "  ";
+
+                                    echo $turno2[0] . $mostrar2 . end($turno2);
                                 }
                             ?> 
                             </div>
