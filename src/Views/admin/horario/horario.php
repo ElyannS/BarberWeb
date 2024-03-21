@@ -77,15 +77,16 @@
                                     $turno1 = explode(", ", $turno[0]);
                                     $turno2 = explode(", ", $turno[1]);
 
+                                    
                                     $mostrar = " ";
-                                    if ($turno1 == " ") {
+                                    if ($turno1 == false) {
                                         $mostrar = " ";
                                     } else{
                                         $mostrar = " às ";
                                     }
 
                                     $mostrar2 = " ";
-                                    if ($turno2 == " ") {
+                                    if ($turno2 == false) {
                                         $mostrar2 = " ";
                                     } else{
                                         $mostrar2 = " às ";
@@ -123,14 +124,14 @@
                                     $turno2 = explode(", ", $turno[1]);
 
                                     $mostrar = " ";
-                                    if ($turno1 == " ") {
+                                    if ($turno1 == false) {
                                         $mostrar = " ";
                                     } else{
                                         $mostrar = " às ";
                                     }
 
                                     $mostrar2 = " ";
-                                    if ($turno2 == " ") {
+                                    if ($turno2 == false) {
                                         $mostrar2 = " ";
                                     } else{
                                         $mostrar2 = " às ";
