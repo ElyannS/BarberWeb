@@ -8,20 +8,9 @@ class Horario extends Model {
 	private $table = "horarios";
 	protected $fields = [
 		"id",
-		"domingo",
-		"segunda",
-        'terca',
-		"quarta",
-		"quinta",
-        "sexta", 
-        "sabado",
-		"domingo2",
-		"segunda2",
-        'terca2',
-		"quarta2",
-		"quinta2",
-        "sexta2", 
-        "sabado2"
+		"dia_semana",
+		"turno1",
+		"turno2"
 	];
 
 	function insertHorario($campos)
