@@ -28,11 +28,19 @@
                                         echo 'Fechado';
                                     } else {
                                         $turno1 = $horarios['turno1'];
+                                        $turno2 = $horarios['turno2'];
+
                                         if(trim($turno1) === ""){
-                                            echo ' '; // Se não houver turno definido, mostra como "Fechado"
+                                            echo '';
                                         } else {
                                             $primeiroUltimo = explode(", ", $turno1);    
                                             echo $primeiroUltimo[0] . " às " . end($primeiroUltimo);
+                                        }
+                                        if(trim($turno2) === ""){
+                                            echo '';
+                                        } else {
+                                            $primeiroUltimo = explode(", ", $turno2);    
+                                            echo " " . $primeiroUltimo[0] . " às " . end($primeiroUltimo);
                                         }
                                     }
                                     ?>
@@ -40,12 +48,8 @@
                             </td>
                             <td class="acao">
                                 <div class="btn">
-                                    <a href="<?=URL_BASE?>admin/horarios-edit/">Editar</a>
+                                    <a href="<?=URL_BASE?>admin/horarios-edit/<?=$horarios['id']?>">Editar</a>
                                 </div>
-                                <form action="<?=URL_BASE?>admin/horarios_delete" method="post">
-                                    <input type="hidden" name="id" value="">
-                                    <button type="submit"><i class="fa-solid fa-trash"></i></i></button>
-                                </form>
                             </td>
                         </tr>
                     <?php }?> 

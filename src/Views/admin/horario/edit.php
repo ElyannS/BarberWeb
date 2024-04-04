@@ -1,58 +1,244 @@
 <?=$this->fetch('../commons/header.php', $data)?>
-<section class="dashboard">
+<section class="background-white dashboard">
     <div class="container">
-        <div class="titulo_pagina light-color">
-            <div class="titulo-migalha">
+        <div class="titulo_pagina">
+        <div class="titulo-migalha">
                 <i class="fa-solid fa-circle"></i>
-                <p>Editar - Serviço</p>
+                <p>Horários - Editar</p>
             </div>
             <div class="topo">
                 &nbsp;
             </div> 
         </div>
-        <div class="form light">
+        <div class="form">
             <form action="<?=URL_BASE?>admin/servicos_update" method="post" enctype="multipart/form-data">
                 <div class="row">
-                    <div class="w-80">
+                <div class="w-20">
                         <label>
-                            Título
-                            <input type="text" name="titulo" required value="<?=$data['informacoes']['servico']['titulo']?>">
+                            Hora início 1
+                            <select name="selectI1" id="" required>
+                                <option value="">Fechado</option>
+                                <option value="">00:00</option>
+                                <option value="">00:30</option>
+                                <option value="">01:00</option>
+                                <option value="">01:30</option>
+                                <option value="">02:00</option>
+                                <option value="">02:30</option>
+                                <option value="">03:00</option>
+                                <option value="">03:30</option>
+                                <option value="">04:00</option>
+                                <option value="">04:30</option>
+                                <option value="">05:00</option>
+                                <option value="">05:30</option>
+                                <option value="">06:00</option>
+                                <option value="">06:30</option>
+                                <option value="">07:00</option>
+                                <option value="">07:30</option>
+                                <option value="">08:00</option>
+                                <option value="">08:30</option>
+                                <option value="">09:00</option>
+                                <option value="">09:30</option>
+                                <option value="">10:00</option>
+                                <option value="">10:30</option>
+                                <option value="">11:00</option>
+                                <option value="">11:30</option>
+                                <option value="">12:00</option>
+                                <option value="">12:30</option>
+                                <option value="">13:00</option>
+                                <option value="">13:30</option>
+                                <option value="">14:00</option>
+                                <option value="">14:30</option>
+                                <option value="">15:00</option>
+                                <option value="">15:30</option>
+                                <option value="">16:00</option>
+                                <option value="">16:30</option>
+                                <option value="">17:00</option>
+                                <option value="">17:30</option>
+                                <option value="">18:00</option>
+                                <option value="">18:30</option>
+                                <option value="">19:00</option>
+                                <option value="">19:30</option>
+                                <option value="">20:00</option>
+                                <option value="">20:30</option>
+                                <option value="">21:00</option>
+                                <option value="">21:30</option>
+                                <option value="">22:00</option>
+                                <option value="">22:30</option>
+                                <option value="">23:00</option>
+                                <option value="">23:30</option>
+                            </select>
+                        </label>
+                        <label>
+                            Hora fim 1
+                            <select name="selectF1" id="" required>
+                                <option value="">Fechado</option>
+                                <option value="">00:00</option>
+                                <option value="">00:30</option>
+                                <option value="">01:00</option>
+                                <option value="">01:30</option>
+                                <option value="">02:00</option>
+                                <option value="">02:30</option>
+                                <option value="">03:00</option>
+                                <option value="">03:30</option>
+                                <option value="">04:00</option>
+                                <option value="">04:30</option>
+                                <option value="">05:00</option>
+                                <option value="">05:30</option>
+                                <option value="">06:00</option>
+                                <option value="">06:30</option>
+                                <option value="">07:00</option>
+                                <option value="">07:30</option>
+                                <option value="">08:00</option>
+                                <option value="">08:30</option>
+                                <option value="">09:00</option>
+                                <option value="">09:30</option>
+                                <option value="">10:00</option>
+                                <option value="">10:30</option>
+                                <option value="">11:00</option>
+                                <option value="">11:30</option>
+                                <option value="">12:00</option>
+                                <option value="">12:30</option>
+                                <option value="">13:00</option>
+                                <option value="">13:30</option>
+                                <option value="">14:00</option>
+                                <option value="">14:30</option>
+                                <option value="">15:00</option>
+                                <option value="">15:30</option>
+                                <option value="">16:00</option>
+                                <option value="">16:30</option>
+                                <option value="">17:00</option>
+                                <option value="">17:30</option>
+                                <option value="">18:00</option>
+                                <option value="">18:30</option>
+                                <option value="">19:00</option>
+                                <option value="">19:30</option>
+                                <option value="">20:00</option>
+                                <option value="">20:30</option>
+                                <option value="">21:00</option>
+                                <option value="">21:30</option>
+                                <option value="">22:00</option>
+                                <option value="">22:30</option>
+                                <option value="">23:00</option>
+                                <option value="">23:30</option>
+                            </select>
                         </label>
                     </div>
                     <div class="w-20">
-                    <label>
-                            Data
-                            <input type="date" name="data" required  value="<?=date('Y-m-d', strtotime($data['informacoes']['servico']['data_cadastro']))?>">
-                        </label>
-                    </div>
-                </div>
-                <div class="row">
-                    <label>
-                        Imagem Pricipal
-                        <input type="file" name="imagem_principal">
-                    </label>
-                    <div class="img">
-                        <img src="<?=URL_BASE.$data['informacoes']['servico']['imagem_principal']?>">
                         <label>
-                            <input type="checkbox" name="excluir_imagem_principal">
-                            Excluir imagem
+                            Hora início 2
+                            <select name="" id="" required>
+                                <option value="">Fechado</option>
+                                <option value="">00:00</option>
+                                <option value="">00:30</option>
+                                <option value="">01:00</option>
+                                <option value="">01:30</option>
+                                <option value="">02:00</option>
+                                <option value="">02:30</option>
+                                <option value="">03:00</option>
+                                <option value="">03:30</option>
+                                <option value="">04:00</option>
+                                <option value="">04:30</option>
+                                <option value="">05:00</option>
+                                <option value="">05:30</option>
+                                <option value="">06:00</option>
+                                <option value="">06:30</option>
+                                <option value="">07:00</option>
+                                <option value="">07:30</option>
+                                <option value="">08:00</option>
+                                <option value="">08:30</option>
+                                <option value="">09:00</option>
+                                <option value="">09:30</option>
+                                <option value="">10:00</option>
+                                <option value="">10:30</option>
+                                <option value="">11:00</option>
+                                <option value="">11:30</option>
+                                <option value="">12:00</option>
+                                <option value="">12:30</option>
+                                <option value="">13:00</option>
+                                <option value="">13:30</option>
+                                <option value="">14:00</option>
+                                <option value="">14:30</option>
+                                <option value="">15:00</option>
+                                <option value="">15:30</option>
+                                <option value="">16:00</option>
+                                <option value="">16:30</option>
+                                <option value="">17:00</option>
+                                <option value="">17:30</option>
+                                <option value="">18:00</option>
+                                <option value="">18:30</option>
+                                <option value="">19:00</option>
+                                <option value="">19:30</option>
+                                <option value="">20:00</option>
+                                <option value="">20:30</option>
+                                <option value="">21:00</option>
+                                <option value="">21:30</option>
+                                <option value="">22:00</option>
+                                <option value="">22:30</option>
+                                <option value="">23:00</option>
+                                <option value="">23:30</option>
+                            </select>
                         </label>
-                    </div>
+                        <label>
+                            Hora fim 2
+                            <select name="select" id="" required>
+                                <option value="">Fechado</option>
+                                <option value="">00:00</option>
+                                <option value="">00:30</option>
+                                <option value="">01:00</option>
+                                <option value="">01:30</option>
+                                <option value="">02:00</option>
+                                <option value="">02:30</option>
+                                <option value="">03:00</option>
+                                <option value="">03:30</option>
+                                <option value="">04:00</option>
+                                <option value="">04:30</option>
+                                <option value="">05:00</option>
+                                <option value="">05:30</option>
+                                <option value="">06:00</option>
+                                <option value="">06:30</option>
+                                <option value="">07:00</option>
+                                <option value="">07:30</option>
+                                <option value="">08:00</option>
+                                <option value="">08:30</option>
+                                <option value="">09:00</option>
+                                <option value="">09:30</option>
+                                <option value="">10:00</option>
+                                <option value="">10:30</option>
+                                <option value="">11:00</option>
+                                <option value="">11:30</option>
+                                <option value="">12:00</option>
+                                <option value="">12:30</option>
+                                <option value="">13:00</option>
+                                <option value="">13:30</option>
+                                <option value="">14:00</option>
+                                <option value="">14:30</option>
+                                <option value="">15:00</option>
+                                <option value="">15:30</option>
+                                <option value="">16:00</option>
+                                <option value="">16:30</option>
+                                <option value="">17:00</option>
+                                <option value="">17:30</option>
+                                <option value="">18:00</option>
+                                <option value="">18:30</option>
+                                <option value="">19:00</option>
+                                <option value="">19:30</option>
+                                <option value="">20:00</option>
+                                <option value="">20:30</option>
+                                <option value="">21:00</option>
+                                <option value="">21:30</option>
+                                <option value="">22:00</option>
+                                <option value="">22:30</option>
+                                <option value="">23:00</option>
+                                <option value="">23:30</option>
+                            </select>
+                        </label>
                 </div>
-                <div class="row">
-                    <label>
-                        Tempo do Serviço
-                        <select name="tempo_servico" required>
-                            <option value="60" <?php if($data['informacoes']['servico']['tempo_servico'] === '60') echo 'selected'?>>1 hora</option>
-                            <option value="30" <?php if($data['informacoes']['servico']['tempo_servico'] === '30') echo 'selected'?>>30 min</option>
-                        </select>
-                    </label>
-                </div>
+                
+               
                 <div class="row">
                     <button type="submit">Salvar</button>
                 </div>
-                <input type="hidden" name="id" value="<?=$data['informacoes']['servico']['id']?>">
-                <input type="hidden" name="nome_imagem_atual" value="<?=$data['informacoes']['servico']['imagem_principal']?>">
+                <input type="hidden" name="id" value="<?=$data['informacoes']['horarios']['id']?>">
             </form>
         </div>
 </section>

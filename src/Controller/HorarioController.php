@@ -84,7 +84,7 @@ final class HorarioController
         $nome_logo_site = $config->getConfig('logo_site');
         $data['informacoes'] = array(
             'menu_active' => 'horarios',
-            'servico' => $resultado,
+            'horarios' => $resultado,
             'nome_logo' => $nome_logo_site
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/horario");
