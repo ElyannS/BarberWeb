@@ -13,172 +13,48 @@
         <div class="form">
             <form action="<?=URL_BASE?>admin/servicos_update" method="post" enctype="multipart/form-data">
             <div class="row">
+                <div class="col-1">
                     <div class="w-49">
+                   
                         <label>
                             Hora início 1
-                            <select name="selectI1" id="" value="<?=$data['informacoes']['horarios']?>" required>
-                                <option value="">Fechado</option>
-                                <option value="">00:00</option>
-                                <option value="">00:30</option>
-                                <option value="">01:00</option>
-                                <option value="">01:30</option>
-                                <option value="">02:00</option>
-                                <option value="">02:30</option>
-                                <option value="">03:00</option>
-                                <option value="">03:30</option>
-                                <option value="">04:00</option>
-                                <option value="">04:30</option>
-                                <option value="">05:00</option>
-                                <option value="">05:30</option>
-                                <option value="">06:00</option>
-                                <option value="">06:30</option>
-                                <option value="">07:00</option>
-                                <option value="">07:30</option>
-                                <option value="">08:00</option>
-                                <option value="">08:30</option>
-                                <option value="">09:00</option>
-                                <option value="">09:30</option>
-                                <option value="">10:00</option>
-                                <option value="">10:30</option>
-                                <option value="">11:00</option>
-                                <option value="">11:30</option>
-                                <option value="">12:00</option>
-                                <option value="">12:30</option>
-                                <option value="">13:00</option>
-                                <option value="">13:30</option>
-                                <option value="">14:00</option>
-                                <option value="">14:30</option>
-                                <option value="">15:00</option>
-                                <option value="">15:30</option>
-                                <option value="">16:00</option>
-                                <option value="">16:30</option>
-                                <option value="">17:00</option>
-                                <option value="">17:30</option>
-                                <option value="">18:00</option>
-                                <option value="">18:30</option>
-                                <option value="">19:00</option>
-                                <option value="">19:30</option>
-                                <option value="">20:00</option>
-                                <option value="">20:30</option>
-                                <option value="">21:00</option>
-                                <option value="">21:30</option>
-                                <option value="">22:00</option>
-                                <option value="">22:30</option>
-                                <option value="">23:00</option>
-                                <option value="">23:30</option>
-                            </select>
+                          
+                                <select name="selectI1" id="" required>
+                                    <option value="FECHADO" <?php if(trim($data['informacoes']['turnoInicio2']) === "FECHADO") echo 'selected'?>>FECHADO</option>
+                                    <?php 
+                                        $arrayHoras = explode(", ", $data['informacoes']['horarios']['horas']);
+                                        foreach($arrayHoras as $horas) { ?> 
+                                            <option value="<?=$horas?>" <?php if($horas === trim($data['informacoes']['turnoInicio1'])) echo 'selected'?>><?=$horas?></option>   
+                                    <?php }?>
+                                </select>
+                           
                         </label>
                     </div>        
                     <div class="w-49">
                         <label>
                             Hora fim 1
                             <select name="selectF1" id="" required>
-                                <option value="">Fechado</option>
-                                <option value="">00:00</option>
-                                <option value="">00:30</option>
-                                <option value="">01:00</option>
-                                <option value="">01:30</option>
-                                <option value="">02:00</option>
-                                <option value="">02:30</option>
-                                <option value="">03:00</option>
-                                <option value="">03:30</option>
-                                <option value="">04:00</option>
-                                <option value="">04:30</option>
-                                <option value="">05:00</option>
-                                <option value="">05:30</option>
-                                <option value="">06:00</option>
-                                <option value="">06:30</option>
-                                <option value="">07:00</option>
-                                <option value="">07:30</option>
-                                <option value="">08:00</option>
-                                <option value="">08:30</option>
-                                <option value="">09:00</option>
-                                <option value="">09:30</option>
-                                <option value="">10:00</option>
-                                <option value="">10:30</option>
-                                <option value="">11:00</option>
-                                <option value="">11:30</option>
-                                <option value="">12:00</option>
-                                <option value="">12:30</option>
-                                <option value="">13:00</option>
-                                <option value="">13:30</option>
-                                <option value="">14:00</option>
-                                <option value="">14:30</option>
-                                <option value="">15:00</option>
-                                <option value="">15:30</option>
-                                <option value="">16:00</option>
-                                <option value="">16:30</option>
-                                <option value="">17:00</option>
-                                <option value="">17:30</option>
-                                <option value="">18:00</option>
-                                <option value="">18:30</option>
-                                <option value="">19:00</option>
-                                <option value="">19:30</option>
-                                <option value="">20:00</option>
-                                <option value="">20:30</option>
-                                <option value="">21:00</option>
-                                <option value="">21:30</option>
-                                <option value="">22:00</option>
-                                <option value="">22:30</option>
-                                <option value="">23:00</option>
-                                <option value="">23:30</option>
+                                <option value="FECHADO" <?php if(trim($data['informacoes']['turnoFim1']) === "FECHADO") echo 'selected'?>>FECHADO</option>
+                                <?php 
+                                    $arrayHoras = explode(", ", $data['informacoes']['horarios']['horas']);
+                                    foreach($arrayHoras as $horas) { ?> 
+                                        <option value="<?=$horas?>" <?php if($horas === trim($data['informacoes']['turnoFim1'])) echo 'selected'?>><?=$horas?></option>   
+                                <?php }?>
                             </select>
                         </label>
                     </div>
-                    
+                </div>
+                <div class="col-2">
                     <div class="w-49">
                         <label>
                             Hora início 2
                             <select name="selectI2" id="" required>
-                                <option value="">Fechado</option>
-                                <option value="">00:00</option>
-                                <option value="">00:30</option>
-                                <option value="">01:00</option>
-                                <option value="">01:30</option>
-                                <option value="">02:00</option>
-                                <option value="">02:30</option>
-                                <option value="">03:00</option>
-                                <option value="">03:30</option>
-                                <option value="">04:00</option>
-                                <option value="">04:30</option>
-                                <option value="">05:00</option>
-                                <option value="">05:30</option>
-                                <option value="">06:00</option>
-                                <option value="">06:30</option>
-                                <option value="">07:00</option>
-                                <option value="">07:30</option>
-                                <option value="">08:00</option>
-                                <option value="">08:30</option>
-                                <option value="">09:00</option>
-                                <option value="">09:30</option>
-                                <option value="">10:00</option>
-                                <option value="">10:30</option>
-                                <option value="">11:00</option>
-                                <option value="">11:30</option>
-                                <option value="">12:00</option>
-                                <option value="">12:30</option>
-                                <option value="">13:00</option>
-                                <option value="">13:30</option>
-                                <option value="">14:00</option>
-                                <option value="">14:30</option>
-                                <option value="">15:00</option>
-                                <option value="">15:30</option>
-                                <option value="">16:00</option>
-                                <option value="">16:30</option>
-                                <option value="">17:00</option>
-                                <option value="">17:30</option>
-                                <option value="">18:00</option>
-                                <option value="">18:30</option>
-                                <option value="">19:00</option>
-                                <option value="">19:30</option>
-                                <option value="">20:00</option>
-                                <option value="">20:30</option>
-                                <option value="">21:00</option>
-                                <option value="">21:30</option>
-                                <option value="">22:00</option>
-                                <option value="">22:30</option>
-                                <option value="">23:00</option>
-                                <option value="">23:30</option>
+                                <option value="FECHADO" <?php if(trim($data['informacoes']['turnoInicio2']) === "FECHADO") echo 'selected'?>>FECHADO</option>
+                                <?php 
+                                    $arrayHoras = explode(", ", $data['informacoes']['horarios']['horas']);
+                                    foreach($arrayHoras as $horas) { ?> 
+                                        <option value="<?=$horas?>" <?php if($horas === trim($data['informacoes']['turnoInicio2'])) echo 'selected'?>><?=$horas?></option>   
+                                <?php }?>
                             </select>
                         </label>
                     </div>    
@@ -186,65 +62,22 @@
                         <label>
                             Hora fim 2
                             <select name="selectF2" id="" required>
-                                <option value="">Fechado</option>
-                                <option value="">00:00</option>
-                                <option value="">00:30</option>
-                                <option value="">01:00</option>
-                                <option value="">01:30</option>
-                                <option value="">02:00</option>
-                                <option value="">02:30</option>
-                                <option value="">03:00</option>
-                                <option value="">03:30</option>
-                                <option value="">04:00</option>
-                                <option value="">04:30</option>
-                                <option value="">05:00</option>
-                                <option value="">05:30</option>
-                                <option value="">06:00</option>
-                                <option value="">06:30</option>
-                                <option value="">07:00</option>
-                                <option value="">07:30</option>
-                                <option value="">08:00</option>
-                                <option value="">08:30</option>
-                                <option value="">09:00</option>
-                                <option value="">09:30</option>
-                                <option value="">10:00</option>
-                                <option value="">10:30</option>
-                                <option value="">11:00</option>
-                                <option value="">11:30</option>
-                                <option value="">12:00</option>
-                                <option value="">12:30</option>
-                                <option value="">13:00</option>
-                                <option value="">13:30</option>
-                                <option value="">14:00</option>
-                                <option value="">14:30</option>
-                                <option value="">15:00</option>
-                                <option value="">15:30</option>
-                                <option value="">16:00</option>
-                                <option value="">16:30</option>
-                                <option value="">17:00</option>
-                                <option value="">17:30</option>
-                                <option value="">18:00</option>
-                                <option value="">18:30</option>
-                                <option value="">19:00</option>
-                                <option value="">19:30</option>
-                                <option value="">20:00</option>
-                                <option value="">20:30</option>
-                                <option value="">21:00</option>
-                                <option value="">21:30</option>
-                                <option value="">22:00</option>
-                                <option value="">22:30</option>
-                                <option value="">23:00</option>
-                                <option value="">23:30</option>
+                                <option value="FECHADO" <?php if(trim($data['informacoes']['turnoFim2']) === "FECHADO") echo 'selected'?>>FECHADO</option>
+                                <?php 
+                                    $arrayHoras = explode(", ", $data['informacoes']['horarios']['horas']);
+                                    foreach($arrayHoras as $horas) { ?> 
+                                        <option value="<?=$horas?>" <?php if($horas === trim($data['informacoes']['turnoFim2'])) echo 'selected'?>><?=$horas?></option>   
+                                <?php }?>
                             </select>
                         </label>
                     </div>
+                </div>
                     
                     <div class="row">
                         <button type="submit">Salvar</button>
                     </div>
                 </div>
                 <input type="hidden" name="id" value="<?=$data['informacoes']['horarios']['id']?>">
-                <?= var_dump($data);?>
             </form>
         </div>
 </section>

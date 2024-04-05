@@ -509,7 +509,7 @@ body.admin{
 			form{
 				.row{
 					width: 100%;
-					display: inline-flex;
+					display: flex;
 					flex-wrap: wrap;
 					justify-content: space-between;
 					margin-bottom: 15px;
@@ -525,22 +525,24 @@ body.admin{
 							width: 20%;
 						}
 					}
-					.w-49{
+					.col-1, .col-2{
 						width: 100%;
-						margin-bottom: 25px;
+						.w-49{
+							width: 100%;
+							margin-bottom: 25px;
+							label{
+								width: 100%;
+								
+							}
+						}
 						@include desktop{
 							width: 49%;
 							display: flex;
-							justify-content: space-around;
+							flex-wrap: wrap;
+							justify-content: space-between;
 							margin-bottom: 50px;
 						}
-						label{
-							select{
-								@include desktop{
-									width: 100%;
-								}
-							}
-						}
+
 					}
 					.d-flex{
 						width: 100%;
@@ -610,9 +612,7 @@ body.admin{
 							font-family: 'Montserrat Bold';
 							color: #9c9c9c;
 							width: 100%;
-							@include desktop{
-								width: auto;
-							}
+						
 						}
 					}
 					.img{

@@ -80,6 +80,25 @@ final class HorarioController
 
         $resultado = $horarios->selectHorario('*', array('id' => $id))[0];
 
+        if($resultado) {
+            $turno1 = explode(", ", $resultado['turno1']);
+            $turno2 = explode(", ", $resultado['turno2']);
+           
+            if(isset($turno1)){
+                $turnoInicio1 = $turno1[0];
+                $turnoFim1 = end($turno1);
+            } else{
+                $turnoInicio1 = "FECHADO";
+                $turnoFim1 = "FECHADO";
+            }
+            if(isset($turno2)){
+                $turnoInicio2 = $turno2[0];
+                $turnoFim2 = end($turno2);
+            } else{
+                $turnoInicio2 = "FECHADO";
+                $turnoFim2 = "FECHADO";
+            }
+        }
     
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
@@ -87,6 +106,10 @@ final class HorarioController
         $data['informacoes'] = array(
             'menu_active' => 'horarios',
             'horarios' => $resultado,
+            'turnoInicio1' => $turnoInicio1,
+            'turnoFim1' => $turnoFim1,
+            'turnoInicio2' => $turnoInicio2,
+            'turnoFim2' => $turnoFim2,
             'nome_logo' => $nome_logo_site
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/horario");

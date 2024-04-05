@@ -10,7 +10,8 @@ class Horario extends Model {
 		"id",
 		"dia_semana",
 		"turno1",
-		"turno2"
+		"turno2",
+		"horas"
 	];
 
 	function insertHorario($campos)
