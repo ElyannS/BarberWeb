@@ -8,6 +8,8 @@ use Slim\Views\PhpRenderer;
 use App\Model\Horario;
 use App\Model\Usuario;
 use App\Model\Configuracao;
+use DateTime;
+use DateInterval;
 
 final class HorarioController 
 {
@@ -174,60 +176,62 @@ final class HorarioController
         $args
     ) {
         $id = $request->getParsedBody()['id'];
-        $titulo = $request->getParsedBody()['titulo'];
-        $data = $request->getParsedBody()['data'];
-        $descricao = $request->getParsedBody()['descricao'];
-        $tempo_servico = $request->getParsedBody()['tempo_servico'];
+        $selectI1 = $request->getParsedBody()['selectI1'];
+        $selectF1 = $request->getParsedBody()['selectF1'];
+        $selectI2 = $request->getParsedBody()['selectI2'];
+        $selectF2 = $request->getParsedBody()['selectF2'];
         
+        if($selectI1 && $selectF1 === "FECHADO") {
+            $upTurno1 = "FECHADO";
+        } else{
+            $horaInicio = date('H:i', strtotime($selectI1));
+            $horaFim = date('H:i', strtotime($selectF1));
 
-        $nome_imagem_atual = $request->getParsedBody()['nome_imagem_atual'];
+            $horarios = [];
 
-        $imagem_atualizar = false;
+            $intervalo = 1800; 
 
-        if($request->getUploadedFiles()['imagem_principal']->getClientFilename() !== '') {
-            $imagem_atualizar = true;
-            $nome_imagem_principal = "";
+            for ($horaAtual = strtotime($horaInicio); $horaAtual <= strtotime($horaFim); $horaAtual += $intervalo) {
+                
+                $horarioAtual = date('H:i', $horaAtual);
 
-            //Usuario quer atualizar a imagem principal
-            if($request->getUploadedFiles()['imagem_principal']) {
-                $imagem_principal = $request->getUploadedFiles()['imagem_principal'];
-            } else {
-                $imagem_principal = false;
+                $horarios[] = $horarioAtual;
             }
-    
-            if($imagem_principal) {
-                if ($imagem_principal->getError() === UPLOAD_ERR_OK) {
-                    $extensao = pathinfo($imagem_principal->getClientFilename(), PATHINFO_EXTENSION);
-    
-                    $nome = md5(uniqid(rand(), true)).pathinfo($imagem_principal->getClientFilename(), PATHINFO_FILENAME).".".$extensao;
-    
-                    $nome_imagem_principal = "resources/imagens/" . $nome;
-    
-                    $imagem_principal->moveTo($nome_imagem_principal);
 
-                    unlink($nome_imagem_atual); // deleta as imagens do diretorio
-                }
+            $upTurno1 = implode(", ", $horarios);
+        }
+       
+        if($selectI2 && $selectF2 === "FECHADO") {
+            $upTurno2 = "FECHADO";
+        } else{
+            $horaInicio = date('H:i', strtotime($selectI2));
+            $horaFim = date('H:i', strtotime($selectF2));
+
+            $horarios = [];
+
+            $intervalo = 1800; 
+
+            for ($horaAtual = strtotime($horaInicio); $horaAtual <= strtotime($horaFim); $horaAtual += $intervalo) {
+                
+                $horarioAtual = date('H:i', $horaAtual);
+
+                $horarios[] = $horarioAtual;
             }
+
+            $upTurno2 = implode(", ", $horarios);
         }
 
         $campos = array(
             'id' => $id,
-            'titulo' => $titulo,
-            'url_amigavel' => $this->gerarUrlAmigavel($titulo),
-            'descricao' => $descricao,
-            'data_cadastro' => $data,
-            'tempo_servico' => $tempo_servico
-            
+            'turno1' => $upTurno1,
+            'turno2' => $upTurno2,
         );
-        if($imagem_atualizar) {
-            $campos['imagem_principal'] = $nome_imagem_principal;
-        }
         
         $horarios = new Horario();
         
         $horarios->updateHorario($campos, array('id' => $id));
         
-        header('Location: '.URL_BASE.'admin/horario');
+        header('Location: '.URL_BASE.'admin/horarios-edit/'.$id);
         exit();
     }
 

@@ -11,7 +11,7 @@
             </div> 
         </div>
         <div class="form">
-            <form action="<?=URL_BASE?>admin/servicos_update" method="post" enctype="multipart/form-data">
+            <form action="<?=URL_BASE?>admin/horarios_update" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-1">
                     <div class="w-49">
@@ -19,7 +19,7 @@
                         <label>
                             Hora início 1
                           
-                                <select name="selectI1" id="" required>
+                                <select name="selectI1" id="selectHora" required>
                                     <option value="FECHADO" <?php if(trim($data['informacoes']['turnoInicio2']) === "FECHADO") echo 'selected'?>>FECHADO</option>
                                     <?php 
                                         $arrayHoras = explode(", ", $data['informacoes']['horarios']['horas']);
@@ -33,7 +33,7 @@
                     <div class="w-49">
                         <label>
                             Hora fim 1
-                            <select name="selectF1" id="" required>
+                            <select name="selectF1" id="selectHora" required>
                                 <option value="FECHADO" <?php if(trim($data['informacoes']['turnoFim1']) === "FECHADO") echo 'selected'?>>FECHADO</option>
                                 <?php 
                                     $arrayHoras = explode(", ", $data['informacoes']['horarios']['horas']);
@@ -48,7 +48,7 @@
                     <div class="w-49">
                         <label>
                             Hora início 2
-                            <select name="selectI2" id="" required>
+                            <select name="selectI2" id="selectHora" required>
                                 <option value="FECHADO" <?php if(trim($data['informacoes']['turnoInicio2']) === "FECHADO") echo 'selected'?>>FECHADO</option>
                                 <?php 
                                     $arrayHoras = explode(", ", $data['informacoes']['horarios']['horas']);
@@ -61,7 +61,7 @@
                     <div class="w-49">
                         <label>
                             Hora fim 2
-                            <select name="selectF2" id="" required>
+                            <select name="selectF2" id="selectHora" required>
                                 <option value="FECHADO" <?php if(trim($data['informacoes']['turnoFim2']) === "FECHADO") echo 'selected'?>>FECHADO</option>
                                 <?php 
                                     $arrayHoras = explode(", ", $data['informacoes']['horarios']['horas']);
@@ -78,6 +78,31 @@
                     </div>
                 </div>
                 <input type="hidden" name="id" value="<?=$data['informacoes']['horarios']['id']?>">
+
+
+                <?php
+$inicio = trim($data['informacoes']['turnoInicio1']);
+$fim = trim($data['informacoes']['turnoFim1']);
+
+$horaInicio = date('H:i', strtotime($inicio));
+$horaFim = date('H:i', strtotime($fim));
+
+$horarios = [];
+
+$intervalo = 1800; 
+
+for ($horaAtual = strtotime($horaInicio); $horaAtual <= strtotime($horaFim); $horaAtual += $intervalo) {
+    
+    $horarioAtual = date('H:i', $horaAtual);
+
+    $horarios[] = $horarioAtual;
+}
+
+$resultado = implode(", ", $horarios);
+
+echo $resultado;
+?>
+
             </form>
         </div>
 </section>

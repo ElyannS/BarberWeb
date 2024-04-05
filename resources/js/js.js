@@ -1,5 +1,7 @@
 $(document).ready(function(){
-
+  $('#selectHora').on('change', function(){
+    
+  })
  
   $('tr td .td').on('click' , function() {
     var dataInput = $('#dataMarcada').val();
