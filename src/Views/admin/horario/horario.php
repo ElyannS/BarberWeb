@@ -6,11 +6,7 @@
                 <i class="fa-solid fa-circle"></i>
                 <p>Horários</p>
             </div>
-            <div class="topo">
-                <div class="btn">
-                    <a href="<?=URL_BASE?>admin/servicos-create">Cadastrar novo</a>
-                </div>
-            </div> 
+          
         </div>
 
         <div class="lista">

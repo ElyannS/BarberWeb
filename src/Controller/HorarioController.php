@@ -80,8 +80,10 @@ final class HorarioController
 
         $resultado = $horarios->selectHorario('*', array('id' => $id))[0];
 
+    
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
+
         $data['informacoes'] = array(
             'menu_active' => 'horarios',
             'horarios' => $resultado,
