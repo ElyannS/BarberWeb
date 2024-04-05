@@ -22,21 +22,28 @@
                                     <?php 
                                        if($horarios['turno1'] === 'FECHADO'){
                                         echo 'Fechado';
+                                        
                                     } else {
                                         $turno1 = $horarios['turno1'];
-                                        $turno2 = $horarios['turno2'];
-
+                                      
                                         if(trim($turno1) === ""){
                                             echo '';
                                         } else {
                                             $primeiroUltimo = explode(", ", $turno1);    
                                             echo $primeiroUltimo[0] . " às " . end($primeiroUltimo);
                                         }
-                                        if(trim($turno2) === ""){
-                                            echo '';
-                                        } else {
-                                            $primeiroUltimo = explode(", ", $turno2);    
-                                            echo " " . $primeiroUltimo[0] . " às " . end($primeiroUltimo);
+                                        
+                                        if($horarios['turno2'] === 'FECHADO'){
+                                          
+                                        } else{
+                                            $turno2 = $horarios['turno2'];
+
+                                            if(trim($turno2) === ""){
+                                                echo '';
+                                            } else {
+                                                $primeiroUltimo = explode(", ", $turno2);    
+                                                echo " " . $primeiroUltimo[0] . " às " . end($primeiroUltimo);
+                                            }
                                         }
                                     }
                                     ?>

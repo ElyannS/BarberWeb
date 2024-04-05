@@ -180,7 +180,7 @@ final class HorarioController
         $selectF1 = $request->getParsedBody()['selectF1'];
         $selectI2 = $request->getParsedBody()['selectI2'];
         $selectF2 = $request->getParsedBody()['selectF2'];
-        
+   
         if($selectI1 && $selectF1 === "FECHADO") {
             $upTurno1 = "FECHADO";
         } else{
