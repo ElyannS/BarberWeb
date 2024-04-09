@@ -20,9 +20,10 @@
                                 </div>
                                 <div class="valor-ser">
                                     <?php 
-                                       if($horarios['turno1'] === 'FECHADO'){
-                                        echo 'Fechado';
-                                        
+                                    
+                                    if($horarios['turno1'] === 'FECHADO'){
+                                     
+                                            
                                     } else {
                                         $turno1 = $horarios['turno1'];
                                       
@@ -33,17 +34,18 @@
                                             echo $primeiroUltimo[0] . " às " . end($primeiroUltimo);
                                         }
                                         
-                                        if($horarios['turno2'] === 'FECHADO'){
+                                        
+                                    }
+                                    if($horarios['turno2'] === 'FECHADO'){
                                           
-                                        } else{
-                                            $turno2 = $horarios['turno2'];
+                                    } else{
+                                        $turno2 = $horarios['turno2'];
 
-                                            if(trim($turno2) === ""){
-                                                echo '';
-                                            } else {
-                                                $primeiroUltimo = explode(", ", $turno2);    
-                                                echo " " . $primeiroUltimo[0] . " às " . end($primeiroUltimo);
-                                            }
+                                        if(trim($turno2) === ""){
+                                            echo '';
+                                        } else {
+                                            $primeiroUltimo = explode(", ", $turno2);    
+                                            echo " " . $primeiroUltimo[0] . " às " . end($primeiroUltimo);
                                         }
                                     }
                                     ?>

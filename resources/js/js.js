@@ -1,7 +1,24 @@
 $(document).ready(function(){
-  $('#selectHora').on('change', function(){
-    
-  })
+  $('#selectHora1').on('change', function() {
+    if ($(this).val() === 'FECHADO') {
+        $('#selectHora2').val('FECHADO');
+    }
+  });
+  $('#selectHora2').on('change', function() {
+    if ($(this).val() === 'FECHADO') {
+        $('#selectHora1').val('FECHADO');
+    }
+  });
+  $('#selectHora3').on('change', function() {
+    if ($(this).val() === 'FECHADO') {
+        $('#selectHora4').val('FECHADO');
+    }
+  });
+  $('#selectHora4').on('change', function() {
+    if ($(this).val() === 'FECHADO') {
+        $('#selectHora3').val('FECHADO');
+    }
+  });
  
   $('tr td .td').on('click' , function() {
     var dataInput = $('#dataMarcada').val();

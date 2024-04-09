@@ -180,7 +180,8 @@ final class HorarioController
         $selectF1 = $request->getParsedBody()['selectF1'];
         $selectI2 = $request->getParsedBody()['selectI2'];
         $selectF2 = $request->getParsedBody()['selectF2'];
-   
+        
+
         if($selectI1 && $selectF1 === "FECHADO") {
             $upTurno1 = "FECHADO";
         } else{
@@ -200,7 +201,14 @@ final class HorarioController
 
             $upTurno1 = implode(", ", $horarios);
         }
-       
+        $campos = array(
+            'turno1' => $upTurno1
+        );
+        
+        $horarios = new Horario();
+        
+        $horarios->updateHorario($campos, array('id' => $id));
+
         if($selectI2 && $selectF2 === "FECHADO") {
             $upTurno2 = "FECHADO";
         } else{
@@ -222,8 +230,6 @@ final class HorarioController
         }
 
         $campos = array(
-            'id' => $id,
-            'turno1' => $upTurno1,
             'turno2' => $upTurno2,
         );
         
