@@ -453,6 +453,52 @@ body.admin{
 
 	}
 	.dashboard{
+		.container{
+			#aviso {
+				padding: 10px;
+				background-color: #ffcccc;
+				color: #ff0000;
+				border: 1px solid #ff0000;
+				border-radius: 5px;
+				width: 300px;
+				position: fixed;
+				top: 128px;
+				right: 25px;
+				opacity: 0; 
+				transition: opacity 0.3s ease; 
+				@include desktop{
+					right: 8px;
+				}
+			}
+			#avisoSucesso {
+				color: #fff;
+				border: 1px solid $color_destaque;
+				padding: 10px;
+				background-color: $color_destaque_hover;
+				border-radius: 5px;
+				width: 300px;
+				position: fixed;
+				top: 128px;
+				right: 25px;
+				opacity: 0; 
+				transition: opacity 0.3s ease; 
+				@include desktop{
+					right: 8px;
+				}
+			}
+			@keyframes exibirAviso {
+				0% { opacity: 0; }
+				50% { opacity: 1; }
+				100% { opacity: 0; }
+			}
+			
+			#aviso.mostrar {
+				animation: exibirAviso 3s ease;
+			}
+			#avisoSucesso.mostrarSucesso {
+				animation: exibirAviso 3s ease;
+			}
+		}
 		background-color: #1a1a1a;
 		height: 100vh;
 		.logo{

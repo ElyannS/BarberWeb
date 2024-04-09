@@ -19,7 +19,58 @@ $(document).ready(function(){
         $('#selectHora3').val('FECHADO');
     }
   });
- 
+
+  $('#selectHora2').on('change', function() {
+    var value2 = $('#selectHora2').val();
+    var value1 = $('#selectHora1').val();
+    
+    if (value2 < value1) {
+      var text = "<p>Selecione um horário válido!</p>";
+      $('#aviso').empty(); 
+      $('#aviso').append(text);
+      $('#aviso').addClass('mostrar');
+
+      setTimeout(function() {
+        $('#aviso').removeClass('mostrar');
+      }, 5000);
+    } else {
+      var text = "<p>Horário válido!</p>";
+      $('#avisoSucesso').empty(); 
+      $('#avisoSucesso').append(text);
+      $('#avisoSucesso').addClass('mostrarSucesso');
+
+      setTimeout(function() {
+        $('#avisoSucesso').removeClass('mostrarSucesso');
+      }, 5000);
+    }
+  });
+  
+  $('#selectHora4').on('change', function() {
+    var value2 = $('#selectHora4').val();
+    var value1 = $('#selectHora3').val();
+    
+    if (value2 < value1) {
+      var text = "<p>Selecione um horário válido!</p>";
+      $('#aviso').empty(); 
+      $('#aviso').append(text);
+      $('#aviso').addClass('mostrar');
+
+      setTimeout(function() {
+        $('#aviso').removeClass('mostrar');
+      }, 5000);
+    } else {
+      var text = "<p>Horário válido!</p>";
+      $('#avisoSucesso').empty(); 
+      $('#avisoSucesso').append(text);
+      $('#avisoSucesso').addClass('mostrarSucesso');
+
+      setTimeout(function() {
+        $('#avisoSucesso').removeClass('mostrarSucesso');
+      }, 5000);
+    }
+  });
+  
+  
   $('tr td .td').on('click' , function() {
     var dataInput = $('#dataMarcada').val();
   

@@ -11,7 +11,7 @@
             </div> 
         </div>
         <div class="form">
-            <form action="<?=URL_BASE?>admin/horarios_update" method="post" enctype="multipart/form-data">
+            <form id="meuFormulario" action="<?=URL_BASE?>admin/horarios_update" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-1">
                     <div class="w-49">
@@ -80,7 +80,15 @@
                 <input type="hidden" name="id" value="<?=$data['informacoes']['horarios']['id']?>">
 
             </form>
+           
         </div>
+        <div id="aviso">
+                    
+        </div>
+        <div id="avisoSucesso">
+                    
+        </div>
+    </div>
 </section>
 <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
 <script>

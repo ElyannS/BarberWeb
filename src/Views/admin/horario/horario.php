@@ -20,34 +20,28 @@
                                 </div>
                                 <div class="valor-ser">
                                     <?php 
-                                    
-                                    if($horarios['turno1'] === 'FECHADO'){
-                                     
-                                            
-                                    } else {
-                                        $turno1 = $horarios['turno1'];
-                                      
-                                        if(trim($turno1) === ""){
-                                            echo '';
+                                        if($horarios['turno1'] === 'FECHADO' and $horarios['turno2'] === 'FECHADO'){
+                                        echo 'FECHADO';
+                                                
                                         } else {
-                                            $primeiroUltimo = explode(", ", $turno1);    
-                                            echo $primeiroUltimo[0] . " às " . end($primeiroUltimo);
-                                        }
+                                            $turno1 = $horarios['turno1'];
                                         
-                                        
-                                    }
-                                    if($horarios['turno2'] === 'FECHADO'){
-                                          
-                                    } else{
-                                        $turno2 = $horarios['turno2'];
+                                            if(trim($turno1) === 'FECHADO'){
+                                                echo '';
+                                            } else {
+                                                $primeiroUltimo = explode(", ", $turno1);    
+                                                echo $primeiroUltimo[0] . " às " . end($primeiroUltimo);
+                                            }
+                                            $turno2 = $horarios['turno2'];
 
-                                        if(trim($turno2) === ""){
-                                            echo '';
-                                        } else {
-                                            $primeiroUltimo = explode(", ", $turno2);    
-                                            echo " " . $primeiroUltimo[0] . " às " . end($primeiroUltimo);
+                                            if(trim($turno2) === 'FECHADO'){
+                                                echo '';
+                                            } else {
+                                                $primeiroUltimo = explode(", ", $turno2);    
+                                                echo " " . $primeiroUltimo[0] . " às " . end($primeiroUltimo);
+                                            }
+                                            
                                         }
-                                    }
                                     ?>
                                 </div>
                             </td>
