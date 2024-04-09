@@ -6,5 +6,6 @@
 	<script src="<?=URL_BASE?>resources/js/js.min.js"></script>	
 	<script src="<?=URL_BASE?>resources/js/menu.min.js"></script>
 	<script src="<?=URL_BASE?>resources/js/gerarData.min.js"></script>
+	<script src="<?=URL_BASE?>resources/js/gerarHorarios.min.js"></script>
 </body>
 </html>

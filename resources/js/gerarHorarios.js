@@ -1,7 +1,7 @@
 $(document).ready(function(){
     function atualizarData(data) {
         $.ajax({
-            url: '/admin/atualizar_data',
+            url: '/WebBarber-1/admin/gerar_horario',
             type: 'POST',
             data: { data: data },
             dataType: 'json',
@@ -33,9 +33,9 @@ $(document).ready(function(){
                     var divHorario = $('<div></div>').addClass('td').attr('id', idHorario);
                     celula.append(divHorario);
                     linha.append(celula);
-
+  
                     corpoTabela.append(linha);
-                }
+                }  
 
                 // Adiciona o corpo da tabela ao elemento HTML
                 tabela.append(corpoTabela);

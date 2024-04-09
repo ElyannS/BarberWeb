@@ -47,6 +47,7 @@ return function (App $app) {
     $app->post('/admin/horarios_insert', '\App\Controller\HorarioController:horarios_insert');
     $app->post('/admin/horarios_update', '\App\Controller\HorarioController:horarios_update');
     $app->post('/admin/horarios_delete', '\App\Controller\HorarioController:horarios_delete');
+    $app->post('/admin/gerar_horario', '\App\Controller\HorarioController:gerar_horario');
 
 
     //ROTAS DO WEB SITE

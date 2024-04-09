@@ -51,23 +51,7 @@ final class HorarioController
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/horario");
         return $renderer->render($response, "horario.php", $data);
     }
-    public function horarios_create(
-        ServerRequestInterface $request, 
-        ResponseInterface $response,
-        $args
-    ) {
-        Usuario::verificarLogin();
-        $horarios = new Horario();
-
-        $config = new Configuracao();
-        $nome_logo_site = $config->getConfig('logo_site');
-        $data['informacoes'] = array(
-            'menu_active' => 'horarios',
-            'nome_logo' => $nome_logo_site
-        );
-        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/horario");
-        return $renderer->render($response, "create.php", $data);
-    }
+    
     public function horarios_edit(
         ServerRequestInterface $request, 
         ResponseInterface $response,
@@ -117,58 +101,7 @@ final class HorarioController
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/horario");
         return $renderer->render($response, "edit.php", $data);
     }
-    public function horarios_insert(
-        ServerRequestInterface $request, 
-        ResponseInterface $response,
-        $args
-    ) {
-        $titulo = $request->getParsedBody()['titulo'];
-        $data = $request->getParsedBody()['data'];
-        $descricao = $request->getParsedBody()['descricao'];
-        $tempo_servico = $request->getParsedBody()['tempo_servico'];
 
-        $nome_imagem_principal = "";
-
-        if($request->getUploadedFiles()['imagem_principal']) {
-            $imagem_principal = $request->getUploadedFiles()['imagem_principal'];
-        } else {
-            $imagem_principal = false;
-        }
-
-        if($imagem_principal) {
-            if ($imagem_principal->getError() === UPLOAD_ERR_OK) {
-                $extensao = pathinfo($imagem_principal->getClientFilename(), PATHINFO_EXTENSION);
-
-                $nome = md5(uniqid(rand(), true)).pathinfo($imagem_principal->getClientFilename(), PATHINFO_FILENAME).".".$extensao;
-
-                $nome_imagem_principal = "resources/imagens/" . $nome;
-
-                $imagem_principal->moveTo($nome_imagem_principal);
-            }
-        }
-
-        $campos = array(
-            'titulo' => $titulo,
-            'url_amigavel' => $this->gerarUrlAmigavel($titulo),
-            'descricao' => $descricao,
-            'imagem_principal' => $nome_imagem_principal,
-            'data_cadastro' => $data,
-            'tempo_servico' => $tempo_servico
-        );
-        
-        $horarios = new Horario();
-        
-        $horarios->insertHorario($campos);
-
-        $id_servico = $horarios->getUltimoHorario()['id'];
-
-
-        header('Location: '.URL_BASE.'admin/horario');
-        exit();
-    }
-
-
-//UPDATE SERVIÇOS
 
     public function horarios_update(
         ServerRequestInterface $request, 
@@ -241,38 +174,35 @@ final class HorarioController
         exit();
     }
 
-    public function horarios_delete(
+    public function gerar_horario(
         ServerRequestInterface $request, 
-        ResponseInterface $response,
-        $args
-    ) {
-       $id = $request->getParsedBody()['id'];
+        ResponseInterface $response
+        )
+    {
+        $data = '';
+        $horarios = [];
 
-       $horarios = new Horario();
+        if ($request->getMethod() === 'POST') {
+            $params = $request->getParsedBody();
+            if (isset($params['data'])) {
+                $data = $params['data'];
+                
+                $diaSemana = date('w', strtotime($data));
 
-       $resultado = $horarios->selectHorario('*', array('id' => $id))[0];
+                if ($diaSemana == 2) {
+                    $Horarios = new Horario();
+                    $horarios  = [
+                        '08:30','09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '13:30', '14:00',
+                        '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30'
+                    ];
+                    return $Horarios;
+                }
+            }
+        }
 
-       unlink($resultado['imagem_principal']);
-
-       $horarios->deleteServico('id', $id);
-
-       header('Location: '.URL_BASE.'admin/horario');
-       exit();
-    }
-
-    private function gerarUrlAmigavel($url) {
-
-        $search = ['@<script[^>]*?>.*?</script>@si', '@<style[^>]*?>.*?</style>@siU', '@<[\/\!]*?[^<>]*?>@si', '@<![\s\S]*?--[ \t\n\r]*>@'];
-    
-        $string = preg_replace($search, '', $url);
-    
-        $table = ['Š'=>'S','š'=>'s','Đ'=>'Dj','đ'=>'dj','Ž'=>'Z','ž'=>'z','Č'=>'C','č'=>'c','Ć'=>'C','ć'=>'c','À'=>'A','Á'=>'A','Â'=>'A','Ã'=>'A','Ä'=>'A','Å'=>'A','Æ'=>'A','Ç'=>'C','È'=>'E','É'=>'E','Ê'=>'E','Ë'=>'E','Ì'=>'I','Í'=>'I','Î'=>'I','Ï'=>'I','Ñ'=>'N','Ò'=>'O','Ó'=>'O','Ô'=>'O','Õ'=>'O','Ö'=>'O','Ø'=>'O','Ù'=>'U','Ú'=>'U','Û'=>'U','Ü'=>'U','Ý'=>'Y','Þ'=>'B','ß'=>'Ss','à'=>'a','á'=>'a','â'=>'a','ã'=>'a','ä'=>'a','å'=>'a','æ'=>'a','ç'=>'c','è'=>'e','é'=>'e','ê'=>'e','ë'=>'e','ì'=>'i','í'=>'i','î'=>'i','ï'=>'i','ð'=>'o','ñ'=>'n','ò'=>'o','ó'=>'o','ô'=>'o','õ'=>'o','ö'=>'o','ø'=>'o','ù'=>'u','ú'=>'u','û'=>'u','ý'=>'y','ý'=>'y','þ'=>'b','ÿ'=>'y','Ŕ'=>'R','ŕ'=>'r'
-        ];
-    
-        $string = strtr($string, $table);
-        $string = mb_strtolower($string);
-        $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
-        $string = str_replace(" ", "-", $string);
-        return $string;
-    }
+    $responseData = ['horarios' => $horarios];
+    $response = $response->withHeader('Content-Type', 'application/json');
+    $response->getBody()->write(json_encode($responseData));
+    return $response;
+}
 } 
