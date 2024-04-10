@@ -1,7 +1,7 @@
 $(document).ready(function(){
     function atualizarData(data) {
         $.ajax({
-            url: '/WebBarber-1/admin/gerar_horario',
+            url: '/BarberWeb-1/admin/gerar_horario',
             type: 'POST',
             data: { data: data },
             dataType: 'json',
