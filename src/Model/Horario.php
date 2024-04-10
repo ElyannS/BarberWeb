@@ -42,7 +42,7 @@ class Horario extends Model {
 	}
 	function selectHorarioSemana($coluna)
 	{
-		$sql = "SELECT * FROM ".$this->table." WHERE ". $coluna;
+		$sql = "SELECT turno1, turno2 FROM horarios WHERE dia_semana = '".$coluna."'";
 
 		return $this->querySelect($sql);
 	}

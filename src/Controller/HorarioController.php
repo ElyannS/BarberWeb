@@ -188,10 +188,45 @@ final class HorarioController
                 $data = $params['data'];
                 
                 $diaSemana = date('w', strtotime($data));
+                if ($diaSemana == 0) {
+                    $Horarios = new Horario();
+                    $horarios = $Horarios->selectHorarioSemana('Domingo');
+                    
+                }
+
+                if ($diaSemana == 1) {
+                    $Horarios = new Horario();
+                    $horarios = $Horarios->selectHorarioSemana('Segunda-Feira');
+                    
+                }
 
                 if ($diaSemana == 2) {
                     $Horarios = new Horario();
                     $horarios = $Horarios->selectHorarioSemana('Terça-Feira');
+                    
+                }
+
+                if ($diaSemana == 3) {
+                    $Horarios = new Horario();
+                    $horarios = $Horarios->selectHorarioSemana('Quarta-Feira');
+                    
+                }
+
+                if ($diaSemana == 4) {
+                    $Horarios = new Horario();
+                    $horarios = $Horarios->selectHorarioSemana('Quinta-Feira');
+                    
+                }
+
+                if ($diaSemana == 5) {
+                    $Horarios = new Horario();
+                    $horarios = $Horarios->selectHorarioSemana('Sexta-Feira');
+                    
+                }
+
+                if ($diaSemana == 6) {
+                    $Horarios = new Horario();
+                    $horarios = $Horarios->selectHorarioSemana('Sábado');
                     
                 }
             }
