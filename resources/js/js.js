@@ -1,4 +1,34 @@
 $(document).ready(function(){
+  $('#tabelaHorarios').on('click', '.td', function() {
+    var idHorarioClicado = $(this).attr('id');
+    var dataInput = $('#dataMarcada').val();
+  
+    var valorSelecionado = idHorarioClicado.split('-')[1] + ':' + idHorarioClicado.split('-')[2];
+
+    $('#data').val(dataInput);
+    $('#data').attr('disabled', 'disabled');
+
+    var selectElement = $('#horariosDisponiveis');
+
+   
+    if (selectElement.find('option[value="' + valorSelecionado + '"]').length === 0) {
+        var novaOpcao = $('<option></option>').attr('value', valorSelecionado).text(valorSelecionado);
+        selectElement.append(novaOpcao);
+    }
+    
+    selectElement.val(valorSelecionado);
+
+    $('body.admin .container-popup').toggleClass('active');
+    $('body.admin .conteudo').toggleClass('back');
+  });
+   
+  $('.close').on('click' , function() {
+    $('body.admin .container-popup').toggleClass('active');
+    $('body.admin .conteudo').toggleClass('back');
+  });
+
+
+
   $('#selectHora1').on('change', function() {
     if ($(this).val() === 'FECHADO') {
         $('#selectHora2').val('FECHADO');
@@ -71,24 +101,7 @@ $(document).ready(function(){
   });
   
   
-  $('tr td .td').on('click' , function() {
-    var dataInput = $('#dataMarcada').val();
-  
-    var horarioId = $(this).attr('id');
-    
-    var horario = horarioId.split('-')[1] + ':' + horarioId.split('-')[2];
 
-    var celula = $('#' + horarioId);
-
-
-    $('body.admin .container-popup').toggleClass('active');
-    $('body.admin .conteudo').toggleClass('back');
-    
-  });
-  $('.close').on('click' , function() {
-    $('body.admin .container-popup').toggleClass('active');
-    $('body.admin .conteudo').toggleClass('back');
-  });
   if ($('form.form_ajax').length) {
     if (!jQuery().ajaxForm)
       return;

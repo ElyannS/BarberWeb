@@ -12,7 +12,10 @@ $(document).ready(function(){
                 var tabela = $('<table></table>').addClass('horarios-table');
                 var corpoTabela = $('<tbody></tbody>');
 
-                if (horarios.length > 0 && horarios[0].turno1 && horarios.length > 0 && horarios[0].turno2) {
+                if (horarios.length > 0 && horarios[0].turno1 && horarios[0].turno2) {
+                    var turno1 = horarios[0].turno1;
+                    var turno2 = horarios[0].turno2;
+
                     if (turno1 === 'FECHADO' && turno2 === 'FECHADO') {
                         var text = "<p>Nenhum horário disponível!</p>";
                         $('#aviso').empty(); 
@@ -20,62 +23,66 @@ $(document).ready(function(){
                         $('#aviso').addClass('mostrar');
                         setTimeout(function() {
                             $('#aviso').removeClass('mostrar');
+                            $('#aviso').empty(); 
                         }, 5000);
-                    }
-                }
-
-                if (horarios.length > 0 && horarios[0].turno1) {
-                    var turno1 = horarios[0].turno1.trim();
-                    if (turno1 === 'FECHADO') {
-                        turno1 = []; 
                     } else {
-                        turno1 = turno1.split(', '); 
+
+                        if (horarios.length > 0 && horarios[0].turno1) {
+                            var turno1 = horarios[0].turno1.trim();
+                            if (turno1 === 'FECHADO') {
+                                turno1 = []; 
+                            } else {
+                                turno1 = turno1.split(', '); 
+                            }
+                        
+                            turno1.forEach(function(horario) {
+                                var idHorario = 'horario-' + horario.replace(':', '-');
+        
+                                var linha = $('<tr></tr>');
+                               
+                                var cabecalho = $('<th></th>').addClass('tr').text(horario);
+                                linha.append(cabecalho);
+                              
+                                var celula = $('<td></td>');
+                                var divHorario = $('<div></div>').addClass('td selectTd').attr('id', idHorario);
+                                celula.append(divHorario);
+                                linha.append(celula);
+        
+                                corpoTabela.append(linha);
+                            });
+                        }
+                        
+                        if (horarios.length > 0 && horarios[0].turno2) {
+                            var turno2 = horarios[0].turno2.trim();
+                            if (turno2 === 'FECHADO') {
+                                turno2 = []; 
+                            } else {
+                                turno2 = turno2.split(', '); 
+                            }
+                            
+                            turno2.forEach(function(horario) {
+                                var idHorario = 'horario-' + horario.replace(':', '-');
+        
+                                var linha = $('<tr></tr>');
+        
+                                var cabecalho = $('<th></th>').addClass('tr').text(horario);
+                                linha.append(cabecalho);
+        
+                                var celula = $('<td></td>');
+                                var divHorario = $('<div></div>').addClass('td').attr('id', idHorario);
+                                celula.append(divHorario);
+                                linha.append(celula);
+        
+                                corpoTabela.append(linha);
+
+                                tabela.append(corpoTabela);
+                                $('#tabelaHorarios').append(tabela);
+                            });
+                        }
                     }
-                
-                    turno1.forEach(function(horario) {
-                        var idHorario = 'horario-' + horario.replace(':', '-');
-
-                        var linha = $('<tr></tr>');
-                       
-                        var cabecalho = $('<th></th>').addClass('tr').text(horario);
-                        linha.append(cabecalho);
-                      
-                        var celula = $('<td></td>');
-                        var divHorario = $('<div></div>').addClass('td').attr('id', idHorario);
-                        celula.append(divHorario);
-                        linha.append(celula);
-
-                        corpoTabela.append(linha);
-                    });
+                } else{
+                    console.log('Horários não encontrados ou formato inválido.');
                 }
-                
-                if (horarios.length > 0 && horarios[0].turno2) {
-                    var turno2 = horarios[0].turno2.trim();
-                    if (turno2 === 'FECHADO') {
-                        turno2 = []; 
-                    } else {
-                        turno2 = turno2.split(', '); 
-                    }
-                    
-                    turno2.forEach(function(horario) {
-                        var idHorario = 'horario-' + horario.replace(':', '-');
-
-                        var linha = $('<tr></tr>');
-
-                        var cabecalho = $('<th></th>').addClass('tr').text(horario);
-                        linha.append(cabecalho);
-
-                        var celula = $('<td></td>');
-                        var divHorario = $('<div></div>').addClass('td').attr('id', idHorario);
-                        celula.append(divHorario);
-                        linha.append(celula);
-
-                        corpoTabela.append(linha);
-                    });
-                }
-             
-                tabela.append(corpoTabela);
-                $('#tabelaHorarios').append(tabela);
             }, 
             error: function(xhr, status, error) {
                 var mensagemErro = 'Ocorreu um erro na requisição: ' + error;

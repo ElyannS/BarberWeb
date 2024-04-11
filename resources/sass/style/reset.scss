@@ -694,6 +694,7 @@ body.admin{
 
 body.admin{
 	.agenda{
+		height: 100vh;
 		.top-container{
 			.agenda-top{
 				.menu-agenda{
@@ -789,54 +790,174 @@ body.admin{
 				table{
 					width: 100%;
 						.tr{
-							width: 11%;
-							height: 24px;
-							font-weight: bold;
-							font-family: 'Montserrat Regular';
-							color: #000;
-							font-size: 11px;
-							@include desktop{
-								width: 4%;
-							}
+						width: 11%;
+						height: 24px;
+						font-weight: bold;
+						font-family: 'Montserrat Regular';
+						color: #000;
+						font-size: 11px;
+						@include desktop{
+							width: 4%;
 						}
-						td{
-							
-							border-bottom: 1px solid #00000098;
+					}
+					td{
+						
+						border-bottom: 1px solid #00000098;
+						width: 100%;
+						div{
+							height: 21px;
+						}
+						
+					}
+					.td{
+						width: 100%;
+						
+						a{
 							width: 100%;
-							div{
-								height: 21px;
-							}
-							
+							color: #fff;
+							font-size: 13px;
+							margin: 0 0 0 5px;
 						}
-							.td{
-								width: 100%;
-								
-								a{
-									width: 100%;
-									color: #fff;
-									font-size: 13px;
-									margin: 0 0 0 5px;
-								}
-								
-							}
-							.marcado{
-								background-color: #000;
-								border-radius: 4px;
-							}
-							.marcado-corte-barba{
-								background-color: #000;
-								margin-top: 0;
-								position: absolute;
-								width: 100%;
-								height: 48px;
-								border-radius: 4px;
-								z-index: 1;
-							}
-							.fechada{
-								background: #000;
-							}
-					
+						
+					}
+					.marcado{
+						background-color: #000;
+						border-radius: 4px;
+					}
+					.marcado-corte-barba{
+						background-color: #000;
+						margin-top: 0;
+						position: absolute;
+						width: 100%;
+						height: 48px;
+						border-radius: 4px;
+						z-index: 1;
+					}
+					.fechada{
+						background: #000;
+					}
+				}
+				#aviso {
+					padding: 10px;
+					background-color: #ffcccc;
+					color: #ff0000;
+					border: 1px solid #ff0000;
+					border-radius: 5px;
+					width: 300px;
+					position: fixed;
+					top: 210px;
+					right: 25px;
+					opacity: 0; 
+					transition: opacity 0.3s ease; 
+					@include desktop{
+						right: 8px;
+					}
+				}
+				@keyframes exibirAviso {
+					0% { opacity: 0; }
+					50% { opacity: 1; }
+					100% { opacity: 0; }
+				}
 				
+				#aviso.mostrar {
+					animation: exibirAviso 3s ease;
+				}
+
+				.form{
+					width: 100%;
+					display: block;
+					margin-top: 25px;
+					padding: 15px;
+					background-color: #ebebeb;
+		
+					form{
+						.row{
+							width: 100%;
+							display: flex;
+							flex-wrap: wrap;
+							justify-content: space-between;
+							margin-bottom: 15px;
+							.w-80{
+								width: 100%;
+								margin-bottom: 15px;
+								@include desktop{
+									width: calc(80% - 45px);
+									margin-bottom: 0px;
+								}
+							}
+							.w-20{
+								width: 100%;
+								@include desktop{
+									width: 20%;
+								}
+							}
+							button{
+								border: 0px;
+								border-radius: 10px;
+								background-color: $color_destaque;
+								display: block;
+								margin: 0;
+								max-width: max-content;
+								transition: .30s;
+								padding: 12px 18%;
+								text-transform: uppercase;
+								font-size: 16px;
+								color: #fff;
+								font-family: 'Montserrat Regular';
+								width: auto;
+								margin: 0 auto;
+								cursor: pointer;
+								&:hover{
+									background-color: $color_destaque_hover;
+								}
+								@include desktop{
+									padding: 13px 55px;
+									margin: 0;
+								}
+							}
+							label{
+								width: 100%;
+								display: block;
+								font-family: 'Montserrat Bold';
+								input{
+									margin-top: 10px;
+									margin-bottom: 10px;
+									height: 40px;
+									border: 1px solid #000;
+									border-radius: 10px;
+									width: 100%;
+									display: block;
+									padding: 0px 15px;
+									color: #9c9c9c;
+								}
+								input[type="file"]{
+									background-color: #fff;
+									padding: 7px 15px;
+								}
+								textarea{
+									width: 100%;
+									display: block;
+									border: 1px solid #000;
+									max-width: 100%;
+									min-width: 100%;
+									color: #9c9c9c;
+								}
+								select{
+									display: block;
+									margin-top: 10px;
+									height: 40px;
+									border: 1px solid #000;
+									border-radius: 10px;
+									background-color: #fff;
+									padding: 0px 10px;
+									font-family: 'Montserrat Bold';
+									color: #9c9c9c;
+									width: 100%;
+								
+								}
+							}
+						}
+					}
 				}
 			}
 		}
