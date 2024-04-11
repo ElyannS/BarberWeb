@@ -8,7 +8,7 @@
                         <i class="fa-solid fa-xmark close"></i>
                     </div>
                     <div class="opcao-popup">
-                        <a href="#">Agendar</a>
+                        <a href="#" id="btn-agendar">Agendar</a>
                         <a href="#">Bloquear</a>
                     </div>    
                 </div>
@@ -49,6 +49,9 @@
                 </div>
 
                 <div class="form">
+                    <div class="close-popup">
+                        <i class="fa-solid fa-xmark close"></i>
+                    </div>
                     <form action="<?=URL_BASE?>admin/agendamentos_insert" id="form_create" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <label>
@@ -77,7 +80,7 @@
                             </div>
                             <div class="w-20">
                                 <label for="data">
-                                    
+
                                     Data
                                     <input type="date" id="data" name="data">
                                 </label>
@@ -100,7 +103,7 @@
                             </label>
                         </div>
                         <div class="row">
-                            <button type="submit">Salvar</button>
+                            <button type="submit" id="">Agendar</button>
                         </div>
                     </form>
                 </div>
