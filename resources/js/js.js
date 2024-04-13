@@ -40,7 +40,7 @@ $(document).ready(function(){
         $('#selectHora2').val('FECHADO');
     }
   });
-  $('#selectHora2').on('change', function() {
+  $('#selectHora  2').on('change', function() {
     if ($(this).val() === 'FECHADO') {
         $('#selectHora1').val('FECHADO');
     }

@@ -74,11 +74,10 @@ $(document).ready(function(){
                                 linha.append(celula);
         
                                 corpoTabela.append(linha);
-
-                                tabela.append(corpoTabela);
-                                $('#tabelaHorarios').append(tabela);
                             });
                         }
+                        tabela.append(corpoTabela);
+                        $('#tabelaHorarios').append(tabela);
                     }
                 } else{
                     console.log('Horários não encontrados ou formato inválido.');
