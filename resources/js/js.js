@@ -29,10 +29,16 @@ $(document).ready(function(){
 
   $('.close').on('click' , function() {
     $('body.admin .container-popup').toggleClass('active');
-    $('.agenda-top .form').toggleClass('active');
     $('body.admin .conteudo').toggleClass('back');
   });
 
+  $('.close-form').on('click' , function() {
+    $('.agenda-top .form').toggleClass('active');
+    $('body.admin .container-popup').toggleClass('active');
+    $('body.admin .conteudo').toggleClass('back')
+    var selectElement = $('#horariosDisponiveis');
+    selectElement.empty();
+  });
 
 
   $('#selectHora1').on('change', function() {

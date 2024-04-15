@@ -50,7 +50,7 @@
 
                 <div class="form">
                     <div class="close-popup">
-                        <i class="fa-solid fa-xmark close"></i>
+                        <i class="fa-solid fa-xmark close-form"></i>
                     </div>
                     <form action="<?=URL_BASE?>admin/agendamentos_insert" id="form_create" method="POST" enctype="multipart/form-data">
                         <div class="row">
