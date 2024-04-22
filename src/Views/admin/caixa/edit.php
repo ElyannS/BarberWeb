@@ -2,8 +2,12 @@
 <section class="dashboard background-white">
     <div class="container">
         <div class="titulo_pagina">
-        <i class="fa-solid fa-cart-shopping"></i> Caixa - Editar Informações
+            <div class="titulo-migalha">
+                <i class="fa-solid fa-circle"></i>
+                <p>Caixa - Editar Informações</p>
+            </div>
         </div>
+        
         <div class="form">
             <form action="<?=URL_BASE?>admin/caixa_update" method="post" enctype="multipart/form-data">
             <div class="row">

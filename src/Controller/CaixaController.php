@@ -217,12 +217,17 @@ final class CaixaController
         $pix = ($pix !== null) ? trim($pix) : null;
         $cartao = ($cartao !== null) ? trim($cartao) : null;
     
+
+
+
+
+        $dinheiro1 = $dinheiro  / 100.0;
         // Verifica se pelo menos um dos valores não é nulo antes de inserir no banco de dados
         if ($nome_cliente !== null || $data !== null || $dinheiro !== null || $pix !== null || $cartao !== null) {
             $camposPreenchidos = array_filter(array(
                 'nome_cliente' => $nome_cliente,
                 'data' => $data,
-                'dinheiro' => $dinheiro,
+                'dinheiro' => $dinheiro1,
                 'pix' => $pix,
                 'cartao' => $cartao,
             ));
@@ -258,7 +263,7 @@ final class CaixaController
        
 
         
-        
+         
         $campos = array(
             'nome_cliente' => $nome_cliente,
             'data' => $data,

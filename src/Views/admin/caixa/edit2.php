@@ -27,19 +27,19 @@
                 <div class="row">
                     <label>
                         Valor do Serviço
-                        <input type="number" name="dinheiro" placeholder="Dinheiro" >
+                        <input id="valorInput" type="text" name="dinheiro" placeholder="Dinheiro" oninput="formatarValor(this)" >
                     </label>
                 </div>
                 <div class="row">
                     <label>
                         Valor do Serviço
-                        <input type="number" name="pix" placeholder="Pix" >
+                        <input id="valorInput" type="text" name="pix" placeholder="Pix" oninput="formatarValor(this)">
                     </label>
                 </div>
                 <div class="row">
                     <label>
                         Valor do Serviço
-                        <input type="number" name="cartao" placeholder="Cartão" >
+                        <input id="valorInput" type="text" name="cartao" placeholder="Cartão" oninput="formatarValor(this)">
                     </label>
                 </div>
                 
@@ -61,41 +61,46 @@
                         <td class="date">DATA</td>
                     </tr>
                 </thead>
+
                 <tbody> 
-                    <tr>
-                        <td class="actions action-cell">
-                            <div class="action-buttons">
-                                <div class="button">
-                                    <a href="<?=URL_BASE?>admin/caixa-edit/<?=$caixa['id']?>">Editar <i class="far fa-edit"></i></a>
+                    <?php
+                        
+                        foreach($data['informacoes']['lista'] as $caixa) {?>
+                        <tr>
+                            <td class="actions action-cell">
+                                <div class="action-buttons">
+                                    <div class="button">
+                                        <a href="<?=URL_BASE?>admin/caixa-edit/<?=$caixa['id']?>">Editar <i class="far fa-edit"></i></a>
+                                    </div>
+                                    <div class="button">
+                                        <form action="<?=URL_BASE?>admin/caixa_delete" id="deleteForm" method="post">
+                                            <input type="hidden" name="id" value="<?=$caixa['id']?>">
+                                            <button type="submit">Excluir <i class="fa-solid fa-trash"></i></button>
+                                        </form>
+                                    </div>
                                 </div>
-                                <div class="button">
-                                    <form action="<?=URL_BASE?>admin/caixa_delete" id="deleteForm" method="post">
-                                        <input type="hidden" name="id" value="1">
-                                        <button type="submit">Excluir <i class="fa-solid fa-trash"></i></button>
-                                    </form>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="client-name">Caique</td>
-                        <td class="cash-amount">25</td>
-                        <td class="pix-amount">0</td>
-                        <td class="card-amount">0</td>
-                        <td class="date">03/04/2024</td>
-                    </tr>
+                            </td>
+                            <td class="client-name"><?=$caixa['nome_cliente']?></td>
+                            <td class="cash-amount"><?=$caixa['dinheiro']?></td>
+                            <td class="pix-amount"><?=$caixa['pix']?></td>
+                            <td class="card-amount"><?=$caixa['cartao']?></td>
+                            <td class="date"><?=date("d/m/Y", strtotime($caixa['data']))?></td>
+                        </tr>
+                    <?php }?>
                 </tbody>
             </table>
             <div class="total">
                 <div class="total-section">
-                    Valor total do Dinheiro: R$ 25,00
+                    Valor total do Dinheiro: R$ <?=$data['informacoes']['valorDinheiro']?>
                 </div>
                 <div class="total-section">
-                    Valor total do Pix: R$ 0,00
+                    Valor total do Pix: R$ <?=$data['informacoes']['valorPix']?>
                 </div>
                 <div class="total-section">
-                    Valor total do Cartão: R$ 0,00
+                    Valor total do Cartão: R$ <?=$data['informacoes']['valorCartao']?>
                 </div>
                 <div class="total-section">
-                    Valor total do dia: R$ 25,00
+                    Valor total do dia: R$ <?=$data['informacoes']['valorDoDia']?>
             </div>
         </div>
     </div>
