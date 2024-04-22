@@ -50,52 +50,52 @@
         </div>
 
         <div class="transactions-list">
-        <table>
-            <thead>
-                <tr>
-                    <td class="actions">AÇÕES</td>
-                    <td class="client-name">NOME CLIENTE</td>
-                    <td class="cash">DINHEIRO</td>
-                    <td class="pix">PIX</td>
-                    <td class="card">CARTÃO</td>
-                    <td class="date">DATA</td>
-                </tr>
-            </thead>
-            <tbody> 
-                <tr>
-                    <td class="actions action-cell">
-                        <div class="action-buttons">
-                            <div class="button">
-                                <a href="<?=URL_BASE?>admin/caixa-edit/<?=$caixa['id']?>">Editar <i class="far fa-edit"></i></a>
+            <table>
+                <thead>
+                    <tr>
+                        <td class="actions">AÇÕES</td>
+                        <td class="client-name">NOME CLIENTE</td>
+                        <td class="cash">DINHEIRO</td>
+                        <td class="pix">PIX</td>
+                        <td class="card">CARTÃO</td>
+                        <td class="date">DATA</td>
+                    </tr>
+                </thead>
+                <tbody> 
+                    <tr>
+                        <td class="actions action-cell">
+                            <div class="action-buttons">
+                                <div class="button">
+                                    <a href="<?=URL_BASE?>admin/caixa-edit/<?=$caixa['id']?>">Editar <i class="far fa-edit"></i></a>
+                                </div>
+                                <div class="button">
+                                    <form action="<?=URL_BASE?>admin/caixa_delete" id="deleteForm" method="post">
+                                        <input type="hidden" name="id" value="1">
+                                        <button type="submit">Excluir <i class="fa-solid fa-trash"></i></button>
+                                    </form>
+                                </div>
                             </div>
-                            <div class="button">
-                                <form action="<?=URL_BASE?>admin/caixa_delete" id="deleteForm" method="post">
-                                    <input type="hidden" name="id" value="1">
-                                    <button type="submit">Excluir <i class="fa-solid fa-trash"></i></button>
-                                </form>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="client-name">Caique</td>
-                    <td class="cash-amount">25</td>
-                    <td class="pix-amount">0</td>
-                    <td class="card-amount">0</td>
-                    <td class="date">03/04/2024</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="total">
-            <div class="total-section">
-                Valor total do Dinheiro: R$ 25,00
-            </div>
-            <div class="total-section">
-                Valor total do Pix: R$ 0,00
-            </div>
-            <div class="total-section">
-                Valor total do Cartão: R$ 0,00
-            </div>
-            <div class="total-section">
-                Valor total do dia: R$ 25,00
+                        </td>
+                        <td class="client-name">Caique</td>
+                        <td class="cash-amount">25</td>
+                        <td class="pix-amount">0</td>
+                        <td class="card-amount">0</td>
+                        <td class="date">03/04/2024</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="total">
+                <div class="total-section">
+                    Valor total do Dinheiro: R$ 25,00
+                </div>
+                <div class="total-section">
+                    Valor total do Pix: R$ 0,00
+                </div>
+                <div class="total-section">
+                    Valor total do Cartão: R$ 0,00
+                </div>
+                <div class="total-section">
+                    Valor total do dia: R$ 25,00
             </div>
         </div>
     </div>
