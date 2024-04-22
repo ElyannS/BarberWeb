@@ -1,0 +1,92 @@
+
+// Estilos para a lista de transações
+.transactions-list {
+    table {
+      width: 100%;
+      border-collapse: collapse;
+  
+      thead {
+        background-color: #f0f0f0;
+        font-weight: bold;
+  
+        tr {
+          text-align: center;
+          td {
+            padding: 10px;
+          }
+        }
+      }
+  
+      tbody {
+        tr {
+          text-align: center;
+  
+          td {
+            padding: 10px;
+            &.actions {
+              .action-buttons {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+              }
+  
+              .button {
+                display: inline-block;
+                padding: 5px 10px;
+                background-color: $color_destaque;
+                color: #fff;
+                border-radius: 5px;
+                cursor: pointer;
+                text-decoration: none;
+  
+                &:hover {
+                  background-color: $color_destaque_hover;
+                }
+                a{
+                    color: #fff;
+                }
+              }
+  
+              form {
+                display: inline-block;
+                button{
+                    color: #fff;
+                    background-color: transparent;
+                    border: 0;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  
+    .total {
+      margin-top: 20px;
+  
+      .total-section {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+    }
+  
+    // Aplicar estilos responsivos
+    @include desktop {
+      table {
+        font-size: 16px; // Exemplo de tamanho de fonte para desktop
+      }
+    }
+  
+    @include tablet {
+      table {
+        font-size: 14px; // Tamanho de fonte menor para tablets
+      }
+  
+      .total-section {
+        padding: 8px; // Reduzir o padding para tablets
+      }
+    }
+  }

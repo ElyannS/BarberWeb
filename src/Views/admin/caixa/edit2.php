@@ -49,61 +49,57 @@
             </form>
         </div>
 
-        <div class="lista">
-            <table>
-                <thead>
-                    <tr>
-                       
-                        <td class="acao-btn">AÇÕES</td>
-                        <td class="nome_cliente">NOME CLIENTE</td>
-                        <td class="dinheiro">DINHEIRO</td>
-                        <td class="pix">PIX</td>
-                        <td class="cartao">CARTÃO</td>
-                        <td class="data-caixa">DATA</td>
-                    </tr>
-                </thead>
-                <tbody> 
-                    <?php
-                       
-                        foreach($data['informacoes']['lista'] as $caixa) {?>
-                    <tr>
-                       
-                        <td class="acao-btn acao">
-                            <div class="topo">
-                                <div class="btn">
-                                    <a href="<?=URL_BASE?>admin/caixa-edit/<?=$caixa['id']?>">Editar <i class="far fa-edit"></i></a>
-                                </div>
-                                <div class="btn">
-                                   
-                                    <form  action="<?=URL_BASE?>admin/caixa_delete"  id="deleteForm"  method="post">
-                                        <input type="hidden" name="id" value="<?=$caixa['id']?>">
-                                        <button type="submit">Excluir <i class="fa-solid fa-trash"></i></button>
-                                    </form>
-                                </div>
+        <div class="transactions-list">
+        <table>
+            <thead>
+                <tr>
+                    <td class="actions">AÇÕES</td>
+                    <td class="client-name">NOME CLIENTE</td>
+                    <td class="cash">DINHEIRO</td>
+                    <td class="pix">PIX</td>
+                    <td class="card">CARTÃO</td>
+                    <td class="date">DATA</td>
+                </tr>
+            </thead>
+            <tbody> 
+                <tr>
+                    <td class="actions action-cell">
+                        <div class="action-buttons">
+                            <div class="button">
+                                <a href="<?=URL_BASE?>admin/caixa-edit/<?=$caixa['id']?>">Editar <i class="far fa-edit"></i></a>
                             </div>
-                        </td>
-                        <td class="nome_cliente"><?=$caixa['nome_cliente']?></td>
-                        <td class="dinheiro"><?=$caixa['dinheiro']?></td>
-                        <td class="pix"><?=$caixa['pix']?></td>
-                        <td class="cartao"><?=$caixa['cartao']?></td>
-                        <td class="data-caixa"><?=date("d/m/Y", strtotime($caixa['data']))?></td>
-                    </tr>
-                    <?php }?>
-                </tbody>
-            </table>
-            <div class="titulo_pagina">
-                Valor total do Dinheiro: R$ <?=$data['informacoes']['valorDinheiro']?>,00
+                            <div class="button">
+                                <form action="<?=URL_BASE?>admin/caixa_delete" id="deleteForm" method="post">
+                                    <input type="hidden" name="id" value="1">
+                                    <button type="submit">Excluir <i class="fa-solid fa-trash"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="client-name">Caique</td>
+                    <td class="cash-amount">25</td>
+                    <td class="pix-amount">0</td>
+                    <td class="card-amount">0</td>
+                    <td class="date">03/04/2024</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="total">
+            <div class="total-section">
+                Valor total do Dinheiro: R$ 25,00
             </div>
-            <div class="titulo_pagina">
-                Valor total do Pix: R$ <?=$data['informacoes']['valorPix']?>,00
+            <div class="total-section">
+                Valor total do Pix: R$ 0,00
             </div>
-            <div class="titulo_pagina">
-                Valor total do Cartão: R$ <?=$data['informacoes']['valorCartao']?>,00
+            <div class="total-section">
+                Valor total do Cartão: R$ 0,00
             </div>
-            <div class="titulo_pagina">
-                Valor total do dia: R$ <?=$data['informacoes']['valorDoDia']?>,00
+            <div class="total-section">
+                Valor total do dia: R$ 25,00
             </div>
         </div>
+    </div>
+
 </section>
 <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
 <script>

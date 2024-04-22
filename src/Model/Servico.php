@@ -11,7 +11,6 @@ class Servico extends Model {
 		"id",
 		"titulo",
 		"url_amigavel",
-		"descricao",
 		"imagem_principal",
         "data_cadastro",
 		"tempo_servico"

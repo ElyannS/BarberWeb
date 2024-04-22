@@ -126,7 +126,6 @@ final class ServicoController
         $campos = array(
             'titulo' => $titulo,
             'url_amigavel' => $this->gerarUrlAmigavel($titulo),
-            'descricao' => $descricao,
             'imagem_principal' => $nome_imagem_principal,
             'data_cadastro' => $data,
             'tempo_servico' => $tempo_servico
@@ -192,7 +191,6 @@ final class ServicoController
             'id' => $id,
             'titulo' => $titulo,
             'url_amigavel' => $this->gerarUrlAmigavel($titulo),
-            'descricao' => $descricao,
             'data_cadastro' => $data,
             'tempo_servico' => $tempo_servico
             
