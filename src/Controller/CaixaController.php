@@ -218,16 +218,12 @@ final class CaixaController
         $cartao = ($cartao !== null) ? trim($cartao) : null;
     
 
-
-
-
-        $dinheiro1 = $dinheiro  / 100.0;
         // Verifica se pelo menos um dos valores não é nulo antes de inserir no banco de dados
         if ($nome_cliente !== null || $data !== null || $dinheiro !== null || $pix !== null || $cartao !== null) {
             $camposPreenchidos = array_filter(array(
                 'nome_cliente' => $nome_cliente,
                 'data' => $data,
-                'dinheiro' => $dinheiro1,
+                'dinheiro' => $dinheiro,
                 'pix' => $pix,
                 'cartao' => $cartao,
             ));
@@ -255,25 +251,45 @@ final class CaixaController
         $id = $request->getParsedBody()['id'];
         $nome_cliente = $request->getParsedBody()['nome_cliente'];
         $data = $request->getParsedBody()['data'];
-        $dinheiro = $request->getParsedBody()['dinheiro'];
-        $pix = $request->getParsedBody()['pix'];
-        $cartao = $request->getParsedBody()['cartao'];
+        $dinheiro = isset($request->getParsedBody()['dinheiro']);
+        $pix = isset($request->getParsedBody()['pix']);
+        $cartao = isset($request->getParsedBody()['cartao']);
        
-       
-       
-
-        
-         
-        $campos = array(
+        $campos = array_filter(array(
             'nome_cliente' => $nome_cliente,
             'data' => $data,
             'dinheiro' => $dinheiro,
             'pix' => $pix,
             'cartao' => $cartao,
-        );
-        
+        ));
+
         $caixa = new Caixa();
         $caixa->updateCaixa($campos, array('id' => $id));
+        
+
+        $campos = array_filter(array(
+            'cartao' => $cartao,
+        ));
+
+        $caixa = new Caixa();
+        $caixa->updateCaixa($campos, array('id' => $id));
+
+
+        $campos = array_filter(array(
+            'dinheiro' => $dinheiro
+        ));
+
+        $caixa = new Caixa();
+        $caixa->updateCaixa($campos, array('id' => $id));
+
+
+        $campos = array_filter(array(
+            'pix' => $pix
+        ));
+
+        $caixa = new Caixa();
+        $caixa->updateCaixa($campos, array('id' => $id));
+
         
         header('Location: '.URL_BASE.'admin/caixa-edit-data/'.$data);
         exit();

@@ -1,24 +1,34 @@
 $(document).ready(function(){
-  function formatarValor(input) {
-    // Obter o valor atual do campo usando jQuery
-    let valor = $(input).val();
-
-    // Remover qualquer caracter que não seja número ou vírgula
-    valor = valor.replace(/[^\d,]/g, '');
-
-    // Substituir o ponto (.) por vírgula (,) como separador decimal
-    valor = valor.replace('.', ',');
-
-    // Atualizar o valor no campo de entrada usando jQuery
-    $(input).val(valor);
-}
-$(document).ready(function() {
-  $('#valorInput').on('change', function() {
-      formatarValor(this); // Chama a função formatarValor passando o campo de entrada atual
+  $('#dinheiro').change(function() {
+   
+    if ($(this).is(':checked')) {
+        
+        $('.dinheiro').css('display', 'block');
+    } else {
+        $('.dinheiro').css('display', 'none');
+    }
   });
-});
 
+  $('#pix').change(function() {
+   
+    if ($(this).is(':checked')) {
+        
+        $('.pix').css('display', 'block');
+    } else {
+        $('.pix').css('display', 'none');
+    }
+  });
 
+  $('#cartao').change(function() {
+   
+    if ($(this).is(':checked')) {
+        
+        $('.cartao').css('display', 'block');
+    } else {
+        $('.cartao').css('display', 'none');
+    }
+  });
+  
   $('#tabelaHorarios').on('click', '.td', function() {
     var idHorarioClicado = $(this).attr('id');
     var dataInput = $('#dataMarcada').val();

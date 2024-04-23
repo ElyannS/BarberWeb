@@ -15,7 +15,7 @@
                     <input type="hidden" name="id" value="<?=$data['informacoes']['lista']['id']?>">
                         <label>
                             Nome Cliente*
-                            <input type="text" name="nome_cliente" value="<?=$data['informacoes']['lista']['nome_cliente']?>" >
+                            <input type="text" name="nome_cliente" value="<?=$data['informacoes']['lista']['nome_cliente']?>" requered>
                         </label>
                     </div>
                     <div class="w-20">
@@ -28,22 +28,41 @@
                
                 <div class="row">
                     <label>
-                        Valor do Serviço
-                        <input type="number" name="dinheiro" placeholder="Dinheiro" value="<?=$data['informacoes']['lista']['dinheiro']?>">
+                        Valor em Dinheiro
+                        <input type="checkbox" id="dinheiro" placeholder="Dinheiro">
                     </label>
                 </div>
                 <div class="row">
                     <label>
-                        Valor do Serviço
-                        <input type="number" name="pix" placeholder="Pix" value="<?=$data['informacoes']['lista']['pix']?>">
+                        Valor em Pix
+                        <input type="checkbox" id="pix" placeholder="Pix">
                     </label>
                 </div>
                 <div class="row">
                     <label>
-                        Valor do Serviço
+                        Valor em Cartão
+                        <input type="checkbox" id="cartao" placeholder="Cartão">
+                    </label>
+                </div>
+                <div class="row">
+                    <label >
+                        Valor em Dinheiro
+                        <input  type="number" name="dinheiro" placeholder="Dinheiro" value="<?=$data['informacoes']['lista']['dinheiro']?>">
+                    </label>
+                </div>
+                <div class="row">
+                    <label>
+                        Valor em Pix
+                        <input type="number" name="pix" placeholder="Pix"  value="<?=$data['informacoes']['lista']['pix']?>">
+                    </label>
+                </div>
+                <div class="row">
+                    <label >
+                        Valor em Cartão
                         <input type="number" name="cartao" placeholder="Cartão" value="<?=$data['informacoes']['lista']['cartao']?>">
                     </label>
                 </div>
+               
                 <div class="row">
                     <button type="submit">Salvar</button>
                 </div>

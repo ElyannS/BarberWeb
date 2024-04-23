@@ -444,7 +444,9 @@ body.admin{
 				border: none !important;
 				color: #dfdfdf !important;
 				border-radius: 5px !important;
+				
 			}
+			
 			select{
 				background-color: #5B5B5B !important;
 				border: none !important;
@@ -452,6 +454,7 @@ body.admin{
 				border-radius: 5px !important;
 			}
 		}
+		
 
 	}
 	.dashboard{
@@ -637,9 +640,14 @@ body.admin{
 							padding: 0px 15px;
 							color: #9c9c9c;
 						}
+						
 						input[type="file"]{
 							background-color: #fff;
 							padding: 7px 15px;
+						}
+						input[type="checkbox"]{
+							height: 20px !important;
+							width: 2%;
 						}
 						textarea{
 							width: 100%;
@@ -662,6 +670,15 @@ body.admin{
 							width: 100%;
 						
 						}
+					}
+					.dinheiro{
+						display: none;
+					}
+					.pix{
+						display: none;
+					}
+					.cartao{
+						display: none;
 					}
 					.img{
 						width: 100px;
@@ -948,6 +965,7 @@ body.admin{
 									background-color: #fff;
 									padding: 7px 15px;
 								}
+							
 								textarea{
 									width: 100%;
 									display: block;

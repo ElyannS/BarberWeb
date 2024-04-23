@@ -9,7 +9,6 @@ class Caixa extends Model {
 	protected $fields = [
 		"id",
 		"nome_cliente",
-		"valor",
 		"data",
 		"pix",
 		"cartao",

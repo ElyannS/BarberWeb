@@ -26,20 +26,38 @@
                 </div>
                 <div class="row">
                     <label>
-                        Valor do Serviço
-                        <input id="valorInput" type="text" name="dinheiro" placeholder="Dinheiro" oninput="formatarValor(this)" >
+                        Valor em Dinheiro
+                        <input type="checkbox" id="dinheiro" placeholder="Dinheiro">
                     </label>
                 </div>
                 <div class="row">
                     <label>
-                        Valor do Serviço
-                        <input id="valorInput" type="text" name="pix" placeholder="Pix" oninput="formatarValor(this)">
+                        Valor em Pix
+                        <input type="checkbox" id="pix" placeholder="Pix">
                     </label>
                 </div>
                 <div class="row">
                     <label>
-                        Valor do Serviço
-                        <input id="valorInput" type="text" name="cartao" placeholder="Cartão" oninput="formatarValor(this)">
+                        Valor em Cartão
+                        <input type="checkbox" id="cartao" placeholder="Cartão">
+                    </label>
+                </div>
+                <div class="row">
+                    <label class="dinheiro">
+                        Valor em Dinheiro
+                        <input  type="number" name="dinheiro" placeholder="Dinheiro" value="0">
+                    </label>
+                </div>
+                <div class="row">
+                    <label class="pix">
+                        Valor em Pix
+                        <input type="number" name="pix" placeholder="Pix" value="0">
+                    </label>
+                </div>
+                <div class="row">
+                    <label class="cartao">
+                        Valor em Cartão
+                        <input type="number" name="cartao" placeholder="Cartão" value="0">
                     </label>
                 </div>
                 
