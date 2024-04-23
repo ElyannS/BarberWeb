@@ -32,13 +32,14 @@ return function (App $app) {
    //CONTROLADOR CAIXA
    $app->get('/admin/caixa', '\App\Controller\CaixaController:caixa');
    $app->get('/admin/caixa-create', '\App\Controller\CaixaController:caixa_create');
+   $app->get('/admin/caixa-relatorio', '\App\Controller\CaixaController:caixa_relatorio');
    $app->get('/admin/caixa-edit/{id}', '\App\Controller\CaixaController:caixa_edit');
    $app->post('/admin/caixa_insert', '\App\Controller\CaixaController:caixa_insert');
    $app->get('/admin/caixa-edit-data/{id}', '\App\Controller\CaixaController:caixa_edit_data');
    $app->post('/admin/caixa_update', '\App\Controller\CaixaController:caixa_update');
    $app->post('/admin/caixa_delete', '\App\Controller\CaixaController:caixa_delete');
    $app->post('/admin/caixa_total_delete', '\App\Controller\CaixaController:caixa_total_delete');
-
+   $app->post('/admin/gerar_relatorio', '\App\Controller\CaixaController:gerar_relatorio');
 
     //CONTROLADOR HORÁRIO
     $app->get('/admin/horarios', '\App\Controller\HorarioController:horarios');

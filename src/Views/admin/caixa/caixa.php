@@ -8,7 +8,7 @@
             </div>
             <div class="topo">
                 <div class="btn">
-                    <a href="<?=URL_BASE?>admin/caixa-create">Relatório</a>
+                    <a href="<?=URL_BASE?>admin/caixa-relatorio">Relatório</a>
                 </div>
                 <div class="btn">
                     <a href="<?=URL_BASE?>admin/caixa-create">Adicionar Caixa</a>

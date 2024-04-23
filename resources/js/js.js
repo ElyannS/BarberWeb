@@ -1,5 +1,11 @@
 $(document).ready(function(){
-  
+  var dataAtual = new Date();
+  var ano = dataAtual.getFullYear();
+  var mes = ('0' + (dataAtual.getMonth() + 1)).slice(-2); 
+  var dia = ('0' + dataAtual.getDate()).slice(-2); 
+  var dataFormatada = ano + '-' + mes + '-' + dia;
+  $('#campoData1').val(dataFormatada);
+
   $('#dinheiro-edit').on('change', function() {
     var value1 = $('#dinheiro-edit').val();
   

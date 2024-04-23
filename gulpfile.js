@@ -74,6 +74,16 @@ function gulpUglifyGerarHorarios() {
  }
  gulp.task(gulpUglifyGerarHorarios);
  
+ // Specific Task
+function gulpUglifyGerarRelatorio() {
+	return gulp.src('resources/js/gerarRelatorio.js')
+		 .pipe(rename({ suffix: '.min' }))
+		 .pipe(gulp.dest('resources/js'))
+		 .pipe(uglify())
+		 .pipe(gulp.dest('resources/js'))
+		 .on('end', function() { log('gerarRelatorio minificado...') })
+ }
+ gulp.task(gulpUglifyGerarRelatorio);
 
 //WATCHERS
 gulp.task('watch', () => {
@@ -82,9 +92,10 @@ gulp.task('watch', () => {
 	gulp.watch('resources/js/menu.js', gulp.series(gulpUglifyMenu));
 	gulp.watch('resources/js/gerarData.js', gulp.series(gulpUglifyGerarData));
 	gulp.watch('resources/js/gerarHorarios.js', gulp.series(gulpUglifyGerarHorarios));
+	gulp.watch('resources/js/gerarRelatorio.js', gulp.series(gulpUglifyGerarRelatorio));
 });
 
 
 
 // Run multiple tasks
-gulp.task('start', gulp.series(gulpSass, gulpUglify, gulpUglifyMenu, gulpUglifyGerarData, gulpUglifyGerarHorarios));
+gulp.task('start', gulp.series(gulpSass, gulpUglify, gulpUglifyMenu, gulpUglifyGerarData, gulpUglifyGerarHorarios, gulpUglifyGerarRelatorio));

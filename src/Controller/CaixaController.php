@@ -124,6 +124,28 @@ final class CaixaController
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/caixa");
         return $renderer->render($response, "create.php", $data);
     }
+    public function caixa_relatorio(
+        ServerRequestInterface $request, 
+        ResponseInterface $response,
+        $args
+    ) {
+        Usuario::verificarLogin();
+        $servicos = new Caixa();
+        
+        $config = new Configuracao();
+        $nome_logo_site = $config->getConfig('logo_site');
+
+        $caixa = new Caixa();
+        $consultaCaixa = $caixa->selectCaixa('*', array(1 => '1'));
+
+        $data['informacoes'] = array(
+            'menu_active' => 'caixa',
+            'nome_logo' => $nome_logo_site,
+            'lista' => $consultaCaixa,
+        );
+        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/caixa");
+        return $renderer->render($response, "relatorio.php", $data);
+    }
 
     public function caixa_edit(
         ServerRequestInterface $request, 
@@ -238,8 +260,58 @@ final class CaixaController
         }
     }
     
+    public function gerar_relatorio(
+        ServerRequestInterface $request, 
+        ResponseInterface $response
+        )
+    {
+        $data1 = '';
+        $data2 = '';
+        $relatorio = [];
 
+        if ($request->getMethod() === 'POST') {
+            $params = $request->getParsedBody();
+            if (isset($params['data1']) && isset($params['data2'])) {
+                $data1 = $params['data1'];
+                $data2 = $params['data2'];
+                
+                if($data1 === $data2){
 
+                    $caixa = new Caixa();
+                    $resultado = $caixa->selectPorData($data1);
+
+                    $valorTotal = '0';
+
+                    foreach ($resultado as $registro) {
+                        // Soma os valores das colunas 'dinheiro', 'pix' e 'cartao'
+                        $valorTotal += $registro['dinheiro'] + $registro['pix'] + $registro['cartao'];
+                    }
+
+                    $responseData = ['relatorio' => $valorTotal];
+                    $response = $response->withHeader('Content-Type', 'application/json');
+                    $response->getBody()->write(json_encode($responseData));
+                    return $response;
+                } else{
+
+                    $caixa = new Caixa();
+
+                // Data de uma semana atrás
+                $dataInicioW = date('Y-m-d', strtotime($data1));
+                $dataFimW = date('Y-m-d', strtotime($data2));
+                
+                $sql = "SELECT SUM(dinheiro) + SUM(pix) + SUM(cartao) as valorTotal FROM caixa WHERE data BETWEEN '{$dataInicioW}' AND '{$dataFimW}'";
+                $resultado = $caixa->querySelect($sql);
+                
+                $relatorio = $resultado[0]['valorTotal'];
+                }
+
+                $responseData = ['relatorio' => $relatorio];
+                $response = $response->withHeader('Content-Type', 'application/json');
+                $response->getBody()->write(json_encode($responseData));
+                return $response;
+            }
+        }
+    }
 
 //UPDATE CAIXA
 

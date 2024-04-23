@@ -1,0 +1,42 @@
+<?=$this->fetch('../commons/header.php', $data)?>
+<section class="dashboard background-white">
+    <div class="container"> 
+        <div class="titulo_pagina">
+            <div class="titulo-migalha">
+                <i class="fa-solid fa-circle"></i>
+                <p>Caixa - Relatório</p>
+            </div>
+        </div>
+        
+        <div class="row1">
+            <div class="col-1">
+                <div class="w-49">
+                    <label>
+                        Período*
+                        <input id="campoData1" type="date" name="data" required>
+                    </label>
+                </div>
+                <div class="w-49">
+                    <label>
+                        Período*
+                        <input id="campoData" type="date" name="data" required>
+                    </label>
+                </div>
+            </div> 
+        </div>
+        
+        <div class="row1">
+            <p>Voce fez <small>5 atendimentos</small> no perído.</p>
+            <h1 id="valorTotal"></h1>
+        </div>
+    </div>
+</section>
+<script>    
+//seta a data atual 
+     document.getElementById("campoData").value = value='<?php echo date("Y-m-d"); ?>';
+</script>
+<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace( 'descricao' );
+</script>
+<?=$this->fetch('../commons/footer.php', $data)?>

@@ -268,7 +268,6 @@ body.admin{
 					align-items: center;
 					border-bottom: 1px solid #1a1a1a;
 					td{
-						width: 100%;
 						padding: 10px 0px;
 						font-size: 14px;
 						height: 61px;
@@ -459,6 +458,48 @@ body.admin{
 	}
 	.dashboard{
 		.container{
+			.row1{
+				.col-1{
+						width: 100%;
+						display: flex;
+						flex-wrap: wrap;
+						justify-content: space-between;
+					.w-49{
+						width: 100%;
+						margin-bottom: 25px;
+						label{
+							width: 100%;
+							display: block;
+							font-family: 'Montserrat Bold';
+							input{
+								margin-top: 10px;
+								margin-bottom: 10px;
+								height: 40px;
+								border: 1px solid #000;
+								border-radius: 10px;
+								width: 100%;
+								display: block;
+								padding: 0px 15px;
+								color: #9c9c9c;
+							}
+						}
+						@include desktop{
+							width: 48%;
+							
+						}
+					}
+	
+				}
+				p{
+					small{
+						font-weight: bold;
+					}
+				}
+				h1{
+					font-weight: bold;
+					font-size: 28px;
+				}
+			}
 			#aviso {
 				padding: 10px;
 				background-color: #ffcccc;
@@ -647,7 +688,10 @@ body.admin{
 						}
 						input[type="checkbox"]{
 							height: 20px !important;
-							width: 2%;
+							width: 10%;
+							@include desktop{
+								width: 2%;
+							}
 						}
 						textarea{
 							width: 100%;
