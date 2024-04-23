@@ -251,9 +251,9 @@ final class CaixaController
         $id = $request->getParsedBody()['id'];
         $nome_cliente = $request->getParsedBody()['nome_cliente'];
         $data = $request->getParsedBody()['data'];
-        $dinheiro = isset($request->getParsedBody()['dinheiro']);
-        $pix = isset($request->getParsedBody()['pix']);
-        $cartao = isset($request->getParsedBody()['cartao']);
+        $dinheiro = $request->getParsedBody()['dinheiro'];
+        $pix = $request->getParsedBody()['pix'];
+        $cartao = $request->getParsedBody()['cartao'];
        
         $campos = array_filter(array(
             'nome_cliente' => $nome_cliente,
@@ -267,20 +267,21 @@ final class CaixaController
         $campos = array_filter(array(
             'cartao' => $cartao,
         ));
-
+        $caixa = new Caixa();
         $caixa->updateCaixa($campos, array('id' => $id));
 
 
         $campos = array_filter(array(
             'dinheiro' => $dinheiro
         ));
+        $caixa = new Caixa();
         $caixa->updateCaixa($campos, array('id' => $id));
 
 
         $campos = array_filter(array(
             'pix' => $pix
         ));
-;
+        $caixa = new Caixa();
         $caixa->updateCaixa($campos, array('id' => $id));
 
 

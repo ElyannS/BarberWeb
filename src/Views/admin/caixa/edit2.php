@@ -45,19 +45,19 @@
                 <div class="row">
                     <label class="dinheiro">
                         Valor em Dinheiro
-                        <input  type="number" name="dinheiro" placeholder="Dinheiro" value="0">
+                        <input  type="text" name="dinheiro" placeholder="Dinheiro" value="0">
                     </label>
                 </div>
                 <div class="row">
                     <label class="pix">
                         Valor em Pix
-                        <input type="number" name="pix" placeholder="Pix" value="0">
+                        <input type="text" name="pix" placeholder="Pix" value="0">
                     </label>
                 </div>
                 <div class="row">
                     <label class="cartao">
                         Valor em Cartão
-                        <input type="number" name="cartao" placeholder="Cartão" value="0">
+                        <input type="text" name="cartao" placeholder="Cartão" value="0">
                     </label>
                 </div>
                 

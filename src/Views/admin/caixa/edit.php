@@ -25,41 +25,22 @@
                         </label>
                     </div>
                 </div>
-               
                 <div class="row">
-                    <label>
+                    <label >
                         Valor em Dinheiro
-                        <input type="checkbox" id="dinheiro" placeholder="Dinheiro">
+                        <input id="dinheiro-edit"  type="text" name="dinheiro" placeholder="Dinheiro" value="<?=$data['informacoes']['lista']['dinheiro']?>">
                     </label>
                 </div>
                 <div class="row">
                     <label>
                         Valor em Pix
-                        <input type="checkbox" id="pix" placeholder="Pix">
-                    </label>
-                </div>
-                <div class="row">
-                    <label>
-                        Valor em Cartão
-                        <input type="checkbox" id="cartao" placeholder="Cartão">
-                    </label>
-                </div>
-                <div class="row">
-                    <label >
-                        Valor em Dinheiro
-                        <input  type="number" name="dinheiro" placeholder="Dinheiro" value="<?=$data['informacoes']['lista']['dinheiro']?>">
-                    </label>
-                </div>
-                <div class="row">
-                    <label>
-                        Valor em Pix
-                        <input type="number" name="pix" placeholder="Pix"  value="<?=$data['informacoes']['lista']['pix']?>">
+                        <input id="pix-edit" type="text" name="pix" placeholder="Pix"  value="<?=$data['informacoes']['lista']['pix']?>">
                     </label>
                 </div>
                 <div class="row">
                     <label >
                         Valor em Cartão
-                        <input type="number" name="cartao" placeholder="Cartão" value="<?=$data['informacoes']['lista']['cartao']?>">
+                        <input id="cartao-edit" type="text" name="cartao" placeholder="Cartão" value="<?=$data['informacoes']['lista']['cartao']?>">
                     </label>
                 </div>
                
@@ -67,9 +48,12 @@
                     <button type="submit">Salvar</button>
                 </div>
             </form>
-           
+            <div id="aviso">
+                    
+            </div>
         </div>
-      
+    </div>
+        
 </section>
 <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
 <script>

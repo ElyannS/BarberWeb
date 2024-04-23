@@ -1,4 +1,53 @@
 $(document).ready(function(){
+  
+  $('#dinheiro-edit').on('change', function() {
+    var value1 = $('#dinheiro-edit').val();
+  
+    
+    if (value1 === '0') {
+      var text = "<p>Selecione um valor válido!  ex: 0.00</p>";
+      $('#aviso').empty(); 
+      $('#aviso').append(text);
+      $('#aviso').addClass('mostrar');
+
+      setTimeout(function() {
+        $('#aviso').removeClass('mostrar');
+      }, 5000);
+    } 
+  });
+  $('#pix-edit').on('change', function() {
+    var value1 = $('#pix-edit').val();
+  
+    
+    if (value1 === '0') {
+      var text = "<p>Selecione um valor válido!  ex: 0.00</p>";
+      $('#aviso').empty(); 
+      $('#aviso').append(text);
+      $('#aviso').addClass('mostrar');
+
+      setTimeout(function() {
+        $('#aviso').removeClass('mostrar');
+      }, 5000);
+    } 
+  }); $('#cartao-edit').on('change', function() {
+    var value1 = $('#cartao-edit').val();
+  
+    
+    if (value1 === '0') {
+      var text = "<p>Selecione um valor válido!  ex: 0.00</p>";
+      $('#aviso').empty(); 
+      $('#aviso').append(text);
+      $('#aviso').addClass('mostrar');
+
+      setTimeout(function() {
+        $('#aviso').removeClass('mostrar');
+      }, 5000);
+    } 
+  });
+
+
+
+
   $('#dinheiro').change(function() {
    
     if ($(this).is(':checked')) {
@@ -51,6 +100,7 @@ $(document).ready(function(){
     $('body.admin .container-popup').toggleClass('active');
     $('body.admin .conteudo').toggleClass('back');
   });
+
   $('#btn-agendar').on('click' , function(){
       $('.agenda-top .form').toggleClass('active');
       $('body.admin .conteudo').addClass('back');
@@ -142,6 +192,8 @@ $(document).ready(function(){
     }
   });
   
+
+
   
 
   if ($('form.form_ajax').length) {
