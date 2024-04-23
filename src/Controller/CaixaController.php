@@ -257,10 +257,7 @@ final class CaixaController
        
         $campos = array_filter(array(
             'nome_cliente' => $nome_cliente,
-            'data' => $data,
-            'dinheiro' => $dinheiro,
-            'pix' => $pix,
-            'cartao' => $cartao,
+            'data' => $data
         ));
 
         $caixa = new Caixa();
@@ -271,26 +268,22 @@ final class CaixaController
             'cartao' => $cartao,
         ));
 
-        $caixa = new Caixa();
         $caixa->updateCaixa($campos, array('id' => $id));
 
 
         $campos = array_filter(array(
             'dinheiro' => $dinheiro
         ));
-
-        $caixa = new Caixa();
         $caixa->updateCaixa($campos, array('id' => $id));
 
 
         $campos = array_filter(array(
             'pix' => $pix
         ));
-
-        $caixa = new Caixa();
+;
         $caixa->updateCaixa($campos, array('id' => $id));
 
-        
+
         header('Location: '.URL_BASE.'admin/caixa-edit-data/'.$data);
         exit();
     }
