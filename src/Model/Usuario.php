@@ -12,7 +12,7 @@ class Usuario extends Model {
 		"email",
 		"foto_usuario",
 		"senha",
-		"data_cadastro"
+		"type"
 	];
 
 	function insertUsuario($campos)

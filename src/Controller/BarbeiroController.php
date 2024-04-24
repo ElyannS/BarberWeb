@@ -5,7 +5,6 @@ namespace App\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\PhpRenderer;
-use App\Model\Barbeiro;
 use App\Model\Usuario;
 use App\Model\Configuracao;
 
@@ -21,10 +20,10 @@ final class BarbeiroController
         ResponseInterface $response,
         $args
     ) { 
-        $barbeiros = new Barbeiro();
+        $barbeiros = new Usuario();
 
         if(isset($_GET['pesquisa']) && $_GET['pesquisa'] !== ''){
-            $lista = $barbeiros->selectBarbeirosPesquisa($_GET['pesquisa']);
+            $lista = $barbeiros->selectUsuariosPesquisa($_GET['pesquisa']);
             $paginaAtual = 1;
             $proximaPagina = false;
             $paginaAnterior = false;
@@ -34,13 +33,13 @@ final class BarbeiroController
             $paginaAtual = isset($_GET['page']) ? $_GET['page'] : 1;
             $offset = ($paginaAtual*$limit) - $limit;
 
-            $qntTotal = count($barbeiros->selectBarbeiro('*' , array('1'=>'1')));
+            $qntTotal = count($barbeiros->selectUsuario('*' , array('1'=>'1')));
 
             $proximaPagina = ($qntTotal > ($paginaAtual*$limit)) ? URL_BASE."admin/barbeiros?page=".($paginaAtual+1) : false;
 
             $paginaAnterior = ($paginaAtual > 1) ? URL_BASE."admin/barbeiros?page=".($paginaAtual-1) : false;
 
-            $lista = $barbeiros->selectBarbeirosPage($limit, $offset);
+            $lista = $barbeiros->selectUsuariosPage($limit, $offset);
         }
       
         $config = new Configuracao();
@@ -77,9 +76,9 @@ final class BarbeiroController
     ) {
         $id = $args['id'];
 
-        $barbeiros = new Barbeiro();
+        $barbeiros = new Usuario();
 
-        $resultado = $barbeiros->selectBarbeiro('*', array('id' => $id))[0];
+        $resultado = $barbeiros->selectUsuario('*', array('id' => $id))[0];
 
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
@@ -130,7 +129,7 @@ final class BarbeiroController
             'status' => $status
         );
         
-        $barbeiros = new Barbeiro();
+        $barbeiros = new Usuario();
         
         $barbeiros->insertBarbeiro($campos);
 
@@ -189,7 +188,7 @@ final class BarbeiroController
         if($imagem_atualizar) {
             $campos['imagem_principal'] = $nome_imagem_principal;
         }
-        $barbeiros = new Barbeiro();
+        $barbeiros = new Usuario();
         
         $barbeiros->updateBarbeiro($campos, array('*'));
 
@@ -206,7 +205,7 @@ final class BarbeiroController
     ) {
        $id = $request->getParsedBody()['id'];
 
-       $barbeiros = new Barbeiro();
+       $barbeiros = new Usuario;
 
        $resultado = $barbeiros->selectBarbeiro('*', array('id' => $id))[0];
 

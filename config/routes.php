@@ -19,6 +19,15 @@ return function (App $app) {
     $app->post('/admin/servicos_update', '\App\Controller\ServicoController:servicos_update');
     $app->post('/admin/servicos_delete', '\App\Controller\ServicoController:servicos_delete');
 
+
+    //CONTROLADOR BARBEIROS
+    $app->get('/admin/barbeiros', '\App\Controller\BarbeiroController:barbeiros');
+    $app->get('/admin/barbeiros-create', '\App\Controller\BarbeiroController:barbeiros_create');
+    $app->get('/admin/barbeiros-edit/{id}', '\App\Controller\BarbeiroController:barbeiros_edit');
+    $app->post('/admin/barbeiros_insert', '\App\Controller\BarbeiroController:barbeiros_insert');
+    $app->post('/admin/barbeiros_update', '\App\Controller\BarbeiroController:barbeiros_update');
+    $app->post('/admin/barbeiros_delete', '\App\Controller\BarbeiroController:barbeiros_delete');
+    
     //CONTROLADOR AGENDAMENTO
     $app->get('/admin/agendamentos', '\App\Controller\AgendamentoController:agendamentos');
     $app->get('/admin/agendamentos-create', '\App\Controller\AgendamentoController:agendamentos_create');
