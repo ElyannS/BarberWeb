@@ -34,6 +34,19 @@ class Usuario extends Model {
 	{
 		return $this->select($this->table, $campos, $where);
 	}
+	function selectUsuariosPage($limit, $offset)
+	{
+		$sql = "SELECT * FROM ".$this->table." ORDER BY id DESC LIMIT ".$offset.", ".$limit;
+
+		return $this->querySelect($sql);
+	}
+	function selectUsuariosPesquisa($pesquisa)
+	{
+		$sql = "SELECT * FROM ".$this->table." WHERE titulo LIKE '%".$pesquisa."%' ORDER BY id DESC";
+
+		return $this->querySelect($sql);
+	}
+	
 	public static function verificarLogin() 
 	{
 		if (!isset($_SESSION)) {

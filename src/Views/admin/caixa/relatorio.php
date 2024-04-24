@@ -26,7 +26,9 @@
         </div>
         
         <div class="row1">
-            <p>Voce fez <small>5 atendimentos</small> no perído.</p>
+            <div id="relato">
+
+            </div>
             <h1 id="valorTotal"></h1>
         </div>
     </div>

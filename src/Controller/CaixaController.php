@@ -52,40 +52,6 @@ final class CaixaController
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
 
-        $caixa = new Caixa();
-
-        // Data de uma semana atrás
-        $dataInicioW = date('Y-m-d', strtotime('-1 week'));
-        $dataFimW = date('Y-m-d');
-        
-        $sql = "SELECT SUM(dinheiro) + SUM(pix) + SUM(cartao) as valorTotal FROM caixa WHERE data BETWEEN '{$dataInicioW}' AND '{$dataFimW}'";
-        $resultado = $caixa->querySelect($sql);
-        
-        $valorTotalSemana = $resultado[0]['valorTotal'];
-        
-        $caixa = new Caixa();
-
-        // Data de um mês atrás
-        $dataInicioM = date('Y-m-d', strtotime('-1 month'));
-        $dataFimM = date('Y-m-d');
-
-        $sql = "SELECT SUM(dinheiro) + SUM(pix) + SUM(cartao) as valorTotal FROM caixa WHERE data BETWEEN '{$dataInicioM}' AND '{$dataFimM}'";
-        $resultado = $caixa->querySelect($sql);
-
-        $valorTotalMes = $resultado[0]['valorTotal'];
-
-      
-        $caixa = new Caixa();
-
-        // Data de um ano atrás
-        $dataInicioA = date('Y-m-d', strtotime('-1 year'));
-        $dataFimA = date('Y-m-d');
-        
-        $sql = "SELECT SUM(dinheiro) + SUM(pix) + SUM(cartao) as valorTotal FROM caixa WHERE data BETWEEN '{$dataInicioA}' AND '{$dataFimA}'";
-        $resultado = $caixa->querySelect($sql);
-        
-        $valorTotalAno = $resultado[0]['valorTotal'];
-        
         $data['informacoes'] = array(
             'menu_active' => 'caixa',
             'lista' => $lista,
@@ -93,9 +59,6 @@ final class CaixaController
             'proximaPagina' => $proximaPagina,
             'paginaAnterior' => $paginaAnterior,
             'nome_logo' => $nome_logo_site,
-            'resultadoSemana' => $valorTotalSemana,
-            'resultadoMes' => $valorTotalMes,
-            'resultadoAno' => $valorTotalAno
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/caixa");
         return $renderer->render($response, "caixa.php", $data);
@@ -276,6 +239,15 @@ final class CaixaController
                 $data2 = $params['data2'];
                 
                 if($data1 === $data2){
+                                             
+                    $caixa = new Caixa();
+                    
+                    $sql = "SELECT COUNT(*) AS total_caixa FROM caixa WHERE data = '$data1'";
+                    $resultado = $caixa->querySelect($sql);
+                    
+                    $totalCaixa = $resultado[0]['total_caixa'];
+                
+                    
 
                     $caixa = new Caixa();
                     $resultado = $caixa->selectPorData($data1);
@@ -283,29 +255,34 @@ final class CaixaController
                     $valorTotal = '0';
 
                     foreach ($resultado as $registro) {
-                        // Soma os valores das colunas 'dinheiro', 'pix' e 'cartao'
                         $valorTotal += $registro['dinheiro'] + $registro['pix'] + $registro['cartao'];
                     }
 
-                    $responseData = ['relatorio' => $valorTotal];
+                    $responseData = ['relatorio' => $valorTotal, 'atendimento' => $totalCaixa];
                     $response = $response->withHeader('Content-Type', 'application/json');
                     $response->getBody()->write(json_encode($responseData));
                     return $response;
                 } else{
+                    $caixa = new Caixa();
+                    
+                    $sql = "SELECT COUNT(*) AS total_caixa FROM caixa WHERE data BETWEEN '{$data1}' AND '{$data2}'";
+                    $resultado = $caixa->querySelect($sql);
+                    
+                    $totalCaixa = $resultado[0]['total_caixa'];
+
 
                     $caixa = new Caixa();
 
-                // Data de uma semana atrás
-                $dataInicioW = date('Y-m-d', strtotime($data1));
-                $dataFimW = date('Y-m-d', strtotime($data2));
-                
-                $sql = "SELECT SUM(dinheiro) + SUM(pix) + SUM(cartao) as valorTotal FROM caixa WHERE data BETWEEN '{$dataInicioW}' AND '{$dataFimW}'";
-                $resultado = $caixa->querySelect($sql);
-                
-                $relatorio = $resultado[0]['valorTotal'];
+                    $dataInicioW = date('Y-m-d', strtotime($data1));
+                    $dataFimW = date('Y-m-d', strtotime($data2));
+                    
+                    $sql = "SELECT SUM(dinheiro) + SUM(pix) + SUM(cartao) as valorTotal FROM caixa WHERE data BETWEEN '{$dataInicioW}' AND '{$dataFimW}'";
+                    $resultado = $caixa->querySelect($sql);
+                    
+                    $relatorio = $resultado[0]['valorTotal'];
                 }
 
-                $responseData = ['relatorio' => $relatorio];
+                $responseData = ['relatorio' => $relatorio,  'atendimento' => $totalCaixa];
                 $response = $response->withHeader('Content-Type', 'application/json');
                 $response->getBody()->write(json_encode($responseData));
                 return $response;
