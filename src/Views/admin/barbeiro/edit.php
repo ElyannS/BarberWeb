@@ -12,8 +12,10 @@
             <form action="<?=URL_BASE?>admin/barbeiros_update" method="post" enctype="multipart/form-data">
             <div class="row">
                     <label>
-                        Gestor
-                        <input type="checkbox" name="gestor" value="1" <?php if($data['informacoes']['barbeiro']['type'] === '1') echo 'checked'?>>
+                        <?php if($data['informacoes']['barbeiro']['type'] === '1'){ ?>
+                            Gestor
+                            <input type="checkbox" name="gestor" value="1" <?php if($data['informacoes']['barbeiro']['type'] === '1') echo 'checked'?>>
+                        <?php } ?>
                     </label>
                 </div>
                 <div class="row">
