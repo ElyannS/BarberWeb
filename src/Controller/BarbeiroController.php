@@ -63,8 +63,12 @@ final class BarbeiroController
         $args
     ) {
        
+        $config = new Configuracao();
+        $nome_logo_site = $config->getConfig('logo_site');
+
         $data['informacoes'] = array(
             'menu_active' => 'barbeiros',
+            'nome_logo' => $nome_logo_site
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/barbeiro");
         return $renderer->render($response, "create.php", $data);
@@ -98,9 +102,13 @@ final class BarbeiroController
         ResponseInterface $response,
         $args
     ) {
+        
         $nome = $request->getParsedBody()['nome'];
-        $cargo = $request->getParsedBody()['cargo'];
+        $email = $request->getParsedBody()['email'];
         $status = $request->getParsedBody()['ativo'];
+        $type = $request->getParsedBody()['gestor'];
+        $password = $request->getParsedBody()['password'];
+
 
         $nome_imagem_principal = "";
 
@@ -121,17 +129,19 @@ final class BarbeiroController
                 $imagem_principal->moveTo($nome_imagem_principal);
             }
         }
-
+       
         $campos = array(
             'nome' => $nome,
-            'cargo' => $cargo,
+            'eamil' => $email,
             'imagem_principal' => $nome_imagem_principal,
-            'status' => $status
+            'status' => $status,
+            'type' => $type,
         );
+        $campos['senha'] = password_hash($password, PASSWORD_DEFAULT, ["const"=>12]);
         
         $barbeiros = new Usuario();
         
-        $barbeiros->insertBarbeiro($campos);
+        $barbeiros->insertUsuario($campos);
 
         header('Location: '.URL_BASE.'admin/barbeiros');
         exit();
@@ -143,9 +153,9 @@ final class BarbeiroController
         $args
     ) {
         $nome = $request->getParsedBody()['nome'];
-        $cargo = $request->getParsedBody()['cargo'];
+        $email = $request->getParsedBody()['email'];
         $status = $request->getParsedBody()['ativo'];
-
+        $type = $request->getParsedBody()['gestor'];
 
         $nome_imagem_atual = $request->getParsedBody()['nome_imagem_atual'];
 
@@ -181,9 +191,10 @@ final class BarbeiroController
 
         $campos = array(
             'nome' => $nome,
-            'cargo' => $cargo,
-            'imagem_principal' => $nome_imagem_principal,
-            'status' => $status
+            'status' => $status,
+            'eamil' => $email,
+            'type' => $type,
+            'imagem_principal' => $nome_imagem_principal
         );
         if($imagem_atualizar) {
             $campos['imagem_principal'] = $nome_imagem_principal;

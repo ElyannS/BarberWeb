@@ -1,24 +1,37 @@
 <?=$this->fetch('../commons/header.php', $data)?>
-<section class="dashboard">
+<section class="dashboard background-white">
     <div class="container">
         <div class="titulo_pagina">
-        <i class="fa-solid fa-user"></i> Barbeiros - Novo 
+            <div class="titulo-migalha">
+                <i class="fa-solid fa-circle"></i>
+                <p>Barbeiro - Cadastrar Novo</p>
+            </div>
         </div>
         <div class="form">
             <form action="<?=URL_BASE?>admin/barbeiros_insert" method="post" enctype="multipart/form-data">
                 <div class="row">
-                    <div class="row">
-                        <label>
-                            Nome
-                            <input type="text" name="nome" required>
-                        </label>
-                    </div>
-                    <div class="row">
                     <label>
-                            Cargo
-                            <input type="text" name="cargo" required>
-                        </label>
-                    </div>
+                        Gestor
+                        <input type="checkbox" name="gestor" value="1">
+                    </label>
+                </div>
+                <div class="row">
+                    <label>
+                        Nome
+                        <input type="text" name="nome" required>
+                    </label>
+                </div>
+                <div class="row">
+                    <label>
+                        Email
+                        <input type="email" name="email" required>
+                    </label>
+                </div>
+                <div class="row">
+                    <label>
+                        Senha
+                        <input type="password" name="password" required>
+                    </label>
                 </div>
                 <div class="row">
                     <label>

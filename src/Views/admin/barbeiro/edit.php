@@ -1,7 +1,7 @@
 <?=$this->fetch('../commons/header.php', $data)?>
 <section class="dashboard background-white">
     <div class="container">
-    <div class="titulo_pagina">
+        <div class="titulo_pagina">
             <div class="titulo-migalha">
                 <i class="fa-solid fa-circle"></i>
                 <p>Barbeiros - Editar</p>
@@ -10,7 +10,7 @@
        
         <div class="form">
             <form action="<?=URL_BASE?>admin/barbeiros_update" method="post" enctype="multipart/form-data">
-            <div class="row">
+                <div class="row">
                     <label>
                         <?php if($data['informacoes']['barbeiro']['type'] === '1'){ ?>
                             Gestor
@@ -24,7 +24,12 @@
                         <input type="text" name="nome" required value="<?=$data['informacoes']['barbeiro']['nome']?>">
                     </label>
                 </div>
-                
+                <div class="row">
+                    <label>
+                        Email
+                        <input type="email" name="email" value="<?=$data['informacoes']['barbeiro']['email']?>">
+                    </label>
+                </div>
                 <div class="row">
                     <label>
                         Imagem Pricipal
