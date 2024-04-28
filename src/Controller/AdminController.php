@@ -295,14 +295,15 @@ final class AdminController
                 
             $imagem_atualizar = true;
                 if ($foto_usuario->getError() === UPLOAD_ERR_OK) {
+                    unlink($nome_imagem_atual);
+
                     $extensao = pathinfo($foto_usuario->getClientFilename(), PATHINFO_EXTENSION);
     
                     $nome_foto = md5(uniqid(rand(), true)).pathinfo($foto_usuario->getClientFilename(), PATHINFO_FILENAME).".".$extensao;
     
                     $nome_foto_usuario = "resources/imagens/usuario/" . $nome_foto;
 
-                    unlink($nome_imagem_atual);
-
+                    
                     $foto_usuario->moveTo($nome_foto_usuario);
 
                     

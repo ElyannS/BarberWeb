@@ -1,4 +1,13 @@
 $(document).ready(function(){
+  $('#gestor').on('click', function(){
+    if($('#gestor').val() === '1'){
+      $('#gestor').val('2');
+    } else{
+      $('#gestor').val('1');
+    }
+  });
+
+
   var dataAtual = new Date();
   var ano = dataAtual.getFullYear();
   var mes = ('0' + (dataAtual.getMonth() + 1)).slice(-2); 

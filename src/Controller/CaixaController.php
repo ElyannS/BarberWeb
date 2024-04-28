@@ -142,7 +142,6 @@ final class CaixaController
         $args
     ) {
         Usuario::verificarLogin();
-        $servicos = new Caixa();
 
         $dataUrl = $args['id'];
 

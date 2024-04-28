@@ -285,6 +285,9 @@ header{
                 @include desktop{
                     display: none;
                 }
+                @include tablet{
+                    display: none;
+                }
                 ul{
                     li{
                         display: inline-flex;

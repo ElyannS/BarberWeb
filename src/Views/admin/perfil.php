@@ -55,7 +55,7 @@
                 <div class="row">
                     <button type="submit">Salvar</button>
                 </div>
-                <input type="hidden" name="id" value="1">
+                <input type="hidden" name="id" value="<?=$data['informacoes']['usuario']['id']?>">
                 <input type="hidden" name="nome_imagem_atual" value="<?=$data['informacoes']['usuario']['foto_usuario']?>">
                 <div class="alerta light-color"></div>
             </form>

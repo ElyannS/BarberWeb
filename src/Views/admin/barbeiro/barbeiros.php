@@ -7,9 +7,11 @@
                 <p>Barbeiros</p>
             </div>
             <div class="topo">
-                <div class="btn">
-                    <a href="<?=URL_BASE?>admin/barbeiros-create">Cadastrar novo</a>
-                </div>
+                <?php if($data['informacoes']['usuario']['type'] === '1'){ ?>
+                    <div class="btn">
+                        <a href="<?=URL_BASE?>admin/barbeiros-create">Cadastrar novo</a>
+                    </div>
+                <?php } ?>
             </div>
         </div>
         <div class="lista">
@@ -24,21 +26,23 @@
                                 <?=$barbeiros['nome']?>
                             </div>
                         </td>
-                        <td class="acao">
-                            <div class="btn">
-                                <a href="<?=URL_BASE?>admin/barbeiros-edit/<?=$barbeiros['id']?>">Editar</i></a>
-                            </div>
-                            <form action="<?=URL_BASE?>admin/barbeiros_delete" method="post">
-                                <input type="hidden" name="id" value="<?=$barbeiros['id']?>">
-                                <button type="submit"><i class="fa-solid fa-trash"></i></button>
-                            </form>
-                        </td>                      
+                        <?php if($data['informacoes']['usuario']['type'] === '1'){ ?>
+                            <td class="acao">
+                                <div class="btn">
+                                    <a href="<?=URL_BASE?>admin/barbeiros-edit/<?=$barbeiros['id']?>">Editar</i></a>
+                                </div>
+                                <form action="<?=URL_BASE?>admin/barbeiros_delete" method="post">
+                                    <input type="hidden" name="id" value="<?=$barbeiros['id']?>">
+                                    <button type="submit"><i class="fa-solid fa-trash"></i></button>
+                                </form>
+                            </td>                      
+                        <?php } ?>
                     </tr>
                     <?php }?>
                 </tbody>
             </table>
 
-
+            <input type="hidden" name="nome_imagem_atual" value="<?=$data['informacoes']['usuario']['foto_usuario']?>">
 
             <div class="paginacao">
                 <?php if(isset($data['informacoes']['paginaAnterior']) && $data['informacoes']['paginaAnterior'] !== false){?>

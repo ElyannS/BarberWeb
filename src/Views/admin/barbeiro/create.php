@@ -12,7 +12,7 @@
                 <div class="row">
                     <label>
                         Gestor
-                        <input type="checkbox" name="gestor" value="1">
+                        <input type="checkbox" id="gestor" name="gestor" value="2">
                     </label>
                 </div>
                 <div class="row">

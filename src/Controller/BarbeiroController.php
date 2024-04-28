@@ -45,13 +45,16 @@ final class BarbeiroController
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
 
+        $usuario = $_SESSION['usuario_logado'];
+
         $data['informacoes'] = array(
             'menu_active' => 'barbeiros',
             'lista' => $lista,
             'paginaAtual' => $paginaAtual,
             'proximaPagina' => $proximaPagina,
             'paginaAnterior' => $paginaAnterior,
-            'nome_logo' => $nome_logo_site
+            'nome_logo' => $nome_logo_site,
+            'usuario' => $usuario
         );
 
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/barbeiro");
@@ -80,15 +83,22 @@ final class BarbeiroController
     ) {
         $id = $args['id'];
 
+        $usuarioSession = $_SESSION['usuario_logado']['id'];
+
         $barbeiros = new Usuario();
 
         $resultado = $barbeiros->selectUsuario('*', array('id' => $id))[0];
+
+        $usuario = new Usuario();
+
+        $resultadoUsuario = $usuario->selectUsuario('*', array('id' => $usuarioSession))[0];
 
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
         $data['informacoes'] = array(
             'menu_active' => 'barbeiros',
             'barbeiro' => $resultado,
+            'usuario' => $resultadoUsuario,
             'nome_logo' => $nome_logo_site
         );
 
@@ -109,7 +119,6 @@ final class BarbeiroController
         $type = $request->getParsedBody()['gestor'];
         $password = $request->getParsedBody()['password'];
 
-
         $nome_imagem_principal = "";
 
         if($request->getUploadedFiles()['imagem_principal']) {
@@ -124,18 +133,23 @@ final class BarbeiroController
 
                 $nome_imagem = md5(uniqid(rand(), true)).pathinfo($imagem_principal->getClientFilename(), PATHINFO_FILENAME).".".$extensao;
 
-                $nome_imagem_principal = "resources/imagens/time/" . $nome_imagem;
+                $nome_imagem_principal = "resources/imagens/usuario/" . $nome_imagem;
 
                 $imagem_principal->moveTo($nome_imagem_principal);
             }
         }
        
+        if($type === '1'){
+            $gestor = 1;
+        } else{
+            $gestor = 2;
+        }
         $campos = array(
             'nome' => $nome,
-            'eamil' => $email,
-            'imagem_principal' => $nome_imagem_principal,
+            'email' => $email,
+            'foto_usuario' => $nome_imagem_principal,
             'status' => $status,
-            'type' => $type,
+            'type' => $gestor,
         );
         $campos['senha'] = password_hash($password, PASSWORD_DEFAULT, ["const"=>12]);
         
@@ -152,6 +166,7 @@ final class BarbeiroController
         ResponseInterface $response,
         $args
     ) {
+        $id = $request->getParsedBody()['id'];
         $nome = $request->getParsedBody()['nome'];
         $email = $request->getParsedBody()['email'];
         $status = $request->getParsedBody()['ativo'];
@@ -161,47 +176,52 @@ final class BarbeiroController
 
         $imagem_atualizar = false;
 
-        if($request->getUploadedFiles()['imagem_principal']->getClientFilename() !== '') {
+        if($request->getUploadedFiles()['foto_usuario']->getClientFilename() !== '') {
             $imagem_atualizar = true;
             $nome_imagem_principal = "";
 
             //Usuario quer atualizar a imagem principal
-            if($request->getUploadedFiles()['imagem_principal']) {
-                $imagem_principal = $request->getUploadedFiles()['imagem_principal'];
+            if($request->getUploadedFiles()['foto_usuario']) {
+                $imagem_principal = $request->getUploadedFiles()['foto_usuario'];
             } else {
                 $imagem_principal = false;
             }
     
             if($imagem_principal) {
                 if ($imagem_principal->getError() === UPLOAD_ERR_OK) {
+                    unlink($nome_imagem_atual); // deleta as imagens do diretorio
+
                     $extensao = pathinfo($imagem_principal->getClientFilename(), PATHINFO_EXTENSION);
     
                     $nome_imagem = md5(uniqid(rand(), true)).pathinfo($imagem_principal->getClientFilename(), PATHINFO_FILENAME).".".$extensao;
     
-                    $nome_imagem_principal = "resources/imagens/time/" . $nome_imagem;
+                    $nome_imagem_principal = "resources/imagens/usuario/" . $nome_imagem;
 
                     $imagem_principal->moveTo($nome_imagem_principal);
                    
-                    unlink($nome_imagem_atual); // deleta as imagens do diretorio
 
 
                 }
             }
         }
+        if($type === '1'){
+            $gestor = 1;
+        } else{
+            $gestor = 2;
+        }
 
         $campos = array(
             'nome' => $nome,
             'status' => $status,
-            'eamil' => $email,
-            'type' => $type,
-            'imagem_principal' => $nome_imagem_principal
+            'email' => $email,
+            'type' => $gestor,
         );
         if($imagem_atualizar) {
-            $campos['imagem_principal'] = $nome_imagem_principal;
+            $campos['foto_usuario'] = $nome_imagem_principal;
         }
         $barbeiros = new Usuario();
         
-        $barbeiros->updateBarbeiro($campos, array('*'));
+        $barbeiros->updateUsuario($campos, array('id' => $id));
 
 
         header('Location: '.URL_BASE.'admin/barbeiros');

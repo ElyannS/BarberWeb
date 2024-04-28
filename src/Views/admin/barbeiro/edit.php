@@ -12,9 +12,9 @@
             <form action="<?=URL_BASE?>admin/barbeiros_update" method="post" enctype="multipart/form-data">
                 <div class="row">
                     <label>
-                        <?php if($data['informacoes']['barbeiro']['type'] === '1'){ ?>
+                        <?php if($data['informacoes']['usuario']['type'] === '1'){ ?>
                             Gestor
-                            <input type="checkbox" name="gestor" value="1" <?php if($data['informacoes']['barbeiro']['type'] === '1') echo 'checked'?>>
+                            <input type="checkbox" name="gestor" id="gestor" value="2" <?php if($data['informacoes']['barbeiro']['type'] === '1') echo 'checked'?>>
                         <?php } ?>
                     </label>
                 </div>
@@ -33,7 +33,7 @@
                 <div class="row">
                     <label>
                         Imagem Pricipal
-                        <input type="file" name="imagem_principal" accept="image/*">
+                        <input type="file" name="foto_usuario" accept="image/*">
                     </label>
                     <div class="img">
                         <img src="<?=URL_BASE.$data['informacoes']['barbeiro']['foto_usuario']?>">
