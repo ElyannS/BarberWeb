@@ -88,12 +88,14 @@
                             Usuário
                         </a>
                     </li>
-                    <li class="<?=($data['informacoes']['menu_active'] === 'site') ? 'active' : ''?>">
-                        <a href="<?=URL_BASE?>admin/site">
-                            <img class="icon_svg" src="<?=URL_BASE?>resources/imagens/parametros.svg">
-                            Parametros
-                        </a>
-                    </li> 
+                    <?php if($data['informacoes']['usuario']['type'] === '1'){ ?>
+                        <li class="<?=($data['informacoes']['menu_active'] === 'site') ? 'active' : ''?>">
+                            <a href="<?=URL_BASE?>admin/site">
+                                <img class="icon_svg" src="<?=URL_BASE?>resources/imagens/parametros.svg">
+                                Parametros
+                            </a>
+                        </li> 
+                    <?php } ?>
                     <hr> 
                     <li>
                         <a href="<?=URL_BASE?>admin/logout">

@@ -18,6 +18,11 @@ final class CaixaController
     ) {
         Usuario::verificarLogin();
         $servicos = new Caixa();
+        $emailUser = $_SESSION['usuario_logado']['email'];
+        $usuario = new Usuario();
+        $usuarioInfo = $usuario->selectUsuario('*', ['email' => $emailUser]);
+        $idBarbeiro = $usuarioInfo[0]['id'];
+
 
         if(isset($_GET['pesquisa']) && $_GET['pesquisa'] !== ''){
             $lista = $servicos->selectCaixaPesquisa($_GET['pesquisa']);
@@ -42,7 +47,7 @@ final class CaixaController
     
                 // Agora, obtenha as transações para a página atual usando os IDs obtidos anteriormente
                 $ids = implode(',', array_column($datasDistintas, 'id'));
-                $sqlLista = "SELECT * FROM caixa WHERE id IN ({$ids})";
+                $sqlLista = "SELECT * FROM caixa WHERE id IN ({$ids}) AND caixa.id_barbeiro = {$idBarbeiro}";
                 $lista = $servicos->querySelect($sqlLista);
             } else{
                 $lista = [];
@@ -52,6 +57,8 @@ final class CaixaController
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
 
+        $usuario = $_SESSION['usuario_logado'];
+
         $data['informacoes'] = array(
             'menu_active' => 'caixa',
             'lista' => $lista,
@@ -59,6 +66,7 @@ final class CaixaController
             'proximaPagina' => $proximaPagina,
             'paginaAnterior' => $paginaAnterior,
             'nome_logo' => $nome_logo_site,
+            'usuario' => $usuario
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/caixa");
         return $renderer->render($response, "caixa.php", $data);
@@ -71,18 +79,15 @@ final class CaixaController
         $args
     ) {
         Usuario::verificarLogin();
-        $servicos = new Caixa();
         
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
 
-        $caixa = new Caixa();
-        $consultaCaixa = $caixa->selectCaixa('*', array(1 => '1'));
+       
 
         $data['informacoes'] = array(
             'menu_active' => 'caixa',
-            'nome_logo' => $nome_logo_site,
-            'lista' => $consultaCaixa,
+            'nome_logo' => $nome_logo_site
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/caixa");
         return $renderer->render($response, "create.php", $data);
@@ -93,18 +98,14 @@ final class CaixaController
         $args
     ) {
         Usuario::verificarLogin();
-        $servicos = new Caixa();
         
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
 
-        $caixa = new Caixa();
-        $consultaCaixa = $caixa->selectCaixa('*', array(1 => '1'));
 
         $data['informacoes'] = array(
             'menu_active' => 'caixa',
-            'nome_logo' => $nome_logo_site,
-            'lista' => $consultaCaixa,
+            'nome_logo' => $nome_logo_site
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/caixa");
         return $renderer->render($response, "relatorio.php", $data);
@@ -116,7 +117,6 @@ final class CaixaController
         $args
     ) {
         Usuario::verificarLogin();
-        $servicos = new Caixa();
 
         $id = $args['id'];
 
@@ -144,9 +144,14 @@ final class CaixaController
         Usuario::verificarLogin();
 
         $dataUrl = $args['id'];
+        
+        $emailUser = $_SESSION['usuario_logado']['email'];
+        $usuario = new Usuario();
+        $usuarioInfo = $usuario->selectUsuario('*', ['email' => $emailUser]);
+        $idBarbeiro = $usuarioInfo[0]['id'];
 
         $caixa = new Caixa();
-        $resultado = $caixa->selectPorData($dataUrl);
+        $resultado = $caixa->selectPorData($dataUrl, $idBarbeiro);
 
 
         $valorTotalDinheiro = 0;
@@ -201,6 +206,11 @@ final class CaixaController
         $pix = ($pix !== null) ? trim($pix) : null;
         $cartao = ($cartao !== null) ? trim($cartao) : null;
     
+        Usuario::verificarLogin();
+        $emailUser = $_SESSION['usuario_logado']['email'];
+        $usuario = new Usuario();
+        $usuarioInfo = $usuario->selectUsuario('*', ['email' => $emailUser]);
+        $idBarbeiro = $usuarioInfo[0]['id'];
 
         // Verifica se pelo menos um dos valores não é nulo antes de inserir no banco de dados
         if ($nome_cliente !== null || $data !== null || $dinheiro !== null || $pix !== null || $cartao !== null) {
@@ -210,6 +220,7 @@ final class CaixaController
                 'dinheiro' => $dinheiro,
                 'pix' => $pix,
                 'cartao' => $cartao,
+                'id_barbeiro' => $idBarbeiro
             ));
             
             $caixa = new Caixa();
@@ -240,16 +251,22 @@ final class CaixaController
                 if($data1 === $data2){
                                              
                     $caixa = new Caixa();
+                    Usuario::verificarLogin();
+                    $emailUser = $_SESSION['usuario_logado']['email'];
+                    $usuario = new Usuario();
+                    $usuarioInfo = $usuario->selectUsuario('*', ['email' => $emailUser]);
+                    $idBarbeiro = $usuarioInfo[0]['id'];
                     
-                    $sql = "SELECT COUNT(*) AS total_caixa FROM caixa WHERE data = '$data1'";
+                    $sql = "SELECT COUNT(*) AS total_caixa FROM caixa WHERE data = '$data1' AND caixa.id_barbeiro = '$idBarbeiro'";
                     $resultado = $caixa->querySelect($sql);
                     
                     $totalCaixa = $resultado[0]['total_caixa'];
                 
                     
-
+                   
+            
                     $caixa = new Caixa();
-                    $resultado = $caixa->selectPorData($data1);
+                    $resultado = $caixa->selectPorData($data1, $idBarbeiro);
 
                     $valorTotal = '0';
 
@@ -263,8 +280,13 @@ final class CaixaController
                     return $response;
                 } else{
                     $caixa = new Caixa();
-                    
-                    $sql = "SELECT COUNT(*) AS total_caixa FROM caixa WHERE data BETWEEN '{$data1}' AND '{$data2}'";
+                    Usuario::verificarLogin();
+                    $emailUser = $_SESSION['usuario_logado']['email'];
+                    $usuario = new Usuario();
+                    $usuarioInfo = $usuario->selectUsuario('*', ['email' => $emailUser]);
+                    $idBarbeiro = $usuarioInfo[0]['id'];
+
+                    $sql = "SELECT COUNT(*) AS total_caixa FROM caixa WHERE data BETWEEN '{$data1}' AND '{$data2}' AND caixa.id_barbeiro = '{$idBarbeiro}'";
                     $resultado = $caixa->querySelect($sql);
                     
                     $totalCaixa = $resultado[0]['total_caixa'];

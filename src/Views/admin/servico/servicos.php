@@ -7,9 +7,11 @@
                 <p>Serviços</p>
             </div>
             <div class="topo">
-                <div class="btn">
-                    <a href="<?=URL_BASE?>admin/servicos-create">Cadastrar novo</a>
-                </div>
+                <?php if($data['informacoes']['usuario']['type'] === '1'){ ?>
+                    <div class="btn">
+                        <a href="<?=URL_BASE?>admin/servicos-create">Cadastrar novo</a>
+                    </div>
+                <?php }?>
             </div> 
         </div>
 
@@ -32,16 +34,17 @@
                                 <span class="span-clock"><i class="fa-regular fa-clock"></i> 30 min </span>
                             </div>
                         </td>
-                        <td class="acao">
-                            <div class="btn">
-                                <a href="<?=URL_BASE?>admin/servicos-edit/<?=$servico['id']?>">Editar</a>
-                            </div>
-                            <form action="<?=URL_BASE?>admin/servicos_delete" method="post">
-                                <input type="hidden" name="id" value="<?=$servico['id']?>">
-                                <button type="submit"><i class="fa-solid fa-trash"></i></i></button>
-                            </form>
-                        </td>
-                        
+                        <?php if($data['informacoes']['usuario']['type'] === '1'){ ?>
+                            <td class="acao">
+                                <div class="btn">
+                                    <a href="<?=URL_BASE?>admin/servicos-edit/<?=$servico['id']?>">Editar</a>
+                                </div>
+                                <form action="<?=URL_BASE?>admin/servicos_delete" method="post">
+                                    <input type="hidden" name="id" value="<?=$servico['id']?>">
+                                    <button type="submit"><i class="fa-solid fa-trash"></i></i></button>
+                                </form>
+                            </td>
+                        <?php } ?>
                     </tr>
                     <?php }?>
                 </tbody>

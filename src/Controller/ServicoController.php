@@ -39,15 +39,20 @@ final class ServicoController
 
             $lista = $servicos->selectServicosPage($limit, $offset);
         }
+
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
+        
+        $usuario = $_SESSION['usuario_logado'];
+
         $data['informacoes'] = array(
             'menu_active' => 'servicos',
             'lista' => $lista,
             'paginaAtual' => $paginaAtual,
             'proximaPagina' => $proximaPagina,
             'paginaAnterior' => $paginaAnterior,
-            'nome_logo' => $nome_logo_site
+            'nome_logo' => $nome_logo_site,
+            'usuario' => $usuario
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/servico");
         return $renderer->render($response, "servicos.php", $data);

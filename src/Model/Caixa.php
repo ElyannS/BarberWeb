@@ -46,10 +46,10 @@ class Caixa extends Model {
 
 		return $this->querySelect($sql);
 	}
-	
-	function selectPorData($data) {
-        $sql = "SELECT * FROM caixa WHERE data = '{$data}' ORDER BY id DESC";
-        return $this->querySelect($sql);
-    }
-
+	function selectPorData($data, $barbeiroId): array
+	{
+		$sql = "SELECT * FROM caixa WHERE data = :data AND caixa.id_barbeiro = :barbeiroId";
+		$stmt = $this->querySelect($sql, array(':data' => $data, ':barbeiroId' => $barbeiroId));
+		return $stmt;	
+	}
 }

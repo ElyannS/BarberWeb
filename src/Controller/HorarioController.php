@@ -39,6 +39,8 @@ final class HorarioController
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
         
+        $usuario = $_SESSION['usuario_logado'];
+
         $data['informacoes'] = array(
             'menu_active' => 'horarios',
             'lista' => $lista,
@@ -46,7 +48,7 @@ final class HorarioController
             'proximaPagina' => $proximaPagina,
             'paginaAnterior' => $paginaAnterior,
             'nome_logo' => $nome_logo_site,
-            
+            'usuario' => $usuario
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/horario");
         return $renderer->render($response, "horario.php", $data);

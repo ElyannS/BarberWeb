@@ -10,7 +10,7 @@
                     <div class="circulo"><img class="icon_svg" src="<?=URL_BASE?>resources/imagens/calendar.svg"></div>
                     <p>Agenda</p>
                 </a>
-                <a href="#" class="item_menu">
+                <a href="<?=URL_BASE?>admin/caixa" class="item_menu">
                     <div class="circulo"><img class="icon_svg" src="<?=URL_BASE?>resources/imagens/cash.svg"></div>
                     <p>Caixa</p>
                 </a>
@@ -20,7 +20,7 @@
                     <div class="circulo"><img class="icon_svg" src="<?=URL_BASE?>resources/imagens/servico.svg"></div>
                     <p>Serviços</p>
                 </a>
-                <a href="#" class="item_menu">
+                <a href="<?=URL_BASE?>admin/barbeiros" class="item_menu">
                     <div class="circulo"><img class="icon_svg" src="<?=URL_BASE?>resources/imagens/barber.svg"></div>
                     <p>Barbeiros</p>
                 </a>

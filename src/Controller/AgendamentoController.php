@@ -33,12 +33,15 @@ final class AgendamentoController
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
         
+        
+        $usuario = $_SESSION['usuario_logado'];
 
         $data['informacoes'] = array(
             'menu_active' => 'agendamentos',
             'agendamento' => $consultaAgendamentos,
             'barbeiro' => $resultado,
-            'nome_logo' => $nome_logo_site
+            'nome_logo' => $nome_logo_site,
+            'usuario' => $usuario
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/agendamento");
         return $renderer->render($response, "agendamentos.php", $data);
