@@ -80,7 +80,6 @@
                             </div>
                             <div class="w-20">
                                 <label for="data">
-
                                     Data
                                     <input type="date" id="data" name="data">
                                 </label>
