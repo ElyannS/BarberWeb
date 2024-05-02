@@ -83,11 +83,12 @@ final class CaixaController
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
 
-       
+        $usuario = $_SESSION['usuario_logado'];
 
         $data['informacoes'] = array(
             'menu_active' => 'caixa',
-            'nome_logo' => $nome_logo_site
+            'nome_logo' => $nome_logo_site,
+            'usuario' => $usuario
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/caixa");
         return $renderer->render($response, "create.php", $data);
@@ -102,10 +103,12 @@ final class CaixaController
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
 
+        $usuario = $_SESSION['usuario_logado'];
 
         $data['informacoes'] = array(
             'menu_active' => 'caixa',
-            'nome_logo' => $nome_logo_site
+            'nome_logo' => $nome_logo_site,
+            'usuario' => $usuario
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/caixa");
         return $renderer->render($response, "relatorio.php", $data);
@@ -125,13 +128,16 @@ final class CaixaController
         $resultado = $caixa->selectCaixa('*', array('id' => $id))[0];
 
 
+        $usuario = $_SESSION['usuario_logado'];
 
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
+
         $data['informacoes'] = array(
             'menu_active' => 'caixa',
             'lista' => $resultado,
-            'nome_logo' => $nome_logo_site
+            'nome_logo' => $nome_logo_site,
+            'usuario' => $usuario
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/caixa");
         return $renderer->render($response, "edit.php", $data);
@@ -175,6 +181,9 @@ final class CaixaController
         
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
+
+        $usuario = $_SESSION['usuario_logado'];
+
         $data['informacoes'] = array(
             'menu_active' => 'caixa',
             'lista' => $resultado,
@@ -184,6 +193,7 @@ final class CaixaController
             'valorDinheiro' => $valorTotalDinheiro,
             'valorPix' => $valorTotalPix,
             'valorCartao' => $valorTotalCartao,
+            'usuario' => $usuario
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/caixa");
         return $renderer->render($response, "edit2.php", $data);
