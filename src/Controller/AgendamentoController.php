@@ -46,8 +46,6 @@ final class AgendamentoController
             'nome_logo' => $nome_logo_site,
             'usuario' => $usuario,
             'servico' => $consultaServicos
-            ,3,
-            
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/agendamento");
         return $renderer->render($response, "agendamentos.php", $data);
@@ -304,7 +302,7 @@ final class AgendamentoController
     )  {
         $nome_cliente = $request->getParsedBody()['nome_cliente'];
         $telefone_cliente = $request->getParsedBody()['telefone_cliente'];
-        $data = date('Y-m-d', strtotime($request->getParsedBody()['data']));
+        $data = date('Y-m-d', strtotime($request->getParsedBody()['date']));
         $time = date('H:i', strtotime($request->getParsedBody()['time']));
         $select_barbeiro = $request->getParsedBody()['select_barbeiro'];
         $selectServico = $request->getParsedBody()['select_servico'];
@@ -313,7 +311,9 @@ final class AgendamentoController
         $datetime = $data . ' ' . $time;
         
         
-
+        // '<pre>';
+        // var_dump($idServico, $nome_cliente, $datetime, $select_barbeiro );
+        // exit();
 
         $campos = array(
             'nome_cliente' => $nome_cliente,

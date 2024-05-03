@@ -82,6 +82,7 @@
                                 <label for="data">
                                     Data
                                     <input type="date" id="data" name="data">
+                                    <input type="hidden" id="data1" name="date">
                                 </label>
                             </div>
                         </div>
@@ -96,7 +97,9 @@
                                 Barbeiro
                                 <select name="select_barbeiro" required>
                                     <?php foreach ($data['informacoes']['barbeiro'] as $barbeiros) {?>
-                                        <option value="<?=$barbeiros['id']?>"><?=$barbeiros['nome']?></option>
+                                        <?php if($data['informacoes']['usuario']['id'] === $barbeiros['id']){ ?> 
+                                            <option value="<?=$barbeiros['id']?>"><?=$barbeiros['nome']?></option>
+                                        <?php }?>
                                     <?php }?>
                                 </select>
                             </label>

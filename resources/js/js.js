@@ -99,6 +99,7 @@ $(document).ready(function(){
   
     var valorSelecionado = idHorarioClicado.split('-')[1] + ':' + idHorarioClicado.split('-')[2];
 
+    $('#data1').val(dataInput);
     $('#data').val(dataInput);
     $('#data').attr('disabled', 'disabled');
 
