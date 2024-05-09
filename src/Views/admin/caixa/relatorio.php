@@ -30,6 +30,7 @@
 
             </div>
             <h1 id="valorTotal"></h1>
+            <div id="comissao"></div>
         </div>
     </div>
 </section>

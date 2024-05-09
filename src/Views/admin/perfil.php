@@ -1,5 +1,5 @@
 <?=$this->fetch('commons/header.php', $data)?>
-<section class="dashboard">
+<section class="dashboard height">
     <div class="container">
         <div class="titulo_pagina">
             <div class="titulo-migalha light-color">
@@ -22,6 +22,13 @@
                         <label>
                             E-mail
                             <input type="email" name="email" required value="<?=$data['informacoes']['usuario']['email']?>">
+                        </label>
+                </div>
+                <?php var_dump($data)?>
+                <div class="row">
+                        <label>
+                            Comissão
+                            <input type="number" name="comissao" required value="<?=$data['informacoes']['usuario']['comissao']?>">
                         </label>
                 </div>
                 <div class="row">

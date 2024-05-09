@@ -119,10 +119,13 @@
                 </div>
                 <div class="total-section">
                     Valor total do dia: R$ <?=$data['informacoes']['valorDoDia']?>
+                </div>
+                <div class="total-section">
+                    Valor Comissão do dia: R$ <?=$data['informacoes']['valorComissao']?>
+                </div>
             </div>
         </div>
     </div>
-
 </section>
 <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
 <script>

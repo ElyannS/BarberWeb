@@ -2,7 +2,7 @@ $(document).ready(function(){
 
     var currentPagePath = window.location.pathname;
     var specificPagePath = '/BarberWeb-1/admin/caixa-relatorio';
-
+ 
     if (currentPagePath === specificPagePath) {
         function atualizarData(data1, data2) {
             $.ajax({
@@ -15,13 +15,19 @@ $(document).ready(function(){
                    
                     var atendimentos = response.atendimento;
 
+                    var comissao = response.comissao;
+
+
                     $('h1#valorTotal').empty();
                     $('#relato').empty();
+                    $('#comissao').empty();
+
                     if (relatorio == null){
                         $('h1#valorTotal').append('<p>Sem dados para mostrar!</p>');
                     } else{
                         $('#relato').append('<p>Voce fez <small id="#atendimentos">' + atendimentos + ' atendimentos</small> no perído.</p>')
                         $('h1#valorTotal').append('R$ ' + relatorio);
+                        $('#comissao').append('R$ ' + comissao);
                     }
                 
                 },  

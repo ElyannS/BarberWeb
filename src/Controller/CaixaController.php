@@ -155,6 +155,7 @@ final class CaixaController
         $usuario = new Usuario();
         $usuarioInfo = $usuario->selectUsuario('*', ['email' => $emailUser]);
         $idBarbeiro = $usuarioInfo[0]['id'];
+        $comissao = $usuarioInfo[0]['comissao'];
 
         $caixa = new Caixa();
         $resultado = $caixa->selectPorData($dataUrl, $idBarbeiro);
@@ -178,6 +179,7 @@ final class CaixaController
             $valorTotal += $registro['dinheiro'] + $registro['pix'] + $registro['cartao'];
         }
         
+        $valorComissao = $valorTotal * $comissao / 100;
         
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
@@ -193,6 +195,7 @@ final class CaixaController
             'valorDinheiro' => $valorTotalDinheiro,
             'valorPix' => $valorTotalPix,
             'valorCartao' => $valorTotalCartao,
+            'valorComissao' => $valorComissao,
             'usuario' => $usuario
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/caixa");
@@ -266,7 +269,8 @@ final class CaixaController
                     $usuario = new Usuario();
                     $usuarioInfo = $usuario->selectUsuario('*', ['email' => $emailUser]);
                     $idBarbeiro = $usuarioInfo[0]['id'];
-                    
+                    $comissao = $usuarioInfo[0]['comissao'];
+
                     $sql = "SELECT COUNT(*) AS total_caixa FROM caixa WHERE data = '$data1' AND caixa.id_barbeiro = '$idBarbeiro'";
                     $resultado = $caixa->querySelect($sql);
                     
@@ -283,8 +287,10 @@ final class CaixaController
                     foreach ($resultado as $registro) {
                         $valorTotal += $registro['dinheiro'] + $registro['pix'] + $registro['cartao'];
                     }
+                    
+                    $valorComissao = $valorTotal * $comissao / 100;
 
-                    $responseData = ['relatorio' => $valorTotal, 'atendimento' => $totalCaixa];
+                    $responseData = ['relatorio' => $valorTotal, 'atendimento' => $totalCaixa, 'comissao' => $valorComissao];
                     $response = $response->withHeader('Content-Type', 'application/json');
                     $response->getBody()->write(json_encode($responseData));
                     return $response;
@@ -295,6 +301,7 @@ final class CaixaController
                     $usuario = new Usuario();
                     $usuarioInfo = $usuario->selectUsuario('*', ['email' => $emailUser]);
                     $idBarbeiro = $usuarioInfo[0]['id'];
+                    $comissao = $usuarioInfo[0]['comissao'];
 
                     $sql = "SELECT COUNT(*) AS total_caixa FROM caixa WHERE data BETWEEN '{$data1}' AND '{$data2}' AND caixa.id_barbeiro = '{$idBarbeiro}'";
                     $resultado = $caixa->querySelect($sql);
@@ -311,9 +318,10 @@ final class CaixaController
                     $resultado = $caixa->querySelect($sql);
                     
                     $relatorio = $resultado[0]['valorTotal'];
+                    $valorComissao = $relatorio * $comissao / 100;
                 }
 
-                $responseData = ['relatorio' => $relatorio,  'atendimento' => $totalCaixa];
+                $responseData = ['relatorio' => $relatorio,  'atendimento' => $totalCaixa , 'comissao' => $valorComissao];
                 $response = $response->withHeader('Content-Type', 'application/json');
                 $response->getBody()->write(json_encode($responseData));
                 return $response;

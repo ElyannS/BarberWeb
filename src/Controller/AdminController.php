@@ -134,11 +134,12 @@ final class AdminController
             $info[$c['nome']] = $c['valor'];
             
         }
-
+        $usuario = $_SESSION['usuario_logado'];
         $data['informacoes'] = array(
             'menu_active' => 'site',
             'nome_logo' => $nome_logo_site,
-            'info' => $info
+            'info' => $info,
+            'usuario' => $usuario
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN);
         return $renderer->render($response, "site.php", $data);
@@ -264,6 +265,7 @@ final class AdminController
         $id = $request->getParsedBody()['id'];
         $nome = $request->getParsedBody()['nome'];
         $email = $request->getParsedBody()['email'];
+        $comissao = $request->getParsedBody()['comissao'];
         $senha = $request->getParsedBody()['senha'];
         $confirmar_senha = $request->getParsedBody()['confirmar_senha'];
         $nome_imagem_atual = $request->getParsedBody()['nome_imagem_atual'];
@@ -316,7 +318,8 @@ final class AdminController
         $campos = array(
             'nome' => $nome,
             'email' => $email,
-            'data_cadastro' => date('Y-m-d')
+            'data_cadastro' => date('Y-m-d'),
+            'comissao' => $comissao
         );
         if($imagem_atualizar) {
             $campos['foto_usuario'] = $nome_foto_usuario;
