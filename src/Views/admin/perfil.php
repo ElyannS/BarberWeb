@@ -24,7 +24,6 @@
                             <input type="email" name="email" required value="<?=$data['informacoes']['usuario']['email']?>">
                         </label>
                 </div>
-                <?php var_dump($data)?>
                 <div class="row">
                         <label>
                             Comissão
