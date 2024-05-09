@@ -56,24 +56,26 @@
                         background-color: $color_destaque_hover;
                     }
                 }
-                .resposta{
+                .alerta{
                     width: 100%;
                     display: block;
                     padding: 10px 0px;
                     font-size: 16px;
                     margin-top: 20px;
                 }
-                .resposta.sucesso{
+                .alerta.sucesso{
                     border: 1px solid green;
                     background-color: #95ff95;
                     color: #050;
                     font-family: 'Montserrat Bold';
+                    text-align: center;
                 }
-                .resposta.error{
+                .alerta.erro{
                     border: 1px solid red;
                     background-color: #ffc5c5;
                     color: #aa0202;
                     font-family: 'Montserrat Bold';
+                    text-align: center;
                 }
             }
         }
