@@ -58,7 +58,7 @@ final class ClienteController
             'usuario' => $usuario
         );
 
-        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/barbeiro");
+        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/cliente");
         return $renderer->render($response, "clientes.php", $data);
     }
     public function clientes_create(
@@ -77,7 +77,7 @@ final class ClienteController
             'nome_logo' => $nome_logo_site,
             'usuario' => $usuario
         );
-        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/barbeiro");
+        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/cliente");
         return $renderer->render($response, "create.php", $data);
     }
     public function clientes_edit(
@@ -91,22 +91,22 @@ final class ClienteController
 
         $clientes = new Usuario();
 
-        $resultado = $clientes->selectUsuario('*', array('id' => $id))[0];
+        $resultado = $clientes->selectCliente('*', array('id' => $id))[0];
 
-        $usuario = new Usuario();
+        $usuario = new Cliente();
 
-        $resultadoUsuario = $usuario->selectUsuario('*', array('id' => $usuarioSession))[0];
+        $resultadoUsuario = $usuario->selectCliente('*', array('id' => $usuarioSession))[0];
 
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
         $data['informacoes'] = array(
             'menu_active' => 'clientes',
-            'barbeiro' => $resultado,
+            'cliente' => $resultado,
             'usuario' => $resultadoUsuario,
             'nome_logo' => $nome_logo_site
         );
 
-        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/barbeiro");
+        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/cliente");
         return $renderer->render($response, "edit.php", $data);
     }
 
@@ -157,9 +157,9 @@ final class ClienteController
         );
         $campos['senha'] = password_hash($password, PASSWORD_DEFAULT, ["const"=>12]);
         
-        $clientes = new Usuario();
+        $clientes = new Cliente();
         
-        $clientes->insertUsuario($campos);
+        $clientes->insertCliente($campos);
 
         header('Location: '.URL_BASE.'admin/clientes');
         exit();
@@ -223,9 +223,9 @@ final class ClienteController
         if($imagem_atualizar) {
             $campos['foto_usuario'] = $nome_imagem_principal;
         }
-        $clientes = new Usuario();
+        $clientes = new Cliente();
         
-        $clientes->updateUsuario($campos, array('id' => $id));
+        $clientes->updateCliente($campos, array('id' => $id));
 
 
         header('Location: '.URL_BASE.'admin/clientes');
@@ -240,13 +240,13 @@ final class ClienteController
     ) {
        $id = $request->getParsedBody()['id'];
 
-       $clientes = new Usuario;
+       $clientes = new Cliente;
 
-       $resultado = $clientes->selectBarbeiro('*', array('id' => $id))[0];
+       $resultado = $clientes->selectCliente('*', array('id' => $id))[0];
 
        unlink($resultado['imagem_principal']);
 
-       $clientes->deleteBarbeiro('id', $id);
+       $clientes->deleteCliente('id', $id);
 
        header('Location: '.URL_BASE.'admin/clientes');
        exit();
