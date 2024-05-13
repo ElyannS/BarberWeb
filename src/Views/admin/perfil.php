@@ -26,7 +26,7 @@
                 </div>
                 <div class="row">
                         <label>
-                            Comissão
+                            Comissão %
                             <input type="number" name="comissao" required value="<?=$data['informacoes']['usuario']['comissao']?>">
                         </label>
                 </div>

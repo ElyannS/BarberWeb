@@ -6,24 +6,25 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\PhpRenderer;
 use App\Model\Usuario;
+use App\Model\Cliente;
 use App\Model\Configuracao;
 
 
-final class BarbeiroController
+final class ClienteController
 {
     function __construct()
     {
         Usuario::verificarLogin();
     }
-    public function barbeiros(
+    public function clientes(
         ServerRequestInterface $request, 
         ResponseInterface $response,
         $args
     ) { 
-        $barbeiros = new Usuario();
+        $clientes = new Cliente();
 
         if(isset($_GET['pesquisa']) && $_GET['pesquisa'] !== ''){
-            $lista = $barbeiros->selectUsuariosPesquisa($_GET['pesquisa']);
+            $lista = $clientes->selectClientesPesquisa($_GET['pesquisa']);
             $paginaAtual = 1;
             $proximaPagina = false;
             $paginaAnterior = false;
@@ -33,13 +34,13 @@ final class BarbeiroController
             $paginaAtual = isset($_GET['page']) ? $_GET['page'] : 1;
             $offset = ($paginaAtual*$limit) - $limit;
 
-            $qntTotal = count($barbeiros->selectUsuario('*' , array('1'=>'1')));
+            $qntTotal = count($clientes->selectCliente('*' , array('1'=>'1')));
 
-            $proximaPagina = ($qntTotal > ($paginaAtual*$limit)) ? URL_BASE."admin/barbeiros?page=".($paginaAtual+1) : false;
+            $proximaPagina = ($qntTotal > ($paginaAtual*$limit)) ? URL_BASE."admin/clientes?page=".($paginaAtual+1) : false;
 
-            $paginaAnterior = ($paginaAtual > 1) ? URL_BASE."admin/barbeiros?page=".($paginaAtual-1) : false;
+            $paginaAnterior = ($paginaAtual > 1) ? URL_BASE."admin/clientes?page=".($paginaAtual-1) : false;
 
-            $lista = $barbeiros->selectUsuariosPage($limit, $offset);
+            $lista = $clientes->selectClientesPage($limit, $offset);
         }
       
         $config = new Configuracao();
@@ -48,7 +49,7 @@ final class BarbeiroController
         $usuario = $_SESSION['usuario_logado'];
 
         $data['informacoes'] = array(
-            'menu_active' => 'barbeiros',
+            'menu_active' => 'clientes',
             'lista' => $lista,
             'paginaAtual' => $paginaAtual,
             'proximaPagina' => $proximaPagina,
@@ -58,9 +59,9 @@ final class BarbeiroController
         );
 
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/barbeiro");
-        return $renderer->render($response, "barbeiros.php", $data);
+        return $renderer->render($response, "clientes.php", $data);
     }
-    public function barbeiros_create(
+    public function clientes_create(
         ServerRequestInterface $request, 
         ResponseInterface $response,
         $args
@@ -72,14 +73,14 @@ final class BarbeiroController
         $usuario = $_SESSION['usuario_logado'];
 
         $data['informacoes'] = array(
-            'menu_active' => 'barbeiros',
+            'menu_active' => 'clientes',
             'nome_logo' => $nome_logo_site,
             'usuario' => $usuario
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/barbeiro");
         return $renderer->render($response, "create.php", $data);
     }
-    public function barbeiros_edit(
+    public function clientes_edit(
         ServerRequestInterface $request, 
         ResponseInterface $response,
         $args
@@ -88,9 +89,9 @@ final class BarbeiroController
 
         $usuarioSession = $_SESSION['usuario_logado']['id'];
 
-        $barbeiros = new Usuario();
+        $clientes = new Usuario();
 
-        $resultado = $barbeiros->selectUsuario('*', array('id' => $id))[0];
+        $resultado = $clientes->selectUsuario('*', array('id' => $id))[0];
 
         $usuario = new Usuario();
 
@@ -99,7 +100,7 @@ final class BarbeiroController
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
         $data['informacoes'] = array(
-            'menu_active' => 'barbeiros',
+            'menu_active' => 'clientes',
             'barbeiro' => $resultado,
             'usuario' => $resultadoUsuario,
             'nome_logo' => $nome_logo_site
@@ -110,7 +111,7 @@ final class BarbeiroController
     }
 
 
-    public function barbeiros_insert(
+    public function clientes_insert(
         ServerRequestInterface $request, 
         ResponseInterface $response,
         $args
@@ -156,15 +157,15 @@ final class BarbeiroController
         );
         $campos['senha'] = password_hash($password, PASSWORD_DEFAULT, ["const"=>12]);
         
-        $barbeiros = new Usuario();
+        $clientes = new Usuario();
         
-        $barbeiros->insertUsuario($campos);
+        $clientes->insertUsuario($campos);
 
-        header('Location: '.URL_BASE.'admin/barbeiros');
+        header('Location: '.URL_BASE.'admin/clientes');
         exit();
     }
 
-    public function barbeiros_update(
+    public function clientes_update(
         ServerRequestInterface $request, 
         ResponseInterface $response,
         $args
@@ -222,32 +223,32 @@ final class BarbeiroController
         if($imagem_atualizar) {
             $campos['foto_usuario'] = $nome_imagem_principal;
         }
-        $barbeiros = new Usuario();
+        $clientes = new Usuario();
         
-        $barbeiros->updateUsuario($campos, array('id' => $id));
+        $clientes->updateUsuario($campos, array('id' => $id));
 
 
-        header('Location: '.URL_BASE.'admin/barbeiros');
+        header('Location: '.URL_BASE.'admin/clientes');
         exit();
     }
 
 
-    public function barbeiros_delete(
+    public function clientes_delete(
         ServerRequestInterface $request, 
         ResponseInterface $response,
         $args
     ) {
        $id = $request->getParsedBody()['id'];
 
-       $barbeiros = new Usuario;
+       $clientes = new Usuario;
 
-       $resultado = $barbeiros->selectBarbeiro('*', array('id' => $id))[0];
+       $resultado = $clientes->selectBarbeiro('*', array('id' => $id))[0];
 
        unlink($resultado['imagem_principal']);
 
-       $barbeiros->deleteBarbeiro('id', $id);
+       $clientes->deleteBarbeiro('id', $id);
 
-       header('Location: '.URL_BASE.'admin/barbeiros');
+       header('Location: '.URL_BASE.'admin/clientes');
        exit();
     }
 

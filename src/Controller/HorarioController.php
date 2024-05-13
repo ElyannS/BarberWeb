@@ -91,6 +91,8 @@ final class HorarioController
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
 
+        $usuario = $_SESSION['usuario_logado'];
+
         $data['informacoes'] = array(
             'menu_active' => 'horarios',
             'horarios' => $resultado,
@@ -98,7 +100,8 @@ final class HorarioController
             'turnoFim1' => $turnoFim1,
             'turnoInicio2' => $turnoInicio2,
             'turnoFim2' => $turnoFim2,
-            'nome_logo' => $nome_logo_site
+            'nome_logo' => $nome_logo_site,
+            'usuario' => $usuario
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/horario");
         return $renderer->render($response, "edit.php", $data);

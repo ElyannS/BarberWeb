@@ -259,11 +259,14 @@ final class AgendamentoController
 
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
-        
+
+        $usuario = $_SESSION['usuario_logado'];
+
         $data['informacoes'] = array(
             'menu_active' => 'agendamentos',
             'barbeiro' => $resultado,
             'servico' => $infoServicos,
+            'usuario' => $usuario,
             'nome_logo' => $nome_logo_site
             );
 
@@ -287,10 +290,14 @@ final class AgendamentoController
 
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
+
+        $usuario = $_SESSION['usuario_logado'];
+        
         $data['informacoes'] = array(
             'menu_active' => 'agendamentos',
             'agendamento' => $resultado,
-            'nome_logo' => $nome_logo_site
+            'nome_logo' => $nome_logo_site,
+            'usuario' => $usuario,
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/agendamento");
         return $renderer->render($response, "edit.php", $data);
@@ -309,11 +316,10 @@ final class AgendamentoController
         $valores = explode(';', $selectServico);
         $idServico = $valores[1];
         $datetime = $data . ' ' . $time;
+   
         
-        
-        // '<pre>';
-        // var_dump($idServico, $nome_cliente, $datetime, $select_barbeiro );
-        // exit();
+
+
 
         $campos = array(
             'nome_cliente' => $nome_cliente,
@@ -369,8 +375,8 @@ final class AgendamentoController
             $agendamentos->insertAgendamento($campos);
              
             $successUrl = URL_BASE . 'agendamento_sucesso?nome_cliente=' . urlencode($nome_cliente) . '&data_hora=' . urlencode($datetime);
-        header('Location: ' . $successUrl);
-        exit();
+            header('Location: ' . $successUrl);
+            exit();
         }
     }
 

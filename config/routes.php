@@ -28,6 +28,14 @@ return function (App $app) {
     $app->post('/admin/barbeiros_update', '\App\Controller\BarbeiroController:barbeiros_update');
     $app->post('/admin/barbeiros_delete', '\App\Controller\BarbeiroController:barbeiros_delete');
     
+    //CONTROLADOR CLIENTES
+    $app->get('/admin/clientes', '\App\Controller\ClienteController:clientes');
+    $app->get('/admin/clientes-create', '\App\Controller\ClienteController:clientes_create');
+    $app->get('/admin/clientes-edit/{id}', '\App\Controller\ClienteController:clientes_edit');
+    $app->post('/admin/clientes_insert', '\App\Controller\ClienteController:clientes_insert');
+    $app->post('/admin/clientes_update', '\App\Controller\ClienteController:clientes_update');
+    $app->post('/admin/clientes_delete', '\App\Controller\ClienteController:clientes_delete');
+    
     //CONTROLADOR AGENDAMENTO
     $app->get('/admin/agendamentos', '\App\Controller\AgendamentoController:agendamentos');
     $app->get('/admin/agendamentos-create', '\App\Controller\AgendamentoController:agendamentos_create');
