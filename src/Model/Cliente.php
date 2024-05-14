@@ -10,7 +10,9 @@ class Cliente extends Model {
 		"id",
 		"nome",
 		"telefone",
-		"email"
+		"email",
+		"foto_cliente",
+		"senha"
 	];
 
 	function insertCliente($campos)
@@ -47,7 +49,7 @@ class Cliente extends Model {
 	}
 	function selectClientesPesquisa($pesquisa)
 	{
-		$sql = "SELECT * FROM ".$this->table." WHERE titulo LIKE '%".$pesquisa."%' ORDER BY id DESC";
+		$sql = "SELECT * FROM ".$this->table." WHERE nome LIKE '%".$pesquisa."%' ORDER BY id DESC";
 
 		return $this->querySelect($sql);
 	}

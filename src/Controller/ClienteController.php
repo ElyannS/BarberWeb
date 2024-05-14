@@ -87,23 +87,21 @@ final class ClienteController
     ) {
         $id = $args['id'];
 
-        $usuarioSession = $_SESSION['usuario_logado']['id'];
 
-        $clientes = new Usuario();
+        $clientes = new Cliente();
 
-        $resultado = $clientes->selectCliente('*', array('id' => $id))[0];
-
-        $usuario = new Cliente();
-
-        $resultadoUsuario = $usuario->selectCliente('*', array('id' => $usuarioSession))[0];
+        $resultadoUsuario = $clientes->selectCliente('*', array('id' => $id))[0];
 
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
+
+        $usuario = $_SESSION['usuario_logado'];
+
         $data['informacoes'] = array(
             'menu_active' => 'clientes',
-            'cliente' => $resultado,
-            'usuario' => $resultadoUsuario,
-            'nome_logo' => $nome_logo_site
+            'cliente' => $resultadoUsuario,
+            'nome_logo' => $nome_logo_site,
+            'usuario' => $usuario
         );
 
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/cliente");
@@ -116,11 +114,8 @@ final class ClienteController
         ResponseInterface $response,
         $args
     ) {
-        
         $nome = $request->getParsedBody()['nome'];
         $email = $request->getParsedBody()['email'];
-        $status = $request->getParsedBody()['ativo'];
-        $type = $request->getParsedBody()['gestor'];
         $password = $request->getParsedBody()['password'];
 
         $nome_imagem_principal = "";
@@ -143,17 +138,11 @@ final class ClienteController
             }
         }
        
-        if($type === '1'){
-            $gestor = 1;
-        } else{
-            $gestor = 2;
-        }
+        
         $campos = array(
             'nome' => $nome,
             'email' => $email,
-            'foto_usuario' => $nome_imagem_principal,
-            'status' => $status,
-            'type' => $gestor,
+            'foto_cliente' => $nome_imagem_principal
         );
         $campos['senha'] = password_hash($password, PASSWORD_DEFAULT, ["const"=>12]);
         
@@ -173,8 +162,8 @@ final class ClienteController
         $id = $request->getParsedBody()['id'];
         $nome = $request->getParsedBody()['nome'];
         $email = $request->getParsedBody()['email'];
-        $status = $request->getParsedBody()['ativo'];
-        $type = $request->getParsedBody()['gestor'];
+        $password = $request->getParsedBody()['password'];
+
 
         $nome_imagem_atual = $request->getParsedBody()['nome_imagem_atual'];
 
@@ -208,20 +197,17 @@ final class ClienteController
                 }
             }
         }
-        if($type === '1'){
-            $gestor = 1;
-        } else{
-            $gestor = 2;
-        }
+       
 
         $campos = array(
             'nome' => $nome,
-            'status' => $status,
             'email' => $email,
-            'type' => $gestor,
+            'foto_cliente' => $nome_imagem_principal
         );
+        $campos['senha'] = password_hash($password, PASSWORD_DEFAULT, ["const"=>12]);
+        
         if($imagem_atualizar) {
-            $campos['foto_usuario'] = $nome_imagem_principal;
+            $campos['foto_cliente'] = $nome_imagem_principal;
         }
         $clientes = new Cliente();
         

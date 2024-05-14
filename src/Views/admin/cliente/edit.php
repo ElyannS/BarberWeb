@@ -4,59 +4,57 @@
         <div class="titulo_pagina">
             <div class="titulo-migalha">
                 <i class="fa-solid fa-circle"></i>
-                <p>Barbeiros - Editar</p>
+                <p>Clientes - Editar</p>
             </div>
         </div>
        
         <div class="form">
-            <form action="<?=URL_BASE?>admin/barbeiros_update" method="post" enctype="multipart/form-data">
-                <div class="row">
-                    <label>
-                        <?php if($data['informacoes']['usuario']['type'] === '1'){ ?>
-                            Gestor
-                            <input type="checkbox" name="gestor" id="gestor" value="2" <?php if($data['informacoes']['barbeiro']['type'] === '1') echo 'checked'?>>
-                        <?php } ?>
-                    </label>
-                </div>
+            <form action="<?=URL_BASE?>admin/clientes_update" method="post" enctype="multipart/form-data">
                 <div class="row">
                     <label>
                         Nome
-                        <input type="text" name="nome" required value="<?=$data['informacoes']['barbeiro']['nome']?>">
+                        <input type="text" name="nome" required value="<?=$data['informacoes']['cliente']['nome']?>">
                     </label>
                 </div>
                 <div class="row">
                     <label>
                         Email
-                        <input type="email" name="email" value="<?=$data['informacoes']['barbeiro']['email']?>">
+                        <input type="email" name="email" value="<?=$data['informacoes']['cliente']['email']?>">
                     </label>
                 </div>
                 <div class="row">
                     <label>
-                        Imagem Pricipal
-                        <input type="file" name="foto_usuario" accept="image/*">
+                        Foto do Cliente
+                        <input type="file" name="foto_usuario">
                     </label>
                     <div class="img">
-                        <img src="<?=URL_BASE.$data['informacoes']['barbeiro']['foto_usuario']?>">
+                        <img src="<?=URL_BASE.$data['informacoes']['cliente']['foto_cliente']?>">
                         <label>
-                            <input type="checkbox" name="excluir_imagem_principal">
+                            <input type="checkbox" name="excluir_foto_usuario">
                             Excluir imagem
                         </label>
                     </div>
                 </div>
                 <div class="row">
+                    <p>Caso deseja alterar a senha atual, preencha os dois campos abaixo, caso não queira alterar, deixe em branco.</p>
+                </div>
+                <div class="row">
                     <label>
-                        Ativo
-                        <select name="ativo" required>
-                            <option value="s" <?php if($data['informacoes']['barbeiro']['status'] === 's') echo 'selected'?>>Sim</option>
-                            <option value="n" <?php if($data['informacoes']['barbeiro']['status'] === 'n') echo 'selected'?>>Não</option>
-                        </select>
+                        Senha
+                        <input type="password" name="senha">
+                    </label>
+                </div>
+                <div class="row">
+                    <label>
+                        Confirmar Senha
+                        <input type="password" name="confirmar_senha">
                     </label>
                 </div>
                 <div class="row">
                     <button type="submit">Salvar</button>
                 </div>   
-                <input type="hidden" name="id" value="<?=$data['informacoes']['barbeiro']['id']?>">
-                <input type="hidden" name="nome_imagem_atual" value="<?=$data['informacoes']['barbeiro']['foto_usuario']?>">
+                <input type="hidden" name="id" value="<?=$data['informacoes']['cliente']['id']?>">
+                <input type="hidden" name="nome_imagem_atual" value="<?=$data['informacoes']['cliente']['foto_cliente']?>">
             </form>  
         </div>
 </section>

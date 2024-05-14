@@ -7,6 +7,12 @@
                 <p>Clientes</p>
             </div>
             <div class="topo">
+                <div class="form_pesquisa">
+                    <form action="<?=URL_BASE?>admin/clientes" method="GET">
+                        <input type="text" name="pesquisa" placeholder="Nome do cliente...">
+                        <button type="submit">Pesquisar</button>
+                    </form>
+                </div>
                 <?php if($data['informacoes']['usuario']['type'] === '1'){ ?>
                     <div class="btn">
                         <a href="<?=URL_BASE?>admin/clientes-create">Cadastrar novo</a>
@@ -14,6 +20,7 @@
                 <?php } ?>
             </div>
         </div>
+        
         <div class="lista">
             <table>
                 <tbody>

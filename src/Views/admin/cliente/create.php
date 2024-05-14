@@ -4,17 +4,11 @@
         <div class="titulo_pagina">
             <div class="titulo-migalha">
                 <i class="fa-solid fa-circle"></i>
-                <p>Barbeiro - Cadastrar Novo</p>
+                <p>Cliente - Cadastrar Novo</p>
             </div>
         </div>
         <div class="form">
-            <form action="<?=URL_BASE?>admin/barbeiros_insert" method="post" enctype="multipart/form-data">
-                <div class="row">
-                    <label>
-                        Gestor
-                        <input type="checkbox" id="gestor" name="gestor" value="2">
-                    </label>
-                </div>
+            <form action="<?=URL_BASE?>admin/clientes_insert" method="post" enctype="multipart/form-data">
                 <div class="row">
                     <label>
                         Nome
@@ -35,18 +29,8 @@
                 </div>
                 <div class="row">
                     <label>
-                        Imagem Pricipal
+                        Foto Usuario
                         <input type="file" name="imagem_principal" required accept="image/*">
-                    </label>
-                    
-                </div>
-                <div class="row">
-                    <label>
-                        Ativo
-                        <select name="ativo" required>
-                            <option value="s">Sim</option>
-                            <option value="n">Não</option>
-                        </select>
                     </label>
                 </div>
                 <div class="row">

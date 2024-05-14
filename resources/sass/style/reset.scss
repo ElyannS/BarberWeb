@@ -141,7 +141,8 @@ body.admin{
 	color: #fff;
 }
 .titulo_pagina{
-	
+	width: 100%;
+	flex-wrap: wrap;
 	position: relative;
 	display: flex;
 	justify-content: space-between;
@@ -184,12 +185,15 @@ body.admin{
 		color: #000;
 	}
 	.topo{
-		display: inline-flex;
+		width: 100%;
+		display: flex;
 		justify-content: space-around;
 		flex-wrap: wrap;
-		@include tablet{
-			justify-content: space-between;
+		@include desktop{
+			justify-content: inherit;
+			width: initial;
 		}
+	
 		.btn{
 			margin-bottom: 0px;
 			margin-right: 5px;
@@ -232,29 +236,38 @@ body.admin{
 		.form_pesquisa{
 			form{
 				display: inline-flex;
+				margin: 8px 0px;
 				input[type="text"]{
-					border-radius: 10px;
+					border-radius: 5px;
 					border: 2px solid #ccc;
 					margin-right: 10px;
-					padding: 5px 15px;
+					padding: 2px 15px;
 				}
 				button{
-				padding: 10px;
-				font-size: 14px;
+				padding: 7px;
+				font-size: 11px;
 				font-family: 'Montserrat Bold';
 				background-color: $color_destaque;
 				border: 0px;
-				border-radius: 10px;
+				border-radius: 5px;
 				color: #fff;
 				display: block;
 				transition: .30s;
+				margin-right: 8px;
 				cursor: pointer;
 				&:hover{
 					background-color: $color_destaque_hover;
 				}
 				}
+				@include desktop{
+					margin: 0px;
+				}
+				@include tablet{
+					margin: 0px;
+				}
 			}	
 		}
+		
 	}
 	.lista{
 		table{
