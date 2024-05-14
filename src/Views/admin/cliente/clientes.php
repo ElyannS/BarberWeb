@@ -7,7 +7,7 @@
                 <p>Clientes</p>
             </div>
             <div class="topo">
-                <div class="form_pesquisa">
+                <div class="form_pesquisa d-none">
                     <form action="<?=URL_BASE?>admin/clientes" method="GET">
                         <input type="text" name="pesquisa" placeholder="Nome do cliente...">
                         <button type="submit">Pesquisar</button>
@@ -20,7 +20,14 @@
                 <?php } ?>
             </div>
         </div>
-        
+        <div class="topo flex">
+            <div class="form_pesquisa">
+                <form action="<?=URL_BASE?>admin/clientes" method="GET">
+                    <input type="text" name="pesquisa" placeholder="Nome do cliente...">
+                    <button type="submit">Pesquisar</button>
+                </form>
+            </div>
+        </div>
         <div class="lista">
             <table>
                 <tbody>

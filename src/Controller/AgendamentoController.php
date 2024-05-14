@@ -8,6 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\PhpRenderer;
 use App\Model\Agendamento;
+use App\Model\Cliente;
 use App\Model\Servico;
 use App\Model\Configuracao;
 use App\Model\Usuario;
@@ -23,19 +24,19 @@ final class AgendamentoController
         Usuario::verificarLogin();
 
         $agendamentos = new Agendamento();
-
         $consultaAgendamentos  = $agendamentos->selectAgendamento('*', array('*'));
 
         $barbeiros = new Usuario();
-
         $resultado = $barbeiros->selectUsuario('*', array('*'));
 
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
         
         $servicos = new Servico();
-
         $consultaServicos  = $servicos->selectServico('*', array('*'));
+
+        $clientes = new Cliente();
+        $consultaClientes  = $clientes->selectCliente('*', array('*'));
         
         $usuario = $_SESSION['usuario_logado'];
 
@@ -45,7 +46,8 @@ final class AgendamentoController
             'barbeiro' => $resultado,
             'nome_logo' => $nome_logo_site,
             'usuario' => $usuario,
-            'servico' => $consultaServicos
+            'servico' => $consultaServicos,
+            'cliente' => $consultaClientes
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/agendamento");
         return $renderer->render($response, "agendamentos.php", $data);
@@ -307,34 +309,61 @@ final class AgendamentoController
         ResponseInterface $response,
         $args
     )  {
-        $nome_cliente = $request->getParsedBody()['nome_cliente'];
-        $telefone_cliente = $request->getParsedBody()['telefone_cliente'];
+        $id_cliente = $request->getParsedBody()['id_cliente'];
+        $descricao = $request->getParsedBody()['descricao'];
         $data = date('Y-m-d', strtotime($request->getParsedBody()['date']));
         $time = date('H:i', strtotime($request->getParsedBody()['time']));
         $select_barbeiro = $request->getParsedBody()['select_barbeiro'];
         $selectServico = $request->getParsedBody()['select_servico'];
         $valores = explode(';', $selectServico);
         $idServico = $valores[1];
+        $tempoServico = $valores[0];
         $datetime = $data . ' ' . $time;
-   
+
+        $agendamentos_verificar = new Agendamento();
+        $numero_agendamentos = count($agendamentos_verificar->selectAgendamentoVerificar($datetime));
+       
+
+
+    
+
+        if ($numero_agendamentos > 0) {
+            $js['status'] = 0;
+            $js['msg'] = "Conflito de horários!";
+            echo json_encode($js);
+            exit();
+        } else {
+            if($tempoServico == 60){
+                $consultaAgendamentos = count($agendamentos_verificar->selectAgendamentoVerificar(date('Y-m-d H:i', strtotime('+30 minutes', strtotime($datetime)))));
+                if($consultaAgendamentos > 0){
+                    $js['status'] = 0;
+                    $js['msg'] = "Conflito de horários!";
+                    echo json_encode($js);
+                    exit();
+                } 
+            } else{
+                $campos = array(
+                    'barbeiro_id' => $select_barbeiro,
+                    'servico_id' => $idServico,
+                    'data_agendamento' => $datetime,
+                    'id_cliente' => $id_cliente,
+                    'descricao' => $descricao,
+                );
+                
+                $agendamentos = new Agendamento();
+                $agendamentos->insertAgendamento($campos);
+    
+                $js['status'] = 1;
+                $js['msg'] = "Agendamento inserido com sucesso!";
+                $js['redirecionar_pagina'] = URL_BASE.'admin/agendamentos';
+                echo json_encode($js);
+                exit();
+            }
+        }
+
+
+
         
-
-
-
-        $campos = array(
-            'nome_cliente' => $nome_cliente,
-            'telefone_cliente' => $telefone_cliente,
-            'data_agendamento' => $datetime,
-            'servico_id' => $idServico,
-            'barbeiro_id' => $select_barbeiro
-        );
-        
-        $agendamentos = new Agendamento();
-        
-        $agendamentos->insertAgendamento($campos);
-
-        header('Location: '.URL_BASE.'admin/agendamentos');
-        exit();
     }
     public function agendamentos_insert_publica(
         ServerRequestInterface $request, 

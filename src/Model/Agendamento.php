@@ -10,8 +10,8 @@ class Agendamento extends Model {
         "barbeiro_id",
         "servico_id",
         "data_agendamento",
-        "telefone_cliente",
-        "nome_cliente"
+        "id_cliente",
+        "descricao"
     ];
 
     public function insertAgendamento($campos)
@@ -56,8 +56,6 @@ class Agendamento extends Model {
 		{
 			$sql = "SELECT * FROM agendamento WHERE data_agendamento = :data";
 			$stmt = $this->querySelect($sql, array(':data' => $data));
-			
-    // var_dump($stmt); // Verifique o resultado da consulta
 			return $stmt;
 		}
 		

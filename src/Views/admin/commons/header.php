@@ -78,7 +78,7 @@
                     </li>
                     <li class="<?=($data['informacoes']['menu_active'] === 'clientes') ? 'active' : ''?>">
                         <a href="<?=URL_BASE?>admin/clientes">
-                        <i class="fas fa-user"></i>
+                            <i class="fa-solid fa-user-group"></i>
                             Clientes
                         </a>
                     </li>

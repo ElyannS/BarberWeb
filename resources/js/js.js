@@ -250,7 +250,51 @@ $(document).ready(function(){
   }
 
 
-
+  if ($('form.form_ajax').length) {
+    if (!jQuery().ajaxForm) return;
+  
+    $('form.form_ajax').on("submit", function(e) {
+      e.preventDefault();
+      var form = $(this);
+      var alerta = $('#aviso');
+  
+      form.ajaxSubmit({
+        dataType: 'json',
+        success: function(response) {
+          if (response.msg) {
+            alerta.html(response.msg);
+          }
+          
+          if (response.status != '0') {
+            $('#aviso').addClass('mostrar'); // Mostra o aviso geral
+            $('#avisoSucesso').addClass('mostrarSucesso'); // Mostra o aviso de sucesso
+          } else {
+            alerta.removeClass('sucesso').addClass('erro'); // Adiciona classe 'erro'
+            $('#aviso').addClass('mostrar'); // Mostra o aviso geral
+          }
+  
+          if (response.redirecionar_pagina) {
+            window.location = response.redirecionar_pagina;
+          }
+          
+          if (response.resetar_form) {
+            form[0].reset();
+          }
+  
+          // Remover classes e limpar mensagem após 4 segundos
+          setTimeout(function() {
+            alerta.html("");
+            alerta.removeClass('sucesso erro');
+            $('#aviso').removeClass('mostrar');
+            $('#avisoSucesso').removeClass('mostrarSucesso');
+          }, 4000);
+        }
+      });
+  
+      return false;
+    });
+  }
+  
 
   $('input[name="excluir_imagem_principal"]').on('click' , function() {
 

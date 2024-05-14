@@ -47,22 +47,25 @@
                 <div id="aviso">
 
                 </div>
-
                 <div class="form">
                     <div class="close-popup">
                         <i class="fa-solid fa-xmark close-form"></i>
                     </div>
-                    <form action="<?=URL_BASE?>admin/agendamentos_insert" id="form_create" method="POST" enctype="multipart/form-data">
+                    <form action="<?=URL_BASE?>admin/agendamentos_insert" class="form_ajax" id="form_create" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <label>
                                 Nome Cliente
-                                <input type="text" name="nome_cliente" required>
-                            </label>
+                                <select name="id_cliente">
+                                    <?php foreach ($data['informacoes']['cliente'] as $clientes) {?>
+                                        <option value="<?=$clientes['id']?>"><?=$clientes['nome']?> - <?=$clientes['telefone']?></option>
+                                    <?php }?>
+                                    </select>
+                                </label>
                         </div>
                         <div class="row">
                             <label>
-                                Telefone Cliente
-                                <input type="tel" name="telefone_cliente" required>
+                                Descrição
+                                <input type="text" name="descricao" >
                             </label>
                         </div>
                         <div class="row">
@@ -106,6 +109,7 @@
                         </div>
                         <div class="row">
                             <button type="submit" id="">Agendar</button>
+                            
                         </div>
                     </form>
                 </div>
@@ -113,5 +117,4 @@
         </div>
     </div>
 </section>
-
 <?=$this->fetch('../commons/footer.php')?>
