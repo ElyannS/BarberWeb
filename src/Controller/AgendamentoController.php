@@ -210,22 +210,27 @@ final class AgendamentoController
                     $turno2 = $turnos[0]['turno2'];
 
                     $arrayTurno1 = explode(",", $turno1);
+                    $arrayTurno2 = explode(",", $turno2);
 
-                    $horariosTrabalho = $arrayTurno1;
-                    // if($turno1 === "FECHADO"){
-                    //     $horariosTrabalho = '';
-                    // } else {
-                    //     $horariosTrabalho = $turno1;
-                    // }
-                    // if($turno2 == 'FECHADO'){
-                    //     $horariosTrabalho = '';
-                    // } else {
-                    //     $horariosTrabalho = $turno2;
-                    // }
+                    $horariosArray1[] = $arrayTurno1;
+                    $horariosArray2[] = $arrayTurno2;
 
                     // "<pre>";
-                    // var_dump($horariosTrabalho);
+                    // var_dump($horariosTrabalho[0]);
                     // exit();
+                    if($turno1 === "FECHADO"){
+                        $horariosTrabalho = [];
+                    } else {
+                        $horariosTrabalho = str_replace(" ", "", $horariosArray1[0]);
+                    }
+                    if($turno2 === "FECHADO"){
+                        $horariosTrabalho = [];
+                    } else {
+                        $horariosTrabalho = str_replace(" ", "", $horariosArray2[0]);
+                    }
+                  
+
+                    
                 }
                 if ($diaSemana == 5) {
                     $ConsultaHorarios = new Horario();

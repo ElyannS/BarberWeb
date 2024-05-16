@@ -64,7 +64,7 @@
                         </div>
                         <div class="row">
                             <label>
-                                Descrição
+                                Observação
                                 <input type="text" name="descricao" >
                             </label>
                         </div>
