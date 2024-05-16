@@ -38,16 +38,16 @@ class Agendamento extends Model {
     }
 
 
-	function selectAgendamentoData($data): array
-		{
-			$sql = "SELECT agendamento.*, servicos.titulo AS nome_servico FROM agendamento 
-    	    INNER JOIN servicos ON agendamento.servico_id = servicos.id 
-	        WHERE DATE(agendamento.data_agendamento) = :data";
-			$stmt = $this->querySelect($sql, array(':data' => $data));
-			return $stmt;
+    function selectAgendamentoData($data, $barbeiroId): array
+    {
+        $sql = "SELECT agendamento.*, servicos.titulo AS nome_servico FROM agendamento 
+        INNER JOIN servicos ON agendamento.servico_id = servicos.id 
+        WHERE DATE(agendamento.data_agendamento) = :data 
+        AND agendamento.barbeiro_id = :barbeiroId";
+        $stmt = $this->querySelect($sql, array(':data' => $data, ':barbeiroId'=> $barbeiroId));
+        return $stmt;
 
-		}
-
+    }
 	function selectAgendamentos($campos, $where):array
 		{
 			return $this->select($this->table, $campos, $where);

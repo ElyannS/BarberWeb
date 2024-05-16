@@ -12,6 +12,7 @@ use App\Model\Cliente;
 use App\Model\Servico;
 use App\Model\Configuracao;
 use App\Model\Usuario;
+use App\Model\Horario;
 
 final class AgendamentoController 
 {
@@ -92,9 +93,14 @@ final class AgendamentoController
                         '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30'
                     ];
                 } 
+                Usuario::verificarLogin();
+                $emailUser = $_SESSION['usuario_logado']['email'];
+                $usuario = new Usuario();
+                $usuarioInfo = $usuario->selectUsuario('*', ['email' => $emailUser]);
+                $idUser = $usuarioInfo[0]['id'];
+                    
                 $agendamentos = new Agendamento();
-                $consultaAgendamentos = $agendamentos->selectAgendamentoData($data);
-
+                $consultaAgendamentos = $agendamentos->selectAgendamentoData($data, $idUser);
                 $horariosIndisponiveis = [];
                 foreach ($consultaAgendamentos as $agendamento) {
                     $horariosIndisponiveis[] = date('H:i', strtotime($agendamento['data_agendamento']));
@@ -177,35 +183,70 @@ final class AgendamentoController
 
                
                 $diaSemana = date('w', strtotime($data));
-                if ($diaSemana == 0 || $diaSemana == 1) {
-                    $responseData =  ['horarios' => 'fechada'];
-                    $response = $response->withHeader('Content-Type', 'application/json');
-                    $response->getBody()->write(json_encode($responseData));
-                    return $response;
-                }
-
-               
+                
                 $horariosTrabalho = [];
-                if ($diaSemana == 6) { // Sábado
-                    $horariosTrabalho = [
-                        '08:00','08:30','09:00', '09:30', '10:00', '10:30', '11:00',
-                        '11:30', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00'
-                    ];
-                } elseif ($diaSemana >= 2 && $diaSemana <= 4) { // Terça a Quinta
-                    $horariosTrabalho = [
-                        '08:30','09:00', '09:30', '10:00', '10:30', '11:00', '11:30','13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30'
-                    ];
-                } elseif ($diaSemana == 5) { // Sexta
-                    $horariosTrabalho = [
-                        '08:30','09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '13:30', '14:00',
-                        '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30'
-                    ];
+
+                if ($diaSemana == 0) {
+                    $ConsultaHorarios = new Horario();
+                    $horariosTrabalho = $ConsultaHorarios->selectHorarioSemana('Domingo');  
+                }
+                if ($diaSemana == 1) {
+                    $ConsultaHorarios = new Horario();
+                    $horariosTrabalho = $ConsultaHorarios->selectHorarioSemana('Segunda-Feira');   
+                }
+                if ($diaSemana == 2) {
+                    $ConsultaHorarios = new Horario();
+                    $horariosTrabalho = $ConsultaHorarios->selectHorarioSemana('Terça-Feira');   
+                }
+                if ($diaSemana == 3) {
+                    $ConsultaHorarios = new Horario();
+                    $horariosTrabalho = $ConsultaHorarios->selectHorarioSemana('Quarta-Feira');   
+                }
+                if ($diaSemana == 4) {
+                    $ConsultaHorarios = new Horario();
+                    $turnos = $ConsultaHorarios->selectHorarioSemana('Quinta-Feira');
+
+                    $turno1 = $turnos[0]['turno1'];
+                    $turno2 = $turnos[0]['turno2'];
+
+                    $arrayTurno1 = explode(",", $turno1);
+
+                    $horariosTrabalho = $arrayTurno1;
+                    // if($turno1 === "FECHADO"){
+                    //     $horariosTrabalho = '';
+                    // } else {
+                    //     $horariosTrabalho = $turno1;
+                    // }
+                    // if($turno2 == 'FECHADO'){
+                    //     $horariosTrabalho = '';
+                    // } else {
+                    //     $horariosTrabalho = $turno2;
+                    // }
+
+                    // "<pre>";
+                    // var_dump($horariosTrabalho);
+                    // exit();
+                }
+                if ($diaSemana == 5) {
+                    $ConsultaHorarios = new Horario();
+                    $horariosTrabalho = $ConsultaHorarios->selectHorarioSemana('Sexta-Feira');   
+                }
+                if ($diaSemana == 6) {
+                    $ConsultaHorarios = new Horario();
+                    $horariosTrabalho = $ConsultaHorarios->selectHorarioSemana('Sábado');   
                 }
 
+                Usuario::verificarLogin();
+                $emailUser = $_SESSION['usuario_logado']['email'];
+                $usuario = new Usuario();
+                $usuarioInfo = $usuario->selectUsuario('*', ['email' => $emailUser]);
+                $idUser = $usuarioInfo[0]['id'];
+                    
                 $agendamentos = new Agendamento();
-                $consultaAgendamentos = $agendamentos->selectAgendamentoData($data);
+                $consultaAgendamentos = $agendamentos->selectAgendamentoData($data, $idUser);
 
                 $horariosIndisponiveis = [];
+
                 foreach ($consultaAgendamentos as $agendamento) {
                     $horariosIndisponiveis[] = date('H:i', strtotime($agendamento['data_agendamento']));
                 }
@@ -239,7 +280,7 @@ final class AgendamentoController
             }
         }
 
-    $responseData = ['horarios' => $horarios];
+    $responseData = ['horariosMarcado' => $horarios];
     $response = $response->withHeader('Content-Type', 'application/json');
     $response->getBody()->write(json_encode($responseData));
     return $response;
@@ -333,15 +374,7 @@ final class AgendamentoController
             echo json_encode($js);
             exit();
         } else {
-            if($tempoServico == 60){
-                $consultaAgendamentos = count($agendamentos_verificar->selectAgendamentoVerificar(date('Y-m-d H:i', strtotime('+30 minutes', strtotime($datetime)))));
-                if($consultaAgendamentos > 0){
-                    $js['status'] = 0;
-                    $js['msg'] = "Conflito de horários!";
-                    echo json_encode($js);
-                    exit();
-                } 
-            } else{
+            if($tempoServico == '30'){
                 $campos = array(
                     'barbeiro_id' => $select_barbeiro,
                     'servico_id' => $idServico,
@@ -359,6 +392,32 @@ final class AgendamentoController
                 echo json_encode($js);
                 exit();
             }
+            if($tempoServico == '60'){
+                $consultaAgendamentos = count($agendamentos_verificar->selectAgendamentoVerificar(date('Y-m-d H:i', strtotime('+30 minutes', strtotime($datetime)))));
+                if($consultaAgendamentos > 0){
+                    $js['status'] = 0;
+                    $js['msg'] = "Conflito de horários!";
+                    echo json_encode($js);
+                    exit();
+                } else{
+                    $campos = array(
+                        'barbeiro_id' => $select_barbeiro,
+                        'servico_id' => $idServico,
+                        'data_agendamento' => $datetime,
+                        'id_cliente' => $id_cliente,
+                        'descricao' => $descricao,
+                    );
+                
+                    $agendamentos = new Agendamento();
+                    $agendamentos->insertAgendamento($campos);
+        
+                    $js['status'] = 1;
+                    $js['msg'] = "Agendamento inserido com sucesso!";
+                    $js['redirecionar_pagina'] = URL_BASE.'admin/agendamentos';
+                    echo json_encode($js);
+                    exit();
+                }
+            } 
         }
 
 

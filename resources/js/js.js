@@ -209,6 +209,140 @@ $(document).ready(function(){
   });
   
 
+
+  var currentPagePath = window.location.pathname;
+  var specificPagePath = '/BarberWeb-1/admin/agendamentos';
+
+  if (currentPagePath === specificPagePath) {
+
+      function atualizarHorariosMarcados(data) {
+          $.ajax({
+            url: '/BarberWeb-1/admin/atualizar_data',
+            type: 'POST',
+            data: {
+              data: data,
+            },
+            dataType: 'json',
+            success: function(response) {
+              var horarios = response.horarios;
+              if (horarios === 'fechada' ) {
+                for (var i = 0; i < horarios.length; i++) {
+                    var td = $('.td')
+                    td.empty();
+                    td.addClass('fechada')             
+                    td.removeClass('marcado');
+                    td.removeClass('marcado-corte-barba');
+                }
+              } else {
+                //Percorra os horários
+                for (var i = 0; i < horarios.length; i++) {
+                  var horario = horarios[i].horario;
+                  var nomeAgendamento = horarios[i].nome;
+                  var idAgendamento = horarios[i].idAgendamento; // Assumindo que o ID do agendamento está disponível no array
+                  var servico = horarios[i].servico;
+      
+                  // Encontre a célula correspondente ao horário
+                  var celula = $('#horario-' + horario.replace(':', '-').replace(' ', '-'));
+                 
+                  var ultimoHorario = horarios[horarios.length - 1].horario;
+                  if (ultimoHorario === '16:00') {
+                      var celula1 = $('#horario-16-30');
+                      var celula2 = $('#horario-17-00');
+                      var celula3 = $('#horario-17-30');
+                      var celula4 = $('#horario-18-00');
+                      var celula5 = $('#horario-18-30');
+                      var celula6 = $('#horario-19-00');
+                      var celula7 = $('#horario-19-30');
+                      celula1.addClass('fechada');
+                      celula2.addClass('fechada');
+                      celula3.addClass('fechada');
+                      celula4.addClass('fechada');
+                      celula5.addClass('fechada');
+                      celula6.addClass('fechada');
+                      celula7.addClass('fechada');
+      
+                      celula1.empty();
+                      celula2.empty();
+                      celula3.empty();
+                      celula4.empty();
+                      celula5.empty();
+                      celula6.empty();
+                      celula7.empty();
+      
+                      celula1.removeClass('marcado-corte-barba');
+                      celula2.removeClass('marcado-corte-barba');
+                      celula3.removeClass('marcado-corte-barba');
+                      celula4.removeClass('marcado-corte-barba');
+                      celula5.removeClass('marcado-corte-barba');
+                      celula6.removeClass('marcado-corte-barba');
+                      celula7.removeClass('marcado-corte-barba');
+                  } else{
+                    var celula6 = $('#horario-08-00');
+                    celula6.empty();
+                    celula6.addClass('fechada');            
+                  }
+                  celula.removeClass('fechada');
+              
+                
+                  if (nomeAgendamento) {
+                    celula.addClass('marcado');      
+                    if(servico == 'Corte e barba') {
+                      celula.addClass('marcado-corte-barba');
+                      celula.removeClass('marcado');
+                      
+                    }else{
+                      celula.empty();
+                      celula.removeClass('marcado-corte-barba');
+                
+                    }
+                  } else {
+                    celula.empty();
+                    celula.removeClass('marcado');
+                    celula.removeClass('marcado-corte-barba');
+                  }
+      
+                  // Criar o elemento <a> (link) dentro da célula
+                  var linkAgendamento = $('<a></a>');
+                  linkAgendamento.attr('href', 'agendamentos-edit/' + idAgendamento); // Adicione o ID do agendamento ao href
+                  linkAgendamento.text(nomeAgendamento);
+      
+                  // Limpe o conteúdo da célula antes de adicionar o link
+                  celula.empty();
+                  
+                  // Adicionar o link do agendamento à célula
+                  celula.append(linkAgendamento);
+                }
+              } 
+            },
+            
+            error: function(xhr, status, error) {
+              if (xhr.responseText) {
+                try {
+                  var response = JSON.parse(xhr.responseText);
+                  if (response.hasOwnProperty('error')) {
+                    alert('Erro: ' + response.error);
+                  } else {
+                    alert('Ocorreu um erro na requisição.');
+                  }
+                } catch (e) {
+                 
+                  alert('Ocorreu um erro na requisição: ' + error);
+                }
+              } else {
+              
+                alert('Ocorreu um erro na requisição: ' + error);
+               
+              }
+            }
+          });
+        }
+        
+        $('#dataMarcada').change(function() {
+          var data = $('#dataMarcada').val();
+        
+          atualizarHorariosMarcados(data);
+        });
+      }
  
   
 
@@ -219,16 +353,23 @@ $(document).ready(function(){
       e.preventDefault();
       var form = $(this);
       var alerta = form.children('.alerta');
+      var aviso = $('#aviso');
+  
       form.ajaxSubmit({
         dataType:'json'
         ,success: function(response) {
           if (response.msg){
             alerta.html(response.msg);
+            aviso.html(response.msg);
           }
           if (response.status != '0') {
             alerta.addClass('sucesso');
+            $('#aviso').addClass('mostrar'); 
+            $('#avisoSucesso').addClass('mostrarSucesso');
           } else {
             alerta.addClass('erro');
+            aviso.removeClass('sucesso').addClass('erro');
+            $('#aviso').addClass('mostrar'); 
           }
           if (response.redirecionar_pagina){
             window.location = response.redirecionar_pagina;
@@ -241,6 +382,11 @@ $(document).ready(function(){
               alerta.html("");
               alerta.removeClass('sucesso');
               alerta.removeClass('erro');
+
+              aviso.html("");
+              aviso.removeClass('sucesso erro');
+              $('#aviso').removeClass('mostrar');
+              $('#avisoSucesso').removeClass('mostrarSucesso');
             }, 
           4000);
         }
@@ -249,51 +395,6 @@ $(document).ready(function(){
     });
   }
 
-
-  if ($('form.form_ajax').length) {
-    if (!jQuery().ajaxForm) return;
-  
-    $('form.form_ajax').on("submit", function(e) {
-      e.preventDefault();
-      var form = $(this);
-      var alerta = $('#aviso');
-  
-      form.ajaxSubmit({
-        dataType: 'json',
-        success: function(response) {
-          if (response.msg) {
-            alerta.html(response.msg);
-          }
-          
-          if (response.status != '0') {
-            $('#aviso').addClass('mostrar'); // Mostra o aviso geral
-            $('#avisoSucesso').addClass('mostrarSucesso'); // Mostra o aviso de sucesso
-          } else {
-            alerta.removeClass('sucesso').addClass('erro'); // Adiciona classe 'erro'
-            $('#aviso').addClass('mostrar'); // Mostra o aviso geral
-          }
-  
-          if (response.redirecionar_pagina) {
-            window.location = response.redirecionar_pagina;
-          }
-          
-          if (response.resetar_form) {
-            form[0].reset();
-          }
-  
-          // Remover classes e limpar mensagem após 4 segundos
-          setTimeout(function() {
-            alerta.html("");
-            alerta.removeClass('sucesso erro');
-            $('#aviso').removeClass('mostrar');
-            $('#avisoSucesso').removeClass('mostrarSucesso');
-          }, 4000);
-        }
-      });
-  
-      return false;
-    });
-  }
   
 
   $('input[name="excluir_imagem_principal"]').on('click' , function() {

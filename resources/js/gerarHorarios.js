@@ -97,4 +97,6 @@ $(document).ready(function(){
     
     var dataInicial = $('#dataMarcada').val(); 
     atualizarData(dataInicial);
+
+
 });
