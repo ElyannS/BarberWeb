@@ -6,7 +6,7 @@ ini_set('display_errors', '1');
 date_default_timezone_set('America/Sao_Paulo');
 
 //Definindo diretorio principal
-define('DIRETORIO_PRINCIPAL', '/BarberWeb-1');
+define('DIRETORIO_PRINCIPAL', '/BarberWeb');
 define('DIRETORIO_TEMPLATES', 'src/Views/publica');
 define('DIRETORIO_TEMPLATES_ADMIN', 'src/Views/admin');
 define('URL_BASE', 'http://localhost'.DIRETORIO_PRINCIPAL.'/');

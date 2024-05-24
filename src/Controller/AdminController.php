@@ -151,13 +151,6 @@ final class AdminController
     ) {
         $nome_site = $request->getParsedBody()['nome_site'];
         
-        $link_facebook = $request->getParsedBody()['link_facebook'];
-        $link_instagram = $request->getParsedBody()['link_instagram'];
-        $link_youtube = $request->getParsedBody()['link_youtube'];
-        $telefone_contato = $request->getParsedBody()['telefone_contato'];
-        $email_contato = $request->getParsedBody()['email_contato'];
-        $endereco_contato = $request->getParsedBody()['endereco_contato'];
-
         $nome_logo_site = "";
         $logo_atualizar = false;
 
@@ -202,46 +195,6 @@ final class AdminController
             $config->updateConfiguracao($campos, array('nome' => 'nome_site'));
         }
    
-            $campos = array(
-                'nome' => 'link_facebook',
-                'valor' => $link_facebook
-            );
-            $config->updateConfiguracao($campos, array('nome' => 'link_facebook'));
-        
-      
-            $campos = array(
-                'nome' => 'link_instagram',
-                'valor' => $link_instagram
-            );
-            $config->updateConfiguracao($campos, array('nome' => 'link_instagram'));
-        
-     
-            $campos = array(
-                'nome' => 'link_youtube',
-                'valor' => $link_youtube
-            );
-            $config->updateConfiguracao($campos, array('nome' => 'link_youtube'));
-        
-       
-            $campos = array(
-                'nome' => 'telefone_contato',
-                'valor' => $telefone_contato
-            );
-            $config->updateConfiguracao($campos, array('nome' => 'telefone_contato'));
-        
-      
-            $campos = array(
-                'nome' => 'email_contato',
-                'valor' => $email_contato
-            );
-            $config->updateConfiguracao($campos, array('nome' => 'email_contato'));
-        
-        
-            $campos = array(
-                'nome' => 'endereco_contato',
-                'valor' => $endereco_contato
-            );
-            $config->updateConfiguracao($campos, array('nome' => 'endereco_contato'));
         
         if ($logo_atualizar) {
             $campos = array(
@@ -327,7 +280,7 @@ final class AdminController
         if($alterar_senha) {
             $campos['senha'] = password_hash($senha, PASSWORD_DEFAULT, ["const"=>12]);
         }
-
+       
         $usuario = new Usuario();
 
         $usuario->updateUsuario($campos, array('id' => $id));

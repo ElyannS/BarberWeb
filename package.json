@@ -12,6 +12,7 @@
     "sass": "^1.35.1"
   },
   "dependencies": {
-    "chart.js": ">=2.7.3"
+    "chart.js": ">=2.7.3",
+      "select2": "~4.0"
   }
 }

@@ -184,63 +184,40 @@ final class AgendamentoController
                
                 $diaSemana = date('w', strtotime($data));
                 
+                $ConsultaHorarios = new Horario();
+                $diasSemana = [
+                    'Domingo',
+                    'Segunda-Feira',
+                    'Terça-Feira',
+                    'Quarta-Feira',
+                    'Quinta-Feira',
+                    'Sexta-Feira',
+                    'Sábado'
+                ];
+                
                 $horariosTrabalho = [];
-
-                if ($diaSemana == 0) {
-                    $ConsultaHorarios = new Horario();
-                    $horariosTrabalho = $ConsultaHorarios->selectHorarioSemana('Domingo');  
-                }
-                if ($diaSemana == 1) {
-                    $ConsultaHorarios = new Horario();
-                    $horariosTrabalho = $ConsultaHorarios->selectHorarioSemana('Segunda-Feira');   
-                }
-                if ($diaSemana == 2) {
-                    $ConsultaHorarios = new Horario();
-                    $horariosTrabalho = $ConsultaHorarios->selectHorarioSemana('Terça-Feira');   
-                }
-                if ($diaSemana == 3) {
-                    $ConsultaHorarios = new Horario();
-                    $horariosTrabalho = $ConsultaHorarios->selectHorarioSemana('Quarta-Feira');   
-                }
-                if ($diaSemana == 4) {
-                    $ConsultaHorarios = new Horario();
-                    $turnos = $ConsultaHorarios->selectHorarioSemana('Quinta-Feira');
-
+                
+                if (isset($diasSemana[$diaSemana])) {
+                    $turnos = $ConsultaHorarios->selectHorarioSemana($diasSemana[$diaSemana]);
+                
                     $turno1 = $turnos[0]['turno1'];
                     $turno2 = $turnos[0]['turno2'];
-
-                    $arrayTurno1 = explode(",", $turno1);
-                    $arrayTurno2 = explode(",", $turno2);
-
-                    $horariosArray1[] = $arrayTurno1;
-                    $horariosArray2[] = $arrayTurno2;
-
-                    // "<pre>";
-                    // var_dump($horariosTrabalho[0]);
-                    // exit();
-                    if($turno1 === "FECHADO"){
-                        $horariosTrabalho = [];
-                    } else {
-                        $horariosTrabalho = str_replace(" ", "", $horariosArray1[0]);
+                
+                    if ($turno1 !== "FECHADO") {
+                        $arrayTurno1 = explode(",", $turno1);
+                        foreach ($arrayTurno1 as $horario) {
+                            $horariosTrabalho[] = str_replace(" ", "", $horario);
+                        }
                     }
-                    if($turno2 === "FECHADO"){
-                        $horariosTrabalho = [];
-                    } else {
-                        $horariosTrabalho = str_replace(" ", "", $horariosArray2[0]);
+                
+                    if ($turno2 !== "FECHADO") {
+                        $arrayTurno2 = explode(",", $turno2);
+                        foreach ($arrayTurno2 as $horario) {
+                            $horariosTrabalho[] = str_replace(" ", "", $horario);
+                        }
                     }
-                  
-
-                    
                 }
-                if ($diaSemana == 5) {
-                    $ConsultaHorarios = new Horario();
-                    $horariosTrabalho = $ConsultaHorarios->selectHorarioSemana('Sexta-Feira');   
-                }
-                if ($diaSemana == 6) {
-                    $ConsultaHorarios = new Horario();
-                    $horariosTrabalho = $ConsultaHorarios->selectHorarioSemana('Sábado');   
-                }
-
+                
                 Usuario::verificarLogin();
                 $emailUser = $_SESSION['usuario_logado']['email'];
                 $usuario = new Usuario();
@@ -262,22 +239,31 @@ final class AgendamentoController
                     $agendamentoNome = '';
                     $nomeServico = '';
                     $idAgendamento = '';
-                    
+                    $descricao = '';
                     
                     if (in_array($horario, $horariosIndisponiveis)) {
                         foreach ($consultaAgendamentos as $agendamento) {
                             if (date('H:i', strtotime($agendamento['data_agendamento'])) === $horario) {
                                 $agendamentoEncontrado = true;
-                                $agendamentoNome = $agendamento['nome_cliente'].' - '.$agendamento['nome_servico'].' - '.$agendamento['telefone_cliente'];
+                                $contato = '';
+                                $semCadastro = '';
+                                if($agendamento['telefone_cliente']){
+                                    $contato = ' - ' . $agendamento['telefone_cliente'];
+                                }
+                                if($agendamento['nome_cliente'] === 'sem cadastro'){
+                                    $semCadastro = ' - '. $agendamento['descricao'];
+                                }
+                                $agendamentoNome = $agendamento['nome_cliente'].' - '.$agendamento['nome_servico'] . $contato . ' ' . $semCadastro;
                                 $nomeServico = $agendamento['nome_servico'];
                                 $idAgendamento = $agendamento['id'];
+                                $descricao = $agendamento['descricao'];
                                 break;
                             }
                         }
                     }
 
                     if ($agendamentoEncontrado) {
-                        $horarios[] = ['horario' => $horario, 'nome' => $agendamentoNome, 'servico' => $nomeServico, 'idAgendamento' => $idAgendamento];
+                        $horarios[] = ['horario' => $horario, 'nome' => $agendamentoNome, 'servico' => $nomeServico, 'idAgendamento' => $idAgendamento, 'descricao' => $descricao];
                     } else {
                         $horarios[] = ['horario' => $horario, 'nome' => ''];
                     }
@@ -285,7 +271,7 @@ final class AgendamentoController
             }
         }
 
-    $responseData = ['horariosMarcado' => $horarios];
+    $responseData = ['horarios' => $horarios];
     $response = $response->withHeader('Content-Type', 'application/json');
     $response->getBody()->write(json_encode($responseData));
     return $response;
@@ -333,20 +319,25 @@ final class AgendamentoController
         $id = $args['id'];
         $agendamentos = new Agendamento();
 
-        $resultado = $agendamentos->selectAgendament('*', array('id' => $id))[0];
+        $resultado = $agendamentos->selectAgendamento($id);
 
 
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
 
         $usuario = $_SESSION['usuario_logado'];
-        
+
+        $clientes = new Cliente();
+        $consultaClientes  = $clientes->selectCliente('*', array('*'));
+
         $data['informacoes'] = array(
             'menu_active' => 'agendamentos',
-            'agendamento' => $resultado,
-            'nome_logo' => $nome_logo_site,
+            'agendamento' => $resultado[0],
             'usuario' => $usuario,
+            'nome_logo' => $nome_logo_site,
+            'cliente' => $consultaClientes
         );
+
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/agendamento");
         return $renderer->render($response, "edit.php", $data);
     }
@@ -481,14 +472,13 @@ final class AgendamentoController
         $args
     ) {
         $id = $request->getParsedBody()['id'];
-        $nome_cliente = $request->getParsedBody()['nome_cliente'];
-        $telefone_cliente = $request->getParsedBody()['telefone_cliente'];
+        $id_cliente = $request->getParsedBody()['id_cliente'];
+        $descricao = $request->getParsedBody()['descricao'];
        
 
         $campos = array(
-            'id' => $id,
-            'nome_cliente' => $nome_cliente,
-            'telefone_cliente' => $telefone_cliente,
+            'id_cliente' => $id_cliente,
+            'descricao' => $descricao
         );
         
         $agendamentos = new Agendamento();

@@ -280,11 +280,11 @@ final class CaixaController
                    
             
                     $caixa = new Caixa();
-                    $resultado = $caixa->selectPorData($data1, $idBarbeiro);
+                    $resultado1 = $caixa->selectPorData($data1, $idBarbeiro);
 
                     $valorTotal = '0';
 
-                    foreach ($resultado as $registro) {
+                    foreach ($resultado1 as $registro) {
                         $valorTotal += $registro['dinheiro'] + $registro['pix'] + $registro['cartao'];
                     }
                     
@@ -314,10 +314,10 @@ final class CaixaController
                     $dataInicioW = date('Y-m-d', strtotime($data1));
                     $dataFimW = date('Y-m-d', strtotime($data2));
                     
-                    $sql = "SELECT SUM(dinheiro) + SUM(pix) + SUM(cartao) as valorTotal FROM caixa WHERE data BETWEEN '{$dataInicioW}' AND '{$dataFimW}'";
-                    $resultado = $caixa->querySelect($sql);
+                    $sql = "SELECT SUM(dinheiro) + SUM(pix) + SUM(cartao) as valorTotal FROM caixa WHERE data BETWEEN '{$data1}' AND '{$data2}' AND caixa.id_barbeiro = '{$idBarbeiro}'";
+                    $resultado1 = $caixa->querySelect($sql);
                     
-                    $relatorio = $resultado[0]['valorTotal'];
+                    $relatorio = $resultado1[0]['valorTotal'];
                     $valorComissao = $relatorio * $comissao / 100;
                 }
 

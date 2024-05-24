@@ -40,6 +40,7 @@
                     </div>
                     
                 </div>
+
                 <div id="tabelaHorarios">
 
                     
@@ -56,8 +57,9 @@
                             <label>
                                 Nome Cliente
                                 <select name="id_cliente">
+                                    <option value="99999">sem cadastro</option>
                                     <?php foreach ($data['informacoes']['cliente'] as $clientes) {?>
-                                        <option value="<?=$clientes['id']?>"><?=$clientes['nome']?> - <?=$clientes['telefone']?></option>
+                                        <option value="<?=$clientes['id']?>"><?=$clientes['nome']?> <?php if($clientes['telefone']) echo ' - ' . $clientes['telefone']?></option>
                                     <?php }?>
                                     </select>
                                 </label>

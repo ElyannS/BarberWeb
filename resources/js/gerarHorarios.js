@@ -1,7 +1,7 @@
 $(document).ready(function(){
     function atualizarData(data) {
         $.ajax({ 
-            url: '/BarberWeb-1/admin/gerar_horario',
+            url: '/BarberWeb/admin/gerar_horario',
             type: 'POST',
             data: { data: data },
             dataType: 'json',
@@ -99,4 +99,79 @@ $(document).ready(function(){
     atualizarData(dataInicial);
 
 
+
+    var currentPagePath = window.location.pathname;
+  var specificPagePath = '/BarberWeb/admin/agendamentos';
+
+  if (currentPagePath === specificPagePath) {
+
+      function atualizarHorariosMarcados(data) {
+          $.ajax({
+            url: '/BarberWeb/admin/atualizar_data',
+            type: 'POST',
+            data: {
+              data: data,
+            },
+            dataType: 'json',
+            success: function(response) {
+              var horarios = response.horarios;
+              
+                for (var i = 0; i < horarios.length; i++) {
+                  var horario = horarios[i].horario;
+                  var nomeAgendamento = horarios[i].nome;
+                  var idAgendamento = horarios[i].idAgendamento; 
+                  var servico = horarios[i].servico;
+      
+                  
+                  var celula = $('#horario-' + horario.replace(':', '-').replace(' ', '-'));
+                 
+                  if (nomeAgendamento) {
+                    celula.addClass('marcado');      
+                    if(servico == 'Corte e barba') {
+                      celula.addClass('marcado-corte-barba');
+                    }
+                  } 
+      
+                 
+                  var linkAgendamento = $('<a></a>');
+                  linkAgendamento.attr('href', 'agendamentos-edit/' + idAgendamento); 
+                  linkAgendamento.text(nomeAgendamento);
+      
+                  
+                  celula.empty();
+                  celula.append(linkAgendamento);
+                }
+            },
+            
+            error: function(xhr, status, error) {
+              if (xhr.responseText) {
+                try {
+                  var response = JSON.parse(xhr.responseText);
+                  if (response.hasOwnProperty('error')) {
+                    alert('Erro: ' + response.error);
+                  } else {
+                    alert('Ocorreu um erro na requisição.');
+                  }
+                } catch (e) {
+                 
+                  alert('Ocorreu um erro na requisição: ' + error);
+                }
+              } else {
+              
+                alert('Ocorreu um erro na requisição: ' + error);
+               
+              }
+            }
+          });
+        }
+        
+        $('#dataMarcada').change(function() {
+          var data = $('#dataMarcada').val();
+        
+          atualizarHorariosMarcados(data);
+        });
+      }
+ 
+     
+      atualizarHorariosMarcados(dataInicial);
 });

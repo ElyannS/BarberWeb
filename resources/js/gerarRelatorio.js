@@ -1,12 +1,12 @@
 $(document).ready(function(){
 
     var currentPagePath = window.location.pathname;
-    var specificPagePath = '/BarberWeb-1/admin/caixa-relatorio';
+    var specificPagePath = '/BarberWeb/admin/caixa-relatorio';
  
     if (currentPagePath === specificPagePath) {
         function atualizarData(data1, data2) {
             $.ajax({
-                url: '/BarberWeb-1/admin/gerar_relatorio',
+                url: '/BarberWeb/admin/gerar_relatorio',
                 type: 'POST',
                 data: { data1: data1, data2: data2 },
                 dataType: 'json',

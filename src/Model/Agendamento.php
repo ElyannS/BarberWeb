@@ -29,18 +29,22 @@ class Agendamento extends Model {
         $this->delete($this->table, $coluna, $valor);
     }
 
-    public function selectAgendamento(): array
+    public function selectAgendamento($id): array
     {
-        $sql = "SELECT A.*, B.nome AS nomebarbeiro, S.titulo AS servicoNome FROM agendamento AS A 
-                INNER JOIN usuarios AS B ON B.id = A.barbeiro_id
-                INNER JOIN servicos AS S ON S.id = A.servico_id";
-        return $this->querySelect($sql);
+        $sql = "SELECT agendamento.*, servicos.titulo AS nome_servico, clientes.nome AS nome_cliente,
+        clientes.telefone AS telefone_cliente, usuarios.nome AS nome_barbeiro FROM agendamento 
+        INNER JOIN clientes ON agendamento.id_cliente = clientes.id
+        INNER JOIN servicos ON agendamento.servico_id = servicos.id 
+        INNER JOIN usuarios ON agendamento.barbeiro_id = usuarios.id
+        WHERE agendamento.id = :id ";
+        $stmt = $this->querySelect($sql, array(':id' => $id));
+        return $stmt;
     }
 
 
     function selectAgendamentoData($data, $barbeiroId): array
     {
-        $sql = "SELECT agendamento.*, servicos.titulo AS nome_servico, clientes.nome AS nome_cliente, clientes.telefone AS telefone_cliente, clientes.telefone AS telefone_cliente FROM agendamento 
+        $sql = "SELECT agendamento.*, servicos.titulo AS nome_servico, clientes.nome AS nome_cliente, clientes.telefone AS telefone_cliente FROM agendamento 
         INNER JOIN clientes ON agendamento.id_cliente = clientes.id
         INNER JOIN servicos ON agendamento.servico_id = servicos.id 
         WHERE DATE(agendamento.data_agendamento) = :data 
