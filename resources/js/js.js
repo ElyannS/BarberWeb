@@ -1,6 +1,4 @@
 $(document).ready(function(){
-  $('.js-example-basic-single').select2();
-
 
   $('#gestor').on('click', function(){
     if($('#gestor').val() === '1'){
@@ -294,6 +292,9 @@ $(document).ready(function(){
       $('input[name="logo_site"]').attr('required', false);
     }
   });
+
+
+ 
 
 });
 
