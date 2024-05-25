@@ -23,37 +23,39 @@ final class CaixaController
         $usuarioInfo = $usuario->selectUsuario('*', ['email' => $emailUser]);
         $idBarbeiro = $usuarioInfo[0]['id'];
 
-
         if(isset($_GET['pesquisa']) && $_GET['pesquisa'] !== ''){
-            $lista = $servicos->selectCaixaPesquisa($_GET['pesquisa']);
+            $lista = $servicos->selectCaixaPesquisa($_GET['pesquisa'], $idBarbeiro);
             $paginaAtual = 1;
             $proximaPagina = false;
             $paginaAnterior = false;
             
         } else{
-            $limit = 10;
+            $limit = 7;
             $paginaAtual = isset($_GET['page']) ? $_GET['page'] : 1;
             $offset = ($paginaAtual * $limit) - $limit;
-
-            // Obtenha as datas distintas agrupando por data e selecionando a transação mais recente
+            
             $sqlDatasDistintas = "SELECT MAX(id) as id FROM caixa GROUP BY data ORDER BY data DESC LIMIT {$offset}, {$limit}";
             $datasDistintas = $servicos->querySelect($sqlDatasDistintas);
-
-            $qntTotal = count($datasDistintas);
-
-            if($qntTotal > 0){
-                $proximaPagina = ($qntTotal > ($paginaAtual * $limit)) ? URL_BASE."admin/caixa?page=".($paginaAtual + 1) : false;
+            
+            $sqlCount = "SELECT COUNT(DISTINCT data) as total FROM caixa";
+            $resultCount = $servicos->querySelect($sqlCount);
+            $totalRegistros = $resultCount[0]['total'];
+            $totalPaginas = ceil($totalRegistros / $limit);
+            
+            if (count($datasDistintas) > 0) {
+                $proximaPagina = ($paginaAtual < $totalPaginas) ? URL_BASE."admin/caixa?page=".($paginaAtual + 1) : false;
                 $paginaAnterior = ($paginaAtual > 1) ? URL_BASE."admin/caixa?page=".($paginaAtual - 1) : false;
-    
-                // Agora, obtenha as transações para a página atual usando os IDs obtidos anteriormente
+              
                 $ids = implode(',', array_column($datasDistintas, 'id'));
-                $sqlLista = "SELECT * FROM caixa WHERE id IN ({$ids}) AND caixa.id_barbeiro = {$idBarbeiro}";
+                $sqlLista = "SELECT * FROM caixa WHERE id IN ({$ids}) AND caixa.id_barbeiro = {$idBarbeiro} ORDER BY data DESC";
                 $lista = $servicos->querySelect($sqlLista);
-            } else{
+            } else {
                 $lista = [];
-            }
-           
+                $proximaPagina = false;
+                $paginaAnterior = false;
+            }  
         }
+
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
 

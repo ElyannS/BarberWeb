@@ -25,39 +25,22 @@
                     </div>
                 </div>
                 <div class="row">
-                    <label>
-                        Valor em Dinheiro
-                        <input type="checkbox" id="dinheiro" placeholder="Dinheiro">
-                    </label>
-                </div>
-                <div class="row">
-                    <label>
-                        Valor em Pix
-                        <input type="checkbox" id="pix" placeholder="Pix">
-                    </label>
-                </div>
-                <div class="row">
-                    <label>
-                        Valor em Cartão
-                        <input type="checkbox" id="cartao" placeholder="Cartão">
-                    </label>
-                </div>
                 <div class="row">
                     <label class="dinheiro">
                         Valor em Dinheiro
-                        <input  type="text" name="dinheiro" placeholder="Dinheiro" value="0">
+                        <input  type="text" name="dinheiro" placeholder="Dinheiro">
                     </label>
                 </div>
                 <div class="row">
                     <label class="pix">
                         Valor em Pix
-                        <input type="text" name="pix" placeholder="Pix" value="0">
+                        <input type="text" name="pix" placeholder="Pix">
                     </label>
                 </div>
                 <div class="row">
                     <label class="cartao">
                         Valor em Cartão
-                        <input type="text" name="cartao" placeholder="Cartão" value="0">
+                        <input type="text" name="cartao" placeholder="Cartão">
                     </label>
                 </div>
                 

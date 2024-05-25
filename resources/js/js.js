@@ -62,38 +62,6 @@ $(document).ready(function(){
   });
 
 
-
-
-  $('#dinheiro').change(function() {
-   
-    if ($(this).is(':checked')) {
-        
-        $('.dinheiro').css('display', 'block');
-    } else {
-        $('.dinheiro').css('display', 'none');
-    }
-  });
-
-  $('#pix').change(function() {
-   
-    if ($(this).is(':checked')) {
-        
-        $('.pix').css('display', 'block');
-    } else {
-        $('.pix').css('display', 'none');
-    }
-  });
-
-  $('#cartao').change(function() {
-   
-    if ($(this).is(':checked')) {
-        
-        $('.cartao').css('display', 'block');
-    } else {
-        $('.cartao').css('display', 'none');
-    }
-  });
-  
   $('#tabelaHorarios').on('click', '.td', function() {
     var idHorarioClicado = $(this).attr('id');
     var dataInput = $('#dataMarcada').val();

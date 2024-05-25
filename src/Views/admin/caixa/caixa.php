@@ -7,6 +7,12 @@
                 <p>Caixa</p>
             </div>
             <div class="topo">
+            <div class="form_pesquisa d-none">
+                    <form action="<?=URL_BASE?>admin/caixa" method="GET">
+                        <input type="text" name="pesquisa" placeholder="Digita uma data...">
+                        <button type="submit">Pesquisar</button>
+                    </form>
+                </div>
                 <div class="btn">
                     <a href="<?=URL_BASE?>admin/caixa-relatorio">Relatório</a>
                 </div>
@@ -15,9 +21,16 @@
                 </div>
             </div> 
         </div>
-       
+        <div class="topo flex">
+            <div class="form_pesquisa">
+                <form action="<?=URL_BASE?>admin/caixa" method="GET">
+                    <input type="text" name="pesquisa" placeholder="Digita uma data...">
+                    <button type="submit">Pesquisar</button>
+                </form>
+            </div>
+        </div>
 
-       
+        
         <div class="lista">
             <table>
                 <tbody> 

@@ -54,42 +54,54 @@
                             Dashboard
                         </a>
                     </li>
-                    <li class="<?=($data['informacoes']['menu_active'] === 'agendamentos') ? 'active' : ''?>">
-                        <a href="<?=URL_BASE?>admin/agendamentos">
-                            <img class="icon_svg" src="<?=URL_BASE?>resources/imagens/calendar1.svg">
-                            Agenda
-                        </a>
-                    </li>
-                    <li class="<?=($data['informacoes']['menu_active'] === 'servicos') ? 'active' : ''?>">
-                        <a href="<?=URL_BASE?>admin/servicos">
-                        <img class="icon_svg" src="<?=URL_BASE?>resources/imagens/servico1.svg">
-                            Serviços
-                        </a>
-                    </li>
+                    <?php if($data['informacoes']['usuario']['type'] != '99'){ ?>
+                        <li class="<?=($data['informacoes']['menu_active'] === 'agendamentos') ? 'active' : ''?>">
+                            <a href="<?=URL_BASE?>admin/agendamentos">
+                                <img class="icon_svg" src="<?=URL_BASE?>resources/imagens/calendar1.svg">
+                                Agenda
+                            </a>
+                        </li>
+                    <?php } ?>
+                    <?php if($data['informacoes']['usuario']['type'] != '99'){ ?>
+                        <li class="<?=($data['informacoes']['menu_active'] === 'servicos') ? 'active' : ''?>">
+                            <a href="<?=URL_BASE?>admin/servicos">
+                            <img class="icon_svg" src="<?=URL_BASE?>resources/imagens/servico1.svg">
+                                Serviços
+                            </a>
+                        </li>
+                    <?php } ?>
+                   
                     <li class="<?=($data['informacoes']['menu_active'] === 'caixa') ? 'active' : ''?>">
                         <a href="<?=URL_BASE?>admin/caixa">
                         <img class="icon_svg" src="<?=URL_BASE?>resources/imagens/cash1.svg">
                             Caixa
                         </a>
                     </li>
-                    <li class="<?=($data['informacoes']['menu_active'] === 'barbeiros') ? 'active' : ''?>">
-                        <a href="<?=URL_BASE?>admin/barbeiros">
-                        <img class="icon_svg" src="<?=URL_BASE?>resources/imagens/barber1.svg">
-                            Barbeiros
-                        </a>
-                    </li>
-                    <li class="<?=($data['informacoes']['menu_active'] === 'clientes') ? 'active' : ''?>">
-                        <a href="<?=URL_BASE?>admin/clientes">
-                            <i class="fa-solid fa-user-group"></i>
-                            Clientes
-                        </a>
-                    </li>
-                    <li class="<?=($data['informacoes']['menu_active'] === 'horarios') ? 'active' : ''?>">
-                        <a href="<?=URL_BASE?>admin/horarios">
-                            <img class="icon_svg" src="<?=URL_BASE?>resources/imagens/relogio.svg">
-                            Horários
-                        </a>
-                    </li>
+                    
+                    <?php if($data['informacoes']['usuario']['type'] != '99'){ ?>
+                        <li class="<?=($data['informacoes']['menu_active'] === 'barbeiros') ? 'active' : ''?>">
+                            <a href="<?=URL_BASE?>admin/barbeiros">
+                            <img class="icon_svg" src="<?=URL_BASE?>resources/imagens/barber1.svg">
+                                Barbeiros
+                            </a>
+                        </li>
+                    <?php } ?>
+                    <?php if($data['informacoes']['usuario']['type'] != '99'){ ?>
+                        <li class="<?=($data['informacoes']['menu_active'] === 'clientes') ? 'active' : ''?>">
+                            <a href="<?=URL_BASE?>admin/clientes">
+                                <i class="fa-solid fa-user-group"></i>
+                                Clientes
+                            </a>
+                        </li>
+                    <?php } ?>
+                    <?php if($data['informacoes']['usuario']['type'] != '99'){ ?>
+                        <li class="<?=($data['informacoes']['menu_active'] === 'horarios') ? 'active' : ''?>">
+                            <a href="<?=URL_BASE?>admin/horarios">
+                                <img class="icon_svg" src="<?=URL_BASE?>resources/imagens/relogio.svg">
+                                Horários
+                            </a>
+                        </li>
+                    <?php } ?>
                     <li class="<?=($data['informacoes']['menu_active'] === 'perfil') ? 'active' : ''?>">
                         <a href="<?=URL_BASE?>admin/perfil">
                             <i class="fas fa-user"></i>

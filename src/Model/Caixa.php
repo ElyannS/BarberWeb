@@ -40,11 +40,28 @@ class Caixa extends Model {
 
 		return $this->querySelect($sql);
 	}
-	function selectCaixasPesquisa($pesquisa)
+	function selectCaixaPesquisa($pesquisa, $barbeiroId)
 	{
-		$sql = "SELECT * FROM ".$this->table." WHERE titulo LIKE '%".$pesquisa."%' ORDER BY id DESC";
-
+		$pesquisa = $this->sanitize($pesquisa);
+		$barbeiroId = intval($barbeiroId);
+	
+	
+		$sql = "
+			SELECT *
+			FROM " . $this->table . " AS c
+			INNER JOIN (
+				SELECT MAX(id) AS max_id
+				FROM " . $this->table . "
+				WHERE data LIKE '%" . $pesquisa . "%' AND id_barbeiro = " . $barbeiroId . "
+				GROUP BY data
+			) AS sub ON c.id = sub.max_id
+			ORDER BY c.id DESC
+		";
 		return $this->querySelect($sql);
+	}
+	private function sanitize($input)
+	{
+		return htmlspecialchars(strip_tags($input));
 	}
 	function selectPorData($data, $barbeiroId): array
 	{
