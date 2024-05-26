@@ -24,15 +24,16 @@
             }
             .form{
                 max-width: 400px;
-                background-color: #292929;
+                background-color: #000000a8;
                 padding: 20px 25px;   
-                
+                border-radius: 8px;
                 h1{
                     font-size: 22px;
                     font-family: 'Montserrat Bold';
                     margin-bottom: 20px;
+                    color: #fff;
                 }
-                input[type='text'],
+                input[type='email'],
                 input[type='password']{
                 width: 100%;
                 padding: 11px 15px;
@@ -41,6 +42,7 @@
                 border: 0px;
                 margin-bottom: 20px;
                 font-size: 16px;
+                border-radius: 8px;
                 }
                 button{
                     width: 100%;
@@ -52,6 +54,7 @@
                     text-transform: uppercase;
                     cursor: pointer;
                     transition: .30s;
+                    border-radius: 8px;
                     &:hover{
                         background-color: $color_destaque_hover;
                     }
@@ -64,18 +67,22 @@
                     margin-top: 20px;
                 }
                 .alerta.sucesso{
-                    border: 1px solid green;
-                    background-color: #95ff95;
-                    color: #050;
+                    border: 1px solid $color_destaque;
+                    background-color: $color_destaque_hover;
+                    color: #ccc;
                     font-family: 'Montserrat Bold';
                     text-align: center;
+                    border-radius: 8px;
+                    transition:  0.3s ; 
                 }
                 .alerta.erro{
                     border: 1px solid red;
-                    background-color: #ffc5c5;
-                    color: #aa0202;
+                    background-color: #ffcccc;
+                    color: #ff0000;
                     font-family: 'Montserrat Bold';
                     text-align: center;
+                    border-radius: 8px;
+                    transition:  0.3s; 
                 }
             }
         }

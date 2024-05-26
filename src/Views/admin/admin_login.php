@@ -13,9 +13,9 @@
                 <div class="center">
                 <img src="<?=URL_BASE.$data['informacoes']['nome_logo']?>" alt="">
                     <div class="form">
-                        <h1>Faça login no painel</h1>
+                        <h1>Login</h1>
                         <form action="<?=URL_BASE?>admin/login" method="post" class="form_ajax">
-                            <input type="text" name="email" placeholder="Usuário" required>
+                            <input type="email" name="email" placeholder="Usuário" required>
                             <input type="password" name="senha" placeholder="Senha" required>
                             <button type="submit">Entrar</button>
                             <div class="alerta"></div>

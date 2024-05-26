@@ -844,7 +844,7 @@ body.admin{
 				.menu-agenda{
 					.title-menu{
 						display: flex;
-						justify-content: space-around;
+						justify-content: space-between;
 						align-items: center;
 						cursor: pointer;
 						.date{
@@ -852,26 +852,17 @@ body.admin{
 							font-size: 0.9em;
 							font-weight: bold;
 							@include desktop{
-								font-size: 1.2em;
+								font-size: 1em;
 							}
 						}
 						.icon-menu{
 							font-size: 23px;
-							width: 15%;
+							width: 10%;
 							input{											
-								opacity: 0;
-								color: #fff;
-								z-index: 33;
-								position: relative;
+								color: #000000;
 								width: 20%;
-							}
-							
-							.calendarIcon {
-								margin-left: -20px;
-								cursor: pointer;
 								@include desktop{
-									margin-left: -30px;
-									
+									width:50%;
 								}
 							}
 						}
@@ -1138,10 +1129,19 @@ body.admin{
 									font-family: 'Montserrat Bold';
 									color: #9c9c9c;
 									width: 100%;
-								
+								}
+								.select2-container--default{
+									width: 100% !important;
+									.select2-selection--single{
+										height: 40px;
+										.select2-selection__rendered{
+											line-height: 37px;
+										}
+									}
 								}
 							}
 						}
+						
 					}
 					.close-popup{
 						text-align: end;

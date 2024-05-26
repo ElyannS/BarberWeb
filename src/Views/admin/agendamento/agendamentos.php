@@ -13,11 +13,11 @@
                     </div>    
                 </div>
                 <div class="menu-agenda">
+                <input type="date" id="dataMarcada" class="hidden"/>
                     <div class="title-menu">
                         <div class="icon-menu">
                             <i id="prevButton" class="fa-solid fa-angle-left"></i>
-                            <input type="date" id="dataMarcada" class="hidden" />
-                            <span class="calendarIcon"><i class="fa-solid fa-calendar-days"></i></span>
+                            
                         </div>
                         <div class="date"></div>
                         <i id="nextButton" class="fa-solid fa-angle-right"></i>
@@ -56,13 +56,13 @@
                         <div class="row">
                             <label>
                                 Nome Cliente
-                                <select name="id_cliente">
+                                <select  class="js-example-basic-single" name="id_cliente">
                                     <option value="99999">sem cadastro</option>
                                     <?php foreach ($data['informacoes']['cliente'] as $clientes) {?>
                                         <option value="<?=$clientes['id']?>"><?=$clientes['nome']?> <?php if($clientes['telefone']) echo ' - ' . $clientes['telefone']?></option>
                                     <?php }?>
                                     </select>
-                                </label>
+                            </label>
                         </div>
                         <div class="row">
                             <label>
