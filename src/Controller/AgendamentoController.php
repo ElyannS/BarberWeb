@@ -174,13 +174,14 @@ final class AgendamentoController
         )
     {
         $data = '';
+        $idBarbeiro = $_POST['idBarbeiro'];
         $horarios = [];
 
         if ($request->getMethod() === 'POST') {
             $params = $request->getParsedBody();
             if (isset($params['data'])) {
                 $data = $params['data'];
-
+                
                
                 $diaSemana = date('w', strtotime($data));
                 
@@ -218,14 +219,10 @@ final class AgendamentoController
                     }
                 }
                 
-                Usuario::verificarLogin();
-                $emailUser = $_SESSION['usuario_logado']['email'];
-                $usuario = new Usuario();
-                $usuarioInfo = $usuario->selectUsuario('*', ['email' => $emailUser]);
-                $idUser = $usuarioInfo[0]['id'];
+               
                     
                 $agendamentos = new Agendamento();
-                $consultaAgendamentos = $agendamentos->selectAgendamentoData($data, $idUser);
+                $consultaAgendamentos = $agendamentos->selectAgendamentoData($data, $idBarbeiro);
 
                 $horariosIndisponiveis = [];
 

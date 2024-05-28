@@ -19,14 +19,23 @@
             </div>
             <div class="right">
                 <div class="menu">
+                
                     <ul>
+                        <?php if($data['informacoes']['menu_active'] === 'agendamentos'){?>
+                            <li>
+                                <i class="fa-solid fa-calendar-days"></i>
+                                <input type="date" id="dataMarcada" class="hidden"/>
+                            </li>
+                            <li>
+                                <select name="idBarbeiro" id="idBarbeiro">
+                                    <?php foreach($data['informacoes']['barbeiro'] as $barbeiros){?>
+                                        <option value="<?= $barbeiros['id'] ?>" <?= ($_SESSION['usuario_logado']['id'] === $barbeiros['id']) ? 'selected="selected"' : '' ?>><?= $barbeiros['nome'] ?></option>
+                                    <?php }?>
+                                </select>
+                            </li>
+                        <?php }?>
                         <li>
-                            <div class="name_user">
-                                <?=$_SESSION['usuario_logado']['nome']?>
-                            </div>
-                           
                             <img src="<?=URL_BASE.$_SESSION['usuario_logado']['foto_usuario']?>">
-
                         </li>
                     </ul>
                 </div>

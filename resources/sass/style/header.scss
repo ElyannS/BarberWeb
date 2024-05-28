@@ -207,7 +207,7 @@ header{
         .left{
             a{
                 svg{
-                    font-size: 35px;
+                    font-size: 28px;
                     cursor: pointer;
                     transition: .30s;
                     &:hover{
@@ -222,11 +222,29 @@ header{
         .right{
             .menu{
                 ul{
+                    display: inline-flex;
                     li{
                         display: inline-flex;
                         align-items: center;
                         position: relative;
-                        
+                        .hidden{
+                            padding: 0 5px 0 0;
+                            opacity: 0;
+                        }
+                        i{
+                            color: #fff;
+                            position: relative;
+                            left: 111px;
+                            font-size: 18px;
+                        }
+                        select{
+                                background: #000;
+                                color: #fff;
+                                font-family: 'Montserrat Regular';
+                                border: 2 solid #dbdbdb;
+                                border-radius: 8px;
+                                padding: 5px;
+                        }
                         .name_user{
                             margin-right: 15px;
                         }

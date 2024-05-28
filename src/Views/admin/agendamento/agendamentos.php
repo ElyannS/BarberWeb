@@ -13,7 +13,7 @@
                     </div>    
                 </div>
                 <div class="menu-agenda">
-                <input type="date" id="dataMarcada" class="hidden"/>
+               
                     <div class="title-menu">
                         <div class="icon-menu">
                             <i id="prevButton" class="fa-solid fa-angle-left"></i>
