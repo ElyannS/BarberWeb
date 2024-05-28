@@ -94,7 +94,7 @@
             display: inline-flex;
             flex-wrap: wrap;
             justify-content: center;
-            
+            color: #fff; 
             @include tablet{
                 justify-content: space-between;
             }

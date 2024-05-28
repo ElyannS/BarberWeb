@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
-    <title>Painel Administrativo</title>
+    <title>Exclusive Barbershop</title>
+    <link rel="shortcut icon" href="<?=URL_BASE?>resources/imagens/favicon.png"/>
     <link href="<?=URL_BASE?>resources/css/css.css" rel="stylesheet"/>
     <link href="<?=URL_BASE?>resources/fonts/fontawesome/css/all.min.css" rel="stylesheet"/>
     
@@ -13,6 +14,17 @@
 	<header>
         <div class="container">
             <div class="left">
+                <ul>       
+                    <?php if($data['informacoes']['menu_active'] === 'agendamentos'){?>
+                        <li>
+                            <select name="idBarbeiro" id="idBarbeiro">
+                                <?php foreach($data['informacoes']['barbeiro'] as $barbeiros){?>
+                                    <option value="<?= $barbeiros['id'] ?>" <?= ($_SESSION['usuario_logado']['id'] === $barbeiros['id']) ? 'selected="selected"' : '' ?>><?= $barbeiros['nome'] ?></option>
+                                <?php }?>
+                            </select>
+                        </li>
+                    <?php }?>
+                </ul>
                 <a href="#">
                     <i class="fa fa-bars"></i>
                 </a>
@@ -20,12 +32,8 @@
             <div class="right">
                 <div class="menu">
                 
-                    <ul>
+                    <ul>       
                         <?php if($data['informacoes']['menu_active'] === 'agendamentos'){?>
-                            <li>
-                                <i class="fa-solid fa-calendar-days"></i>
-                                <input type="date" id="dataMarcada" class="hidden"/>
-                            </li>
                             <li>
                                 <select name="idBarbeiro" id="idBarbeiro">
                                     <?php foreach($data['informacoes']['barbeiro'] as $barbeiros){?>
@@ -35,6 +43,10 @@
                             </li>
                         <?php }?>
                         <li>
+                            <?php if($data['informacoes']['menu_active'] === 'agendamentos'){?>
+                                <i class="fa-solid fa-calendar-days"></i>
+                                <input type="date" id="dataMarcada" class="hidden"/>
+                            <?php }?>
                             <img src="<?=URL_BASE.$_SESSION['usuario_logado']['foto_usuario']?>">
                         </li>
                     </ul>

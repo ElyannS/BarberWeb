@@ -328,7 +328,7 @@ final class AgendamentoController
         $consultaClientes  = $clientes->selectCliente('*', array('*'));
 
         $data['informacoes'] = array(
-            'menu_active' => 'agendamentos',
+            'menu_active' => 'agendamento',
             'agendamento' => $resultado[0],
             'usuario' => $usuario,
             'nome_logo' => $nome_logo_site,

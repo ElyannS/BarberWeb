@@ -731,21 +731,20 @@ body.admin{
 						background-color: $color_destaque;
 						display: block;
 						margin: 0;
-						max-width: max-content;
+						width: 100%;
 						transition: .30s;
-						padding: 12px 39%;
+						padding: 12px 25px;
 						text-transform: uppercase;
 						font-size: 16px;
 						color: #fff;
 						font-family: 'Montserrat Regular';
-						width: auto;
+
+						
 						cursor: pointer;
 						&:hover{
 							background-color: $color_destaque_hover;
 						}
-						@include desktop{
-							padding: 13px 55px;
-						}
+						
 					}
 					label{
 						width: 100%;
@@ -832,6 +831,68 @@ body.admin{
 					}
 				}
 			}
+			.button{
+				border: 0px;
+				border-radius: 10px;
+				background-color: $color_destaque;
+				display: block;
+				margin: 0;
+				width: 100%;
+				transition: .30s;
+				padding: 12px 25px;
+				text-transform: uppercase;
+				font-size: 16px;
+				color: #fff;
+				font-family: 'Montserrat Regular';
+				
+				cursor: pointer;
+				&:hover{
+					background-color: $color_destaque_hover;
+				}
+				@include desktop{
+					max-width: max-content;
+				}
+			}
+			#confirmationDialog {
+				display: none;
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				background-color: #fff;
+				padding: 20px;
+				border: 1px solid #ccc;
+				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+				text-align: center;
+			  }
+			  
+			  #confirmationDialog h3 {
+				margin-top: 0;
+				margin-bottom: 10px;
+			  }
+			  
+			  #confirmationDialog button {
+				margin-right: 10px;
+				border: 0px;
+				border-radius: 10px;
+				background-color: $color_destaque;
+				width: max-content;
+				transition: .30s;
+				padding: 12px 25px;
+				text-transform: uppercase;
+				font-size: 16px;
+				color: #fff;
+				font-family: 'Montserrat Regular';
+				
+				cursor: pointer;
+				&:hover{
+					background-color: $color_destaque_hover;
+				}
+			  }
+			.btn-cancel{
+				display: flex;
+				justify-content: center;
+				}
 		}
 	}
 }
@@ -1185,7 +1246,7 @@ body.admin{
 				border: 1px solid #ccc;
 				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 				text-align: center;
-				z-index: 1;
+				z-index: 999;
 				background-color: #000;
 				border-radius: 10px;
 				transition: .3s;

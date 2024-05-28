@@ -3,7 +3,8 @@
     <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
-    <title>Painel Administrativo do Site</title>    
+    <title>Exclusive Barbershop</title>
+    <link rel="shortcut icon" href="<?=URL_BASE?>resources/imagens/favicon.png"/>    
     <link href="<?=URL_BASE?>resources/css/css.css" rel="stylesheet"/>
     <link href="<?=URL_BASE?>resources/fonts/fontawesome/css/all.min.css" rel="stylesheet"/>
     </head>
