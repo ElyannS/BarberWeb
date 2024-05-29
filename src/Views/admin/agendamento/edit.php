@@ -59,21 +59,13 @@
                 <div class="row">
                     <button class="button" type="submit">Atualizar Agendamento</button>
                 </div>
-                <input type="hidden" name="id" value="<?=$data['informacoes']['agendamento']['id']?>">
+                <input type="hidden" id="idAgendamento" name="id" value="<?=$data['informacoes']['agendamento']['id']?>">
             </form>
-            <div class="delete">
-                <button type="submit" class="button" id="deleteButton">Cancelar Agendamento</button>
-                <div id="confirmationDialog" style="display: none;">
-                    <h3>Tem certeza de que deseja cancelar o Agendamento?</h3>
-                    <div class="btn-cancel">
-                        <form action="<?=URL_BASE?>admin/agendamentos_delete"  id="deleteForm"  method="post">
-                            <input type="hidden" name="id" value="<?=$data['informacoes']['agendamento']['id']?>">
-                            <button id="confirmDeleteButton">Sim</button>
-                        </form>
-                        <button id="cancelDeleteButton">Fechar</button>
-                    </div>
-                </div>
-            </div>
+            
+            <form action="<?=URL_BASE?>admin/agendamentos_delete"  method="post">
+                <input type="hidden" name="id" value="<?=$data['informacoes']['agendamento']['id']?>">
+                <button class="button" type="submit">Cancelar Agendamento</button>
+            </form>
         </div>
 
 

@@ -8,32 +8,7 @@ $(document).ready(function(){
     }
   });
 
-  const $deleteButton = $('#deleteButton');
-  const $confirmationDialog = $('#confirmationDialog');
-  const $confirmDeleteButton = $('#confirmDeleteButton');
-  const $cancelDeleteButton = $('#cancelDeleteButton');
-
-  function showConfirmationDialog() {
-    $confirmationDialog.show();
-  }
-
-  function hideConfirmationDialog() {
-    $confirmationDialog.hide();
-  }
-
-  // Adicionar um ouvinte de evento ao botão de delete para mostrar o diálogo de confirmação
-  $deleteButton.on('click', showConfirmationDialog);
-
-  // Adicionar um ouvinte de evento ao botão "Sim" do diálogo de confirmação
-  $confirmDeleteButton.on('click', function() {
-    deleteAction();
-    $deleteForm.submit(); 
-    hideConfirmationDialog();
-  });
-
-  // Adicionar um ouvinte de evento ao botão "Cancelar" do diálogo de confirmação
-  $cancelDeleteButton.on('click', hideConfirmationDialog);
-
+    
 
 
 
@@ -204,8 +179,6 @@ $(document).ready(function(){
       }, 5000);
     }
   });
-  
-
 
 
   if ($('form.form_ajax').length) {

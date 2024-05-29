@@ -1,12 +1,12 @@
 $(document).ready(function(){
 
     var currentPagePath = window.location.pathname;
-    var specificPagePath = '/BarberWeb/admin/caixa-relatorio';
+    var specificPagePath = '/admin/caixa-relatorio';
  
     if (currentPagePath === specificPagePath) {
         function atualizarData(data1, data2) {
             $.ajax({
-                url: '/BarberWeb/admin/gerar_relatorio',
+                url: '/admin/gerar_relatorio',
                 type: 'POST',
                 data: { data1: data1, data2: data2 },
                 dataType: 'json',
@@ -36,7 +36,7 @@ $(document).ready(function(){
                     alert(mensagemErro);
                 }
             });
-        }
+        } 
     
         $('#campoData').change(function() {
             var data1 = $('#campoData1').val();

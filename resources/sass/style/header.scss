@@ -200,12 +200,7 @@ header{
                     visibility: hidden;
                 }
             }
-            ul{
-                display: none;
-                @include desktop{
-                    display: inline-flex;
-                }
-            }
+           
             select{
                 background: #000;
                 color: #fff;
@@ -240,10 +235,6 @@ header{
                                 border: 0 solid #000;
                                 border-radius: 8px;
                                 padding: 5px;
-                               
-                            @include desktop{
-                                display: none;
-                            }
                         }
                         
                         .name_user{

@@ -104,7 +104,8 @@ $(document).ready(function(){
   var specificPagePath = '/BarberWeb/admin/agendamentos';
 
   if (currentPagePath === specificPagePath) {
-    
+    var idBarbeiro = $('#idBarbeiro').val();
+
 
       function atualizarHorariosMarcados(data, idBarbeiro) {
           $.ajax({
@@ -169,20 +170,18 @@ $(document).ready(function(){
         
         $('#dataMarcada').change(function() {
           var data = $('#dataMarcada').val();
-          var idBarbeiro = $('#idBarbeiro').val();
           atualizarHorariosMarcados(data, idBarbeiro);
         });
+
         var data = $('#dataMarcada').val();
         var idBarbeiro = $('#idBarbeiro').val();
         atualizarHorariosMarcados(data, idBarbeiro);
   
         $('#idBarbeiro').change(function(){
-          var idBarbeiro = $('#idBarbeiro').val();
           var data = $('#dataMarcada').val();
           atualizarData(data);
           atualizarHorariosMarcados(data, idBarbeiro);
         });
       }
 
-     
 });

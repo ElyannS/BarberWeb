@@ -14,17 +14,6 @@
 	<header>
         <div class="container">
             <div class="left">
-                <ul>       
-                    <?php if($data['informacoes']['menu_active'] === 'agendamentos'){?>
-                        <li>
-                            <select name="idBarbeiro" id="idBarbeiro">
-                                <?php foreach($data['informacoes']['barbeiro'] as $barbeiros){?>
-                                    <option value="<?= $barbeiros['id'] ?>" <?= ($_SESSION['usuario_logado']['id'] === $barbeiros['id']) ? 'selected="selected"' : '' ?>><?= $barbeiros['nome'] ?></option>
-                                <?php }?>
-                            </select>
-                        </li>
-                    <?php }?>
-                </ul>
                 <a href="#">
                     <i class="fa fa-bars"></i>
                 </a>
