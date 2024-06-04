@@ -143,6 +143,25 @@ final class ClienteController
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/cliente");
         return $renderer->render($response, "create.php", $data);
     }
+    public function register_cliente(
+        ServerRequestInterface $request, 
+        ResponseInterface $response,
+        $args
+    ) {
+       
+        $config = new Configuracao();
+        $nome_logo_site = $config->getConfig('logo_site');
+
+        $usuario = $_SESSION['usuario_logado'];
+
+        $data['informacoes'] = array(
+            'menu_active' => 'clientes',
+            'nome_logo' => $nome_logo_site,
+            'usuario' => $usuario
+        );
+        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN);
+        return $renderer->render($response, "register.php", $data);
+    }
     public function clientes_edit(
         ServerRequestInterface $request, 
         ResponseInterface $response,

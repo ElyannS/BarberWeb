@@ -30,6 +30,7 @@ return function (App $app) {
     
     //CONTROLADOR CLIENTES
     $app->get('/login-cliente', '\App\Controller\ClienteController:login_cliente');
+    $app->get('/register', '\App\Controller\ClienteController:register_cliente');
     $app->post('/admin/login-cliente', '\App\Controller\ClienteController:verificar_login_cliente');
     $app->get('/admin/logout-cliente', '\App\Controller\ClienteController:logout_cliente');
     $app->get('/admin/clientes', '\App\Controller\ClienteController:clientes');
