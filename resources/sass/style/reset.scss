@@ -632,9 +632,13 @@ body.admin{
 			display: flex;
 			justify-content: center;
 			margin-bottom: 50px;
-		
+			flex-wrap: wrap;
 			@include desktop{
 				display: none;
+			}
+			p{
+				margin-bottom: 0px;
+				color: #fff;
 			}
 		}
 		.menu_pagina_inicial{
@@ -659,13 +663,14 @@ body.admin{
 						height: 80px;
 						display: flex;
 						justify-content: center;
-						margin-bottom: 10px;
+						margin: 0 auto 10px auto;
 						.icon_svg{
 							width: 80%;
 						}
 					}
 					p{
 						text-align: center;
+						font-size: 11px;
 					}
 					
 				}

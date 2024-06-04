@@ -54,5 +54,14 @@ class Cliente extends Model {
 
 		return $this->querySelect($sql);
 	}
-	 
+	public static function verificarLoginCliente() 
+	{
+		if (!isset($_SESSION)) {
+			session_start();
+		}
+		if (!isset($_SESSION['usuario_logado']) && $_SESSION['usuario_logado'] === NULL) {
+			header("Location: ".URL_BASE."login-cliente");
+			exit();
+		}
+	}
 }

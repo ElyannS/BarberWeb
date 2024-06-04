@@ -58,7 +58,7 @@ final class ClienteController
 
             $js['status'] = 1;
             $js['msg'] = "Usuário logado com sucesso";
-            $js['redirecionar_pagina'] = URL_BASE.'dashboard';
+            $js['redirecionar_pagina'] = URL_BASE.'dashboard-cliente';
             echo json_encode($js);
             exit();
         } else{
@@ -78,7 +78,27 @@ final class ClienteController
         unset( $_SESSION['usuario_logado']);
         header("Location: ".URL_BASE."login-cliente");
 		exit();
-    } 
+    }
+    public function dashboard_cliente(
+        ServerRequestInterface $request, 
+        ResponseInterface $response,
+        $args
+    ) {
+        Cliente::verificarLoginCliente();
+
+        $config = new Configuracao();
+        $nome_logo_site = $config->getConfig('logo_site');
+
+        $usuario = $_SESSION['usuario_logado'];
+        
+        $data['informacoes'] = array(
+            'menu_active' => 'dashboard',
+            'nome_logo' => $nome_logo_site,
+            'usuario' => $usuario
+        );
+        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN);
+        return $renderer->render($response, "dashboard_cliente.php", $data);
+    }  
     public function clientes(
         ServerRequestInterface $request, 
         ResponseInterface $response,
@@ -152,12 +172,11 @@ final class ClienteController
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
 
-        $usuario = $_SESSION['usuario_logado'];
+       
 
         $data['informacoes'] = array(
             'menu_active' => 'clientes',
             'nome_logo' => $nome_logo_site,
-            'usuario' => $usuario
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN);
         return $renderer->render($response, "register.php", $data);
@@ -237,6 +256,60 @@ final class ClienteController
         header('Location: '.URL_BASE.'admin/clientes');
         exit();
     }
+
+    // INSERT CLIENTE CADASTRO
+
+    public function clientes_insert_cadastro(
+        ServerRequestInterface $request, 
+        ResponseInterface $response,
+        $args
+    ) {
+        $nome = $request->getParsedBody()['nome'];
+        $email = $request->getParsedBody()['email'];
+        $telefone = $request->getParsedBody()['telefone'];
+        $senha = $request->getParsedBody()['senha'];
+        $confirmar_senha = $request->getParsedBody()['confirmar_senha'];
+        
+        $clientes = new Cliente();
+        $conferirEmail = count($clientes->selectCliente('*', array('email' => $email))[0]);
+        
+       
+        if($conferirEmail > 0){
+            $js['status'] = 0;
+            $js['msg'] = 'Email já cadastrado!';
+            echo json_encode($js);
+            exit();
+        } 
+            
+        if( $senha != $confirmar_senha){
+            $js['status'] = 0;
+            $js['msg'] = 'As senhas não são iguais.';
+            echo json_encode($js);
+            exit();
+        }
+          
+        $campos = array(
+            'nome' => $nome,
+            'telefone' => $telefone,
+            'type' => 3,
+            'email' => $email
+        );
+
+        if($senha === $confirmar_senha){
+            $campos['senha'] = password_hash($senha, PASSWORD_DEFAULT, ["const"=>12]);
+        }
+        
+        $clientes = new Cliente();
+        $clientes->insertCliente($campos);
+
+       
+        $js['status'] = 1;
+        $js['msg'] = 'Cadastro realizado com sucesso!';
+        $js['redirecionar_pagina'] = URL_BASE."login-cliente";
+        echo json_encode($js);
+        exit();
+    }
+
 
     public function clientes_update(
         ServerRequestInterface $request, 
