@@ -12,7 +12,7 @@
         <section class="pagina_login cliente">
             <div class="container">
                 <div class="center">
-                <img src="<?=URL_BASE.$data['informacoes']['nome_logo']?>" alt="">
+                    <img src="<?=URL_BASE.$data['informacoes']['nome_logo']?>" alt="">
                     <div class="form">
                         <h1>Login</h1>
                         <form action="<?=URL_BASE?>admin/login-cliente" method="post" class="form_ajax">
@@ -21,6 +21,10 @@
                             <button type="submit">Entrar</button>
                             <div class="alerta"></div>
                         </form>
+                        <div>
+                            <a href="">Esqueceu sua senha?</a>
+                            <a href="">Cadastrar-se</a>
+                        </div>
                     </div>
                 </div>
                 
