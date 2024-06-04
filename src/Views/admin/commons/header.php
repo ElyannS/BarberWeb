@@ -26,7 +26,7 @@
                             <li>
                                 <select name="idBarbeiro" id="idBarbeiro">
                                     <?php foreach($data['informacoes']['barbeiro'] as $barbeiros){?>
-                                        <option value="<?= $barbeiros['id'] ?>" <?= ($_SESSION['usuario_logado']['id'] === $barbeiros['id']) ? 'selected="selected"' : '' ?>><?= $barbeiros['nome'] ?></option>
+                                        <option value="<?=$barbeiros['id']?>" <?= ($_SESSION['usuario_logado']['id'] === $barbeiros['id']) ? 'selected="selected"' : '' ?>><?= $barbeiros['nome'] ?></option>
                                     <?php }?>
                                 </select>
                             </li>
@@ -127,12 +127,22 @@
                         </li> 
                     <?php } ?>
                     <hr> 
-                    <li>
-                        <a href="<?=URL_BASE?>admin/logout">
-                            <i class="fas fa-sign-out-alt"></i>
-                            Sair
-                        </a>
-                    </li>
+                    <?php if($data['informacoes']['usuario']['type'] === '3'){ ?>
+                        <li>
+                            <a href="<?=URL_BASE?>admin/logout-cliente">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Sair
+                            </a>
+                        </li>
+                    <?php } ?>
+                    <?php if($data['informacoes']['usuario']['type'] != '3'){ ?>
+                        <li>
+                            <a href="<?=URL_BASE?>admin/logout">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Sair
+                            </a>
+                        </li>
+                    <?php } ?>
                 </ul>
             </div>
             <div class="close">

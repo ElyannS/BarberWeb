@@ -11,7 +11,8 @@ class Cliente extends Model {
 		"nome",
 		"telefone",
 		"email",
-		"foto_cliente",
+		"foto_usuario",
+		"type",
 		"senha"
 	];
 
@@ -53,5 +54,5 @@ class Cliente extends Model {
 
 		return $this->querySelect($sql);
 	}
-	
+	 
 }

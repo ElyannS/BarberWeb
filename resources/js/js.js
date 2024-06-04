@@ -8,7 +8,6 @@ $(document).ready(function(){
     }
   });
 
-    
 
 
 
@@ -84,7 +83,10 @@ $(document).ready(function(){
     }
     
     selectElement.val(valorSelecionado);
-                
+    
+    var idBarber = $('#idBarbeiro').val();
+    $('#selectBarbeiro').val(idBarber);
+                 
     $('body.admin .container-popup').toggleClass('active');
     $('body.admin .conteudo').toggleClass('back');
   });

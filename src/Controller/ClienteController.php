@@ -12,10 +12,73 @@ use App\Model\Configuracao;
 
 final class ClienteController
 {
-    function __construct()
-    {
-        Usuario::verificarLogin();
+    function __construct() {
+        if (!isset($_SESSION)) {
+            session_set_cookie_params(604800);
+            session_start();
+        }
     }
+    public function login_cliente(
+        ServerRequestInterface $request, 
+        ResponseInterface $response,
+        $args
+    ) {
+        
+        $config = new Configuracao();
+        $nome_logo_site = $config->getConfig('logo_site');
+
+        $data['informacoes'] = array(
+            'nome_logo' => $nome_logo_site
+        );
+        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN);
+        return $renderer->render($response, "login_cliente.php", $data);
+    }
+    public function verificar_login_cliente(
+        ServerRequestInterface $request, 
+        ResponseInterface $response,
+        $args
+    ) {
+        $email = $request->getParsedBody()['email'];
+        $senha = $request->getParsedBody()['senha'];
+
+        $usuario = new Cliente();
+
+        $resultado = $usuario->selectCliente('*', array('email' => $email));
+
+        if(!$resultado) {
+            $js['status'] = 0;
+            $js['msg'] = "Usuário ou senha inválidos";
+            echo json_encode($js);
+            exit();
+        }
+
+        if (password_verify($senha, $resultado[0]['senha'])) {
+
+            $_SESSION['usuario_logado'] = $resultado[0];
+
+            $js['status'] = 1;
+            $js['msg'] = "Usuário logado com sucesso";
+            $js['redirecionar_pagina'] = URL_BASE.'dashboard';
+            echo json_encode($js);
+            exit();
+        } else{
+            $js['status'] = 0;
+            $js['msg'] = "Usuário ou senha inválidos";
+            echo json_encode($js);
+            exit();
+        }
+  
+    }
+    public function logout_cliente(
+        ServerRequestInterface $request, 
+        ResponseInterface $response,
+        $args
+    ) {
+        $_SESSION['usuario_logado'] = NULL;
+        unset( $_SESSION['usuario_logado']);
+        header("Location: ".URL_BASE."login-cliente");
+		exit();
+    } 
     public function clientes(
         ServerRequestInterface $request, 
         ResponseInterface $response,
@@ -29,7 +92,7 @@ final class ClienteController
             $proximaPagina = false;
             $paginaAnterior = false;
             
-        } else{
+        } else{ 
             $limit = 10;
             $paginaAtual = isset($_GET['page']) ? $_GET['page'] : 1;
             $offset = ($paginaAtual*$limit) - $limit;
@@ -117,6 +180,7 @@ final class ClienteController
         $nome = $request->getParsedBody()['nome'];
         $email = $request->getParsedBody()['email'];
         $password = $request->getParsedBody()['password'];
+        $telefone = $request->getParsedBody()['telefone'];
 
         $nome_imagem_principal = "";
 
@@ -132,7 +196,7 @@ final class ClienteController
 
                 $nome_imagem = md5(uniqid(rand(), true)).pathinfo($imagem_principal->getClientFilename(), PATHINFO_FILENAME).".".$extensao;
 
-                $nome_imagem_principal = "resources/imagens/usuario/" . $nome_imagem;
+                $nome_imagem_principal = "resources/imagens/cliente/" . $nome_imagem;
 
                 $imagem_principal->moveTo($nome_imagem_principal);
             }
@@ -142,7 +206,8 @@ final class ClienteController
         $campos = array(
             'nome' => $nome,
             'email' => $email,
-            'foto_cliente' => $nome_imagem_principal
+            'telefone' => $telefone,
+            'foto_usuario' => $nome_imagem_principal
         );
         $campos['senha'] = password_hash($password, PASSWORD_DEFAULT, ["const"=>12]);
         
@@ -162,6 +227,7 @@ final class ClienteController
         $id = $request->getParsedBody()['id'];
         $nome = $request->getParsedBody()['nome'];
         $email = $request->getParsedBody()['email'];
+        $telefone = $request->getParsedBody()['telefone'];
         $password = $request->getParsedBody()['password'];
 
 
@@ -188,11 +254,11 @@ final class ClienteController
     
                     $nome_imagem = md5(uniqid(rand(), true)).pathinfo($imagem_principal->getClientFilename(), PATHINFO_FILENAME).".".$extensao;
     
-                    $nome_imagem_principal = "resources/imagens/usuario/" . $nome_imagem;
+                    $nome_imagem_principal = "resources/imagens/cliente/" . $nome_imagem;
 
                     $imagem_principal->moveTo($nome_imagem_principal);
                    
-
+                    unlink($nome_imagem_atual);
 
                 }
             }
@@ -202,12 +268,12 @@ final class ClienteController
         $campos = array(
             'nome' => $nome,
             'email' => $email,
-            'foto_cliente' => $nome_imagem_principal
+            'telefone' => $telefone,
         );
         $campos['senha'] = password_hash($password, PASSWORD_DEFAULT, ["const"=>12]);
         
         if($imagem_atualizar) {
-            $campos['foto_cliente'] = $nome_imagem_principal;
+            $campos['foto_usuario'] = $nome_imagem_principal;
         }
         $clientes = new Cliente();
         

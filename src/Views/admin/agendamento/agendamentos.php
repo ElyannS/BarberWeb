@@ -99,14 +99,7 @@
                         </div>
                         <div class="row">
                             <label>
-                                Barbeiro
-                                <select name="select_barbeiro" required>
-                                    <?php foreach ($data['informacoes']['barbeiro'] as $barbeiros) {?>
-                                        <?php if($data['informacoes']['usuario']['id'] === $barbeiros['id']){ ?> 
-                                            <option value="<?=$barbeiros['id']?>"><?=$barbeiros['nome']?></option>
-                                        <?php }?>
-                                    <?php }?>
-                                </select>
+                                <input name="select_barbeiro" id="selectBarbeiro" type="hidden">
                             </label>
                         </div>
                         <div class="row">

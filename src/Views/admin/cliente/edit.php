@@ -24,6 +24,12 @@
                 </div>
                 <div class="row">
                     <label>
+                        Telefone
+                        <input type="tel" name="telefone" value="<?=$data['informacoes']['cliente']['telefone']?>">
+                    </label>
+                </div>
+                <div class="row">
+                    <label>
                         Foto do Cliente
                         <input type="file" name="foto_usuario">
                     </label>
