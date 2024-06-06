@@ -269,10 +269,22 @@ final class ClienteController
         $telefone = $request->getParsedBody()['telefone'];
         $senha = $request->getParsedBody()['senha'];
         $confirmar_senha = $request->getParsedBody()['confirmar_senha'];
+      
+        if($senha !== $confirmar_senha){
+            $js['status'] = 0;
+            $js['msg'] = 'As senhas não são iguais.';
+            echo json_encode($js);
+            exit();
+        }
         
         $clientes = new Cliente();
-        $conferirEmail = count($clientes->selectCliente('*', array('email' => $email))[0]);
-        
+        $result = $clientes->selectCliente('*', array('email' => $email));
+
+        if (!empty($result) && is_array($result)) {
+            $conferirEmail = count($result[0]);
+        } else {
+            $conferirEmail = 0;
+        }
        
         if($conferirEmail > 0){
             $js['status'] = 0;
@@ -280,13 +292,7 @@ final class ClienteController
             echo json_encode($js);
             exit();
         } 
-            
-        if( $senha != $confirmar_senha){
-            $js['status'] = 0;
-            $js['msg'] = 'As senhas não são iguais.';
-            echo json_encode($js);
-            exit();
-        }
+      
           
         $campos = array(
             'nome' => $nome,
