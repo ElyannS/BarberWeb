@@ -70,13 +70,13 @@
                         <tr>
                             <td class="actions action-cell">
                                 <div class="action-buttons">
-                                    <div class="button">
-                                        <a href="<?=URL_BASE?>admin/caixa-edit/<?=$caixa['id']?>">Editar <i class="far fa-edit"></i></a>
+                                    <div class="buttonCaixa">
+                                        <a href="<?=URL_BASE?>admin/caixa-edit/<?=$caixa['id']?>">Editar</a>
                                     </div>
-                                    <div class="button">
+                                    <div class="buttonCaixa">
                                         <form action="<?=URL_BASE?>admin/caixa_delete" id="deleteForm" method="post">
                                             <input type="hidden" name="id" value="<?=$caixa['id']?>">
-                                            <button type="submit">Excluir <i class="fa-solid fa-trash"></i></button>
+                                            <button type="submit">Excluir</button>
                                         </form>
                                     </div>
                                 </div>

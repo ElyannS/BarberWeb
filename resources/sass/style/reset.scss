@@ -858,6 +858,32 @@ body.admin{
 					max-width: max-content;
 				}
 			}
+			.buttonCaixa{
+				border: 0px;
+				border-radius: 3px;
+				background-color: $color_destaque;
+				display: inline-flex;
+				margin: 0;
+				width: 100%;
+				transition: .30s;
+				padding: 3px;
+				font-size: 10px;
+				color: #fff !important;
+				font-family: 'Montserrat Regular';
+				
+				cursor: pointer;
+				a{
+					font-size: 10px;
+					color: #fff;
+					align-items: center;
+				}
+				&:hover{
+					background-color: $color_destaque_hover;
+				}
+				@include desktop{
+					max-width: max-content;
+				}
+			}
 			#confirmationDialog {
 				display: none;
 				position: fixed;
