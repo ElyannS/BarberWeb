@@ -3,7 +3,7 @@ namespace App\Model;
 
 use App\Model\Model;
 
-class configuracao extends Model {
+class Configuracao extends Model {
 	
 	private $table = "configuracoes";
 	protected $fields = [

@@ -269,7 +269,12 @@ final class ClienteController
         $telefone = $request->getParsedBody()['telefone'];
         $senha = $request->getParsedBody()['senha'];
         $confirmar_senha = $request->getParsedBody()['confirmar_senha'];
+        $data_envio = date('d/m/Y');
+        $hora_envio = date('H:i:s');
       
+        $config = new Configuracao();
+        $nomeBarbearia = $config->getConfig('nome_site');
+
         if($senha !== $confirmar_senha){
             $js['status'] = 0;
             $js['msg'] = 'As senhas não são iguais.';
@@ -308,12 +313,102 @@ final class ClienteController
         $clientes = new Cliente();
         $clientes->insertCliente($campos);
 
-       
-        $js['status'] = 1;
-        $js['msg'] = 'Cadastro realizado com sucesso!';
-        $js['redirecionar_pagina'] = URL_BASE."login-cliente";
-        echo json_encode($js);
-        exit();
+        if($clientes){
+            // Corpo E-mail
+            $msgHtml = "<!DOCTYPE html>
+                <html lang='pt-BR'>
+                <head>
+                    <meta charset='UTF-8'>
+                    <title>Email</title>
+                    <style type='text/css'>
+                        body {
+                            margin: 0;
+                            font-family: Arial, sans-serif;
+                            font-size: 14px;
+                            color: white;
+                            background-color: #f4f4f4;
+                            padding: 20px;
+                        }
+                        .email-container {
+                            width: 100%;
+                            max-width: 600px;
+                            margin: 0 auto;
+                            background-color: #ffffff;
+                            border: 1px solid #dddddd;
+                            border-radius: 5px;
+                            overflow: hidden;
+                            color: #333; /* Cor dos textos dentro do container */
+                        }
+                        .email-header {
+                            background-color: #0099ff;
+                            color: white;
+                            padding: 10px;
+                            text-align: center;
+                        }
+                        .email-header h2, .email-header p, .email-header a {
+                            color: white; /* Textos dentro do cabeçalho */
+                        }
+                        .email-footer {
+                            background-color: #f4f4f4;
+                            color: #666666;
+                            padding: 10px;
+                            text-align: center;
+                            font-size: 12px;
+                        }
+                        a {
+                            color: #0099ff; /* Cor dos links */
+                            text-decoration: none;
+                        }
+                        a:hover {
+                            color: #0056b3; /* Cor do link ao passar o mouse */
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class='email-container'>
+                        <div class='email-header'>
+                            <h2>Seja Bem-vindo, $nome, à $nomeBarbearia!</h2>
+                            <p>Guarde bem seus dados, pois servirão para acessar sua agenda.</p>
+                            <a href='https://exclusivebarbershop.com.br/login-cliente'>Acesse sua agenda aqui</a>
+                        </div>
+                        <div class='email-footer'>
+                            Este e-mail foi enviado em <strong>$data_envio</strong> às <strong>$hora_envio</strong>.
+                            Para suporte entre em contato com o estabelecimento.
+                        </div>
+                    </div>
+                </body>
+                </html>
+            ";
+            
+
+            $destino = $email;
+            $assunto_email = "Agradecemos seu cadastro ".$nome."!";
+
+            $headers  = 'MIME-Version: 1.0' . "\r\n";
+            $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+            $headers .= 'From:'.$nomeBarbearia.'<$email>';
+
+            $enviaremail = mail($destino, $assunto_email, $msgHtml, $headers);
+            if($enviaremail){
+                $js['status'] = 1;
+                $js['msg'] = 'Cadastro realizado com sucesso!';
+                $js['redirecionar_pagina'] = URL_BASE."login-cliente";
+                echo json_encode($js);
+                exit();
+            } else {
+                $js['status'] = 0;
+                $js['msg'] = 'Erro ao enviar o Formulário. Tente novamente!';
+                $js['resetar_form'] = true;
+                echo json_encode($js);
+                exit();
+            }
+        } else {
+            $js['status'] = 0;
+                $js['msg'] = 'Erro ao enviar o cadastro. Tente novamente!';
+                $js['resetar_form'] = true;
+                echo json_encode($js);
+                exit();
+        }
     }
 
 
