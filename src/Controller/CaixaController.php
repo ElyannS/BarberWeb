@@ -286,13 +286,28 @@ final class CaixaController
 
                     $valorTotal = '0';
 
+                    $valorTotalDinheiro = 0;
+                    $valorTotalPix = 0;
+                    $valorTotalCartao = 0;
+                    $valorTotal = 0;
+                    foreach ($resultado1 as $registro) {
+                        $valorTotalDinheiro += $registro['dinheiro'];
+                    }
+                    foreach ($resultado1 as $registro) {
+                        $valorTotalPix += $registro['pix'];
+                    }
+                    foreach ($resultado1 as $registro) {
+                        $valorTotalCartao += $registro['cartao'];
+                    }
+
                     foreach ($resultado1 as $registro) {
                         $valorTotal += $registro['dinheiro'] + $registro['pix'] + $registro['cartao'];
                     }
                     
                     $valorComissao = $valorTotal * $comissao / 100;
 
-                    $responseData = ['relatorio' => $valorTotal, 'atendimento' => $totalCaixa, 'comissao' => $valorComissao];
+                    $responseData = ['relatorio' => $valorTotal, 'atendimento' => $totalCaixa, 'comissao' => $valorComissao, 
+                    'dinheiro' => $valorTotalDinheiro, 'pix' => $valorTotalPix, 'cartao' => $valorTotalCartao];
                     $response = $response->withHeader('Content-Type', 'application/json');
                     $response->getBody()->write(json_encode($responseData));
                     return $response;
@@ -321,9 +336,26 @@ final class CaixaController
                     
                     $relatorio = $resultado1[0]['valorTotal'];
                     $valorComissao = $relatorio * $comissao / 100;
+
+                    $sql = "SELECT * FROM caixa WHERE data BETWEEN '{$data1}' AND '{$data2}' AND caixa.id_barbeiro = '{$idBarbeiro}'";
+                    $caixaDPC = $caixa->querySelect($sql);
+                    
+                    $valorTotalDinheiro = 0;
+                    $valorTotalPix = 0;
+                    $valorTotalCartao = 0;
+                    $valorTotal = 0;
+                    foreach ($caixaDPC as $registro) {
+                        $valorTotalDinheiro += $registro['dinheiro'];
+                    }
+                    foreach ($caixaDPC as $registro) {
+                        $valorTotalPix += $registro['pix'];
+                    }
+                    foreach ($caixaDPC as $registro) {
+                        $valorTotalCartao += $registro['cartao'];
+                    }
                 }
 
-                $responseData = ['relatorio' => $relatorio,  'atendimento' => $totalCaixa , 'comissao' => $valorComissao];
+                $responseData = ['relatorio' => $relatorio,  'atendimento' => $totalCaixa , 'comissao' => $valorComissao, 'dinheiro' => $valorTotalDinheiro, 'pix' => $valorTotalPix, 'cartao' => $valorTotalCartao];
                 $response = $response->withHeader('Content-Type', 'application/json');
                 $response->getBody()->write(json_encode($responseData));
                 return $response;

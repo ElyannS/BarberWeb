@@ -57,10 +57,10 @@ class Agendamento extends Model {
 		{
 			return $this->select($this->table, $campos, $where);
 		}
-	function selectAgendamentoVerificar($data): array
+	function selectAgendamentoVerificar($data, $barbeiro_id): array
 		{
-			$sql = "SELECT * FROM agendamento WHERE data_agendamento = :data";
-			$stmt = $this->querySelect($sql, array(':data' => $data));
+			$sql = "SELECT * FROM agendamento WHERE data_agendamento = :data AND barbeiro_id = :barbeiro_id";
+			$stmt = $this->querySelect($sql, array(':data' => $data, ':barbeiro_id' => $barbeiro_id));
 			return $stmt;
 		}
 		

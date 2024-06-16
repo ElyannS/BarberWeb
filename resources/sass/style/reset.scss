@@ -578,8 +578,19 @@ body.admin{
 				}
 				h1{
 					font-weight: bold;
-					font-size: 28px;
+					font-size: 20px;
 				}
+				.total {
+					margin-top: 20px;
+				
+					.total-section {
+					  margin-top: 10px;
+					  padding: 10px;
+					  background-color: #f9f9f9;
+					  border: 1px solid #ddd;
+					  border-radius: 5px;
+					}
+				  } 
 			}
 			#aviso {
 				padding: 10px;

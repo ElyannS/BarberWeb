@@ -33,7 +33,7 @@
                                 </div>
                                 <form action="<?=URL_BASE?>admin/barbeiros_delete" method="post">
                                     <input type="hidden" name="id" value="<?=$barbeiros['id']?>">
-                                    <button type="submit"><i class="fa-solid fa-trash"></i></button>
+                                    <button type="submit">excluir</i></button>
                                 </form>
                             </td>                      
                         <?php } ?>

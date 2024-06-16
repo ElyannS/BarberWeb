@@ -241,11 +241,11 @@ final class BarbeiroController
 
        $barbeiros = new Usuario;
 
-       $resultado = $barbeiros->selectBarbeiro('*', array('id' => $id))[0];
+       $resultado = $barbeiros->selectUsuario('*', array('id' => $id))[0];
 
        unlink($resultado['imagem_principal']);
 
-       $barbeiros->deleteBarbeiro('id', $id);
+       $barbeiros->deleteUsuario('id', $id);
 
        header('Location: '.URL_BASE.'admin/barbeiros');
        exit();

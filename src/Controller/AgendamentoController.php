@@ -355,7 +355,7 @@ final class AgendamentoController
         $datetime = $data . ' ' . $time;
 
         $agendamentos_verificar = new Agendamento();
-        $numero_agendamentos = count($agendamentos_verificar->selectAgendamentoVerificar($datetime));
+        $numero_agendamentos = count($agendamentos_verificar->selectAgendamentoVerificar($datetime, $select_barbeiro));
        
 
 
@@ -386,7 +386,8 @@ final class AgendamentoController
                 exit();
             }
             if($tempoServico == '60'){
-                $consultaAgendamentos = count($agendamentos_verificar->selectAgendamentoVerificar(date('Y-m-d H:i', strtotime('+30 minutes', strtotime($datetime)))));
+                $agendamentos_verificar = new Agendamento();
+                $consultaAgendamentos = count($agendamentos_verificar->selectAgendamentoVerificar(date('Y-m-d H:i', strtotime('+30 minutes', strtotime($datetime))), $select_barbeiro));
                 if($consultaAgendamentos > 0){
                     $js['status'] = 0;
                     $js['msg'] = "Conflito de horários!";
@@ -435,7 +436,7 @@ final class AgendamentoController
        
 
         $agendamentos_verificar = new Agendamento();
-        $numero_agendamentos = count($agendamentos_verificar->selectAgendamentoVerificar($datetime));
+        $numero_agendamentos = count($agendamentos_verificar->selectAgendamentoVerificar($datetime, $select_barbeiro));
 
         if ($numero_agendamentos > 0) {
            

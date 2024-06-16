@@ -29,8 +29,25 @@
             <div id="relato">
 
             </div>
-            <h1 id="valorTotal"></h1>
-            <div id="comissao"></div>
+           
+           
+            <div class="total">
+                <div class="total-section">
+                    <div id="dinheiroR"></div>
+                </div>
+                <div class="total-section">
+                    <div id="pixR"></div>
+                </div>
+                <div class="total-section">
+                    <div id="cartaoR"></div>
+                </div>
+                <div class="total-section">
+                    <h1 id="valorTotal"></h1>
+                </div>
+                <div class="total-section">
+                    <div id="comissao"></div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
