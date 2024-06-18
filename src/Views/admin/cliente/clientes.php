@@ -47,7 +47,7 @@
                                 </div>
                                 <form action="<?=URL_BASE?>admin/clientes_delete" method="post">
                                     <input type="hidden" name="id" value="<?=$clientes['id']?>">
-                                    <button type="submit"><i class="fa-solid fa-trash"></i></button>
+                                    <button type="submit">excluir</i></button>
                                 </form>
                             </td>                      
                         <?php } ?>
