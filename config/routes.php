@@ -33,7 +33,6 @@ return function (App $app) {
     $app->get('/register', '\App\Controller\ClienteController:register_cliente');
     $app->post('/admin/login-cliente', '\App\Controller\ClienteController:verificar_login_cliente');
     $app->get('/admin/logout-cliente', '\App\Controller\ClienteController:logout_cliente');
-    $app->get('/dashboard-cliente', '\App\Controller\ClienteController:dashboard_cliente');
     $app->get('/admin/clientes', '\App\Controller\ClienteController:clientes');
     $app->get('/admin/clientes-create', '\App\Controller\ClienteController:clientes_create');
     $app->get('/admin/clientes-edit/{id}', '\App\Controller\ClienteController:clientes_edit');
@@ -41,6 +40,14 @@ return function (App $app) {
     $app->post('/admin/clientes_insert_cadastro', '\App\Controller\ClienteController:clientes_insert_cadastro');
     $app->post('/admin/clientes_update', '\App\Controller\ClienteController:clientes_update');
     $app->post('/admin/clientes_delete', '\App\Controller\ClienteController:clientes_delete');
+
+    //CONTROLADOR CLIENTES LOGIN
+    $app->get('/dashboard-cliente', '\App\Controller\ClienteController:dashboard_cliente');
+    $app->get('/admin//', '\App\Controller\ClienteController:clientes');
+
+
+
+
     
     //CONTROLADOR AGENDAMENTO
     $app->get('/admin/agendamentos', '\App\Controller\AgendamentoController:agendamentos');
