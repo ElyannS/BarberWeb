@@ -8,6 +8,8 @@ use Slim\Views\PhpRenderer;
 use App\Model\Usuario;
 use App\Model\Cliente;
 use App\Model\Configuracao;
+use App\Model\Agendamento;
+use App\Model\Servico;
 
 
 final class ClienteController
@@ -98,7 +100,7 @@ final class ClienteController
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN);
         return $renderer->render($response, "dashboard_cliente.php", $data);
-    }  
+    } 
     public function clientes(
         ServerRequestInterface $request, 
         ResponseInterface $response,
@@ -496,5 +498,49 @@ final class ClienteController
        header('Location: '.URL_BASE.'admin/clientes');
        exit();
     }
+
+
+
+
+    // AGENDAMENTO PELO CLIENTE
+
+    public function agenda_cliente(
+        ServerRequestInterface $request, 
+        ResponseInterface $response,
+        $args
+    ) {
+        Usuario::verificarLogin();
+
+        $agendamentos = new Agendamento();
+        $consultaAgendamentos  = $agendamentos->selectAgendamento('*', array('*'));
+
+        $barbeiros = new Usuario();
+        $resultado = $barbeiros->selectUsuario('*', array('*'));
+
+        $config = new Configuracao();
+        $nome_logo_site = $config->getConfig('logo_site');
+        
+        $servicos = new Servico();
+        $consultaServicos  = $servicos->selectServico('*', array('*'));
+
+        $clientes = new Cliente();
+        $consultaClientes  = $clientes->selectCliente('*', array('*'));
+        
+        $usuario = $_SESSION['usuario_logado'];
+
+        $data['informacoes'] = array(
+            'menu_active' => 'agendamentos',
+            'agendamento' => $consultaAgendamentos,
+            'barbeiro' => $resultado,
+            'nome_logo' => $nome_logo_site,
+            'usuario' => $usuario,
+            'servico' => $consultaServicos,
+            'cliente' => $consultaClientes
+        );
+        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/agenda");
+        return $renderer->render($response, "agenda_cliente.php", $data);
+    }
+
+
 
 }

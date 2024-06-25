@@ -43,7 +43,7 @@ return function (App $app) {
 
     //CONTROLADOR CLIENTES LOGIN
     $app->get('/dashboard-cliente', '\App\Controller\ClienteController:dashboard_cliente');
-    $app->get('/admin//', '\App\Controller\ClienteController:clientes');
+    $app->get('/admin/agenda-cliente', '\App\Controller\ClienteController:agenda_cliente');
 
 
 

@@ -3,51 +3,34 @@
     <div class="container">
         <div class="top-container">
             <div class="agenda-top"> 
-                <div class="container-popup">
-                    <div class="close-popup">
-                        <i class="fa-solid fa-xmark close"></i>
-                    </div>
-                    <div class="opcao-popup">
-                        <a href="#" id="btn-agendar">Agendar</a>
-                        <a href="#">Bloquear</a>
-                    </div>    
-                </div>
                 <div class="menu-agenda">
-               
                     <div class="title-menu">
-                        <div class="icon-menu">
-                            <i id="prevButton" class="fa-solid fa-angle-left"></i>
-                            
-                        </div>
                         <div class="date"></div>
-                        <i id="nextButton" class="fa-solid fa-angle-right"></i>
                     </div>
-                    
-                    <div class="calendar">
-                        <div class="week">
-                            <p>D</p>
-                            <p>S</p>
-                            <p>T</p>
-                            <p>Q</p>
-                            <p>Q</p>
-                            <p>S</p>
-                            <p>S</p>
-                        </div>
-                       
-                        <div class="date_ext">
-    
-                        </div>
-                    </div>
-                    
-                </div>
-
-                <div id="tabelaHorarios">
-
-                    
                 </div>
                 <div id="aviso">
 
                 </div>
+
+                <div class="containerHorarios">
+                    <div class="itensHorarios">
+                        <div class="item">
+                            <div class="nomeBarbeiro">
+                                Elyann Soares
+                                <img src="" alt="">
+                            </div>
+                            <div class="horariosBarbeiros">
+                                <div>
+                                    <span>08:30</span>
+                                    <span>09:00</span>
+                                    <span>09:30</span>
+                                    <span>10:00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="form">
                     <div class="close-popup">
                         <i class="fa-solid fa-xmark close-form"></i>

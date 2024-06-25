@@ -23,13 +23,15 @@
                 
                     <ul>       
                         <?php if($data['informacoes']['menu_active'] === 'agendamentos'){?>
-                            <li>
-                                <select name="idBarbeiro" id="idBarbeiro">
-                                    <?php foreach($data['informacoes']['barbeiro'] as $barbeiros){?>
-                                        <option value="<?=$barbeiros['id']?>" <?= ($_SESSION['usuario_logado']['id'] === $barbeiros['id']) ? 'selected="selected"' : '' ?>><?= $barbeiros['nome'] ?></option>
-                                    <?php }?>
-                                </select>
-                            </li>
+                            <?php if($_SESSION['usuario_logado']['type'] != 3){?>
+                                <li>
+                                    <select name="idBarbeiro" id="idBarbeiro">
+                                        <?php foreach($data['informacoes']['barbeiro'] as $barbeiros){?>
+                                            <option value="<?=$barbeiros['id']?>" <?= ($_SESSION['usuario_logado']['id'] === $barbeiros['id']) ? 'selected="selected"' : '' ?>><?= $barbeiros['nome'] ?></option>
+                                        <?php }?>
+                                    </select>
+                                </li>
+                            <?php }?>
                         <?php }?>
                         <li>
                             <?php if($data['informacoes']['menu_active'] === 'agendamentos'){?>
