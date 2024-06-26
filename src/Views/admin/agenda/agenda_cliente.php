@@ -16,8 +16,8 @@
                     <div class="itensHorarios">
                         <div class="item">
                             <div class="nomeBarbeiro">
+                                <img src="<?=URL_BASE.$_SESSION['usuario_logado']['foto_usuario']?>">
                                 Elyann Soares
-                                <img src="" alt="">
                             </div>
                             <div class="horariosBarbeiros">
                                 <div>
