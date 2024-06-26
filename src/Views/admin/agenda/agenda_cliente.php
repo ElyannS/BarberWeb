@@ -5,7 +5,7 @@
             <div class="agenda-top"> 
                 <div class="menu-agenda">
                     <div class="title-menu">
-                        <div class="date"></div>
+                        <div class="dateCliente"></div>
                     </div>
                 </div>
                 <div id="aviso">
@@ -17,15 +17,26 @@
                         <div class="item">
                             <div class="nomeBarbeiro">
                                 <img src="<?=URL_BASE.$_SESSION['usuario_logado']['foto_usuario']?>">
-                                Elyann Soares
+                                <p>Elyann Soares</p>
                             </div>
                             <div class="horariosBarbeiros">
-                                <div>
-                                    <span>08:30</span>
-                                    <span>09:00</span>
-                                    <span>09:30</span>
-                                    <span>10:00</span>
-                                </div>
+                                <span>08:30</span>
+                                <span>09:00</span>
+                                <span>09:30</span>
+                                <span>10:00</span>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <div class="nomeBarbeiro">
+                                <img src="<?=URL_BASE.$_SESSION['usuario_logado']['foto_usuario']?>">
+                                <p>Elyann Soares</p>
+                            </div>
+                            <div class="horariosBarbeiros">
+                                <span>08:30</span>
+                                <span>09:00</span>
+                                <span>09:30</span>
+                                <span>10:00</span>
                             </div>
                         </div>
                     </div>

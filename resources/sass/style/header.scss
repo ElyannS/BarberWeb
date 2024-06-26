@@ -254,7 +254,7 @@ header{
         }
     }
     .menu_lateral{
-        background-color: #000000;
+        background-color: #1d1d1d;
         box-shadow: 0px 3px 30px -1px rgba(0,0,0,0.52);
         position: fixed;
         overflow-y: auto;
@@ -355,10 +355,10 @@ header{
                     }
                    
                     &:hover{
-                        background-color: #1d1d1d85;
+                        background-color: #000;
                     }
                     &.active{
-                        background-color: #1d1d1d85;
+                        background-color: #000;
                     }
                 }
             }

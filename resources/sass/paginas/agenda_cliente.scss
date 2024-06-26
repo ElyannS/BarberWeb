@@ -1,0 +1,61 @@
+.agenda{
+    .container{
+        .top-container{
+            .agenda-top{
+                .containerHorarios{
+                    width: 100%;
+
+                    .itensHorarios{
+                        width: 100%;
+                        display: flex;
+                        flex-wrap: wrap;
+                        justify-content: space-around;
+
+                        .item{
+                            width: 100%;
+                            background-color: #000;
+                            border-radius: 8px;
+                            padding: 15px 8px;
+                            margin-top: 25px;
+
+
+                            -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.493);
+                            -moz-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.493);
+                            box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.493);
+                            .nomeBarbeiro{
+                                align-items: center;
+                                display: flex;
+                                img{
+                                    width: 50px;
+                                    height: 50px;
+                                    border-radius: 50%;
+                                    overflow: hidden;
+                                    border: 2px solid #fff;
+                                }
+                                p{
+                                    font-size: 22px;
+                                    font-family: 'Montserrat Medium';
+                                    margin-left: 8px;
+                                    color: #fff;
+                                }
+                            }
+                            .horariosBarbeiros{
+                                display: flex;
+                                align-items: center;
+                                justify-content: space-between;
+                                span{
+                                    margin-top: 20px;
+                                    background-color: #fff;
+                                    color: #000;
+                                    border-radius: 40px;
+                                    padding: 5px 8px;
+                                    font-family: 'Montserrat Bold';
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
