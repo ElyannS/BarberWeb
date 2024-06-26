@@ -60,13 +60,25 @@
                 </div>
                 <hr>
                 <ul>
-                    <li class="<?=($data['informacoes']['menu_active'] === 'dashboard') ? 'active' : ''?> dash">
-                        <a href="<?=URL_BASE?>dashboard">
-                            <i class="fas fa-chart-area"></i>
-                            Dashboard
-                        </a>
-                    </li>
-                    <?php if($data['informacoes']['usuario']['type'] != '99'){ ?>
+                    <?php if($data['informacoes']['usuario']['type'] != '3'){ ?>
+                        <li class="<?=($data['informacoes']['menu_active'] === 'dashboard') ? 'active' : ''?> dash">
+                            <a href="<?=URL_BASE?>dashboard">
+                                <i class="fas fa-chart-area"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                    <?php } ?>
+
+                    <?php if($data['informacoes']['usuario']['type'] == '3'){ ?>
+                        <li class="<?=($data['informacoes']['menu_active'] === 'dashboard') ? 'active' : ''?> dash">
+                            <a href="<?=URL_BASE?>dashboard-cliente">
+                                <i class="fas fa-chart-area"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                    <?php } ?>
+
+                    <?php if($data['informacoes']['usuario']['type'] != '99' AND $data['informacoes']['usuario']['type'] != '3'){ ?>
                         <li class="<?=($data['informacoes']['menu_active'] === 'agendamentos') ? 'active' : ''?>">
                             <a href="<?=URL_BASE?>admin/agendamentos">
                                 <img class="icon_svg" src="<?=URL_BASE?>resources/imagens/calendar1.svg">
@@ -74,6 +86,16 @@
                             </a>
                         </li>
                     <?php } ?>
+
+                    <?php if($data['informacoes']['usuario']['type'] == '3'){ ?>
+                        <li class="<?=($data['informacoes']['menu_active'] === 'agendamentos') ? 'active' : ''?>">
+                            <a href="<?=URL_BASE?>admin/agenda-cliente">
+                                <img class="icon_svg" src="<?=URL_BASE?>resources/imagens/calendar1.svg">
+                                Agendar
+                            </a>
+                        </li>
+                    <?php } ?>
+
                     <?php if($data['informacoes']['usuario']['type'] != '99'){ ?>
                         <li class="<?=($data['informacoes']['menu_active'] === 'servicos') ? 'active' : ''?>">
                             <a href="<?=URL_BASE?>admin/servicos">
@@ -82,14 +104,16 @@
                             </a>
                         </li>
                     <?php } ?>
-                   
-                    <li class="<?=($data['informacoes']['menu_active'] === 'caixa') ? 'active' : ''?>">
-                        <a href="<?=URL_BASE?>admin/caixa">
-                        <img class="icon_svg" src="<?=URL_BASE?>resources/imagens/cash1.svg">
-                            Caixa
-                        </a>
-                    </li>
                     
+                    <?php if($data['informacoes']['usuario']['type'] != '3'){ ?>
+                        <li class="<?=($data['informacoes']['menu_active'] === 'caixa') ? 'active' : ''?>">
+                            <a href="<?=URL_BASE?>admin/caixa">
+                            <img class="icon_svg" src="<?=URL_BASE?>resources/imagens/cash1.svg">
+                                Caixa
+                            </a>
+                        </li>
+                    <?php } ?>
+
                     <?php if($data['informacoes']['usuario']['type'] != '99'){ ?>
                         <li class="<?=($data['informacoes']['menu_active'] === 'barbeiros') ? 'active' : ''?>">
                             <a href="<?=URL_BASE?>admin/barbeiros">
@@ -98,7 +122,8 @@
                             </a>
                         </li>
                     <?php } ?>
-                    <?php if($data['informacoes']['usuario']['type'] != '99'){ ?>
+
+                    <?php if($data['informacoes']['usuario']['type'] != '99' AND $data['informacoes']['usuario']['type'] != '3'){ ?>
                         <li class="<?=($data['informacoes']['menu_active'] === 'clientes') ? 'active' : ''?>">
                             <a href="<?=URL_BASE?>admin/clientes">
                                 <i class="fa-solid fa-user-group"></i>
@@ -106,6 +131,7 @@
                             </a>
                         </li>
                     <?php } ?>
+
                     <?php if($data['informacoes']['usuario']['type'] != '99'){ ?>
                         <li class="<?=($data['informacoes']['menu_active'] === 'horarios') ? 'active' : ''?>">
                             <a href="<?=URL_BASE?>admin/horarios">
@@ -114,12 +140,16 @@
                             </a>
                         </li>
                     <?php } ?>
-                    <li class="<?=($data['informacoes']['menu_active'] === 'perfil') ? 'active' : ''?>">
-                        <a href="<?=URL_BASE?>admin/perfil">
-                            <i class="fas fa-user"></i>
-                            Usuário
-                        </a>
-                    </li>
+
+                    <?php if($data['informacoes']['usuario']['type'] != '3'){ ?>
+                        <li class="<?=($data['informacoes']['menu_active'] === 'perfil') ? 'active' : ''?>">
+                            <a href="<?=URL_BASE?>admin/perfil">
+                                <i class="fas fa-user"></i>
+                                Usuário
+                            </a>
+                        </li>
+                    <?php } ?>
+
                     <?php if($data['informacoes']['usuario']['type'] === '1'){ ?>
                         <li class="<?=($data['informacoes']['menu_active'] === 'site') ? 'active' : ''?>">
                             <a href="<?=URL_BASE?>admin/site">
@@ -137,6 +167,7 @@
                             </a>
                         </li>
                     <?php } ?>
+
                     <?php if($data['informacoes']['usuario']['type'] != '3'){ ?>
                         <li>
                             <a href="<?=URL_BASE?>admin/logout">

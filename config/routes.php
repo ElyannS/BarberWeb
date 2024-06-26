@@ -40,8 +40,6 @@ return function (App $app) {
     $app->post('/admin/clientes_insert_cadastro', '\App\Controller\ClienteController:clientes_insert_cadastro');
     $app->post('/admin/clientes_update', '\App\Controller\ClienteController:clientes_update');
     $app->post('/admin/clientes_delete', '\App\Controller\ClienteController:clientes_delete');
-
-    //CONTROLADOR CLIENTES LOGIN
     $app->get('/dashboard-cliente', '\App\Controller\ClienteController:dashboard_cliente');
     $app->get('/admin/agenda-cliente', '\App\Controller\ClienteController:agenda_cliente');
 
