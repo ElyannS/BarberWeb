@@ -7,11 +7,27 @@
                     <div class="title-menu">
                         <div class="dateCliente"></div>
                     </div>
+                    <label>
+                        Selecione o serviço:
+                        <select name="servico">
+                            <option>Selecione um opção</option>
+                            <?php foreach ($data['informacoes']['servico'] as $servico) {?>
+                                <option value="<?=$servico['tempo_servico']?>;<?=$servico['id']?>"><?=$servico['titulo']?></option>
+                            <?php }?>
+                        </select>
+                    </label>
+                    <label>
+                        Selecione uma data:
+                        <input type="date" id="dataCliente"/>
+                    </label>
+                    <label>
+                        <button>VER HORÁRIOS</button>
+                    </label>
                 </div>
                 <div id="aviso">
 
                 </div>
-
+                
                 <div class="containerHorarios">
                     <div class="itensHorarios">
                         <div class="item">
@@ -55,7 +71,7 @@
                                     <?php foreach ($data['informacoes']['cliente'] as $clientes) {?>
                                         <option value="<?=$clientes['id']?>"><?=$clientes['nome']?> <?php if($clientes['telefone']) echo ' - ' . $clientes['telefone']?></option>
                                     <?php }?>
-                                    </select>
+                                </select>
                             </label>
                         </div>
                         <div class="row">

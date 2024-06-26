@@ -35,12 +35,9 @@
                         <?php }?>
                         <li>
                             <?php if($data['informacoes']['menu_active'] === 'agendamentos'){?>
-                                <i class="fa-solid fa-calendar-days"></i>
                                 <?php if($_SESSION['usuario_logado']['type'] != '3'){?>
+                                    <i class="fa-solid fa-calendar-days"></i>
                                     <input type="date" id="dataMarcada" class="hidden"/>
-                                <?php }?>
-                                <?php if($_SESSION['usuario_logado']['type'] === '3'){?>
-                                    <input type="date" id="dataCliente" class="hidden"/>
                                 <?php }?>
                             <?php }?>
                             <img src="<?=URL_BASE.$_SESSION['usuario_logado']['foto_usuario']?>">
