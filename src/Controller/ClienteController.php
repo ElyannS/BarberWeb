@@ -10,6 +10,7 @@ use App\Model\Cliente;
 use App\Model\Configuracao;
 use App\Model\Agendamento;
 use App\Model\Servico;
+use App\Model\Horario;
 
 
 final class ClienteController
@@ -541,6 +542,123 @@ final class ClienteController
         return $renderer->render($response, "agenda_cliente.php", $data);
     }
 
-
+    public function mostrar_horarios(
+        ServerRequestInterface $request,
+        ResponseInterface $response
+    ) {
+        $data = '';
+        $tempoServico = '';
+        $horarios = [];
+    
+        if ($request->getMethod() === 'POST') {
+            $params = $request->getParsedBody();
+            if (isset($params['data']) && isset($params['tempoServico'])) {
+                $data = $params['data'];
+                $tempoServico = $params['tempoServico'];
+    
+                $diaSemana = date('w', strtotime($data));
+    
+                $ConsultaHorarios = new Horario();
+                $diasSemana = [
+                    'Domingo',
+                    'Segunda-Feira',
+                    'Terça-Feira',
+                    'Quarta-Feira',
+                    'Quinta-Feira',
+                    'Sexta-Feira',
+                    'Sábado'
+                ];
+    
+                $horariosTrabalho = [];
+    
+                if (isset($diasSemana[$diaSemana])) {
+                    $turnos = $ConsultaHorarios->selectHorarioSemana($diasSemana[$diaSemana]);
+    
+                    $turno1 = $turnos[0]['turno1'];
+                    $turno2 = $turnos[0]['turno2'];
+    
+                    if ($turno1 !== "FECHADO") {
+                        $arrayTurno1 = explode(",", $turno1);
+                        foreach ($arrayTurno1 as $horario) {
+                            $horariosTrabalho[] = str_replace(" ", "", $horario);
+                        }
+                    }
+    
+                    if ($turno2 !== "FECHADO") {
+                        $arrayTurno2 = explode(",", $turno2);
+                        foreach ($arrayTurno2 as $horario) {
+                            $horariosTrabalho[] = str_replace(" ", "", $horario);
+                        }
+                    }
+                }
+    
+                $usuario = new Usuario();
+                $barbeiros = $usuario->selectUsuario('*', array('*'));
+    
+                $agendamentos = new Agendamento();
+                $horariosPorBarbeiro = [];
+    
+                foreach ($barbeiros as $barbeiro) {
+                    $horariosPorBarbeiro[$barbeiro['nome']] = [];
+                    $consultaAgendamentos = $agendamentos->selectAgendamentoData($data, $barbeiro['id']);
+    
+                    $horariosIndisponiveis = [];
+                    foreach ($consultaAgendamentos as $agendamento) {
+                        $horariosIndisponiveis[] = date('H:i', strtotime($agendamento['data_agendamento']));
+                        $horarioAtual = $agendamento['servico_id'];
+    
+                        if ($horarioAtual == 2) {
+                            $proximoHorario = date('H:i', strtotime($agendamento['data_agendamento']) + 1800);
+                            $horariosIndisponiveis[] = $proximoHorario;
+                        }
+                    }
+    
+                    foreach ($horariosTrabalho as $horario) {
+                        if (in_array($horario, $horariosIndisponiveis)) {
+                            continue;
+                        }
+    
+                        if ($tempoServico == 30) {
+                            $proximoHorario = date('H:i', strtotime($horario));
+                            if (!in_array($proximoHorario, $horariosIndisponiveis)) {
+                                $horariosPorBarbeiro[$barbeiro['nome']][] = $horario;
+                            }
+                        } elseif ($tempoServico == 60) {
+                            $proximoHorario = date('H:i', strtotime($horario));
+                            $horarioFinal = date('H:i', strtotime($horario) + 1800);
+    
+                            if (!in_array($proximoHorario, $horariosIndisponiveis) && !in_array($horarioFinal, $horariosIndisponiveis)) {
+                                $horarioOcupado = false;
+                                foreach ($horariosIndisponiveis as $horarioIndisponivel) {
+                                    if ($horarioIndisponivel == $horario || $horarioIndisponivel == $proximoHorario) {
+                                        $horarioOcupado = true;
+                                        break;
+                                    }
+                                }
+                                $hora = date('H:i');
+                                if (!$horarioOcupado) {
+                                    if ($data == date('Y-m-d')) {
+                                        if ($horario > $hora) {
+                                            $horariosPorBarbeiro[$barbeiro['nome']][] = $horario;
+                                        }
+                                    } else {
+                                        $horariosPorBarbeiro[$barbeiro['nome']][] = $horario;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+    
+                $horarios = $horariosPorBarbeiro;
+            }
+        }
+    
+        $responseData = ['horarios' => $horarios];
+        $response = $response->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write(json_encode($responseData));
+        return $response;
+    }
+    
 
 }

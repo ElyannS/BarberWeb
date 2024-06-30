@@ -9,6 +9,7 @@
 	<script src="<?=URL_BASE?>resources/js/gerarData.min.js"></script>
 	<script src="<?=URL_BASE?>resources/js/gerarHorarios.min.js"></script>
 	<script src="<?=URL_BASE?>resources/js/gerarRelatorio.min.js"></script>
+	<script src="<?=URL_BASE?>resources/js/mostrarHorarios.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
 </html>

@@ -91,5 +91,13 @@ $(document).ready(function() {
   });
 
   gerarDatas();
+
+    
 });
- 
+function setarDataAtual() {
+    var data = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
+    data.setHours(0, 0, 0, 0); 
+    var dataFormatada = data.toISOString().split('T')[0];
+    $('#dataCliente').val(dataFormatada) + 'T00:00';
+}
+setarDataAtual();

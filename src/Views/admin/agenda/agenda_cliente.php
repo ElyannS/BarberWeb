@@ -9,7 +9,7 @@
                     </div>
                     <label>
                         Selecione o serviço:
-                        <select name="servico">
+                        <select name="servico" id="servicoCliente">
                             <option>Selecione um opção</option>
                             <?php foreach ($data['informacoes']['servico'] as $servico) {?>
                                 <option value="<?=$servico['tempo_servico']?>;<?=$servico['id']?>"><?=$servico['titulo']?></option>
@@ -21,7 +21,7 @@
                         <input type="date" id="dataCliente"/>
                     </label>
                     <label>
-                        <button>VER HORÁRIOS</button>
+                        <button id="mostrarHorarios">VER HORÁRIOS</button>
                     </label>
                 </div>
                 <div id="aviso">

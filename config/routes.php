@@ -42,7 +42,7 @@ return function (App $app) {
     $app->post('/admin/clientes_delete', '\App\Controller\ClienteController:clientes_delete');
     $app->get('/dashboard-cliente', '\App\Controller\ClienteController:dashboard_cliente');
     $app->get('/admin/agenda-cliente', '\App\Controller\ClienteController:agenda_cliente');
-
+    $app->post('/admin/mostrar_horarios', '\App\Controller\ClienteController:mostrar_horarios');
 
 
 
