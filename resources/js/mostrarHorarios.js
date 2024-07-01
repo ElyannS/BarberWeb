@@ -14,33 +14,23 @@ $(document).ready(function(){
                 },
                 dataType: 'json',
                 success: function(response) {
-                var horarios = response.horarios;
-                
-                    for (var i = 0; i < horarios.length; i++) {
-                    var horario = horarios[i].horario;
-                    var nomeAgendamento = horarios[i].nome;
-                    var idAgendamento = horarios[i].idAgendamento; 
-                    var servico = horarios[i].servico;
-        
-                    
-                    var celula = $('#horario-' + horario.replace(':', '-').replace(' ', '-'));
-                    
-                    if (nomeAgendamento) {
-                        celula.addClass('marcado');      
-                        if(servico == 'Corte e barba') {
-                        celula.addClass('marcado-corte-barba');
-                        }
-                    } 
-        
-                    
-                    var linkAgendamento = $('<a></a>');
-                    linkAgendamento.attr('href', 'agendamentos-edit/' + idAgendamento); 
-                    linkAgendamento.text(nomeAgendamento);
-        
-                    
-                    celula.empty();
-                    celula.append(linkAgendamento);
-                    }
+                    const horarios = response.horarios;
+
+                    $.each(horarios, function(barbeiro, horariosArray) {
+                        const barbeiroHtml = `
+                            <div class="item">
+                                <div class="nomeBarbeiro">
+                                    <img src="<?=URL_BASE.$_SESSION['usuario_logado']['foto_usuario']?>"> <!-- Ajuste a URL da imagem conforme necessário -->
+                                    <p>${barbeiro}</p>
+                                </div>
+                                <div class="horariosBarbeiros">
+                                    ${horariosArray.map(horario => `<span>${horario}</span>`).join('')}
+                                </div>
+                            </div>
+                        `;
+
+                        $('.itensHorarios').append(barbeiroHtml);
+                    });
                 },
                 
                 error: function(xhr, status, error) {
