@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+
   $('#gestor').on('click', function(){
     if($('#gestor').val() === '1'){
       $('#gestor').val('2');

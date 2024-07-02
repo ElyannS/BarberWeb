@@ -4,13 +4,14 @@ $(document).ready(function(){
     var specificPagePath = '/BarberWeb/admin/agenda-cliente';
 
     if (currentPagePath === specificPagePath) {
-        function mostrarHorarios(data, tempoServico) {
+        function mostrarHorarios(data, tempoServico, idServico) {
             $.ajax({
                 url: '/BarberWeb/admin/mostrar_horarios',
                 type: 'POST',
                 data: {
                 data: data,
-                tempoServico: tempoServico
+                tempoServico: tempoServico,
+                idServico: idServico
                 },
                 dataType: 'json',
                 success: function(response) {
@@ -23,9 +24,9 @@ $(document).ready(function(){
                                     <img src="http://localhost/BarberWeb/${dadosBarbeiro.foto_usuario}">
                                     <p>${barbeiro}</p>
                                 </div>
-                                <div class="horariosBarbeiros" data-id="${dadosBarbeiro.id}">
-                                ${dadosBarbeiro.horarios.map(horario => `<span>${horario}</span>`).join('')}
-                            </div>
+                                <div class="horariosBarbeiros" id="pegaDados">
+                                    ${dadosBarbeiro.horarios.map(horario => `<span class="span" value="${barbeiro},${dadosBarbeiro.idBarbeiro},${dadosBarbeiro.idServico},${dadosBarbeiro.data},${horario}">${horario}</span>`).join('')}
+                                </div>
                             </div>
                         `;
                 
@@ -73,10 +74,29 @@ $(document).ready(function(){
             } else{
                 var parts = tempoInput.split(';');
                 var tempoServico = parts[0];
+                var idServico = parts[1];
         
-                mostrarHorarios(data, tempoServico);
+                mostrarHorarios(data, tempoServico, idServico);
             }
+        });
+
+         
+        
+        $(document).on('click', '#pegaDados span', function() {
+            // Captura o valor do atributo 'value'
+            const value = $(this).attr('value');
+            console.log(value);
+
+            $('body.admin .container-popup').toggleClass('active');
+            $('body.admin .conteudo').toggleClass('back');
+ 
+            const [barbeiro, idBarbeiro, idServico, data, horario] = value.split(',');
+   
+            console.log(`Barbeiro: ${barbeiro}, ID Barbeiro: ${idBarbeiro}, ID Servico: ${idServico}, Data: ${data}, Horário: ${horario}`);
         });
     }
     
 });
+
+    
+

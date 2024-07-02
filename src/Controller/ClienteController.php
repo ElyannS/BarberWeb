@@ -548,16 +548,19 @@ final class ClienteController
     ) {
         $data = '';
         $tempoServico = '';
-        $horarios = [];
+        $idServico = '';
     
+        $horarios = [];
+        
         if ($request->getMethod() === 'POST') {
             $params = $request->getParsedBody();
-            if (isset($params['data']) && isset($params['tempoServico'])) {
+            if (isset($params['data']) && isset($params['tempoServico']) && isset($params['idServico'])) {
                 $data = $params['data'];
                 $tempoServico = $params['tempoServico'];
-    
+                $idServico = $params['idServico'];
+        
                 $diaSemana = date('w', strtotime($data));
-    
+        
                 $ConsultaHorarios = new Horario();
                 $diasSemana = [
                     'Domingo',
@@ -568,22 +571,22 @@ final class ClienteController
                     'Sexta-Feira',
                     'Sábado'
                 ];
-    
+        
                 $horariosTrabalho = [];
-    
+        
                 if (isset($diasSemana[$diaSemana])) {
                     $turnos = $ConsultaHorarios->selectHorarioSemana($diasSemana[$diaSemana]);
-    
+        
                     $turno1 = $turnos[0]['turno1'];
                     $turno2 = $turnos[0]['turno2'];
-    
+        
                     if ($turno1 !== "FECHADO") {
                         $arrayTurno1 = explode(",", $turno1);
                         foreach ($arrayTurno1 as $horario) {
                             $horariosTrabalho[] = str_replace(" ", "", $horario);
                         }
                     }
-    
+        
                     if ($turno2 !== "FECHADO") {
                         $arrayTurno2 = explode(",", $turno2);
                         foreach ($arrayTurno2 as $horario) {
@@ -591,37 +594,39 @@ final class ClienteController
                         }
                     }
                 }
-    
+        
                 $usuario = new Usuario();
                 $barbeiros = $usuario->selectUsuario('*', array('*'));
-    
+        
                 $agendamentos = new Agendamento();
                 $horariosPorBarbeiro = [];
-    
+        
                 foreach ($barbeiros as $barbeiro) {
                     $horariosPorBarbeiro[$barbeiro['nome']] = [
-                        'id' => $barbeiro['id'],
                         'foto_usuario' => $barbeiro['foto_usuario'],
-                        'horarios' => []
+                        'horarios' => [],
+                        'idBarbeiro' => $barbeiro['id'],
+                        'idServico' => $idServico,
+                        'data' => $data
                     ];
                     $consultaAgendamentos = $agendamentos->selectAgendamentoData($data, $barbeiro['id']);
-    
+        
                     $horariosIndisponiveis = [];
                     foreach ($consultaAgendamentos as $agendamento) {
                         $horariosIndisponiveis[] = date('H:i', strtotime($agendamento['data_agendamento']));
                         $horarioAtual = $agendamento['servico_id'];
-    
+        
                         if ($horarioAtual == 2) {
                             $proximoHorario = date('H:i', strtotime($agendamento['data_agendamento']) + 1800);
                             $horariosIndisponiveis[] = $proximoHorario;
                         }
                     }
-    
+        
                     foreach ($horariosTrabalho as $horario) {
                         if (in_array($horario, $horariosIndisponiveis)) {
                             continue;
                         }
-    
+        
                         if ($tempoServico == 30) {
                             $proximoHorario = date('H:i', strtotime($horario));
                             if (!in_array($proximoHorario, $horariosIndisponiveis)) {
@@ -637,7 +642,7 @@ final class ClienteController
                         } elseif ($tempoServico == 60) {
                             $proximoHorario = date('H:i', strtotime($horario));
                             $horarioFinal = date('H:i', strtotime($horario) + 1800);
-    
+        
                             if (!in_array($proximoHorario, $horariosIndisponiveis) && !in_array($horarioFinal, $horariosIndisponiveis)) {
                                 $horarioOcupado = false;
                                 foreach ($horariosIndisponiveis as $horarioIndisponivel) {
@@ -660,16 +665,17 @@ final class ClienteController
                         }
                     }
                 }
-    
+        
                 $horarios = $horariosPorBarbeiro;
             }
         }
-    
+        
         $responseData = ['horarios' => $horarios];
         $response = $response->withHeader('Content-Type', 'application/json');
         $response->getBody()->write(json_encode($responseData));
         return $response;
     }
+    
     
     
 
