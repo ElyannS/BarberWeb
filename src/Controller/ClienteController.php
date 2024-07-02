@@ -599,7 +599,11 @@ final class ClienteController
                 $horariosPorBarbeiro = [];
     
                 foreach ($barbeiros as $barbeiro) {
-                    $horariosPorBarbeiro[$barbeiro['nome']] = [];
+                    $horariosPorBarbeiro[$barbeiro['nome']] = [
+                        'id' => $barbeiro['id'],
+                        'foto_usuario' => $barbeiro['foto_usuario'],
+                        'horarios' => []
+                    ];
                     $consultaAgendamentos = $agendamentos->selectAgendamentoData($data, $barbeiro['id']);
     
                     $horariosIndisponiveis = [];
@@ -621,7 +625,14 @@ final class ClienteController
                         if ($tempoServico == 30) {
                             $proximoHorario = date('H:i', strtotime($horario));
                             if (!in_array($proximoHorario, $horariosIndisponiveis)) {
-                                $horariosPorBarbeiro[$barbeiro['nome']][] = $horario;
+                                $hora = date('H:i');
+                                if ($data == date('Y-m-d')) {
+                                    if ($horario > $hora) {
+                                        $horariosPorBarbeiro[$barbeiro['nome']]['horarios'][] = $horario;
+                                    }
+                                } else {
+                                    $horariosPorBarbeiro[$barbeiro['nome']]['horarios'][] = $horario;
+                                }
                             }
                         } elseif ($tempoServico == 60) {
                             $proximoHorario = date('H:i', strtotime($horario));
@@ -639,10 +650,10 @@ final class ClienteController
                                 if (!$horarioOcupado) {
                                     if ($data == date('Y-m-d')) {
                                         if ($horario > $hora) {
-                                            $horariosPorBarbeiro[$barbeiro['nome']][] = $horario;
+                                            $horariosPorBarbeiro[$barbeiro['nome']]['horarios'][] = $horario;
                                         }
                                     } else {
-                                        $horariosPorBarbeiro[$barbeiro['nome']][] = $horario;
+                                        $horariosPorBarbeiro[$barbeiro['nome']]['horarios'][] = $horario;
                                     }
                                 }
                             }
@@ -659,6 +670,7 @@ final class ClienteController
         $response->getBody()->write(json_encode($responseData));
         return $response;
     }
+    
     
 
 }

@@ -2,6 +2,27 @@
     .container{
         .top-container{
             .agenda-top{
+                .alertaAviso{
+                    padding: 10px;
+                    background-color: #ffcccc;
+                    color: #ff0000;
+                    border: 1px solid #ff0000;
+                    border-radius: 5px;
+                    width: 100%;
+                    text-align: center;
+                    opacity: 0; 
+                    transition: opacity 0.3s ease; 
+                    margin-top: 20px;
+                }
+                @keyframes exibirAviso {
+                    0% { opacity: 0; }
+                    50% { opacity: 1; }
+                    100% { opacity: 0; }
+                }
+                
+                .alertaAviso.mostrar {
+                    animation: exibirAviso 3s ease;
+                }
                 .menu-agenda{
                     label{
                         width: 100%;
@@ -57,7 +78,7 @@
                         display: flex;
                         flex-wrap: wrap;
                         justify-content: space-around;
-                      
+                        
                         .item{
                             width: 100%;
                             background-color: #000;
@@ -89,14 +110,16 @@
                             .horariosBarbeiros{
                                 display: flex;
                                 align-items: center;
-                                justify-content: space-between;
+                                gap: 10px;
                                 flex-wrap: wrap;
                                 span{
+                                    width: 56px;
+                                    text-align: center;
                                     margin-top: 20px;
                                     background-color: #fff;
                                     color: #000;
                                     border-radius: 40px;
-                                    padding: 5px 8px;
+                                    padding: 5px;
                                     font-family: 'Montserrat Bold';
                                 }
                             }

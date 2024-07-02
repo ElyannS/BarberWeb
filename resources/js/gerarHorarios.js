@@ -124,7 +124,8 @@ $(document).ready(function(){
   
               
               var celula = $('#horario-' + horario.replace(':', '-').replace(' ', '-'));
-              
+     
+
               if (nomeAgendamento) {
                 celula.addClass('marcado');      
                 if(servico == 'Corte e barba') {
@@ -138,7 +139,7 @@ $(document).ready(function(){
               linkAgendamento.text(nomeAgendamento);
   
               
-              celula.empty();
+             
               celula.append(linkAgendamento);
             }
         },

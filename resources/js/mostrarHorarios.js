@@ -16,22 +16,24 @@ $(document).ready(function(){
                 success: function(response) {
                     const horarios = response.horarios;
                     $('.itensHorarios').empty();
-                    $.each(horarios, function(barbeiro, horariosArray) {
+                    $.each(horarios, function(barbeiro, dadosBarbeiro) {
                         const barbeiroHtml = `
                             <div class="item">
                                 <div class="nomeBarbeiro">
-                                    <img src="<?=URL_BASE.$_SESSION['usuario_logado']['foto_usuario']?>"> <!-- Ajuste a URL da imagem conforme necessário -->
+                                    <img src="http://localhost/BarberWeb/${dadosBarbeiro.foto_usuario}">
                                     <p>${barbeiro}</p>
                                 </div>
-                                <div class="horariosBarbeiros">
-                                    ${horariosArray.map(horario => `<span>${horario}</span>`).join('')}
-                                </div>
+                                <div class="horariosBarbeiros" data-id="${dadosBarbeiro.id}">
+                                ${dadosBarbeiro.horarios.map(horario => `<span>${horario}</span>`).join('')}
+                            </div>
                             </div>
                         `;
-
+                
                         $('.itensHorarios').append(barbeiroHtml);
                     });
                 },
+                
+                
                 
                 error: function(xhr, status, error) {
                     if (xhr.responseText) {
@@ -58,11 +60,22 @@ $(document).ready(function(){
         $('#mostrarHorarios').on('click', function(){
             var data = $('#dataCliente').val();
             var tempoInput = $('#servicoCliente').val();
-
-            var parts = tempoInput.split(';');
-            var tempoServico = parts[0];
-
-            mostrarHorarios(data, tempoServico);
+            
+            if( tempoInput === 'sel'){
+                var text = "<p>Selecione um serviço!</p>";
+                $('.alertaAviso').empty(); 
+                $('.alertaAviso').append(text);
+                $('.alertaAviso').addClass('mostrar');
+                setTimeout(function() {
+                    $('.alertaAviso').removeClass('mostrar');
+                    $('.alertaAviso').empty(); 
+                }, 5000);
+            } else{
+                var parts = tempoInput.split(';');
+                var tempoServico = parts[0];
+        
+                mostrarHorarios(data, tempoServico);
+            }
         });
     }
     

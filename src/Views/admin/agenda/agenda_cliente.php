@@ -4,13 +4,14 @@
         <div class="top-container">
             <div class="agenda-top"> 
                 <div class="menu-agenda">
+                
                     <div class="title-menu">
                         <div class="dateCliente"></div>
                     </div>
                     <label>
                         Selecione o serviço:
                         <select name="servico" id="servicoCliente">
-                            <option>Selecione um opção</option>
+                            <option value="sel">Selecione um opção</option>
                             <?php foreach ($data['informacoes']['servico'] as $servico) {?>
                                 <option value="<?=$servico['tempo_servico']?>;<?=$servico['id']?>"><?=$servico['titulo']?></option>
                             <?php }?>
@@ -24,37 +25,13 @@
                         <button id="mostrarHorarios">VER HORÁRIOS</button>
                     </label>
                 </div>
-                <div id="aviso">
+                <div class="alertaAviso">
 
                 </div>
                 
                 <div class="containerHorarios">
                     <div class="itensHorarios">
-                        <div class="item">
-                            <div class="nomeBarbeiro">
-                                <img src="<?=URL_BASE.$_SESSION['usuario_logado']['foto_usuario']?>">
-                                <p>Elyann Soares</p>
-                            </div>
-                            <div class="horariosBarbeiros">
-                                <span>08:30</span>
-                                <span>09:00</span>
-                                <span>09:30</span>
-                                <span>10:00</span>
-                            </div>
-                        </div>
-
-                        <div class="item">
-                            <div class="nomeBarbeiro">
-                                <img src="<?=URL_BASE.$_SESSION['usuario_logado']['foto_usuario']?>">
-                                <p>Elyann Soares</p>
-                            </div>
-                            <div class="horariosBarbeiros">
-                                <span>08:30</span>
-                                <span>09:00</span>
-                                <span>09:30</span>
-                                <span>10:00</span>
-                            </div>
-                        </div>
+                       
                     </div>
                 </div>
                 
