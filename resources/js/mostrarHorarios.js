@@ -15,7 +15,7 @@ $(document).ready(function(){
                 dataType: 'json',
                 success: function(response) {
                     const horarios = response.horarios;
-
+                    $('.itensHorarios').empty();
                     $.each(horarios, function(barbeiro, horariosArray) {
                         const barbeiroHtml = `
                             <div class="item">
