@@ -7,29 +7,7 @@
                     <div class="close-popup">
                         <i class="fa-solid fa-xmark close"></i>
                     </div>
-                    <div class="opcao-popup">
-                        Confira os dados abaixo:
-                        <form action="">
-                            <label>
-                                Barbeiro:
-                                <input type="text" id="nomeBarber">
-                            </label>
-                            <label>
-                                Serviço:
-                                <input type="text" id="nomeSevico">
-                            </label>
-                            <label>
-                                Horário
-                                <input type="text" id="horarioAgen">
-                            </label>
-                            <label >
-                                Data
-                                <input type="date" id="dataAgen">
-                            </label>
-                            <button type="submit">Confirmar agendamento</button>
-                        </form>
-                       
-                    </div>    
+                   
                 </div>
                 <div class="menu-agenda">
                 

@@ -542,6 +542,27 @@ final class ClienteController
         return $renderer->render($response, "agenda_cliente.php", $data);
     }
 
+    public function confirma_agendamento(
+        ServerRequestInterface $request, 
+        ResponseInterface $response,
+        $args
+    ) {
+        Usuario::verificarLogin();
+
+        
+  
+        $config = new Configuracao();
+        $nome_logo_site = $config->getConfig('logo_site');
+        
+
+        $data['informacoes'] = array(
+            'menu_active' => 'agendamentos', 
+            'nome_logo' => $nome_logo_site,
+        );
+        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/agenda");
+        return $renderer->render($response, "confirma_agendamento.php", $data);
+    }
+
     public function mostrar_horarios(
         ServerRequestInterface $request,
         ResponseInterface $response
