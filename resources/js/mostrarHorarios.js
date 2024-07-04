@@ -25,7 +25,7 @@ $(document).ready(function(){
                                     <p>${barbeiro}</p>
                                 </div>
                                 <div class="horariosBarbeiros" id="pegaDados">
-                                    ${dadosBarbeiro.horarios.map(horario => `<span class="span" value="${barbeiro},${dadosBarbeiro.idBarbeiro},${dadosBarbeiro.idServico},${dadosBarbeiro.data},${horario}">${horario}</span>`).join('')}
+                                    ${dadosBarbeiro.horarios.map(horario => `<span class="span" value="${barbeiro},${dadosBarbeiro.idBarbeiro},${dadosBarbeiro.idServico},${dadosBarbeiro.data},${dadosBarbeiro.nomeServico},${horario}">${horario}</span>`).join('')}
                                 </div>
                             </div>
                         `;
@@ -84,14 +84,28 @@ $(document).ready(function(){
         
         $(document).on('click', '#pegaDados span', function() {
             const value = $(this).attr('value');
-            console.log(value);
-
+            $('.clienteAgenda').css('position', 'fixed');
             $('body.admin .index').toggleClass('activeAgenda');
            
  
-            const [barbeiro, idBarbeiro, idServico, nomeServico, data, horario] = value.split(',');
+            const [barbeiro, idBarbeiro, idServico, data, nomeServico, horario] = value.split(',');
    
-            console.log(`Barbeiro: ${barbeiro}, ID Barbeiro: ${idBarbeiro}, ID Servico: ${idServico}, Data: ${data}, Horário: ${horario}`);
+            $('#nomeBarber').val(barbeiro);
+         //   $('#').val(idBarbeiro);
+            $('#nomeSevico').val(nomeServico);
+          //  $('#').val(idServico);
+            $('#dataAgen').val(data);
+          //  $('#').val(data);
+            $('#horarioAgen').val(horario);
+          //  $('#').val(horario);
+
+
+
+        });
+        
+        $('.closeAgenda').on('click' , function() {
+            $('body.admin .index').toggleClass('activeAgenda');
+            $('.agenda').css('position', 'initial');
         });
     }
     

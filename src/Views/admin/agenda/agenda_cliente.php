@@ -48,19 +48,19 @@
         <form action="">
             <label>
                 Barbeiro
-                <input type="text" id="nomeBarber">
+                <input type="text" id="nomeBarber" disabled>
             </label>
             <label>
                 Serviço
-                <input type="text" id="nomeSevico">
+                <input type="text" id="nomeSevico"disabled>
             </label>
             <label>
                 Horário
-                <input type="text" id="horarioAgen">
+                <input type="text" id="horarioAgen"disabled>
             </label>
             <label >
                 Data
-                <input type="date" id="dataAgen">
+                <input type="date" id="dataAgen"disabled>
             </label>
             <button type="submit">Confirmar agendamento</button>
         </form>

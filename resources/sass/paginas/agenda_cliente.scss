@@ -134,7 +134,7 @@
 .clienteAgenda{
     height: 100vh;
     width: 100%;
-    position: fixed;
+    
 }
 .index{
     width: 100%;
@@ -160,7 +160,8 @@
             width: 100%;
             display: block;
             padding: 0px 15px;
-            color: #000;
+            color: #fff;
+            background: #0c0c0c;
         }
     }
     button{
@@ -174,6 +175,7 @@
         color: #000;
         display: block;
         transition: .30s;
+        margin-top: 22px;
         cursor: pointer;
         &:hover{
             background-color: #222;
