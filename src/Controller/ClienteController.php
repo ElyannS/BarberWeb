@@ -570,6 +570,7 @@ final class ClienteController
         $data = '';
         $tempoServico = '';
         $idServico = '';
+        $nomeServico = ''; 
     
         $horarios = [];
         
@@ -579,7 +580,13 @@ final class ClienteController
                 $data = $params['data'];
                 $tempoServico = $params['tempoServico'];
                 $idServico = $params['idServico'];
-        
+    
+                $servico = new Servico();
+                $resultado = $servico->selectServico('*', array('id' => $idServico));
+                if (!empty($resultado)) {
+                    $nomeServico = $resultado[0]['titulo'];
+                }
+    
                 $diaSemana = date('w', strtotime($data));
         
                 $ConsultaHorarios = new Horario();
@@ -628,6 +635,7 @@ final class ClienteController
                         'horarios' => [],
                         'idBarbeiro' => $barbeiro['id'],
                         'idServico' => $idServico,
+                        'nomeServico' => $nomeServico,
                         'data' => $data
                     ];
                     $consultaAgendamentos = $agendamentos->selectAgendamentoData($data, $barbeiro['id']);
@@ -696,6 +704,7 @@ final class ClienteController
         $response->getBody()->write(json_encode($responseData));
         return $response;
     }
+    
     
     
     

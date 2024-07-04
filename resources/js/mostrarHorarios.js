@@ -83,14 +83,13 @@ $(document).ready(function(){
          
         
         $(document).on('click', '#pegaDados span', function() {
-            // Captura o valor do atributo 'value'
             const value = $(this).attr('value');
             console.log(value);
 
-            $('body.admin .container-popup').toggleClass('active');
-            $('body.admin .conteudo').toggleClass('back');
+            $('body.admin .index').toggleClass('activeAgenda');
+           
  
-            const [barbeiro, idBarbeiro, idServico, data, horario] = value.split(',');
+            const [barbeiro, idBarbeiro, idServico, nomeServico, data, horario] = value.split(',');
    
             console.log(`Barbeiro: ${barbeiro}, ID Barbeiro: ${idBarbeiro}, ID Servico: ${idServico}, Data: ${data}, Horário: ${horario}`);
         });

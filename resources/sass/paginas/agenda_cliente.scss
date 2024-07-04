@@ -2,46 +2,6 @@
     .container{
         .top-container{
             .agenda-top{
-                .container-popup{
-                    .opcao-popup{
-                        label{
-                            width: 100%;
-                            display: block;
-                            font-family: 'Montserrat Medium';
-                            margin-top: 15px;
-                            color: #fff;
-                            text-align: start;
-                            input{
-                                margin-top: 10px;
-                                margin-bottom: 10px;
-                                height: 40px;
-                                border: 1px solid #000;
-                                border-radius: 10px;
-                                width: 100%;
-                                display: block;
-                                padding: 0px 15px;
-                                color: #000;
-                            }
-                        }
-                        button{
-                            width: 100%;
-                            padding: 11px 7px;
-                            font-size: 11px;
-                            font-family: 'Montserrat Bold';
-                            background-color: #e6e6e6;
-                            border: 0px;
-                            border-radius: 5px;
-                            color: #000;
-                            display: block;
-                            transition: .30s;
-                            cursor: pointer;
-                            &:hover{
-                                background-color: #222;
-                                color: #e6e6e6
-                            }
-                        }
-                    }
-                }
                 .alertaAviso{
                     padding: 10px;
                     background-color: #ffcccc;
@@ -169,4 +129,126 @@
             }
         }
     }
+}
+
+.clienteAgenda{
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+}
+.index{
+    width: 100%;
+    height: 100vh;
+    background-color:rgb(0 0 0 / 91%);
+    position: fixed;
+    font-family: 'Montserrat Medium'; 
+    color: #ffffff;
+   display: none;
+    label{
+        width: 100%;
+        display: block;
+        font-family: 'Montserrat Medium';
+        margin-top: 15px;
+        color: #ffffff;
+        text-align: start;
+        input{
+            margin-top: 10px;
+            margin-bottom: 10px;
+            height: 40px;
+            border: 1px solid #000;
+            border-radius: 10px;
+            width: 100%;
+            display: block;
+            padding: 0px 15px;
+            color: #000;
+        }
+    }
+    button{
+        width: 100%;
+        padding: 11px 7px;
+        font-size: 14px;
+        font-family: 'Montserrat Bold';
+        background-color: #e6e6e6;
+        border: 0px;
+        border-radius: 5px;
+        color: #000;
+        display: block;
+        transition: .30s;
+        cursor: pointer;
+        &:hover{
+            background-color: #222;
+            color: #e6e6e6
+        }
+    }
+    .container-popup{
+        display: block;
+        width: 90%;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 20px;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        z-index: 2;
+        background-color: #000;
+        border-radius: 10px;
+        transition: .3s;
+        
+        @include desktop{
+            width: 33%;
+            left: 56%;
+        }
+        .opcao-popup{
+            margin: 0 auto;
+            width: 80%;
+            text-align: center;
+            padding-bottom: 10px;
+            z-index: 2;
+            text-align: start;
+            @include tablet{
+                margin-bottom: 0px;
+                width: 57%;
+            }
+            @include desktop{
+                width: 57%;
+            }
+            a{
+                padding: 8px;
+                font-size: 14px;
+                font-family: 'Montserrat Bold';
+                background-color: #e6e6e6;
+                border: 0px;
+                border-radius: 5px;
+                color: #000;
+                display: block;
+                transition: .30s;
+                margin-bottom: 16px;
+
+                &:hover{
+                    background-color: #222222;
+                    color: #e6e6e6;
+                }
+            }
+        }
+        .close-popup{
+            text-align: end;
+            padding: 0px 0px 25px 0px;					;
+            color: #e6e6e6;
+            cursor: pointer;
+            i{
+                font-size: 2em;
+            }
+            &:hover{
+                color: $color_destaque;
+            }
+        }
+        
+    }
+    
+}
+.activeAgenda{
+    display: block;
 }

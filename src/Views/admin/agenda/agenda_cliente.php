@@ -1,14 +1,8 @@
 <?=$this->fetch('../commons/header.php', $data)?>
-<section class="agenda">
+<section class="agenda clienteAgenda">
     <div class="container">
         <div class="top-container">
             <div class="agenda-top"> 
-            <div class="container-popup">
-                    <div class="close-popup">
-                        <i class="fa-solid fa-xmark close"></i>
-                    </div>
-                   
-                </div>
                 <div class="menu-agenda">
                 
                     <div class="title-menu">
@@ -42,6 +36,34 @@
                 </div>
             </div>
         </div>
+    </div>
+</section>
+<section class="index">
+    <div class="container-popup">
+        <div class="close-popup">
+            <i class="fa-solid fa-xmark closeAgenda"></i>
+        </div>
+        <div class="opcao-popup">
+        Confira os dados abaixo:
+        <form action="">
+            <label>
+                Barbeiro
+                <input type="text" id="nomeBarber">
+            </label>
+            <label>
+                Serviço
+                <input type="text" id="nomeSevico">
+            </label>
+            <label>
+                Horário
+                <input type="text" id="horarioAgen">
+            </label>
+            <label >
+                Data
+                <input type="date" id="dataAgen">
+            </label>
+            <button type="submit">Confirmar agendamento</button>
+        </form>
     </div>
 </section>
 <?=$this->fetch('../commons/footer.php')?>
