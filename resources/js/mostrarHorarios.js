@@ -16,6 +16,7 @@ $(document).ready(function(){
                 dataType: 'json',
                 success: function(response) {
                     const horarios = response.horarios;
+                    
                     $('.itensHorarios').empty();
                     $.each(horarios, function(barbeiro, dadosBarbeiro) {
                         const barbeiroHtml = `
@@ -61,9 +62,14 @@ $(document).ready(function(){
         $('#mostrarHorarios').on('click', function(){
             var data = $('#dataCliente').val();
             var tempoInput = $('#servicoCliente').val();
-            
-            if( tempoInput === 'sel'){
-                var text = "<p>Selecione um serviço!</p>";
+
+
+            var dataAtual = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
+            dataAtual.setHours(0, 0, 0, 0); 
+            var dataFormatada = dataAtual.toISOString().split('T')[0];
+
+            if( data < dataFormatada){
+                var text = "<p>Selecione uma data válida!</p>";
                 $('.alertaAviso').empty(); 
                 $('.alertaAviso').append(text);
                 $('.alertaAviso').addClass('mostrar');
@@ -72,11 +78,22 @@ $(document).ready(function(){
                     $('.alertaAviso').empty(); 
                 }, 5000);
             } else{
-                var parts = tempoInput.split(';');
-                var tempoServico = parts[0];
-                var idServico = parts[1];
-        
-                mostrarHorarios(data, tempoServico, idServico);
+                if( tempoInput === 'sel'){
+                    var text = "<p>Selecione um serviço!</p>";
+                    $('.alertaAviso').empty(); 
+                    $('.alertaAviso').append(text);
+                    $('.alertaAviso').addClass('mostrar');
+                    setTimeout(function() {
+                        $('.alertaAviso').removeClass('mostrar');
+                        $('.alertaAviso').empty(); 
+                    }, 5000);
+                } else{
+                    var parts = tempoInput.split(';');
+                    var tempoServico = parts[0];
+                    var idServico = parts[1];
+            
+                    mostrarHorarios(data, tempoServico, idServico);
+                }
             }
         });
 
@@ -91,13 +108,13 @@ $(document).ready(function(){
             const [barbeiro, idBarbeiro, idServico, data, nomeServico, horario] = value.split(',');
    
             $('#nomeBarber').val(barbeiro);
-         //   $('#').val(idBarbeiro);
+            $('#idBaber').val(idBarbeiro);
             $('#nomeSevico').val(nomeServico);
-          //  $('#').val(idServico);
+            $('#idServ').val(idServico);
             $('#dataAgen').val(data);
-          //  $('#').val(data);
+            $('#agendData').val(data);
             $('#horarioAgen').val(horario);
-          //  $('#').val(horario);
+            $('#horarioA').val(horario);
 
 
 

@@ -28,7 +28,7 @@
                 <div class="alertaAviso">
 
                 </div>
-                
+               
                 <div class="containerHorarios">
                     <div class="itensHorarios">
                        
@@ -44,26 +44,38 @@
             <i class="fa-solid fa-xmark closeAgenda"></i>
         </div>
         <div class="opcao-popup">
-        Confira os dados abaixo:
-        <form action="">
-            <label>
-                Barbeiro
-                <input type="text" id="nomeBarber" disabled>
-            </label>
-            <label>
-                Serviço
-                <input type="text" id="nomeSevico"disabled>
-            </label>
-            <label>
-                Horário
-                <input type="text" id="horarioAgen"disabled>
-            </label>
-            <label >
-                Data
-                <input type="date" id="dataAgen"disabled>
-            </label>
-            <button type="submit">Confirmar agendamento</button>
-        </form>
+            Confira os dados abaixo:
+            <form  method="post"  action="<?=URL_BASE?>admin/insert_agendCliente">
+                <label>
+                    Barbeiro
+                    <input type="text" id="nomeBarber" disabled>
+                    <input type="hidden" id="idBaber" name="idBarbeiro">
+                </label>
+                <label>
+                    Serviço
+                    <input type="text" id="nomeSevico"disabled>
+                    <input type="hidden" id="idServ" name="idServico">
+                </label>
+                <label>
+                    Horário
+                    <input type="text" id="horarioAgen"disabled>
+                    <input type="hidden" id="horarioA" name="horarioAgenda">
+                </label>
+                <label >
+                    Data
+                    <input type="date" id="dataAgen"disabled>
+                    <input type="hidden" id="agendData" name="dataAgen">
+                </label>
+                <label>
+                    Observação
+                    <input type="text" id="descricao" name="observacao">
+                </label>
+                <button type="submit">Confirmar agendamento</button>
+                <div class="alerta">
+
+                </div>
+            </form>
+        </div>
     </div>
 </section>
 <?=$this->fetch('../commons/footer.php')?>

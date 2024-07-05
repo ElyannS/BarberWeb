@@ -705,7 +705,55 @@ final class ClienteController
         return $response;
     }
     
-    
+    public function insert_agendamento_cliente(
+        ServerRequestInterface $request, 
+        ResponseInterface $response,
+        $args
+    )  {
+        Cliente::verificarLoginCliente();
+        $emailUser = $_SESSION['usuario_logado']['email'];
+        $usuario = new Cliente();
+        $usuarioInfo = $usuario->selectCliente('*', ['email' => $emailUser]);
+        $idCliente = $usuarioInfo[0]['id'];
+
+
+        $data = date('Y-m-d', strtotime($request->getParsedBody()['dataAgen']));
+        $time = date('H:i', strtotime($request->getParsedBody()['horarioAgenda']));
+        $observaocao = $request->getParsedBody()['observacao'];
+        $idBarbeiro = $request->getParsedBody()['idBarbeiro'];
+        $idServico = $request->getParsedBody()['idServico'];
+        $datetime = $data . ' ' . $time;
+        
+       
+
+        $agendamentos_verificar = new Agendamento();
+        $numero_agendamentos = count($agendamentos_verificar->selectAgendamentoVerificar($datetime, $idBarbeiro));
+
+        if ($numero_agendamentos > 0) {
+            $js['status'] = 0;
+            $js['msg'] = "Horário indisponível!";
+            echo json_encode($js);
+            exit();
+            
+        } else {
+           
+            $campos = array(
+                'id_cliente' => $idCliente,
+                'data_agendamento' => $datetime,
+                'servico_id' => $idServico,
+                'barbeiro_id' => $idBarbeiro,
+                'descricao' => $observaocao
+            );
+        
+            $agendamentos = new Agendamento();
+            $agendamentos->insertAgendamento($campos);
+            $js['status'] = 1;
+                $js['msg'] = "Agendamento ocorreu com sucesso!";
+                $js['redirecionar_pagina'] = URL_BASE.'admin/dashboard-cliente';
+                echo json_encode($js);
+                exit();
+        }
+    }
     
     
 

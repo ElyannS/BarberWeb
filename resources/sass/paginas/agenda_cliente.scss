@@ -234,6 +234,33 @@
                     color: #e6e6e6;
                 }
             }
+            form{
+                .alerta{
+                    width: 100%;
+                    display: block;
+                    padding: 10px 0px;
+                    font-size: 16px;
+                    margin-top: 20px;
+                }
+                .alerta.sucesso{
+                    border: 1px solid $color_destaque;
+                    background-color: $color_destaque_hover;
+                    color: #ccc;
+                    font-family: 'Montserrat Bold';
+                    text-align: center;
+                    border-radius: 8px;
+                    transition:  0.3s ; 
+                }
+                .alerta.erro{
+                    border: 1px solid red;
+                    background-color: #ffcccc;
+                    color: #ff0000;
+                    font-family: 'Montserrat Bold';
+                    text-align: center;
+                    border-radius: 8px;
+                    transition:  0.3s; 
+                }
+            }
         }
         .close-popup{
             text-align: end;

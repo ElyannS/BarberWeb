@@ -43,7 +43,8 @@ return function (App $app) {
     $app->get('/dashboard-cliente', '\App\Controller\ClienteController:dashboard_cliente');
     $app->get('/admin/agenda-cliente', '\App\Controller\ClienteController:agenda_cliente');
     $app->post('/admin/mostrar_horarios', '\App\Controller\ClienteController:mostrar_horarios');
-    $app->get('/admin/confirma-agendamento', '\App\Controller\ClienteController:confirma_agendamento');
+    $app->post('/admin/insert_agendCliente', '\App\Controller\ClienteController:insert_agendamento_cliente');
+   
 
 
 
