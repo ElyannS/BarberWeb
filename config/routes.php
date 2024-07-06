@@ -44,7 +44,7 @@ return function (App $app) {
     $app->get('/admin/agenda-cliente', '\App\Controller\ClienteController:agenda_cliente');
     $app->post('/admin/mostrar_horarios', '\App\Controller\ClienteController:mostrar_horarios');
     $app->post('/admin/insert_agendCliente', '\App\Controller\ClienteController:insert_agendamento_cliente');
-   
+    $app->get('/admin/minha-agenda', '\App\Controller\ClienteController:minha_agenda');
 
 
 

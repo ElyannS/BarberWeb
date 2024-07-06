@@ -11,7 +11,7 @@
                         <div class="circulo"><img class="icon_svg" src="<?=URL_BASE?>resources/imagens/calendar.svg"></div>
                         <p>Agendar</p>
                     </a>
-                <a href="<?=URL_BASE?>admin/agenda-cliente" class="item_menu">
+                <a href="<?=URL_BASE?>admin/minha-agenda" class="item_menu">
                     <div class="circulo"><img class="icon_svg" src="<?=URL_BASE?>resources/imagens/agenda.svg"></div>
                     <p>Minha agenda</p>
                 </a>

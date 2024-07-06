@@ -17,8 +17,7 @@
         <div class="lista">
             <table>
                 <tbody>
-                <?php
-                        foreach($data['informacoes']['lista'] as $barbeiros) {?>
+                <?php foreach($data['informacoes']['lista'] as $barbeiros) {?>
                     <tr>
                        
                         <td class="titulo_item">

@@ -9,8 +9,14 @@ $(document).ready(function(){
     }
   });
 
-
-
+  $('#CancelarHorario').on('click', function() {
+    $('.displayBtn').css('display', 'none');
+    $('.CancelAganda').css('display', 'flex');
+  });
+  $('#confirmarCancelar').on('click', function() {
+    $('.displayBtn').css('display', 'flex');
+    $('.CancelAganda').css('display', 'none');
+  });
 
   var dataAtual = new Date();
   var ano = dataAtual.getFullYear();

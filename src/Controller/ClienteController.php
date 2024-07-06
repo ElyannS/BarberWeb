@@ -542,25 +542,53 @@ final class ClienteController
         return $renderer->render($response, "agenda_cliente.php", $data);
     }
 
-    public function confirma_agendamento(
+    public function minha_agenda(
         ServerRequestInterface $request, 
         ResponseInterface $response,
         $args
     ) {
-        Usuario::verificarLogin();
+        Cliente::verificarLoginCliente();
+        $emailUser = $_SESSION['usuario_logado']['email'];
+        $usuario = new Cliente();
+        $usuarioInfo = $usuario->selectCliente('*', ['email' => $emailUser]);
+        $idCliente = $usuarioInfo[0]['id'];
+
+        $agendamentos = new Agendamento();
+        $consultaAgendamentos  = $agendamentos->selectAgendamentoCliente($idCliente);
+        
+
+        $data_atual = date("Y-m-d H:i:s");
+
+        $agendamentos_futuros = [];
+        $agendamentos_passados = [];
+
+        foreach ($consultaAgendamentos as $agendamento) {
+            if (strtotime($agendamento['data_agendamento']) >= strtotime($data_atual)) {
+                $agendamentos_futuros[] = $agendamento;
+            } else {
+                $agendamentos_passados[] = $agendamento;
+            }
+        }
 
         
-  
+        $agendamentos_futuros = array_reverse($agendamentos_futuros);
+        $agendamentos_passados = array_reverse($agendamentos_passados);
+
+        
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
-        
+
+        $usuario = $_SESSION['usuario_logado'];
 
         $data['informacoes'] = array(
-            'menu_active' => 'agendamentos', 
+            'menu_active' => 'minha_agenda',
             'nome_logo' => $nome_logo_site,
+            'usuario' => $usuario,
+            'agendamentos_futuros' => $agendamentos_futuros,
+            'agendamentos_passados' => $agendamentos_passados,
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/agenda");
-        return $renderer->render($response, "confirma_agendamento.php", $data);
+        return $renderer->render($response, "minha_agenda.php", $data);
     }
 
     public function mostrar_horarios(
@@ -747,11 +775,12 @@ final class ClienteController
         
             $agendamentos = new Agendamento();
             $agendamentos->insertAgendamento($campos);
+
             $js['status'] = 1;
-                $js['msg'] = "Agendamento ocorreu com sucesso!";
-                $js['redirecionar_pagina'] = URL_BASE.'admin/dashboard-cliente';
-                echo json_encode($js);
-                exit();
+            $js['msg'] = "Agendamento ocorreu com sucesso!";
+            $js['redirecionar_pagina'] = URL_BASE."admin/minha-agenda";
+            echo json_encode($js);
+            exit();
         }
     }
     

@@ -76,6 +76,7 @@
                 </div>
             </form>
         </div>
-    </div>
-</section>
-<?=$this->fetch('../commons/footer.php')?>
+   
+    </section>
+
+<?=$this->fetch('../commons/footer.php', $data)?>

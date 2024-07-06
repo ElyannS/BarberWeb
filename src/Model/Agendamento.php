@@ -40,7 +40,16 @@ class Agendamento extends Model {
         $stmt = $this->querySelect($sql, array(':id' => $id));
         return $stmt;
     }
-
+    public function selectAgendamentoCliente($id_cliente): array
+    {
+        $sql = "SELECT agendamento.*, servicos.titulo AS nome_servico,
+         usuarios.nome AS nome_barbeiro FROM agendamento 
+        INNER JOIN servicos ON agendamento.servico_id = servicos.id 
+        INNER JOIN usuarios ON agendamento.barbeiro_id = usuarios.id
+        WHERE agendamento.id_cliente = :id_cliente ";
+        $stmt = $this->querySelect($sql, array(':id_cliente' => $id_cliente));
+        return $stmt;
+    }
 
     function selectAgendamentoData($data, $barbeiroId): array
     {
