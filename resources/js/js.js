@@ -9,15 +9,17 @@ $(document).ready(function(){
     }
   });
 
-  $('#CancelarHorario').on('click', function() {
-    $('.displayBtn').css('display', 'none');
-    $('.CancelAganda').css('display', 'flex');
-  });
-  $('#confirmarCancelar').on('click', function() {
-    $('.displayBtn').css('display', 'flex');
-    $('.CancelAganda').css('display', 'none');
-  });
+  $('.itemAgend').on('click', '#CancelarHorario', function() {
+    var cancel = $(this).val();
+    $('#btn' + cancel).css('display', 'none');
+    $('#Cancel' + cancel).css('display', 'flex');
+});
 
+$('.itemAgend').on('click', '#confirmarCancelar', function() {
+    var cancel = $(this).val();
+    $('#btn' + cancel).css('display', 'flex');
+    $('#Cancel' + cancel).css('display', 'none');
+});
   var dataAtual = new Date();
   var ano = dataAtual.getFullYear();
   var mes = ('0' + (dataAtual.getMonth() + 1)).slice(-2); 
@@ -98,6 +100,54 @@ $(document).ready(function(){
     $('body.admin .conteudo').toggleClass('back');
   });
 
+  if ($('form.form_ajax').length) {
+    if (!jQuery().ajaxForm)
+      return;
+    $('form.form_ajax').on("submit", function(e) {
+      e.preventDefault();
+      var form = $(this);
+      var alerta = form.children('.alerta');
+      var aviso = $('#aviso');
+  
+      form.ajaxSubmit({
+        dataType:'json'
+        ,success: function(response) {
+          if (response.msg){
+            alerta.html(response.msg);
+            aviso.html(response.msg);
+          }
+          if (response.status != '0') {
+            alerta.addClass('sucesso');
+            $('#aviso').addClass('mostrar'); 
+            $('#avisoSucesso').addClass('mostrarSucesso');
+          } else {
+            alerta.addClass('erro');
+            aviso.removeClass('sucesso').addClass('erro');
+            $('#aviso').addClass('mostrar'); 
+          }
+          if (response.redirecionar_pagina){
+            window.location = response.redirecionar_pagina;
+          }
+          if (response.resetar_form){
+            form[0].reset();
+          }
+          setTimeout(
+            function(){ 
+              alerta.html("");
+              alerta.removeClass('sucesso');
+              alerta.removeClass('erro');
+
+              aviso.html("");
+              aviso.removeClass('sucesso erro');
+              $('#aviso').removeClass('mostrar');
+              $('#avisoSucesso').removeClass('mostrarSucesso');
+            }, 
+          4000);
+        }
+      });
+      return false;
+    });
+  }
   $('#btn-agendar').on('click' , function(){
       $('.agenda-top .form').toggleClass('active');
       $('body.admin .conteudo').addClass('back');
@@ -190,54 +240,7 @@ $(document).ready(function(){
   });
 
 
-  if ($('form.form_ajax').length) {
-    if (!jQuery().ajaxForm)
-      return;
-    $('form.form_ajax').on("submit", function(e) {
-      e.preventDefault();
-      var form = $(this);
-      var alerta = form.children('.alerta');
-      var aviso = $('#aviso');
-  
-      form.ajaxSubmit({
-        dataType:'json'
-        ,success: function(response) {
-          if (response.msg){
-            alerta.html(response.msg);
-            aviso.html(response.msg);
-          }
-          if (response.status != '0') {
-            alerta.addClass('sucesso');
-            $('#aviso').addClass('mostrar'); 
-            $('#avisoSucesso').addClass('mostrarSucesso');
-          } else {
-            alerta.addClass('erro');
-            aviso.removeClass('sucesso').addClass('erro');
-            $('#aviso').addClass('mostrar'); 
-          }
-          if (response.redirecionar_pagina){
-            window.location = response.redirecionar_pagina;
-          }
-          if (response.resetar_form){
-            form[0].reset();
-          }
-          setTimeout(
-            function(){ 
-              alerta.html("");
-              alerta.removeClass('sucesso');
-              alerta.removeClass('erro');
-
-              aviso.html("");
-              aviso.removeClass('sucesso erro');
-              $('#aviso').removeClass('mostrar');
-              $('#avisoSucesso').removeClass('mostrarSucesso');
-            }, 
-          4000);
-        }
-      });
-      return false;
-    });
-  }
+ 
 
   
 

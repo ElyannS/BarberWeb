@@ -45,9 +45,10 @@ return function (App $app) {
     $app->post('/admin/mostrar_horarios', '\App\Controller\ClienteController:mostrar_horarios');
     $app->post('/admin/insert_agendCliente', '\App\Controller\ClienteController:insert_agendamento_cliente');
     $app->get('/admin/minha-agenda', '\App\Controller\ClienteController:minha_agenda');
-
-
-
+    $app->post('/admin/agendacliente_delete', '\App\Controller\ClienteController:agendacliente_delete');
+    $app->get('/admin/perfil-cliente', '\App\Controller\ClienteController:perfil_cliente');
+    $app->post('/admin/perfil_updateCliente', '\App\Controller\ClienteController:perfil_updateCliente');
+    
     
     //CONTROLADOR AGENDAMENTO
     $app->get('/admin/agendamentos', '\App\Controller\AgendamentoController:agendamentos');
@@ -79,6 +80,13 @@ return function (App $app) {
     $app->post('/admin/horarios_update', '\App\Controller\HorarioController:horarios_update');
     $app->post('/admin/horarios_delete', '\App\Controller\HorarioController:horarios_delete');
     $app->post('/admin/gerar_horario', '\App\Controller\HorarioController:gerar_horario');
+
+    //CONTROLADOR HORÁRIO BARBEIRO
+    $app->get('/admin/horarios-barbeiro', '\App\Controller\HorarioBarbeiroController:horarios_barbeiro');
+    $app->get('/admin/horarios-create-barbeiro', '\App\Controller\HorarioBarbeiroController:horarios_create');
+    $app->get('/admin/horarios-edit-barbeiro/{id}', '\App\Controller\HorarioBarbeiroController:horarios_barbeiro_edit');
+    $app->post('/admin/horarios_barbeiro_insert', '\App\Controller\HorarioBarbeiroController:horarios_insert');
+    $app->post('/admin/horarios_barbeiro_update', '\App\Controller\HorarioBarbeiroController:horarios_barbeiro_update');
 
 
     //ROTAS DO WEB SITE

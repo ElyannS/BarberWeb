@@ -85,8 +85,6 @@
                             border-radius: 8px;
                             padding: 15px 8px;
                             margin-top: 25px;
-
-
                             -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.493);
                             -moz-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.493);
                             box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.493);
@@ -122,6 +120,9 @@
                                     padding: 5px;
                                     font-family: 'Montserrat Bold';
                                 }
+                            }
+                            @include desktop{
+                                width: 30% ;
                             }
                         }
                     }
@@ -294,8 +295,9 @@
             @include desktop{
                 display: flex;
                 flex-wrap: wrap;
-                justify-content: space-around;
+                gap: 108px;
             }
+            
             .itemAgend{
                 width: 100%;
                 background-color: #222222;
@@ -345,7 +347,7 @@
                     color: #ccc;
                     padding: 15px 0px 15px 7px;
                     img{
-                        width: 8%;
+                        width: 6%;
                         display: block;
                     }
                 }
@@ -358,7 +360,7 @@
                     color: #ccc;
                     padding: 15px 0px 15px 7px;
                     img{
-                        width: 10%;
+                        width: 6%;
                         display: block;
                         margin-right: 2px;
                     }

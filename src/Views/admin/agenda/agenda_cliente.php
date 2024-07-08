@@ -45,7 +45,7 @@
         </div>
         <div class="opcao-popup">
             Confira os dados abaixo:
-            <form  method="post"  action="<?=URL_BASE?>admin/insert_agendCliente">
+            <form  method="post" class="form_ajax" action="<?=URL_BASE?>admin/insert_agendCliente">
                 <label>
                     Barbeiro
                     <input type="text" id="nomeBarber" disabled>

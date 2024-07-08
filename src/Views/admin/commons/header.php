@@ -152,6 +152,15 @@
                         </li>
                     <?php } ?>
 
+                    <?php if($data['informacoes']['usuario']['type'] === '3'){ ?>
+                        <li class="<?=($data['informacoes']['menu_active'] === 'perfil') ? 'active' : ''?>">
+                            <a href="<?=URL_BASE?>admin/perfil-cliente">
+                                <i class="fas fa-user"></i>
+                                Usuário
+                            </a>
+                        </li>
+                    <?php } ?>
+
                     <?php if($data['informacoes']['usuario']['type'] === '1'){ ?>
                         <li class="<?=($data['informacoes']['menu_active'] === 'site') ? 'active' : ''?>">
                             <a href="<?=URL_BASE?>admin/site">
@@ -178,9 +187,10 @@
                             </a>
                         </li>
                     <?php } ?>
+                    
                 </ul>
             </div>
-            <div class="close">
+            <div class="closeMenu">
                 <i class="fas fa-times"></i>
             </div>
         </div>

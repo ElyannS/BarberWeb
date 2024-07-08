@@ -276,7 +276,7 @@ header{
         }
         &.active{
             left: 0px;
-            .close{
+            .closeMenu{
                 width: calc(100vw - 250px);
             }
         }
@@ -364,7 +364,7 @@ header{
             }
         }
         
-        .close{
+        .closeMenu{
             position: fixed;
             width: 0px;
             left: 250px;

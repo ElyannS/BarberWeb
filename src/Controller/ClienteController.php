@@ -272,8 +272,6 @@ final class ClienteController
         $telefone = $request->getParsedBody()['telefone'];
         $senha = $request->getParsedBody()['senha'];
         $confirmar_senha = $request->getParsedBody()['confirmar_senha'];
-        $data_envio = date('d/m/Y');
-        $hora_envio = date('H:i:s');
       
         $config = new Configuracao();
         $nomeBarbearia = $config->getConfig('nome_site');
@@ -318,65 +316,73 @@ final class ClienteController
 
         if($clientes){
             // Corpo E-mail
-            $msgHtml = "<!DOCTYPE html>
+            $msgHtml = "
+                <!DOCTYPE html>
                 <html lang='pt-BR'>
                 <head>
                     <meta charset='UTF-8'>
-                    <title>Email</title>
-                    <style type='text/css'>
+                    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                    <title>Confirmação de Cadastro</title>
+                    <style>
                         body {
-                            margin: 0;
                             font-family: Arial, sans-serif;
-                            font-size: 14px;
-                            color: white;
                             background-color: #f4f4f4;
-                            padding: 20px;
+                            margin: 0;
+                            padding: 0;
                         }
-                        .email-container {
+                        .container {
                             width: 100%;
                             max-width: 600px;
                             margin: 0 auto;
                             background-color: #ffffff;
-                            border: 1px solid #dddddd;
-                            border-radius: 5px;
-                            overflow: hidden;
-                            color: #333; /* Cor dos textos dentro do container */
+                            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                            padding: 20px;
+                            box-sizing: border-box;
                         }
-                        .email-header {
-                            background-color: #0099ff;
+                        .header {
+                            background-color: #4CAF50;
                             color: white;
-                            padding: 10px;
+                            padding: 20px;
                             text-align: center;
                         }
-                        .email-header h2, .email-header p, .email-header a {
-                            color: white; /* Textos dentro do cabeçalho */
-                        }
-                        .email-footer {
-                            background-color: #f4f4f4;
-                            color: #666666;
-                            padding: 10px;
+                        .content {
+                            padding: 20px;
                             text-align: center;
-                            font-size: 12px;
                         }
-                        a {
-                            color: #0099ff; /* Cor dos links */
+                        .button {
+                            display: inline-block;
+                            background-color: #4CAF50;
+                            color: white;
+                            padding: 15px 25px;
                             text-decoration: none;
+                            border-radius: 5px;
+                            margin-top: 20px;
                         }
-                        a:hover {
-                            color: #0056b3; /* Cor do link ao passar o mouse */
+                        .footer {
+                            margin-top: 20px;
+                            text-align: center;
+                            color: #777;
+                        }
+                        .footer a {
+                            color: #4CAF50;
+                            text-decoration: none;
                         }
                     </style>
                 </head>
                 <body>
-                    <div class='email-container'>
-                        <div class='email-header'>
-                            <h2>Seja Bem-vindo, $nome, à $nomeBarbearia!</h2>
-                            <p>Guarde bem seus dados, pois servirão para acessar sua agenda.</p>
-                            <a href='https://exclusivebarbershop.com.br/login-cliente'>Acesse sua agenda aqui</a>
+                    <div class='container'>
+                        <div class='header'>
+                            <h1>Bem-vindo!</h1>
                         </div>
-                        <div class='email-footer'>
-                            Este e-mail foi enviado em <strong>$data_envio</strong> às <strong>$hora_envio</strong>.
-                            Para suporte entre em contato com o estabelecimento.
+                        <div class='content'>
+                            <p>Olá, $nome</p>
+                            <p>Obrigado por se cadastrar em nossa barbearia. Para acessar a agenda, por favor, clique no botão abaixo:</p>
+                             <a href='https://exclusivebarbershop.com.br/login-cliente' class='button'>Acessar</a>
+                        </div>
+                        <div class='footer'>
+                            <p>Para qualquer dúvida entre em contato com o estabelecimento.</p>
+                            <p>Atenciosamente,<br>A Equipe $nomeBarbearia</p>
+                            <!-- <p><a href='#'>Visite nosso site</a></p> -->
                         </div>
                     </div>
                 </body>
@@ -510,7 +516,7 @@ final class ClienteController
         ResponseInterface $response,
         $args
     ) {
-        Usuario::verificarLogin();
+        Cliente::verificarLoginCliente();
 
         $agendamentos = new Agendamento();
         $consultaAgendamentos  = $agendamentos->selectAgendamento('*', array('*'));
@@ -573,6 +579,7 @@ final class ClienteController
         
         $agendamentos_futuros = array_reverse($agendamentos_futuros);
         $agendamentos_passados = array_reverse($agendamentos_passados);
+        
 
         
         $config = new Configuracao();
@@ -744,6 +751,9 @@ final class ClienteController
         $usuarioInfo = $usuario->selectCliente('*', ['email' => $emailUser]);
         $idCliente = $usuarioInfo[0]['id'];
 
+        $config = new Configuracao();
+        $nomeBarbearia = $config->getConfig('nome_site');
+
 
         $data = date('Y-m-d', strtotime($request->getParsedBody()['dataAgen']));
         $time = date('H:i', strtotime($request->getParsedBody()['horarioAgenda']));
@@ -752,7 +762,20 @@ final class ClienteController
         $idServico = $request->getParsedBody()['idServico'];
         $datetime = $data . ' ' . $time;
         
-       
+        $servicos = new Servico();
+        $nomeServico = $servicos->selectServico('titulo', array('id' => $idServico));
+
+        $dataFormatada = date('Y-m-d', strtotime($data));
+
+        $clientes = new Cliente();
+        $infoCliente = $clientes->selectCliente('*', array('id' => $idCliente));
+        $nomeCliente = $infoCliente[0]['nome'];
+
+        $usuarios = new Usuario();
+        $infoBarbeiro = $usuarios->selectUsuario('*', array('id' => $idBarbeiro));
+        $nomeBarbeiro = $infoBarbeiro[0]['nome'];
+        $emailBarbeiro = $infoBarbeiro[0]['email'];
+
 
         $agendamentos_verificar = new Agendamento();
         $numero_agendamentos = count($agendamentos_verificar->selectAgendamentoVerificar($datetime, $idBarbeiro));
@@ -776,14 +799,312 @@ final class ClienteController
             $agendamentos = new Agendamento();
             $agendamentos->insertAgendamento($campos);
 
-            $js['status'] = 1;
-            $js['msg'] = "Agendamento ocorreu com sucesso!";
-            $js['redirecionar_pagina'] = URL_BASE."admin/minha-agenda";
-            echo json_encode($js);
-            exit();
+            if($agendamentos){
+                $msgHtml = "<!DOCTYPE html>
+                    <html lang='pt-BR'>
+                    <head>
+                        <meta charset='UTF-8'>
+                        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                        <title>Agendamento Concluído</title>
+                        <style>
+                            body {
+                                font-family: Arial, sans-serif;
+                                background-color: #f4f4f4;
+                                margin: 0;
+                                padding: 0;
+                            }
+                            .container {
+                                width: 100%;
+                                max-width: 600px;
+                                margin: 0 auto;
+                                background-color: #ffffff;
+                                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                                padding: 20px;
+                                box-sizing: border-box;
+                            }
+                            .header {
+                                background-color: #4CAF50;
+                                color: white;
+                                padding: 20px;
+                                text-align: center;
+                            }
+                            .content {
+                                padding: 20px;
+                                text-align: center;
+                            }
+                            .button {
+                                display: inline-block;
+                                background-color: #4CAF50;
+                                color: white;
+                                padding: 15px 25px;
+                                text-decoration: none;
+                                border-radius: 5px;
+                                margin-top: 20px;
+                            }
+                            .footer {
+                                margin-top: 20px;
+                                text-align: center;
+                                color: #777;
+                            }
+                            .footer a {
+                                color: #4CAF50;
+                                text-decoration: none;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class='container'>
+                            <div class='header'>
+                                <h1>Agendamento Concluído</h1>
+                            </div>
+                            <div class='content'>
+                                <p>Olá,  $nomeCliente</p>
+                                <p>Seu agendamento foi concluído com sucesso!</p>
+                                <p>Aqui estão os detalhes do seu agendamento:</p>
+                                <p><strong>Data:</strong> $dataFormatada</p>
+                                <p><strong>Horário:</strong> $time</p>
+                                <p><strong>Serviço:</strong> $nomeServico</p>
+                                <p><strong>Barbeiro:</strong> $nomeBarbeiro</p>
+                                <p>Se você tiver alguma dúvida, por favor, entre em contato conosco.</p>
+                            </div>
+                            <div class='footer'>
+                                <p>Atenciosamente,<br>A Equipe $nomeBarbearia</p>
+                                <p><a href='https://exclusivebarbershop.com.br/minha-agenda'>confira seu agendamento</a></p>
+                            </div>
+                        </div>
+                    </body>
+                    </html>
+
+                ";
+               
+                $msgHtml1 = "<!DOCTYPE html>
+                <html lang='pt-BR'>
+                <head>
+                    <meta charset='UTF-8'>
+                    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                    <title>Agendamento Concluído</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f4f4f4;
+                            margin: 0;
+                            padding: 0;
+                        }
+                        .container {
+                            width: 100%;
+                            max-width: 600px;
+                            margin: 0 auto;
+                            background-color: #ffffff;
+                            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                            padding: 20px;
+                            box-sizing: border-box;
+                        }
+                        .header {
+                            background-color: #4CAF50;
+                            color: white;
+                            padding: 20px;
+                            text-align: center;
+                        }
+                        .content {
+                            padding: 20px;
+                            text-align: center;
+                        }
+                        .button {
+                            display: inline-block;
+                            background-color: #4CAF50;
+                            color: white;
+                            padding: 15px 25px;
+                            text-decoration: none;
+                            border-radius: 5px;
+                            margin-top: 20px;
+                        }
+                        .footer {
+                            margin-top: 20px;
+                            text-align: center;
+                            color: #777;
+                        }
+                        .footer a {
+                            color: #4CAF50;
+                            text-decoration: none;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class='container'>
+                        <div class='header'>
+                            <h1>Agendamento Concluído</h1>
+                        </div>
+                        <div class='content'>
+                            <p>Olá,  $nomeBarbeiro</p>
+                            <p>Novo Agendamento!</p>
+                            <p>Aqui estão os detalhes do agendamento:</p>
+                            <p><strong>Data:</strong> $dataFormatada</p>
+                            <p><strong>Horário:</strong> $time</p>
+                            <p><strong>Serviço:</strong> $nomeServico</p>
+                            <p><strong>Cliente:</strong> $nomeCliente</p>
+                        </div>
+                        <div class='footer'>
+                            <p>Atenciosamente,<br>A Equipe $nomeBarbearia</p>
+                            <p><a href='https://exclusivebarbershop.com.br/admin-login'>confira o agendamento</a></p>
+                        </div>
+                    </div>
+                </body>
+                </html>
+
+            ";
+           
+
+            $destino = $emailUser;
+            $destino1 = $emailBarbeiro;
+            $assunto_email = "Confirmação de Agendamento!";
+
+            $headers  = 'MIME-Version: 1.0' . "\r\n";
+            $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+            $headers .= 'From:'.$nomeBarbearia.'<$email>';
+
+            mail($destino1, $assunto_email, $msgHtml1, $headers);  
+            $enviaremail = mail($destino, $assunto_email, $msgHtml, $headers);  
+
+            if($enviaremail){
+                $js['status'] = 1;
+                $js['msg'] = "Agendado com sucesso!";
+                $js['redirecionar_pagina'] = URL_BASE."admin/minha-agenda";
+                echo json_encode($js);
+                exit();
+            } else {
+                $js['status'] = 0;
+                $js['msg'] = 'Erro ao agendar Horário. Tente novamente!';
+                $js['resetar_form'] = true;
+                echo json_encode($js);
+                exit();
+            }
+        } else {
+            $js['status'] = 0;
+                $js['msg'] = 'Erro ao agendar Horário. Tente novamente!';
+                $js['resetar_form'] = true;
+                echo json_encode($js);
+                exit();
+        
+            }   
         }
     }
+    public function perfil_cliente(
+        ServerRequestInterface $request, 
+        ResponseInterface $response,
+        $args
+    ) {
+        Cliente::verificarLoginCliente();
+        
+        $config = new Configuracao();
+        $nome_logo_site = $config->getConfig('logo_site');
+
+        $usuario = $_SESSION['usuario_logado'];
+
+        $data['informacoes'] = array(
+            'menu_active' => 'perfil',
+            'nome_logo' => $nome_logo_site,
+            'usuario' => $usuario
+        );
+        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN);
+        return $renderer->render($response, "perfil_cliente.php", $data);
+    } 
+
+    public function perfil_updateCliente(
+        ServerRequestInterface $request, 
+        ResponseInterface $response,
+        $args
+    ) {
+        $id = $request->getParsedBody()['id'];
+        $nome = $request->getParsedBody()['nome'];
+        $email = $request->getParsedBody()['email'];
+        $senha = $request->getParsedBody()['senha'];
+        $confirmar_senha = $request->getParsedBody()['confirmar_senha'];
+        $nome_imagem_atual = $request->getParsedBody()['nome_imagem_atual'];
+        
+
+        $alterar_senha = false;
+
+       
+        if($senha !== '') {
+            if( $senha !== $confirmar_senha){
+                $js['status'] = 0;
+                $js['msg'] = 'As senhas não são iguais.';
+                echo json_encode($js);
+                exit();
+            }
+            $alterar_senha = true;
+        }
+
+        
+        $nome_foto_usuario = "";
+        $imagem_atualizar = false;
+        
+        if(isset($_FILES['foto_usuario'])){
+
+            if($request->getUploadedFiles()['foto_usuario']) {
+                $foto_usuario = $request->getUploadedFiles()['foto_usuario'];
+            } else {
+                $foto_usuario = false;
+            }
     
+            if($foto_usuario) {
+                
+            $imagem_atualizar = true;
+                if ($foto_usuario->getError() === UPLOAD_ERR_OK) {
+                    unlink($nome_imagem_atual);
+
+                    $extensao = pathinfo($foto_usuario->getClientFilename(), PATHINFO_EXTENSION);
     
+                    $nome_foto = md5(uniqid(rand(), true)).pathinfo($foto_usuario->getClientFilename(), PATHINFO_FILENAME).".".$extensao;
+    
+                    $nome_foto_usuario = "resources/imagens/usuario/" . $nome_foto;
+
+                    
+                    $foto_usuario->moveTo($nome_foto_usuario);
+
+                    
+                }
+            }
+        }
+        $campos = array(
+            'nome' => $nome,
+            'email' => $email,
+        );
+        if($imagem_atualizar) {
+            $campos['foto_usuario'] = $nome_foto_usuario;
+        }
+        if($alterar_senha) {
+            $campos['senha'] = password_hash($senha, PASSWORD_DEFAULT, ["const"=>12]);
+        }
+       
+        $cliente = new Cliente();
+
+        $cliente->updatecliente($campos, array('id' => $id));
+
+        $resultado = $cliente->selectcliente('*', array('email' => $email));
+
+        $_SESSION['usuario_logado'] = $resultado[0];
+
+        $js['status'] = 1;
+        $js['msg'] = 'Usuário atualizado com sucesso.';
+        $js['redirecionar_pagina'] = URL_BASE."admin/perfil-cliente";
+        echo json_encode($js);
+        exit();
+    }
+
+    public function agendacliente_delete(
+        ServerRequestInterface $request, 
+        ResponseInterface $response,
+        $args
+    ) {
+       $id = $request->getParsedBody()['id'];
+
+       $agendamentos = new Agendamento;
+       $agendamentos->deleteAgendamento('id', $id);
+
+       header('Location: '.URL_BASE.'admin/minha-agenda');
+       exit();
+    }
+
 
 }

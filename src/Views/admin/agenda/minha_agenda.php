@@ -9,7 +9,7 @@
         </div>
         <div class="agendamentosCliente">
             <div class="itensAgen">
-
+       
                 <?php foreach($data['informacoes']['agendamentos_futuros'] as $agendamentos ){ ?>
                     <div class="itemAgend">
                         <div class="agendaTopo">
@@ -31,15 +31,16 @@
                             </span>
                             <span class="btnClient">
                                 <div class="topo">
-                                    <div class="btn displayBtn">
-                                        <button id="CancelarHorario">Cancelar Agendamento</button>
+                                    <div class="btn displayBtn" id="btn<?=$agendamentos['id']?>">
+                                        <button id="CancelarHorario" value="<?=$agendamentos['id']?>">Cancelar Agendamento</button>
                                         <a href="<?=URL_BASE?>admin/barbeiros-create">Chamar no Whats <i class="fa-brands fa-whatsapp"></i></a>
                                     </div>
-                                    <div class="btn CancelAganda">
-                                        <form action="">
+                                    <div class="btn CancelAganda" id="Cancel<?=$agendamentos['id']?>">
+                                        <form action="<?=URL_BASE?>admin/agendacliente_delete" method="post">
+                                            <input type="hidden" name="id" value="<?=$agendamentos['id']?>">
                                             <button>Cancelar</button>
                                         </form>
-                                        <button id="confirmarCancelar">Fechar</button>
+                                        <button id="confirmarCancelar" value="<?=$agendamentos['id']?>">Fechar</button>
                                     </div>
                                 </div>
                             </span>

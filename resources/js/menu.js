@@ -7,7 +7,7 @@ $("body header .container .left a").on('click', function(){
     
   });
   
-  $("body .menu_lateral .close").on('click', function(){
+  $("body .menu_lateral .closeMenu").on('click', function(){
     $('.menu_lateral').toggleClass('active');
     $('body.admin').toggleClass('menu_active');
   });

@@ -170,4 +170,34 @@ class Sql {
 
 		$this->query("UPDATE $table SET $sqlValues WHERE $sqlWhere", $parans);
 	}
+	public function updates($table, $valores, $where)
+    {
+        $sqlValues = "";
+
+        $valores = !is_array($valores) ? [$valores] : $valores;
+
+        foreach ($valores as $key => $value) {
+            if (end($valores) === $value) {
+                $sqlValues .= $key . " = :" . $key;
+            } else {
+                $sqlValues .= $key . " = :" . $key . ", ";
+            }
+            $parans[':' . $key] = $value;
+        }
+
+        $sqlWhere = "";
+
+        $where = !is_array($where) ? [$where] : $where;
+
+        foreach ($where as $key => $value) {
+            if (end($where) === $value) {
+                $sqlWhere .= $key . " = :" . $key;
+            } else {
+                $sqlWhere .= $key . " = :" . $key . " AND ";
+            }
+            $parans[':' . $key] = $value;
+        }
+
+        $this->query("UPDATE $table SET $sqlValues WHERE $sqlWhere", $parans);
+    }
 }?>
