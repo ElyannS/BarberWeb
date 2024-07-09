@@ -10,10 +10,10 @@ class Servico extends Model {
 	protected $fields = [
 		"id",
 		"titulo",
-		"url_amigavel",
 		"imagem_principal",
         "data_cadastro",
-		"tempo_servico"
+		"tempo_servico",
+		"valor"
 	];
 
 	function insertServico($campos)
@@ -38,7 +38,7 @@ class Servico extends Model {
 
 	public function selectServicoId($id): array
 {
-    $fields = implode(", ", $this->fields); // Obter os nomes das colunas separados por vírgula
+    $fields = implode(", ", $this->fields); 
     $sql = "SELECT $fields FROM $this->table WHERE id = :id";
     $params = [":id" => $id];
     return $this->querySelect($sql, $params);

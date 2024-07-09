@@ -47,7 +47,7 @@
 
                          <form action="<?=URL_BASE?>admin/caixa_total_delete" method="post">
                              <input type="hidden" name="data" value="<?=$caixa['data']?>">
-                             <button type="submit"><i class="fa-solid fa-trash"></i></i></button>
+                             <button type="submit" class="colorBlack"><i class="fa-solid fa-trash"></i></i></button>
                          </form>
                      </td>
                      <td class="data"><?=date("d/m/Y", strtotime($caixa['data']))?></td>

@@ -8,8 +8,7 @@ use Slim\Views\PhpRenderer;
 use App\Model\Horario;
 use App\Model\Usuario;
 use App\Model\Configuracao;
-use DateTime;
-use DateInterval;
+use App\Model\HorarioBarbeiro;
 
 final class HorarioController 
 {
@@ -63,7 +62,7 @@ final class HorarioController
         $horarios = new Horario();
 
         $id = $args['id'];
-
+       
         $horarios = new Horario();
 
         $resultado = $horarios->selectHorario('*', array('id' => $id))[0];
@@ -186,6 +185,8 @@ final class HorarioController
     {
         $data = '';
         $horarios = [];
+        Usuario::verificarLogin();
+        $idBarbeiro = $_SESSION['usuario_logado']['id'];
 
         if ($request->getMethod() === 'POST') {
             $params = $request->getParsedBody();
@@ -194,44 +195,44 @@ final class HorarioController
                 
                 $diaSemana = date('w', strtotime($data));
                 if ($diaSemana == 0) {
-                    $Horarios = new Horario();
-                    $horarios = $Horarios->selectHorarioSemana('Domingo');
+                    $Horarios = new HorarioBarbeiro();
+                    $horarios = $Horarios->selectHorarioSemanaBarbeiro('Domingo', $idBarbeiro);
                     
                 }
 
                 if ($diaSemana == 1) {
-                    $Horarios = new Horario();
-                    $horarios = $Horarios->selectHorarioSemana('Segunda-Feira');
+                    $Horarios = new HorarioBarbeiro();
+                    $horarios = $Horarios->selectHorarioSemanaBarbeiro('Segunda', $idBarbeiro);
                     
                 }
 
                 if ($diaSemana == 2) {
-                    $Horarios = new Horario();
-                    $horarios = $Horarios->selectHorarioSemana('Terça-Feira');
+                    $Horarios = new HorarioBarbeiro();
+                    $horarios = $Horarios->selectHorarioSemanaBarbeiro('Terça', $idBarbeiro);
                     
                 }
 
                 if ($diaSemana == 3) {
-                    $Horarios = new Horario();
-                    $horarios = $Horarios->selectHorarioSemana('Quarta-Feira');
+                    $Horarios = new HorarioBarbeiro();
+                    $horarios = $Horarios->selectHorarioSemanaBarbeiro('Quarta', $idBarbeiro);
                     
                 }
 
                 if ($diaSemana == 4) {
-                    $Horarios = new Horario();
-                    $horarios = $Horarios->selectHorarioSemana('Quinta-Feira');
+                    $Horarios = new HorarioBarbeiro();
+                    $horarios = $Horarios->selectHorarioSemanaBarbeiro('Quinta', $idBarbeiro);
                     
                 }
 
                 if ($diaSemana == 5) {
-                    $Horarios = new Horario();
-                    $horarios = $Horarios->selectHorarioSemana('Sexta-Feira');
+                    $Horarios = new HorarioBarbeiro();
+                    $horarios = $Horarios->selectHorarioSemanaBarbeiro('Sexta', $idBarbeiro);
                     
                 }
 
                 if ($diaSemana == 6) {
-                    $Horarios = new Horario();
-                    $horarios = $Horarios->selectHorarioSemana('Sábado');
+                    $Horarios = new HorarioBarbeiro();
+                    $horarios = $Horarios->selectHorarioSemanaBarbeiro('Sabado', $idBarbeiro);
                     
                 }
             }

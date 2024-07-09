@@ -13,6 +13,8 @@ use App\Model\Servico;
 use App\Model\Horario;
 
 
+
+
 final class ClienteController
 {
     function __construct() {
@@ -761,20 +763,40 @@ final class ClienteController
         $idBarbeiro = $request->getParsedBody()['idBarbeiro'];
         $idServico = $request->getParsedBody()['idServico'];
         $datetime = $data . ' ' . $time;
+        $dataFormatada = date('Y-m-d', strtotime($data));
         
         $servicos = new Servico();
-        $nomeServico = $servicos->selectServico('titulo', array('id' => $idServico));
-
-        $dataFormatada = date('Y-m-d', strtotime($data));
+        $infoServico = $servicos->selectServico('titulo', array('id' => $idServico));
+        
+        if (!empty($infoServico) && is_array($infoServico)) {
+            $nomeServico = $infoServico[0]['titulo'];
+        } else {
+            echo "Erro ao obter informações do serviço.";
+            $nomeServico = '';
+        }
 
         $clientes = new Cliente();
         $infoCliente = $clientes->selectCliente('*', array('id' => $idCliente));
-        $nomeCliente = $infoCliente[0]['nome'];
-
+        
+        if (!empty($infoCliente) && is_array($infoCliente)) {
+            $nomeCliente = $infoCliente[0]['nome'];
+        } else {
+            echo "Erro ao obter informações do cliente.";
+            $nomeCliente = '';
+        }
+        
         $usuarios = new Usuario();
         $infoBarbeiro = $usuarios->selectUsuario('*', array('id' => $idBarbeiro));
-        $nomeBarbeiro = $infoBarbeiro[0]['nome'];
-        $emailBarbeiro = $infoBarbeiro[0]['email'];
+        
+        if (!empty($infoBarbeiro) && is_array($infoBarbeiro)) {
+            $nomeBarbeiro = $infoBarbeiro[0]['nome'];
+            $emailBarbeiro = $infoBarbeiro[0]['email'];
+        } else {
+            echo "Erro ao obter informações do barbeiro.";
+            $nomeBarbeiro = '';
+            $emailBarbeiro = '';
+        }
+        
 
 
         $agendamentos_verificar = new Agendamento();
@@ -800,159 +822,160 @@ final class ClienteController
             $agendamentos->insertAgendamento($campos);
 
             if($agendamentos){
-                $msgHtml = "<!DOCTYPE html>
-                    <html lang='pt-BR'>
-                    <head>
-                        <meta charset='UTF-8'>
-                        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-                        <title>Agendamento Concluído</title>
-                        <style>
-                            body {
-                                font-family: Arial, sans-serif;
-                                background-color: #f4f4f4;
-                                margin: 0;
-                                padding: 0;
-                            }
-                            .container {
-                                width: 100%;
-                                max-width: 600px;
-                                margin: 0 auto;
-                                background-color: #ffffff;
-                                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                                padding: 20px;
-                                box-sizing: border-box;
-                            }
-                            .header {
-                                background-color: #4CAF50;
-                                color: white;
-                                padding: 20px;
-                                text-align: center;
-                            }
-                            .content {
-                                padding: 20px;
-                                text-align: center;
-                            }
-                            .button {
-                                display: inline-block;
-                                background-color: #4CAF50;
-                                color: white;
-                                padding: 15px 25px;
-                                text-decoration: none;
-                                border-radius: 5px;
-                                margin-top: 20px;
-                            }
-                            .footer {
-                                margin-top: 20px;
-                                text-align: center;
-                                color: #777;
-                            }
-                            .footer a {
-                                color: #4CAF50;
-                                text-decoration: none;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <div class='container'>
-                            <div class='header'>
-                                <h1>Agendamento Concluído</h1>
-                            </div>
-                            <div class='content'>
-                                <p>Olá,  $nomeCliente</p>
-                                <p>Seu agendamento foi concluído com sucesso!</p>
-                                <p>Aqui estão os detalhes do seu agendamento:</p>
-                                <p><strong>Data:</strong> $dataFormatada</p>
-                                <p><strong>Horário:</strong> $time</p>
-                                <p><strong>Serviço:</strong> $nomeServico</p>
-                                <p><strong>Barbeiro:</strong> $nomeBarbeiro</p>
-                                <p>Se você tiver alguma dúvida, por favor, entre em contato conosco.</p>
-                            </div>
-                            <div class='footer'>
-                                <p>Atenciosamente,<br>A Equipe $nomeBarbearia</p>
-                                <p><a href='https://exclusivebarbershop.com.br/minha-agenda'>confira seu agendamento</a></p>
-                            </div>
-                        </div>
-                    </body>
-                    </html>
-
-                ";
                
-                $msgHtml1 = "<!DOCTYPE html>
-                <html lang='pt-BR'>
-                <head>
-                    <meta charset='UTF-8'>
-                    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-                    <title>Agendamento Concluído</title>
-                    <style>
-                        body {
-                            font-family: Arial, sans-serif;
-                            background-color: #f4f4f4;
-                            margin: 0;
-                            padding: 0;
-                        }
-                        .container {
-                            width: 100%;
-                            max-width: 600px;
-                            margin: 0 auto;
-                            background-color: #ffffff;
-                            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                            padding: 20px;
-                            box-sizing: border-box;
-                        }
-                        .header {
-                            background-color: #4CAF50;
-                            color: white;
-                            padding: 20px;
-                            text-align: center;
-                        }
-                        .content {
-                            padding: 20px;
-                            text-align: center;
-                        }
-                        .button {
-                            display: inline-block;
-                            background-color: #4CAF50;
-                            color: white;
-                            padding: 15px 25px;
-                            text-decoration: none;
-                            border-radius: 5px;
-                            margin-top: 20px;
-                        }
-                        .footer {
-                            margin-top: 20px;
-                            text-align: center;
-                            color: #777;
-                        }
-                        .footer a {
-                            color: #4CAF50;
-                            text-decoration: none;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class='container'>
-                        <div class='header'>
-                            <h1>Agendamento Concluído</h1>
-                        </div>
-                        <div class='content'>
-                            <p>Olá,  $nomeBarbeiro</p>
-                            <p>Novo Agendamento!</p>
-                            <p>Aqui estão os detalhes do agendamento:</p>
-                            <p><strong>Data:</strong> $dataFormatada</p>
-                            <p><strong>Horário:</strong> $time</p>
-                            <p><strong>Serviço:</strong> $nomeServico</p>
-                            <p><strong>Cliente:</strong> $nomeCliente</p>
-                        </div>
-                        <div class='footer'>
-                            <p>Atenciosamente,<br>A Equipe $nomeBarbearia</p>
-                            <p><a href='https://exclusivebarbershop.com.br/admin-login'>confira o agendamento</a></p>
-                        </div>
+            $msgHtml = "<!DOCTYPE html>
+            <html lang='pt-BR'>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <title>Agendamento Concluído</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        background-color: #f4f4f4;
+                        margin: 0;
+                        padding: 0;
+                    }
+                    .container {
+                        width: 100%;
+                        max-width: 600px;
+                        margin: 0 auto;
+                        background-color: #ffffff;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                        padding: 20px;
+                        box-sizing: border-box;
+                    }
+                    .header {
+                        background-color: #4CAF50;
+                        color: white;
+                        padding: 20px;
+                        text-align: center;
+                    }
+                    .content {
+                        padding: 20px;
+                        text-align: center;
+                    }
+                    .button {
+                        display: inline-block;
+                        background-color: #4CAF50;
+                        color: white;
+                        padding: 15px 25px;
+                        text-decoration: none;
+                        border-radius: 5px;
+                        margin-top: 20px;
+                    }
+                    .footer {
+                        margin-top: 20px;
+                        text-align: center;
+                        color: #777;
+                    }
+                    .footer a {
+                        color: #4CAF50;
+                        text-decoration: none;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class='container'>
+                    <div class='header'>
+                        <h1>Agendamento Concluído</h1>
                     </div>
-                </body>
-                </html>
+                    <div class='content'>
+                        <p>Olá,  $nomeCliente</p>
+                        <p>Seu agendamento foi concluído com sucesso!</p>
+                        <p>Aqui estão os detalhes do seu agendamento:</p>
+                        <p><strong>Data:</strong> $dataFormatada</p>
+                        <p><strong>Horário:</strong> $time</p>
+                        <p><strong>Serviço:</strong> $nomeServico</p>
+                        <p><strong>Barbeiro:</strong> $nomeBarbeiro</p>
+                        <p>Se você tiver alguma dúvida, por favor, entre em contato conosco.</p>
+                    </div>
+                    <div class='footer'>
+                        <p>Atenciosamente,<br>A Equipe $nomeBarbearia</p>
+                        <p><a href='https://exclusivebarbershop.com.br/minha-agenda'>confira seu agendamento</a></p>
+                    </div>
+                </div>
+            </body>
+            </html>
 
             ";
-           
+
+            $msgHtml1 = "<!DOCTYPE html>
+            <html lang='pt-BR'>
+            <head>
+            <meta charset='UTF-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+            <title>Agendamento Concluído</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                    margin: 0;
+                    padding: 0;
+                }
+                .container {
+                    width: 100%;
+                    max-width: 600px;
+                    margin: 0 auto;
+                    background-color: #ffffff;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    padding: 20px;
+                    box-sizing: border-box;
+                }
+                .header {
+                    background-color: #4CAF50;
+                    color: white;
+                    padding: 20px;
+                    text-align: center;
+                }
+                .content {
+                    padding: 20px;
+                    text-align: center;
+                }
+                .button {
+                    display: inline-block;
+                    background-color: #4CAF50;
+                    color: white;
+                    padding: 15px 25px;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    margin-top: 20px;
+                }
+                .footer {
+                    margin-top: 20px;
+                    text-align: center;
+                    color: #777;
+                }
+                .footer a {
+                    color: #4CAF50;
+                    text-decoration: none;
+                }
+            </style>
+            </head>
+            <body>
+            <div class='container'>
+                <div class='header'>
+                    <h1>Agendamento Concluído</h1>
+                </div>
+                <div class='content'>
+                    <p>Olá,  $nomeBarbeiro</p>
+                    <p>Novo Agendamento!</p>
+                    <p>Aqui estão os detalhes do agendamento:</p>
+                    <p><strong>Data:</strong> $dataFormatada</p>
+                    <p><strong>Horário:</strong> $time</p>
+                    <p><strong>Serviço:</strong> $nomeServico</p>
+                    <p><strong>Cliente:</strong> $nomeCliente</p>
+                </div>
+                <div class='footer'>
+                    <p>Atenciosamente,<br>A Equipe $nomeBarbearia</p>
+                    <p><a href='https://exclusivebarbershop.com.br/admin-login'>confira o agendamento</a></p>
+                </div>
+            </div>
+            </body>
+            </html>
+
+            ";
+
 
             $destino = $emailUser;
             $destino1 = $emailBarbeiro;

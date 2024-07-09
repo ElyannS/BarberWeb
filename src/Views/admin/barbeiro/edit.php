@@ -58,6 +58,12 @@
                 <input type="hidden" name="id" value="<?=$data['informacoes']['barbeiro']['id']?>">
                 <input type="hidden" name="nome_imagem_atual" value="<?=$data['informacoes']['barbeiro']['foto_usuario']?>">
             </form>  
+            <?php if($data['informacoes']['usuario']['type'] == '2'){ ?>
+                <a class="btnEditar" href="<?=URL_BASE?>admin/horarios-barbeiro">
+                    <i class="fa-solid fa-briefcase"></i>
+                    Editar horários de trabalho 
+                </a>
+            <?php } ?>
         </div>
 </section>
 <?=$this->fetch('../commons/footer.php')?>

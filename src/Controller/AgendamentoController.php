@@ -13,7 +13,7 @@ use App\Model\Servico;
 use App\Model\Configuracao;
 use App\Model\Usuario;
 use App\Model\Horario;
-
+use App\Model\HorarioBarbeiro;
 final class AgendamentoController 
 {
      
@@ -53,121 +53,6 @@ final class AgendamentoController
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/agendamento");
         return $renderer->render($response, "agendamentos.php", $data);
     }
-    public function atualizar_horarios(
-        ServerRequestInterface $request,
-        ResponseInterface $response
-    ) {
-        $data = '';
-        $tempoServico = '';
-        $horarios = [];
-    
-        if ($request->getMethod() === 'POST') {
-            $params = $request->getParsedBody();
-            if (isset($params['data']) && isset($params['tempoServico'])) {
-                $data = $params['data'];
-                
-                $tempoServico = $params['tempoServico'];
-    
-               
-                $diaSemana = date('w', strtotime($data));
-                if ($diaSemana == 0 || $diaSemana == 1) {
-                    $responseData =  ['horarios' => 'fechada'];
-                    $response = $response->withHeader('Content-Type', 'application/json');
-                    $response->getBody()->write(json_encode($responseData));
-                    return $response;
-                }
-              
-                $horariosTrabalho = [];
-                if ($diaSemana == 6) { // Sábado
-                    $horariosTrabalho = [
-                        '08:00','08:30','09:00', '09:30', '10:00', '10:30', '11:00',
-                        '11:30', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00'
-                    ];
-                } elseif ($diaSemana >= 2 && $diaSemana <= 4) { // Terça a Quinta
-                    $horariosTrabalho = [
-                        '08:30','09:00', '09:30', '10:00', '10:30', '11:00', '11:30','13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30'
-                    ];
-                } elseif ($diaSemana == 5) { // Sexta
-                    $horariosTrabalho = [
-                        '08:30','09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '13:30', '14:00',
-                        '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30'
-                    ];
-                } 
-                Usuario::verificarLogin();
-                $emailUser = $_SESSION['usuario_logado']['email'];
-                $usuario = new Usuario();
-                $usuarioInfo = $usuario->selectUsuario('*', ['email' => $emailUser]);
-                $idUser = $usuarioInfo[0]['id'];
-                    
-                $agendamentos = new Agendamento();
-                $consultaAgendamentos = $agendamentos->selectAgendamentoData($data, $idUser);
-                $horariosIndisponiveis = [];
-                foreach ($consultaAgendamentos as $agendamento) {
-                    $horariosIndisponiveis[] = date('H:i', strtotime($agendamento['data_agendamento']));
-                    $horarioAtual = $agendamento['servico_id'];
-
-                   
-                    if ($horarioAtual == 2) {
-                        $proximoHorario = date('H:i', strtotime($agendamento['data_agendamento']) + 1800);
-                        $horariosIndisponiveis[] = $proximoHorario;
-                    }
-                }
- 
-               
-                if (empty($horariosIndisponiveis)) {
-                    $horarios = $horariosTrabalho;
-                } else {
-                    $horarios = [];
-                    foreach ($horariosTrabalho as $horario) { 
-                       
-                        if (in_array($horario, $horariosIndisponiveis)) {
-                            continue; 
-                        } 
-                
-                        
-                        if ($tempoServico == 30) {
-                         
-                            $proximoHorario = date('H:i', strtotime($horario));
-                            if (!in_array($proximoHorario, $horariosIndisponiveis)) {
-                                $horarios[] = $horario;
-                            }
-                        } elseif ($tempoServico == 60) {
-                            
-                            $proximoHorario = date('H:i', strtotime($horario));
-                            $horarioFinal = date('H:i', strtotime($horario) + 1800);
-                
-                           
-                            if (!in_array($proximoHorario, $horariosIndisponiveis) && !in_array($horarioFinal, $horariosIndisponiveis)) {
-                             
-                                $horarioOcupado = false;
-                                foreach ($horariosIndisponiveis as $horarioIndisponivel) {
-                                    if ($horarioIndisponivel == $horario || $horarioIndisponivel == $proximoHorario) {
-                                        $horarioOcupado = true;
-                                        break;
-                                    }
-                                }
-                                $hora = date('H:i');
-                                if (!$horarioOcupado) {
-                                    if($data == date('Y-m-d')){
-                                        if($horario > $hora){
-                                            $horarios[] = $horario;
-                                        }
-                                    } else {
-                                        $horarios[] = $horario;
-                                    }
-                                } 
-                            }
-                        }
-                    }
-                }                
-            }
-        }
-    
-        $responseData = ['horarios' => $horarios];
-        $response = $response->withHeader('Content-Type', 'application/json');
-        $response->getBody()->write(json_encode($responseData));
-        return $response;
-    } 
     public function atualizar_data(
         ServerRequestInterface $request, 
         ResponseInterface $response
@@ -185,21 +70,22 @@ final class AgendamentoController
                
                 $diaSemana = date('w', strtotime($data));
                 
-                $ConsultaHorarios = new Horario();
+                $ConsultaHorarios = new HorarioBarbeiro();
                 $diasSemana = [
                     'Domingo',
-                    'Segunda-Feira',
-                    'Terça-Feira',
-                    'Quarta-Feira',
-                    'Quinta-Feira',
-                    'Sexta-Feira',
-                    'Sábado'
+                    'Segunda',
+                    'Terça',
+                    'Quarta',
+                    'Quinta',
+                    'Sexta',
+                    'Sabado'
                 ];
                 
                 $horariosTrabalho = [];
                 
                 if (isset($diasSemana[$diaSemana])) {
-                    $turnos = $ConsultaHorarios->selectHorarioSemana($diasSemana[$diaSemana]);
+
+                    $turnos = $ConsultaHorarios->selectHorarioSemanaBarbeiro($diasSemana[$diaSemana], $idBarbeiro);
                 
                     $turno1 = $turnos[0]['turno1'];
                     $turno2 = $turnos[0]['turno2'];

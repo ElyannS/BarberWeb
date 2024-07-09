@@ -111,114 +111,105 @@ final class ServicoController
         ResponseInterface $response,
         $args
     ) {
-        $titulo = $request->getParsedBody()['titulo'];
-        $data = $request->getParsedBody()['data'];
-        $descricao = $request->getParsedBody()['descricao'];
-        $tempo_servico = $request->getParsedBody()['tempo_servico'];
-
+        $parsedBody = $request->getParsedBody();
+    
+        $titulo = $parsedBody['titulo'] ?? '';
+        $data = $parsedBody['data'] ?? '';
+        $valor = isset($parsedBody['valor']) ? $parsedBody['valor'] : 0.0;
+        $tempo_servico = $parsedBody['tempo_servico'] ?? '';
+    
         $nome_imagem_principal = "";
-
-        if($request->getUploadedFiles()['imagem_principal']) {
+    
+        if ($request->getUploadedFiles() && isset($request->getUploadedFiles()['imagem_principal'])) {
             $imagem_principal = $request->getUploadedFiles()['imagem_principal'];
         } else {
             $imagem_principal = false;
         }
-
-        if($imagem_principal) {
+    
+        if ($imagem_principal) {
             if ($imagem_principal->getError() === UPLOAD_ERR_OK) {
                 $extensao = pathinfo($imagem_principal->getClientFilename(), PATHINFO_EXTENSION);
-
-                $nome = md5(uniqid(rand(), true)).pathinfo($imagem_principal->getClientFilename(), PATHINFO_FILENAME).".".$extensao;
-
+                $nome = md5(uniqid(rand(), true)).".".$extensao;
                 $nome_imagem_principal = "resources/imagens/" . $nome;
-
                 $imagem_principal->moveTo($nome_imagem_principal);
             }
         }
-
+    
         $campos = array(
             'titulo' => $titulo,
-            'url_amigavel' => $this->gerarUrlAmigavel($titulo),
             'imagem_principal' => $nome_imagem_principal,
             'data_cadastro' => $data,
-            'tempo_servico' => $tempo_servico
+            'tempo_servico' => $tempo_servico,
+            'valor' => $valor
         );
         
         $servicos = new Servico();
-        
         $servicos->insertServico($campos);
-
-        $id_servico = $servicos->getUltimoServico()['id'];
-
-
+    
         header('Location: '.URL_BASE.'admin/servicos');
         exit();
     }
+    
 
 
 //UPDATE SERVIÇOS
 
-    public function servicos_update(
-        ServerRequestInterface $request, 
-        ResponseInterface $response,
-        $args
-    ) {
-        $id = $request->getParsedBody()['id'];
-        $titulo = $request->getParsedBody()['titulo'];
-        $data = $request->getParsedBody()['data'];
-        $descricao = $request->getParsedBody()['descricao'];
-        $tempo_servico = $request->getParsedBody()['tempo_servico'];
+public function servicos_update(
+    ServerRequestInterface $request, 
+    ResponseInterface $response,
+    $args
+) {
+    $parsedBody = $request->getParsedBody();
+    
+    $id = $parsedBody['id'] ?? null;
+    $titulo = $parsedBody['titulo'] ?? '';
+    $data = $parsedBody['data'] ?? '';
+    $valor = $parsedBody['valor'] ?? 0.0;
+    $tempo_servico = $parsedBody['tempo_servico'] ?? '';
+    $nome_imagem_atual = $parsedBody['nome_imagem_atual'] ?? '';
+
+    $imagem_atualizar = false;
+    $nome_imagem_principal = $nome_imagem_atual;
+
+    if ($request->getUploadedFiles() && isset($request->getUploadedFiles()['imagem_principal']) && $request->getUploadedFiles()['imagem_principal']->getClientFilename() !== '') {
+        $imagem_atualizar = true;
         
+        // Usuario quer atualizar a imagem principal
+        $imagem_principal = $request->getUploadedFiles()['imagem_principal'];
 
-        $nome_imagem_atual = $request->getParsedBody()['nome_imagem_atual'];
+        if ($imagem_principal->getError() === UPLOAD_ERR_OK) {
+            $extensao = pathinfo($imagem_principal->getClientFilename(), PATHINFO_EXTENSION);
+            $nome = md5(uniqid(rand(), true)).".".$extensao;
+            $nome_imagem_principal = "resources/imagens/" . $nome;
 
-        $imagem_atualizar = false;
-
-        if($request->getUploadedFiles()['imagem_principal']->getClientFilename() !== '') {
-            $imagem_atualizar = true;
-            $nome_imagem_principal = "";
-
-            //Usuario quer atualizar a imagem principal
-            if($request->getUploadedFiles()['imagem_principal']) {
-                $imagem_principal = $request->getUploadedFiles()['imagem_principal'];
-            } else {
-                $imagem_principal = false;
+            // Deleta a imagem antiga do diretório, se existir
+            if (file_exists($nome_imagem_atual)) {
+                unlink($nome_imagem_atual);
             }
-    
-            if($imagem_principal) {
-                if ($imagem_principal->getError() === UPLOAD_ERR_OK) {
-                    $extensao = pathinfo($imagem_principal->getClientFilename(), PATHINFO_EXTENSION);
-    
-                    $nome = md5(uniqid(rand(), true)).pathinfo($imagem_principal->getClientFilename(), PATHINFO_FILENAME).".".$extensao;
-    
-                    $nome_imagem_principal = "resources/imagens/" . $nome;
-    
-                    $imagem_principal->moveTo($nome_imagem_principal);
 
-                    unlink($nome_imagem_atual); // deleta as imagens do diretorio
-                }
-            }
+            // Move a nova imagem para o diretório correto
+            $imagem_principal->moveTo($nome_imagem_principal);
         }
-
-        $campos = array(
-            'id' => $id,
-            'titulo' => $titulo,
-            'url_amigavel' => $this->gerarUrlAmigavel($titulo),
-            'data_cadastro' => $data,
-            'tempo_servico' => $tempo_servico
-            
-        );
-        if($imagem_atualizar) {
-            $campos['imagem_principal'] = $nome_imagem_principal;
-        }
-        
-        $servicos = new Servico();
-        
-        $servicos->updateServico($campos, array('id' => $id));
-        
-        header('Location: '.URL_BASE.'admin/servicos');
-        exit();
     }
+
+    $campos = array(
+        'titulo' => $titulo,
+        'data_cadastro' => $data,
+        'valor' => $valor,
+        'tempo_servico' => $tempo_servico
+    );
+    
+    if ($imagem_atualizar) {
+        $campos['imagem_principal'] = $nome_imagem_principal;
+    }
+
+    $servicos = new Servico();
+    $servicos->updateServico($campos, array('id' => $id));
+    
+    header('Location: '.URL_BASE.'admin/servicos');
+    exit();
+}
+
 
     public function servicos_delete(
         ServerRequestInterface $request, 
@@ -239,19 +230,5 @@ final class ServicoController
        exit();
     }
 
-    private function gerarUrlAmigavel($url) {
-
-        $search = ['@<script[^>]*?>.*?</script>@si', '@<style[^>]*?>.*?</style>@siU', '@<[\/\!]*?[^<>]*?>@si', '@<![\s\S]*?--[ \t\n\r]*>@'];
     
-        $string = preg_replace($search, '', $url);
-    
-        $table = ['Š'=>'S','š'=>'s','Đ'=>'Dj','đ'=>'dj','Ž'=>'Z','ž'=>'z','Č'=>'C','č'=>'c','Ć'=>'C','ć'=>'c','À'=>'A','Á'=>'A','Â'=>'A','Ã'=>'A','Ä'=>'A','Å'=>'A','Æ'=>'A','Ç'=>'C','È'=>'E','É'=>'E','Ê'=>'E','Ë'=>'E','Ì'=>'I','Í'=>'I','Î'=>'I','Ï'=>'I','Ñ'=>'N','Ò'=>'O','Ó'=>'O','Ô'=>'O','Õ'=>'O','Ö'=>'O','Ø'=>'O','Ù'=>'U','Ú'=>'U','Û'=>'U','Ü'=>'U','Ý'=>'Y','Þ'=>'B','ß'=>'Ss','à'=>'a','á'=>'a','â'=>'a','ã'=>'a','ä'=>'a','å'=>'a','æ'=>'a','ç'=>'c','è'=>'e','é'=>'e','ê'=>'e','ë'=>'e','ì'=>'i','í'=>'i','î'=>'i','ï'=>'i','ð'=>'o','ñ'=>'n','ò'=>'o','ó'=>'o','ô'=>'o','õ'=>'o','ö'=>'o','ø'=>'o','ù'=>'u','ú'=>'u','û'=>'u','ý'=>'y','ý'=>'y','þ'=>'b','ÿ'=>'y','Ŕ'=>'R','ŕ'=>'r'
-        ];
-    
-        $string = strtr($string, $table);
-        $string = mb_strtolower($string);
-        $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
-        $string = str_replace(" ", "-", $string);
-        return $string;
-    }
 } 

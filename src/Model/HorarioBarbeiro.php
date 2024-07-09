@@ -15,16 +15,24 @@ class HorarioBarbeiro extends Model {
 		"horas"
 	];
 
-	function insertHorario($campos)
-	{
-		$this->insert($this->table, $campos);
-	}
+	public function insertHorarioBarbeiro($campos) {
+        $sql = "INSERT INTO $this->table (id_barbeiro, dia_semana, turno1, turno2) 
+                VALUES (:id_barbeiro, :dia_semana, :turno1, :turno2)";
+        
+        $params = [
+            ':id_barbeiro' => $campos['id_barbeiro'],
+            ':dia_semana' => $campos['dia_semana'],
+            ':turno1' => $campos['turno1'],
+            ':turno2' => $campos['turno2']
+        ];
 
-	function updateHorariosBarbeiro($valores, $where, $idBarbeiro)
+        return $this->query($sql, $params);
+    }
+
+	function updateHorariosBarbeiro($valores, $where)
 	{	
-		$where['id_barbeiro'] = $idBarbeiro;
 
-        $this->updates($this->table, $valores, $where);
+        $this->update($this->table, $valores, $where);
         
 	}
 	function selectHorarioBarbeiro($campos, $where):array
@@ -35,17 +43,32 @@ class HorarioBarbeiro extends Model {
 	{
 		$this->delete($this->table, $coluna, $valor);
 	}
-
 	function selectHorariosPageBarbeiro($limit, $offset)
 	{
 		$sql = "SELECT * FROM ".$this->table." ORDER BY id DESC LIMIT ".$offset.", ".$limit;
 
 		return $this->querySelect($sql);
 	}
-	
-	function selectHorarioSemana($coluna)
+	function updateHorarioTrabalho($turno1, $turno2, $idBarbeiro, $idHorario)
 	{
-		$sql = "SELECT turno1, turno2 FROM horarios_trabalho WHERE dia_semana = '".$coluna."'";
+		$sql = "UPDATE horarios_trabalho
+            SET turno1 = :turno1, turno2 = :turno2
+            WHERE id_barbeiro = :id_barbeiro AND id = :id";
+
+		$params = [
+			':turno1' => $turno1,
+			':turno2' => $turno2,
+			':id_barbeiro' => $idBarbeiro,
+			':id' => $idHorario
+		];
+
+		return $this->query($sql, $params);
+	}
+	
+	
+function selectHorarioSemanaBarbeiro($coluna, $idBarbeiro)
+	{
+		$sql = "SELECT turno1, turno2 FROM horarios_trabalho WHERE dia_semana = '".$coluna."' AND id_barbeiro = '".$idBarbeiro."'";
 
 		return $this->querySelect($sql);
 	}

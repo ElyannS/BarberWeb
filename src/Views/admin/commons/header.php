@@ -143,6 +143,15 @@
                         </li>
                     <?php } ?>
 
+                    <?php if($data['informacoes']['usuario']['type'] == '1'){ ?>
+                        <li class="<?=($data['informacoes']['menu_active'] === 'horariosT') ? 'active' : ''?>">
+                            <a href="<?=URL_BASE?>admin/horarios-barbeiro">
+                                <i class="fa-solid fa-briefcase"></i>
+                                Horários de trabalho 
+                            </a>
+                        </li>
+                    <?php } ?>
+
                     <?php if($data['informacoes']['usuario']['type'] != '3'){ ?>
                         <li class="<?=($data['informacoes']['menu_active'] === 'perfil') ? 'active' : ''?>">
                             <a href="<?=URL_BASE?>admin/perfil">

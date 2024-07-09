@@ -30,8 +30,8 @@
                                 <?=$servico['titulo']?>
                             </div>
                             <div class="valor-ser">
-                                R$ 20,00
-                                <span class="span-clock"><i class="fa-regular fa-clock"></i> 30 min </span>
+                                R$ <?=$servico['valor']?>
+                                <span class="span-clock"><i class="fa-regular fa-clock"></i> <?=$servico['tempo_servico']?> min </span>
                             </div>
                         </td>
                         <?php if($data['informacoes']['usuario']['type'] === '1'){ ?>
@@ -41,7 +41,7 @@
                                 </div>
                                 <form action="<?=URL_BASE?>admin/servicos_delete" method="post">
                                     <input type="hidden" name="id" value="<?=$servico['id']?>">
-                                    <button type="submit">excluir</i></i></button>
+                                    <button type="submit" class="colorBlack">excluir</i></i></button>
                                 </form>
                             </td>
                         <?php } ?>

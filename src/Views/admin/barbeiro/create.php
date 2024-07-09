@@ -49,6 +49,9 @@
                         </select>
                     </label>
                 </div>
+
+                <?= $informacoes['selectsHtml'] ?>
+                
                 <div class="row">
                     <button type="submit">Salvar</button>
                 </div>

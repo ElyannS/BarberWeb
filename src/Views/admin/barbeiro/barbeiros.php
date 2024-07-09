@@ -32,7 +32,7 @@
                                 </div>
                                 <form action="<?=URL_BASE?>admin/barbeiros_delete" method="post">
                                     <input type="hidden" name="id" value="<?=$barbeiros['id']?>">
-                                    <button type="submit">excluir</i></button>
+                                    <button type="submit" class="colorBlack">excluir</i></button>
                                 </form>
                             </td>                      
                         <?php } ?>

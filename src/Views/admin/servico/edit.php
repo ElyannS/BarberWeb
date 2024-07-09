@@ -28,6 +28,13 @@
                 </div>
                 <div class="row">
                     <label>
+                        Valor
+                        <input type="text" name="valor" value="<?=$data['informacoes']['servico']['valor']?>">
+                    </label>
+                    
+                </div>
+                <div class="row">
+                    <label>
                         Imagem Pricipal
                         <input type="file" name="imagem_principal">
                     </label>

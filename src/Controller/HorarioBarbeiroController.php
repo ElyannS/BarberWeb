@@ -19,32 +19,22 @@ final class HorarioBarbeiroController
     ) {
         Usuario::verificarLogin();
         $horarios = new HorarioBarbeiro();
-
+        $idBarbeiro = $_SESSION['usuario_logado']['id'];
     
-        $limit = 10;
         $paginaAtual = isset($_GET['page']) ? $_GET['page'] : 1;
-        $offset = ($paginaAtual*$limit) - $limit;
 
-        $qntTotal = count($horarios->selectHorarioBarbeiro('*' , array('1'=>'1')));
+        $lista = $horarios->selectHorarioBarbeiro('*' , array('id_barbeiro'=>$idBarbeiro));
 
-        $proximaPagina = ($qntTotal > ($paginaAtual*$limit)) ? URL_BASE."admin/horarios?page=".($paginaAtual+1) : false;
-
-        $paginaAnterior = ($paginaAtual > 1) ? URL_BASE."admin/horarios?page=".($paginaAtual-1) : false;
-
-        $lista = $horarios->selectHorariosPageBarbeiro($limit, $offset);
-
-
+        
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
         
         $usuario = $_SESSION['usuario_logado'];
 
         $data['informacoes'] = array(
-            'menu_active' => 'horarios',
+            'menu_active' => 'horariosT',
             'lista' => $lista,
             'paginaAtual' => $paginaAtual,
-            'proximaPagina' => $proximaPagina,
-            'paginaAnterior' => $paginaAnterior,
             'nome_logo' => $nome_logo_site,
             'usuario' => $usuario
         );
@@ -61,16 +51,12 @@ final class HorarioBarbeiroController
         $horarios = new HorarioBarbeiro();
 
         $id = $args['id'];
-
-
-        $idBarbeiro = $_SESSION['usuario_logado']['id'];
         $horarios = new HorarioBarbeiro();
 
-        $resultado = $horarios->selectHorarioBarbeiro('*', array('id_barbeiro' => $idBarbeiro))[0];
-
-        if($resultado) {
-            $turno1 = explode(", ", $resultado['turno1']);
-            $turno2 = explode(", ", $resultado['turno2']);
+        $resultadoHorarios = $horarios->selectHorarioBarbeiro('*', array('id' => $id))[0];
+        if($resultadoHorarios) {
+            $turno1 = explode(", ", $resultadoHorarios['turno1']);
+            $turno2 = explode(", ", $resultadoHorarios['turno2']);
            
             if(isset($turno1)){
                 $turnoInicio1 = $turno1[0];
@@ -94,8 +80,8 @@ final class HorarioBarbeiroController
         $usuario = $_SESSION['usuario_logado'];
 
         $data['informacoes'] = array(
-            'menu_active' => 'horarios',
-            'horarios' => $resultado,
+            'menu_active' => 'horariosT',
+            'horarios' => $resultadoHorarios,
             'turnoInicio1' => $turnoInicio1,
             'turnoFim1' => $turnoFim1,
             'turnoInicio2' => $turnoInicio2,
@@ -141,14 +127,9 @@ final class HorarioBarbeiroController
 
             $upTurno1 = implode(", ", $horarios);
         }
-        $campos = array(
-            'turno1' => $upTurno1
-        );
         
-        $horarios = new HorarioBarbeiro();
         
-        $horarios->updateHorariosBarbeiro($campos, array('id' => $id), $idBarbeiro);
-
+       
         if($selectI2 && $selectF2 === "FECHADO") {
             $upTurno2 = "FECHADO";
         } else{
@@ -169,13 +150,11 @@ final class HorarioBarbeiroController
             $upTurno2 = implode(", ", $horarios);
         }
 
-        $campos = array(
-            'turno2' => $upTurno2,
-        );
+       
         
         $horarios = new HorarioBarbeiro();
         
-        $horarios->updateHorariosBarbeiro($campos, array('id' => $id), $idBarbeiro);
+        $horarios->updateHorarioTrabalho($upTurno1, $upTurno2, $idBarbeiro, $id);
         
         header('Location: '.URL_BASE.'admin/horarios-edit-barbeiro/'.$id);
         exit();
