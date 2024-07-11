@@ -11,7 +11,8 @@ use App\Model\Configuracao;
 use App\Model\Agendamento;
 use App\Model\Servico;
 use App\Model\HorarioBarbeiro;
-
+use App\Service\EmailService;
+use Exception;
 
 
 
@@ -1048,192 +1049,197 @@ final class ClienteController
         return $response;
     }
     
-
-   public function insert_agendamento_cliente(
-    ServerRequestInterface $request, 
-    ResponseInterface $response,
-    $args
-) {
-    try {
-        // Verifica o login do cliente
-        Cliente::verificarLoginCliente();
-
-        // Obtém o email do usuário logado
-        $emailUser = $_SESSION['usuario_logado']['email'];
-
-        // Obtém informações do cliente logado
-        $usuario = new Cliente();
-        $usuarioInfo = $usuario->selectCliente('*', ['email' => $emailUser]);
-        if (empty($usuarioInfo) || !is_array($usuarioInfo)) {
-            throw new Exception("Erro ao obter informações do cliente.");
-        }
-        $idCliente = $usuarioInfo[0]['id'];
-        $nomeCliente = $usuarioInfo[0]['nome'];
-        $emailCliente = $usuarioInfo[0]['email'];
-
-        // Obtém o nome da barbearia
-        $config = new Configuracao();
-        $nomeBarbearia = $config->getConfig('nome_site');
-
-        // Processa os dados recebidos do formulário
-        $data = date('Y-m-d', strtotime($request->getParsedBody()['dataAgen']));
-        $hora = date('H:i', strtotime($request->getParsedBody()['horarioAgenda']));
-        $observacao = $request->getParsedBody()['observacao'];
-        $idBarbeiro = $request->getParsedBody()['idBarbeiro'];
-        $idServico = $request->getParsedBody()['idServico'];
-        $datetime = $data . ' ' . $hora;
-
-        // Obtém informações do serviço
-        $servicos = new Servico();
-        $infoServico = $servicos->selectServico('titulo', ['id' => $idServico]);
-        if (empty($infoServico) || !is_array($infoServico)) {
-            throw new Exception("Erro ao obter informações do serviço.");
-        }
-        $nomeServico = $infoServico[0]['titulo'];
-
-        // Obtém informações do barbeiro
-        $usuarios = new Usuario();
-        $infoBarbeiro = $usuarios->selectUsuario('*', ['id' => $idBarbeiro]);
-        if (empty($infoBarbeiro) || !is_array($infoBarbeiro)) {
-            throw new Exception("Erro ao obter informações do barbeiro.");
-        }
-        $nomeBarbeiro = $infoBarbeiro[0]['nome'];
-        $emailBarbeiro = $infoBarbeiro[0]['email'];
-
-        // Verifica se o horário já está agendado
-        $agendamentos_verificar = new Agendamento();
-        $numero_agendamentos = count($agendamentos_verificar->selectAgendamentoVerificar($datetime, $idBarbeiro));
-        if ($numero_agendamentos > 0) {
-             $js['status'] = 0;
-            $js['msg'] = "Horário indisponível!";
+    
+    public function insert_agendamento_cliente(
+        ServerRequestInterface $request, 
+        ResponseInterface $response,
+        $args
+    ) {
+        try {
+            // Verifica o login do cliente
+            Cliente::verificarLoginCliente();
+    
+            // Obtém o email do usuário logado
+            $emailUser = $_SESSION['usuario_logado']['email'];
+    
+            // Obtém informações do cliente logado
+            $usuario = new Cliente();
+            $usuarioInfo = $usuario->selectCliente('*', ['email' => $emailUser]);
+            if (empty($usuarioInfo) || !is_array($usuarioInfo)) {
+                throw new Exception("Erro ao obter informações do cliente.");
+            }
+            $idCliente = $usuarioInfo[0]['id'];
+            $nomeCliente = $usuarioInfo[0]['nome'];
+            $emailCliente = $usuarioInfo[0]['email'];
+    
+            // Obtém o nome da barbearia
+            $config = new Configuracao();
+            $nomeBarbearia = $config->getConfig('nome_site');
+    
+            // Processa os dados recebidos do formulário
+            $data = date('Y-m-d', strtotime($request->getParsedBody()['dataAgen']));
+            $hora = date('H:i', strtotime($request->getParsedBody()['horarioAgenda']));
+            $observacao = $request->getParsedBody()['observacao'];
+            $idBarbeiro = $request->getParsedBody()['idBarbeiro'];
+            $idServico = $request->getParsedBody()['idServico'];
+            $datetime = $data . ' ' . $hora;
+    
+            // Obtém informações do serviço
+            $servicos = new Servico();
+            $infoServico = $servicos->selectServico('titulo', ['id' => $idServico]);
+            if (empty($infoServico) || !is_array($infoServico)) {
+                throw new Exception("Erro ao obter informações do serviço.");
+            }
+            $nomeServico = $infoServico[0]['titulo'];
+    
+            // Obtém informações do barbeiro
+            $usuarios = new Usuario();
+            $infoBarbeiro = $usuarios->selectUsuario('*', ['id' => $idBarbeiro]);
+            if (empty($infoBarbeiro) || !is_array($infoBarbeiro)) {
+                throw new Exception("Erro ao obter informações do barbeiro.");
+            }
+            $nomeBarbeiro = $infoBarbeiro[0]['nome'];
+            $emailBarbeiro = $infoBarbeiro[0]['email'];
+    
+            // Verifica se o horário já está agendado
+            $agendamentos_verificar = new Agendamento();
+            $numero_agendamentos = count($agendamentos_verificar->selectAgendamentoVerificar($datetime, $idBarbeiro));
+            if ($numero_agendamentos > 0) {
+                 $js['status'] = 0;
+                $js['msg'] = "Horário indisponível!";
+                echo json_encode($js);
+                exit();
+            }
+    
+            // Insere o novo agendamento
+            $campos = [
+                'id_cliente' => $idCliente,
+                'data_agendamento' => $datetime,
+                'servico_id' => $idServico,
+                'barbeiro_id' => $idBarbeiro,
+                'descricao' => $observacao
+            ];
+            $agendamentos = new Agendamento();
+            $agendamentos->insertAgendamento($campos);
+    
+             // Envia emails de confirmação
+             $this->enviarEmailConfirmacao($nomeCliente, $emailCliente, $nomeServico, $data, $hora, $nomeBarbeiro, $nomeBarbearia);
+             $this->enviarEmailNotificacaoBarbeiro($nomeBarbeiro, $emailBarbeiro, $nomeServico, $data, $hora, $nomeCliente, $nomeBarbearia, $observacao);
+ 
+            $js['status'] = 1;
+             $js['msg'] = "Agendado com sucesso!";
+             $js['redirecionar_pagina'] = URL_BASE."admin/minha-agenda";
+             echo json_encode($js);
+             exit();
+    
+        } catch (Exception $e) {
+            $js['status'] = 0;
+            $js['msg'] = 'Erro ao agendar Horário. Tente novamente! Detalhes do erro: ' . $e->getMessage();
             echo json_encode($js);
             exit();
         }
-
-        // Insere o novo agendamento
-        $campos = [
-            'id_cliente' => $idCliente,
-            'data_agendamento' => $datetime,
-            'servico_id' => $idServico,
-            'barbeiro_id' => $idBarbeiro,
-            'descricao' => $observacao
-        ];
-        $agendamentos = new Agendamento();
-        $agendamentos->insertAgendamento($campos);
-
-        // Envia emails de confirmação
-        $this->enviarEmailConfirmacao($nomeCliente, $emailCliente, $nomeServico, $data, $hora, $nomeBarbeiro, $nomeBarbearia);
-        $this->enviarEmailNotificacaoBarbeiro($nomeBarbeiro, $emailBarbeiro, $nomeServico, $data, $hora, $nomeCliente, $nomeBarbearia, $observacao);
-
-       $js['status'] = 1;
-                $js['msg'] = "Agendado com sucesso!";
-                $js['redirecionar_pagina'] = URL_BASE."admin/minha-agenda";
-                echo json_encode($js);
-                exit();
-
-    } catch (Exception $e) {
-        $js['status'] = 0;
-                $js['msg'] = 'Erro ao agendar Horário. Tente novamente!';
-                echo json_encode($js);
-                exit();
     }
-}
+    
+    private function enviarEmailConfirmacao($nomeCliente, $emailCliente, $nomeServico, $data, $hora, $nomeBarbeiro, $nomeBarbearia) {
+        $assunto = "Confirmação de Agendamento!";
+        $mensagem = "
+                    <!DOCTYPE html>
+                    <html lang='pt-BR'>
+                    <head>
+                        <meta charset='UTF-8'>
+                        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                        <title>Agendamento Concluído</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                            .container { width: 100%; max-width: 600px; margin: 0 auto; background-color: #ffffff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 20px; box-sizing: border-box; }
+                            .header { background-color: #4CAF50; color: white; padding: 20px; text-align: center; }
+                            .content { padding: 20px; text-align: center; }
+                            .footer { margin-top: 20px; text-align: center; color: #777; }
+                            .footer a { color: #4CAF50; text-decoration: none; }
+                        </style>
+                    </head>
+                    <body>
+                        <div class='container'>
+                            <div class='header'>
+                                <h1>Agendamento Concluído</h1>
+                            </div>
+                            <div class='content'>
+                                <p>Olá, $nomeCliente</p>
+                                <p>Seu agendamento foi concluído com sucesso!</p>
+                                <p>Aqui estão os detalhes do seu agendamento:</p>
+                                <p><strong>Data:</strong> $data</p>
+                                <p><strong>Horário:</strong> $hora</p>
+                                <p><strong>Serviço:</strong> $nomeServico</p>
+                                <p><strong>Barbeiro:</strong> $nomeBarbeiro</p>
+                                <p>Se você tiver alguma dúvida, por favor, entre em contato conosco.</p>
+                            </div>
+                            <div class='footer'>
+                                <p>Atenciosamente,<br>A Equipe $nomeBarbearia</p>
+                                <p><a href='https://exclusivebarbershop.com.br/minha-agenda'>Confira seu agendamento</a></p>
+                            </div>
+                        </div>
+                    </body>
+                    </html>
+                ";
+    
+                try {
+                    $emailService = new EmailService();
+                    $emailService->sendEmail($emailCliente, $nomeCliente, $assunto, $mensagem);
+                } catch (Exception $e) {
+                    throw new Exception('Erro ao enviar email de confirmação: ' . $e->getMessage());
+                }
+        
+    }
+    
+    private function enviarEmailNotificacaoBarbeiro($nomeBarbeiro, $emailBarbeiro, $nomeServico, $data, $hora, $nomeCliente, $nomeBarbearia, $observacao) {
+        $assunto = "Novo Agendamento!";
+        $mensagem = "
+                    <!DOCTYPE html>
+                    <html lang='pt-BR'>
+                    <head>
+                        <meta charset='UTF-8'>
+                        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                        <title>Agendamento Concluído</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                            .container { width: 100%; max-width: 600px; margin: 0 auto; background-color: #ffffff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 20px; box-sizing: border-box; }
+                            .header { background-color: #4CAF50; color: white; padding: 20px; text-align: center; }
+                            .content { padding: 20px; text-align: center; }
+                            .footer { margin-top: 20px; text-align: center; color: #777; }
+                            .footer a { color: #4CAF50; text-decoration: none; }
+                        </style>
+                    </head>
+                    <body>
+                        <div class='container'>
+                            <div class='header'>
+                                <h1>Agendamento Concluído</h1>
+                            </div>
+                            <div class='content'>
+                                <p>Olá, $nomeBarbeiro</p>
+                                <p>Você tem um novo agendamento!</p>
+                                <p>Aqui estão os detalhes do agendamento:</p>
+                                <p><strong>Data:</strong> $data</p>
+                                <p><strong>Horário:</strong> $hora</p>
+                                <p><strong>Serviço:</strong> $nomeServico</p>
+                                <p><strong>Observação:</strong> $observacao</p>
+                                <p><strong>Cliente:</strong> $nomeCliente</p>
+                            </div>
+                            <div class='footer'>
+                                <p>Atenciosamente,<br>A Equipe $nomeBarbearia</p>
+                                <p><a href='https://exclusivebarbershop.com.br/admin-login'>Confira o agendamento</a></p>
+                            </div>
+                        </div>
+                    </body>
+                    </html>
+                ";
 
-private function enviarEmailConfirmacao($nomeCliente, $emailCliente, $nomeServico, $data, $hora, $nomeBarbeiro, $nomeBarbearia) {
-    $assunto = "Confirmação de Agendamento!";
-    $mensagem = "
-    <!DOCTYPE html>
-    <html lang='pt-BR'>
-    <head>
-        <meta charset='UTF-8'>
-        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-        <title>Agendamento Concluído</title>
-        <style>
-            body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
-            .container { width: 100%; max-width: 600px; margin: 0 auto; background-color: #ffffff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 20px; box-sizing: border-box; }
-            .header { background-color: #4CAF50; color: white; padding: 20px; text-align: center; }
-            .content { padding: 20px; text-align: center; }
-            .footer { margin-top: 20px; text-align: center; color: #777; }
-            .footer a { color: #4CAF50; text-decoration: none; }
-        </style>
-    </head>
-    <body>
-        <div class='container'>
-            <div class='header'>
-                <h1>Agendamento Concluído</h1>
-            </div>
-            <div class='content'>
-                <p>Olá, $nomeCliente</p>
-                <p>Seu agendamento foi concluído com sucesso!</p>
-                <p>Aqui estão os detalhes do seu agendamento:</p>
-                <p><strong>Data:</strong> $data</p>
-                <p><strong>Horário:</strong> $hora</p>
-                <p><strong>Serviço:</strong> $nomeServico</p>
-                <p><strong>Barbeiro:</strong> $nomeBarbeiro</p>
-                <p>Se você tiver alguma dúvida, por favor, entre em contato conosco.</p>
-            </div>
-            <div class='footer'>
-                <p>Atenciosamente,<br>A Equipe $nomeBarbearia</p>
-                <p><a href='https://exclusivebarbershop.com.br/minha-agenda'>Confira seu agendamento</a></p>
-            </div>
-        </div>
-    </body>
-    </html>
-    ";
-
-    mail($emailCliente, $assunto, $mensagem, $this->getEmailHeaders($nomeBarbearia));
-}
-
-private function enviarEmailNotificacaoBarbeiro($nomeBarbeiro, $emailBarbeiro, $nomeServico, $data, $hora, $nomeCliente, $nomeBarbearia,$observacao) {
-    $assunto = "Novo Agendamento!";
-    $mensagem = "
-    <!DOCTYPE html>
-    <html lang='pt-BR'>
-    <head>
-        <meta charset='UTF-8'>
-        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-        <title>Agendamento Concluído</title>
-        <style>
-            body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
-            .container { width: 100%; max-width: 600px; margin: 0 auto; background-color: #ffffff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 20px; box-sizing: border-box; }
-            .header { background-color: #4CAF50; color: white; padding: 20px; text-align: center; }
-            .content { padding: 20px; text-align: center; }
-            .footer { margin-top: 20px; text-align: center; color: #777; }
-            .footer a { color: #4CAF50; text-decoration: none; }
-        </style>
-    </head>
-    <body>
-        <div class='container'>
-            <div class='header'>
-                <h1>Agendamento Concluído</h1>
-            </div>
-            <div class='content'>
-                <p>Olá, $nomeBarbeiro</p>
-                <p>Você tem um novo agendamento!</p>
-                <p>Aqui estão os detalhes do agendamento:</p>
-                <p><strong>Data:</strong> $data</p>
-                <p><strong>Horário:</strong> $hora</p>
-                <p><strong>Serviço:</strong> $nomeServico</p>
-                <p><strong>Observação:</strong> $observacao</p>
-                <p><strong>Cliente:</strong> $nomeCliente</p>
-            </div>
-            <div class='footer'>
-                <p>Atenciosamente,<br>A Equipe $nomeBarbearia</p>
-                <p><a href='https://exclusivebarbershop.com.br/admin-login'>Confira o agendamento</a></p>
-            </div>
-        </div>
-    </body>
-    </html>
-    ";
-
-    mail($emailBarbeiro, $assunto, $mensagem, $this->getEmailHeaders($nomeBarbearia));
-}
-
-private function getEmailHeaders($nomeBarbearia) {
-    return 'MIME-Version: 1.0' . "\r\n" .
-           'Content-type: text/html; charset=UTF-8' . "\r\n" .
-           'From: ' . $nomeBarbearia . ' <no-reply@exclusivebarbershop.com.br>' . "\r\n";
-}
+                try {
+                    $emailService = new EmailService();
+                    $emailService->sendEmail($emailBarbeiro, $nomeBarbeiro, $assunto, $mensagem);
+                } catch (Exception $e) {
+                    throw new Exception('Erro ao enviar email de confirmação: ' . $e->getMessage());
+                }
+    }
 
     public function perfil_cliente(
         ServerRequestInterface $request, 

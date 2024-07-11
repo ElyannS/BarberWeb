@@ -1,12 +1,12 @@
 $(document).ready(function(){
 
     var currentPagePath = window.location.pathname;
-    var specificPagePath = '/admin/agenda-cliente';
+    var specificPagePath = '/BarberWeb/admin/agenda-cliente';
 
     if (currentPagePath === specificPagePath) {
         function mostrarHorarios(data, tempoServico, idServico) {
             $.ajax({
-                url: '/admin/mostrar_horarios',
+                url: '/BarberWeb/admin/mostrar_horarios',
                 type: 'POST',
                 data: {
                 data: data,
