@@ -97,15 +97,6 @@
                             </a>
                         </li>
                     <?php } ?>
-                    
-                    <?php if($data['informacoes']['usuario']['type'] == '3'){ ?>
-                        <li class="<?=($data['informacoes']['menu_active'] === 'minha_agenda') ? 'active' : ''?>">
-                            <a href="<?=URL_BASE?>admin/minha-agenda">
-                               <img class="icon_svg" src="<?=URL_BASE?>resources/imagens/calendar3.svg">
-                                Minha agenda
-                            </a>
-                        </li>
-                    <?php } ?>
 
                     <?php if($data['informacoes']['usuario']['type'] != '99'){ ?>
                         <li class="<?=($data['informacoes']['menu_active'] === 'servicos') ? 'active' : ''?>">
@@ -160,14 +151,7 @@
                             </a>
                         </li>
                     <?php } ?>
-                    <?php if($data['informacoes']['usuario']['type'] == '2'){ ?>
-                        <li class="<?=($data['informacoes']['menu_active'] === 'horariosT') ? 'active' : ''?>">
-                            <a href="<?=URL_BASE?>admin/horarios-barbeiro">
-                                <i class="fa-solid fa-briefcase"></i>
-                                Horários de trabalho 
-                            </a>
-                        </li>
-                    <?php } ?>
+
                     <?php if($data['informacoes']['usuario']['type'] != '3'){ ?>
                         <li class="<?=($data['informacoes']['menu_active'] === 'perfil') ? 'active' : ''?>">
                             <a href="<?=URL_BASE?>admin/perfil">

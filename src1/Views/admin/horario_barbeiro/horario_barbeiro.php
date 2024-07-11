@@ -52,13 +52,6 @@
                                     </div>
                                 </td>
                             <?php } ?>
-                            <?php if($data['informacoes']['usuario']['type'] === '2'){ ?>
-                                <td class="acao">
-                                    <div class="btn">
-                                        <a href="<?=URL_BASE?>admin/horarios-edit-barbeiro/<?=$horarios['id']?>">Editar</a>
-                                    </div>
-                                </td>
-                            <?php } ?>
                         </tr>
                     <?php }?> 
                 </tbody>

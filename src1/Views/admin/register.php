@@ -13,20 +13,36 @@
             <div class="container">
                 <div class="center">
                     <img src="<?=URL_BASE.$data['informacoes']['nome_logo']?>" alt="">
-                    <div class="form">
-                        <h1>Login</h1>
-                        <form action="<?=URL_BASE?>admin/login-cliente" method="post" class="form_ajax">
-                            <input type="email" name="email" placeholder="Usuário" required>
-                            <input type="password" name="senha" placeholder="Senha" required>
-                            <button type="submit">Entrar</button>
+                    <div class="form backg">
+                        <form action="<?=URL_BASE?>admin/clientes_insert_cadastro" class="margin form_ajax" method="post" enctype="multipart/form-data">
+                            <label>
+                                Nome
+                                <input type="text" name="nome" placeholder="Digete seu nome completo" required>
+                            </label>
+                            <label>
+                                Email
+                                <input type="email" name="email" placeholder="Digite um email válido" required>
+                            </label>
+                            <label>
+                                Telefone
+                                <input type="tel" name="telefone" placeholder="Digite seu telefone" required>
+                            </label>
+                            <label>
+                                Senha
+                                <input type="password" name="senha" placeholder="Mínimo 4 dígitos" required>
+                            </label>
+                            <label>
+                                Confirmar senha
+                                <input type="password" name="confirmar_senha" placeholder="Digite novamente sua senha" required>
+                            </label>
+                            <button type="submit">Registrar</button>
                             <div class="alerta"></div>
                         </form>
                         <div class="cadastro">
-                            <a href="<?=URL_BASE?>receber-email">Esqueceu sua senha?</a>
-                            <a href="<?=URL_BASE?>register">Cadastrar-se</a>
+                            <a href="<?=URL_BASE?>login-cliente">Já possui conta?</a>
                         </div>
                     </div>
-                </div>
+            
                 
                 <div class="bottom">
                     <div class="copy">

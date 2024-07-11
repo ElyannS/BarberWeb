@@ -57,7 +57,7 @@
                             <label>
                                 Nome Cliente
                                 <select  class="js-example-basic-single" name="id_cliente">
-                                    <option value="2">sem cadastro</option>
+                                    <option value="3">sem cadastro</option>
                                     <?php foreach ($data['informacoes']['cliente'] as $clientes) {?>
                                         <option value="<?=$clientes['id']?>"><?=$clientes['nome']?> <?php if($clientes['telefone']) echo ' - ' . $clientes['telefone']?></option>
                                     <?php }?>

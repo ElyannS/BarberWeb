@@ -34,7 +34,7 @@
                         <input type="file" name="foto_usuario">
                     </label>
                     <div class="img">
-                        <img src="<?=URL_BASE.$data['informacoes']['cliente']['foto_usuario']?>">
+                        <img src="<?=URL_BASE.$data['informacoes']['cliente']['foto_cliente']?>">
                         <label>
                             <input type="checkbox" name="excluir_foto_usuario">
                             Excluir imagem
@@ -60,7 +60,7 @@
                     <button type="submit">Salvar</button>
                 </div>   
                 <input type="hidden" name="id" value="<?=$data['informacoes']['cliente']['id']?>">
-                <input type="hidden" name="nome_imagem_atual" value="<?=$data['informacoes']['cliente']['foto_usuario']?>">
+                <input type="hidden" name="nome_imagem_atual" value="<?=$data['informacoes']['cliente']['foto_cliente']?>">
             </form>  
         </div>
 </section>

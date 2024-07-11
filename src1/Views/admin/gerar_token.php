@@ -14,17 +14,12 @@
                 <div class="center">
                     <img src="<?=URL_BASE.$data['informacoes']['nome_logo']?>" alt="">
                     <div class="form">
-                        <h1>Login</h1>
-                        <form action="<?=URL_BASE?>admin/login-cliente" method="post" class="form_ajax">
-                            <input type="email" name="email" placeholder="Usuário" required>
-                            <input type="password" name="senha" placeholder="Senha" required>
-                            <button type="submit">Entrar</button>
+                        <h1>Redefinir Senha</h1>
+                        <form action="<?=URL_BASE?>admin/gerar-token" method="post" class="form_ajax">
+                            <input type="email" name="email" placeholder="Digite seu e-mail" required>
+                                <button type="submit">receber e-mail</button>
                             <div class="alerta"></div>
                         </form>
-                        <div class="cadastro">
-                            <a href="<?=URL_BASE?>receber-email">Esqueceu sua senha?</a>
-                            <a href="<?=URL_BASE?>register">Cadastrar-se</a>
-                        </div>
                     </div>
                 </div>
                 

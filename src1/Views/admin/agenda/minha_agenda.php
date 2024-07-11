@@ -33,8 +33,7 @@
                                 <div class="topo">
                                     <div class="btn displayBtn" id="btn<?=$agendamentos['id']?>">
                                         <button id="CancelarHorario" value="<?=$agendamentos['id']?>">Cancelar Agendamento</button>
-                                        <a href="https://wa.me/5551997610285?text=Olá!%20Estou%20entrando%20em%20contato%20pelo%20motivo%20do%20meu%20agendamento%20pelo%20app.
-">Chamar no Whats <i class="fa-brands fa-whatsapp"></i></a>
+                                        <a href="<?=URL_BASE?>admin/barbeiros-create">Chamar no Whats <i class="fa-brands fa-whatsapp"></i></a>
                                     </div>
                                     <div class="btn CancelAganda" id="Cancel<?=$agendamentos['id']?>">
                                         <form action="<?=URL_BASE?>admin/agendacliente_delete" method="post">

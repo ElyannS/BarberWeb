@@ -9,33 +9,29 @@
     <link href="<?=URL_BASE?>resources/fonts/fontawesome/css/all.min.css" rel="stylesheet"/>
     </head>
     <body>
-        <section class="pagina_login cliente">
+        <section class="pagina_login">
             <div class="container">
                 <div class="center">
-                    <img src="<?=URL_BASE.$data['informacoes']['nome_logo']?>" alt="">
+                <img src="<?=URL_BASE.$data['informacoes']['nome_logo']?>" alt="">
                     <div class="form">
                         <h1>Login</h1>
-                        <form action="<?=URL_BASE?>admin/login-cliente" method="post" class="form_ajax">
+                        <form action="<?=URL_BASE?>admin/login" method="post" class="form_ajax">
                             <input type="email" name="email" placeholder="Usuário" required>
                             <input type="password" name="senha" placeholder="Senha" required>
                             <button type="submit">Entrar</button>
                             <div class="alerta"></div>
                         </form>
-                        <div class="cadastro">
-                            <a href="<?=URL_BASE?>receber-email">Esqueceu sua senha?</a>
-                            <a href="<?=URL_BASE?>register">Cadastrar-se</a>
-                        </div>
                     </div>
                 </div>
                 
                 <div class="bottom">
                     <div class="copy">
-                        Todos direitos reservados &copy 2024
+                        Todos direitos reservados &copy 2023
                     </div>
                     <div class="dev">
                         Desenvolvido por Elyann S
-                        <a href="https://www.instagram.com/elyann_soares">
-                            <i class="fa-brands fa-instagram"></i>
+                        <a href="#">
+                                <i class="fa-brands fa-instagram"></i>
                         </a>
                     </div>
                 </div>

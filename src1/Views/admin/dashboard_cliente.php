@@ -21,7 +21,7 @@
                     <div class="circulo"><img class="icon_svg" src="<?=URL_BASE?>resources/imagens/servico.svg"></div>
                     <p>Serviços</p>
                 </a>
-                <a href="#" class="item_menu">
+                <a href="<?=URL_BASE?>admin/localizacao" class="item_menu">
                     <div class="circulo"><img class="icon_svg" src="<?=URL_BASE?>resources/imagens/localizacao.svg"></div>
                     <p>Localização</p>
                 </a>

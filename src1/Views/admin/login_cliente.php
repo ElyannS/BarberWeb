@@ -22,7 +22,7 @@
                             <div class="alerta"></div>
                         </form>
                         <div class="cadastro">
-                            <a href="<?=URL_BASE?>receber-email">Esqueceu sua senha?</a>
+                            <a href="">Esqueceu sua senha?</a>
                             <a href="<?=URL_BASE?>register">Cadastrar-se</a>
                         </div>
                     </div>
