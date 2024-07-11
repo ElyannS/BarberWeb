@@ -1,7 +1,7 @@
 $(document).ready(function(){
     function atualizarData(data) {
         $.ajax({ 
-            url: '/BarberWeb/admin/gerar_horario',
+            url: '/admin/gerar_horario',
             type: 'POST',
             data: { data: data },
             dataType: 'json',
@@ -101,12 +101,12 @@ $(document).ready(function(){
 
   $('.js-example-basic-single').select2();
   var currentPagePath = window.location.pathname;
-  var specificPagePath = '/BarberWeb/admin/agendamentos';
+  var specificPagePath = '/admin/agendamentos';
 
   if (currentPagePath === specificPagePath) {
     function atualizarHorariosMarcados(data, idBarbeiro) {
       $.ajax({
-        url: '/BarberWeb/admin/atualizar_data',
+        url: '/admin/atualizar_data',
         type: 'POST',
         data: {
           data: data,

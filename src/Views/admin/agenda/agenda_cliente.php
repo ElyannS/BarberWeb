@@ -10,7 +10,8 @@
                     </div>
                     <label>
                         Selecione o serviço:
-                        <select name="servico" id="servicoCliente">
+                        <input type="hidden" id="valueIn" >
+                        <select name="servico" id="servicoCliente" >
                             <option value="sel">Selecione um opção</option>
                             <?php foreach ($data['informacoes']['servico'] as $servico) {?>
                                 <option value="<?=$servico['tempo_servico']?>;<?=$servico['id']?>"><?=$servico['titulo']?></option>

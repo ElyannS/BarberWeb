@@ -1,12 +1,12 @@
 $(document).ready(function(){
 
     var currentPagePath = window.location.pathname;
-    var specificPagePath = '/BarberWeb/admin/agenda-cliente';
+    var specificPagePath = '/admin/agenda-cliente';
 
     if (currentPagePath === specificPagePath) {
         function mostrarHorarios(data, tempoServico, idServico) {
             $.ajax({
-                url: '/BarberWeb/admin/mostrar_horarios',
+                url: '/admin/mostrar_horarios',
                 type: 'POST',
                 data: {
                 data: data,
@@ -22,7 +22,7 @@ $(document).ready(function(){
                         const barbeiroHtml = `
                             <div class="item">
                                 <div class="nomeBarbeiro">
-                                    <img src="http://localhost/BarberWeb/${dadosBarbeiro.foto_usuario}">
+                                    <img src="http://exclusivebarbershop.com.br/${dadosBarbeiro.foto_usuario}">
                                     <p>${barbeiro}</p>
                                 </div>
                                 <div class="horariosBarbeiros" id="pegaDados">
@@ -62,7 +62,7 @@ $(document).ready(function(){
         $('#mostrarHorarios').on('click', function(){
             var data = $('#dataCliente').val();
             var tempoInput = $('#servicoCliente').val();
-
+            $('#valueIn').val('CHANGE');
 
             var dataAtual = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
             dataAtual.setHours(0, 0, 0, 0); 
@@ -91,13 +91,54 @@ $(document).ready(function(){
                     var parts = tempoInput.split(';');
                     var tempoServico = parts[0];
                     var idServico = parts[1];
-            
+                    
                     mostrarHorarios(data, tempoServico, idServico);
                 }
             }
         });
-
-         
+        
+        
+            $('#servicoCliente').change(function(){
+                var input =  $('#valueIn').val();
+                if(input == 'CHANGE'){
+                    var data = $('#dataCliente').val();
+                    var tempoInput = $('#servicoCliente').val();
+        
+        
+                    var dataAtual = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
+                    dataAtual.setHours(0, 0, 0, 0); 
+                    var dataFormatada = dataAtual.toISOString().split('T')[0];
+        
+                    if( data < dataFormatada){
+                        var text = "<p>Selecione uma data válida!</p>";
+                        $('.alertaAviso').empty(); 
+                        $('.alertaAviso').append(text);
+                        $('.alertaAviso').addClass('mostrar');
+                        setTimeout(function() {
+                            $('.alertaAviso').removeClass('mostrar');
+                            $('.alertaAviso').empty(); 
+                        }, 5000);
+                    } else{
+                        if( tempoInput === 'sel'){
+                            var text = "<p>Selecione um serviço!</p>";
+                            $('.alertaAviso').empty(); 
+                            $('.alertaAviso').append(text);
+                            $('.alertaAviso').addClass('mostrar');
+                            setTimeout(function() {
+                                $('.alertaAviso').removeClass('mostrar');
+                                $('.alertaAviso').empty(); 
+                            }, 5000);
+                        } else{
+                            var parts = tempoInput.split(';');
+                            var tempoServico = parts[0];
+                            var idServico = parts[1];
+                    
+                            mostrarHorarios(data, tempoServico, idServico);
+                        }
+                    }
+                }
+            });
+        
         
         $(document).on('click', '#pegaDados span', function() {
             const value = $(this).attr('value');

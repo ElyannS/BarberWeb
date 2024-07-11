@@ -33,6 +33,10 @@ return function (App $app) {
     $app->get('/register', '\App\Controller\ClienteController:register_cliente');
     $app->post('/admin/login-cliente', '\App\Controller\ClienteController:verificar_login_cliente');
     $app->get('/admin/logout-cliente', '\App\Controller\ClienteController:logout_cliente');
+    $app->get('/receber-email', '\App\Controller\ClienteController:receber_email');
+    $app->post('/admin/gerar-token', '\App\Controller\ClienteController:gerar_token');
+    $app->get('/redefinir-senha', '\App\Controller\ClienteController:redefinir_senha');
+    $app->post('/admin/redefinir', '\App\Controller\ClienteController:redefinir_senha_nova');
     $app->get('/admin/clientes', '\App\Controller\ClienteController:clientes');
     $app->get('/admin/clientes-create', '\App\Controller\ClienteController:clientes_create');
     $app->get('/admin/clientes-edit/{id}', '\App\Controller\ClienteController:clientes_edit');

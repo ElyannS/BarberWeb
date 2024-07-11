@@ -10,7 +10,7 @@ use App\Model\Cliente;
 use App\Model\Configuracao;
 use App\Model\Agendamento;
 use App\Model\Servico;
-use App\Model\Horario;
+use App\Model\HorarioBarbeiro;
 
 
 
@@ -83,6 +83,298 @@ final class ClienteController
         unset( $_SESSION['usuario_logado']);
         header("Location: ".URL_BASE."login-cliente");
 		exit();
+    }
+    public function receber_email(
+        ServerRequestInterface $request, 
+        ResponseInterface $response,
+        $args
+    ) {
+        $config = new Configuracao();
+        $nome_logo_site = $config->getConfig('logo_site');
+
+
+        $data['informacoes'] = array(
+            'nome_logo' => $nome_logo_site
+        );
+        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN);
+        return $renderer->render($response, "gerar_token.php", $data);
+    }
+    public function gerar_token(
+        ServerRequestInterface $request, 
+        ResponseInterface $response,
+        $args
+    ) {
+       
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $email = $request->getParsedBody()['email'];
+            
+            $token = bin2hex(random_bytes(32));
+
+            $config = new Configuracao();
+            $nomeBarbearia = $config->getConfig('nome_site');
+          
+            $clientes = new Cliente();
+            $consultaClientes  = $clientes->selectCliente('*', array('email' => $email));
+            $emailExiste = !empty($consultaClientes);
+
+            if( $email == $emailExiste){
+
+                $campos = array(
+                    'token' => $token,
+                );
+              
+                
+                $clientes = new Cliente();
+                
+                $clientes->updateCliente($campos, array('email' => $email));
+                if($clientes){
+                    $msgHtml = "
+                        <!DOCTYPE html>
+                        <html lang='pt-BR'>
+                        <head>
+                            <meta charset='UTF-8'>
+                            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                            <title>Redefinir senha</title>
+                            <style>
+                                body {
+                                    font-family: Arial, sans-serif;
+                                    background-color: #f4f4f4;
+                                    margin: 0;
+                                    padding: 0;
+                                }
+                                .container {
+                                    width: 100%;
+                                    max-width: 600px;
+                                    margin: 0 auto;
+                                    background-color: #ffffff;
+                                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                                    padding: 20px;
+                                    box-sizing: border-box;
+                                }
+                                .header {
+                                    background-color: #4CAF50;
+                                    color: white;
+                                    padding: 20px;
+                                    text-align: center;
+                                }
+                                .content {
+                                    padding: 20px;
+                                    text-align: center;
+                                }
+                                .button {
+                                    display: inline-block;
+                                    background-color: #4CAF50;
+                                    color: white;
+                                    padding: 15px 25px;
+                                    text-decoration: none;
+                                    border-radius: 5px;
+                                    margin-top: 20px;
+                                }
+                                .footer {
+                                    margin-top: 20px;
+                                    text-align: center;
+                                    color: #777;
+                                }
+                                .footer a {
+                                    color: #4CAF50;
+                                    text-decoration: none;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class='container'>
+                                <div class='header'>
+                                    <h1>Redefinição de senha</h1>
+                                </div>
+                                <div class='content'>
+                                    <p>Olá!</p>
+                                    <p>Seu link para redefinir sua senha esta disponível abaixo!</p>
+                                
+                                    <a href='https://exclusivebarbershop.com.br/redefinir-senha?token='  . $token; class='button'>Redefinir senha</a>
+                                    <p>Se você tiver alguma dúvida, por favor, entre em contato conosco.</p>
+                                </div>
+                                <div class='footer'>
+                                    <p>Atenciosamente,<br>A Equipe $nomeBarbearia</p>
+                                    <p><a href='https://exclusivebarbershop.com.br/login-cliente'>acessar agenda</a></p>
+                                </div>
+                            </div>
+                        </body>
+                        </html>
+                    ";
+                
+
+                    $destino = $email;
+                    $assunto_email = "Redefinir senha!";
+
+                    $headers  = 'MIME-Version: 1.0' . "\r\n";
+                    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+                    $headers .= 'From:'.$nomeBarbearia.'<$email>';
+
+                    $enviaremail = mail($destino, $assunto_email, $msgHtml, $headers);
+                    if($enviaremail){
+                        $js['status'] = 1;
+                        $js['msg'] = "E-mail enviado!";
+                        $js['resetar_form'] = true;
+                        echo json_encode($js);
+                        exit();
+                    }
+                }
+            } else{
+                $js['status'] = 0;
+                $js['msg'] = "E-mail não encontrado!";
+                echo json_encode($js);
+                exit();
+            }
+        }
+     
+    }
+    public function redefinir_senha(
+        ServerRequestInterface $request, 
+        ResponseInterface $response,
+        $args
+    ) {
+        $config = new Configuracao();
+        $nome_logo_site = $config->getConfig('logo_site');
+        $clientes = new Cliente();
+
+        $data['informacoes'] = array(
+            'nome_logo' => $nome_logo_site,
+        );
+        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN);
+        return $renderer->render($response, "senha_nova.php", $data);
+    }
+    public function redefinir_senha_nova(
+        ServerRequestInterface $request, 
+        ResponseInterface $response,
+        $args
+    ) {
+       
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $token = $request->getParsedBody()['token'];
+            $senha = $request->getParsedBody()['senha'];
+            $confirmar_senha = $request->getParsedBody()['confirmar_senha'];
+           
+            if( $senha !== $confirmar_senha){
+                $js['status'] = 0;
+                $js['msg'] = 'As senhas não são iguais.';
+                echo json_encode($js);
+                exit();
+            }
+            $config = new Configuracao();
+            $nomeBarbearia = $config->getConfig('nome_site');
+          
+           
+            $clientes = new Cliente();
+            $consultaClientes = $clientes->selectCliente('*', array('token' => $token));
+
+            if (isset($consultaClientes[0]['email'])) {
+                $email = $consultaClientes[0]['email'];
+                $nomeCliente = $consultaClientes[0]['nome'];
+                $campos = array(
+                    'token' => '',
+                    'senha' => password_hash($senha, PASSWORD_DEFAULT, ["cost" => 12])
+                );
+                
+                $clientes->updateCliente($campos, array('email' => $email));
+                if($clientes){
+                    $msgHtml = "
+                        <!DOCTYPE html>
+                    <html lang='pt-BR'>
+                    <head>
+                        <meta charset='UTF-8'>
+                        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                        <title>Redefinir senha</title>
+                        <style>
+                            body {
+                                font-family: Arial, sans-serif;
+                                background-color: #f4f4f4;
+                                margin: 0;
+                                padding: 0;
+                            }
+                            .container {
+                                width: 100%;
+                                max-width: 600px;
+                                margin: 0 auto;
+                                background-color: #ffffff;
+                                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                                padding: 20px;
+                                box-sizing: border-box;
+                            }
+                            .header {
+                                background-color: #4CAF50;
+                                color: white;
+                                padding: 20px;
+                                text-align: center;
+                            }
+                            .content {
+                                padding: 20px;
+                                text-align: center;
+                            }
+                            .button {
+                                display: inline-block;
+                                background-color: #4CAF50;
+                                color: white;
+                                padding: 15px 25px;
+                                text-decoration: none;
+                                border-radius: 5px;
+                                margin-top: 20px;
+                            }
+                            .footer {
+                                margin-top: 20px;
+                                text-align: center;
+                                color: #777;
+                            }
+                            .footer a {
+                                color: #4CAF50;
+                                text-decoration: none;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class='container'>
+                            <div class='header'>
+                                <h1>Redefinição de senha</h1>
+                            </div>
+                            <div class='content'>
+                                <p>Olá, $nomeCliente</p>
+                                <p>Sua senha foi redefinida com sucesso!</p>
+                               
+                                <p>Se você tiver alguma dúvida, por favor, entre em contato conosco.</p>
+                            </div>
+                            <div class='footer'>
+                                <p>Atenciosamente,<br>A Equipe $nomeBarbearia</p>
+                                <p><a href='https://exclusivebarbershop.com.br/login-cliente'>acessar agenda</a></p>
+                            </div>
+                        </div>
+                    </body>
+                    </html>
+
+                    ";
+                
+
+                    $destino = $email;
+                    $assunto_email = "Senha redefinida!";
+
+                    $headers  = 'MIME-Version: 1.0' . "\r\n";
+                    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+                    $headers .= 'From:'.$nomeBarbearia.'<$email>';
+
+                    $enviaremail = mail($destino, $assunto_email, $msgHtml, $headers);
+                    if($enviaremail){
+                        $js['status'] = 1;
+                        $js['msg'] = "Senha redefinida!";
+                        $js['resetar_form'] = true;
+                        echo json_encode($js);
+                        exit();
+                    }
+                }
+            } else {
+                $js['status'] = 0;
+                $js['msg'] = "Erro ao redefinir senha!";
+                echo json_encode($js);
+                exit();
+            }
+        }
     }
     public function dashboard_cliente(
         ServerRequestInterface $request, 
@@ -599,7 +891,7 @@ final class ClienteController
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/agenda");
         return $renderer->render($response, "minha_agenda.php", $data);
     }
-
+   
     public function mostrar_horarios(
         ServerRequestInterface $request,
         ResponseInterface $response
@@ -625,47 +917,22 @@ final class ClienteController
                 }
     
                 $diaSemana = date('w', strtotime($data));
-        
-                $ConsultaHorarios = new Horario();
                 $diasSemana = [
                     'Domingo',
-                    'Segunda-Feira',
-                    'Terça-Feira',
-                    'Quarta-Feira',
-                    'Quinta-Feira',
-                    'Sexta-Feira',
-                    'Sábado'
+                    'Segunda',
+                    'Terça',
+                    'Quarta',
+                    'Quinta',
+                    'Sexta',
+                    'Sabado'
                 ];
-        
-                $horariosTrabalho = [];
-        
-                if (isset($diasSemana[$diaSemana])) {
-                    $turnos = $ConsultaHorarios->selectHorarioSemana($diasSemana[$diaSemana]);
-        
-                    $turno1 = $turnos[0]['turno1'];
-                    $turno2 = $turnos[0]['turno2'];
-        
-                    if ($turno1 !== "FECHADO") {
-                        $arrayTurno1 = explode(",", $turno1);
-                        foreach ($arrayTurno1 as $horario) {
-                            $horariosTrabalho[] = str_replace(" ", "", $horario);
-                        }
-                    }
-        
-                    if ($turno2 !== "FECHADO") {
-                        $arrayTurno2 = explode(",", $turno2);
-                        foreach ($arrayTurno2 as $horario) {
-                            $horariosTrabalho[] = str_replace(" ", "", $horario);
-                        }
-                    }
-                }
-        
+    
                 $usuario = new Usuario();
                 $barbeiros = $usuario->selectUsuario('*', array('*'));
-        
+    
                 $agendamentos = new Agendamento();
                 $horariosPorBarbeiro = [];
-        
+    
                 foreach ($barbeiros as $barbeiro) {
                     $horariosPorBarbeiro[$barbeiro['nome']] = [
                         'foto_usuario' => $barbeiro['foto_usuario'],
@@ -675,24 +942,50 @@ final class ClienteController
                         'nomeServico' => $nomeServico,
                         'data' => $data
                     ];
+    
+                    $ConsultaHorarios = new HorarioBarbeiro();
+                    if (isset($diasSemana[$diaSemana])) {
+                        $turnos = $ConsultaHorarios->selectHorarioSemanaBarbeiro($diasSemana[$diaSemana], $barbeiro['id']);
+                        
+                        $turno1 = isset($turnos[0]['turno1']) ? $turnos[0]['turno1'] : '';
+                        $turno2 = isset($turnos[0]['turno2']) ? $turnos[0]['turno2'] : '';
+    
+                        $horariosTrabalho = [];
+                        if ($turno1 !== "FECHADO" && !empty($turno1)) {
+                            $arrayTurno1 = array_map('trim', explode(",", $turno1));
+                            foreach ($arrayTurno1 as $horario) {
+                                $horariosTrabalho[] = $horario;
+                            }
+                            $ultimoHorarioTurno1 = end($arrayTurno1);
+                        }
+    
+                        if ($turno2 !== "FECHADO" && !empty($turno2)) {
+                            $arrayTurno2 = array_map('trim', explode(",", $turno2));
+                            foreach ($arrayTurno2 as $horario) {
+                                $horariosTrabalho[] = $horario;
+                            }
+                            $ultimoHorarioTurno2 = end($arrayTurno2);
+                        }
+                    }
+    
                     $consultaAgendamentos = $agendamentos->selectAgendamentoData($data, $barbeiro['id']);
-        
+    
                     $horariosIndisponiveis = [];
                     foreach ($consultaAgendamentos as $agendamento) {
                         $horariosIndisponiveis[] = date('H:i', strtotime($agendamento['data_agendamento']));
                         $horarioAtual = $agendamento['servico_id'];
-        
+    
                         if ($horarioAtual == 2) {
                             $proximoHorario = date('H:i', strtotime($agendamento['data_agendamento']) + 1800);
                             $horariosIndisponiveis[] = $proximoHorario;
                         }
                     }
-        
-                    foreach ($horariosTrabalho as $horario) {
+    
+                    foreach ($horariosTrabalho as $index => $horario) {
                         if (in_array($horario, $horariosIndisponiveis)) {
                             continue;
                         }
-        
+    
                         if ($tempoServico == 30) {
                             $proximoHorario = date('H:i', strtotime($horario));
                             if (!in_array($proximoHorario, $horariosIndisponiveis)) {
@@ -708,8 +1001,14 @@ final class ClienteController
                         } elseif ($tempoServico == 60) {
                             $proximoHorario = date('H:i', strtotime($horario));
                             $horarioFinal = date('H:i', strtotime($horario) + 1800);
-        
-                            if (!in_array($proximoHorario, $horariosIndisponiveis) && !in_array($horarioFinal, $horariosIndisponiveis)) {
+    
+                            // Verifica se é o último horário de cada turno
+                            $isLastSlotOfTurno1 = isset($ultimoHorarioTurno1) && $horario === $ultimoHorarioTurno1;
+                            $isLastSlotOfTurno2 = isset($ultimoHorarioTurno2) && $horario === $ultimoHorarioTurno2;
+    
+                            if (!$isLastSlotOfTurno1 && !$isLastSlotOfTurno2 && 
+                                !in_array($proximoHorario, $horariosIndisponiveis) && 
+                                !in_array($horarioFinal, $horariosIndisponiveis)) {
                                 $horarioOcupado = false;
                                 foreach ($horariosIndisponiveis as $horarioIndisponivel) {
                                     if ($horarioIndisponivel == $horario || $horarioIndisponivel == $proximoHorario) {
@@ -731,17 +1030,18 @@ final class ClienteController
                         }
                     }
                 }
-        
+    
                 $horarios = $horariosPorBarbeiro;
             }
         }
-        
+    
         $responseData = ['horarios' => $horarios];
         $response = $response->withHeader('Content-Type', 'application/json');
         $response->getBody()->write(json_encode($responseData));
         return $response;
     }
     
+
     public function insert_agendamento_cliente(
         ServerRequestInterface $request, 
         ResponseInterface $response,

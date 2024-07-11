@@ -641,11 +641,15 @@ body.admin{
 		height: 100vh;
 		.logo{
 			display: flex;
+			
 			justify-content: center;
 			margin-bottom: 50px;
 			flex-wrap: wrap;
 			@include desktop{
 				display: none;
+			}
+			img{
+				width: 60%;
 			}
 			p{
 				margin-bottom: 0px;
