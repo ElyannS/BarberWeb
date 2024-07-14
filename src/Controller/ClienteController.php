@@ -117,6 +117,11 @@ final class ClienteController
             $clientes = new Cliente();
             $consultaClientes  = $clientes->selectCliente('*', array('email' => $email));
             $emailExiste = !empty($consultaClientes);
+            if (!empty($consultaClientes) && is_array($consultaClientes)) {
+                $nomeCliente = $consultaClientes[0]['nome'];
+            } else {
+                $nomeCliente = null;
+            }
 
             if ($emailExiste) {
                 $tokenExiste = $consultaClientes[0]['token'];
@@ -212,13 +217,9 @@ final class ClienteController
 
                     $destino = $email;
                     $assunto_email = "Redefinir senha!";
-
-                    $headers  = 'MIME-Version: 1.0' . "\r\n";
-                    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-                    $headers .= 'From:'.$nomeBarbearia.'<$email>';
-
-                    $enviaremail = mail($destino, $assunto_email, $msgHtml, $headers);
-                    if($enviaremail){
+                    $this->enviarEmailApi($destino, $assunto_email, $msgHtml, $nomeBarbearia, $nomeCliente);
+            
+                    if($results['enviarEmailApi'] = 'success'){
                         $js['status'] = 1;
                         $js['msg'] = "E-mail enviado!";
                         $js['resetar_form'] = true;
@@ -362,12 +363,9 @@ final class ClienteController
                     $destino = $email;
                     $assunto_email = "Senha redefinida!";
 
-                    $headers  = 'MIME-Version: 1.0' . "\r\n";
-                    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-                    $headers .= 'From:'.$nomeBarbearia.'<$email>';
-
-                    $enviaremail = mail($destino, $assunto_email, $msgHtml, $headers);
-                    if($enviaremail){
+                    $this->enviarEmailApi($destino, $assunto_email, $msgHtml, $nomeBarbearia, $nomeCliente);
+            
+                    if($results['enviarEmailApi'] = 'success'){
                         $js['status'] = 1;
                         $js['msg'] = "Senha redefinida!";
                         $js['resetar_form'] = true;
@@ -695,12 +693,10 @@ final class ClienteController
             $destino = $email;
             $assunto_email = "Agradecemos seu cadastro ".$nome."!";
 
-            $headers  = 'MIME-Version: 1.0' . "\r\n";
-            $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-            $headers .= 'From:'.$nomeBarbearia.'<$email>';
-
-            $enviaremail = mail($destino, $assunto_email, $msgHtml, $headers);
-            if($enviaremail){
+          
+            $this->enviarEmailApi($destino, $assunto_email, $msgHtml, $nomeBarbearia, $nome);
+            
+            if($results['enviarEmailApi'] = 'success'){
                 $js['status'] = 1;
                 $js['msg'] = 'Cadastro realizado com sucesso!';
                 $js['redirecionar_pagina'] = URL_BASE."login-cliente";
@@ -1114,7 +1110,7 @@ final class ClienteController
             $agendamentos_verificar = new Agendamento();
             $numero_agendamentos = count($agendamentos_verificar->selectAgendamentoVerificar($datetime, $idBarbeiro));
             if ($numero_agendamentos > 0) {
-                 $js['status'] = 0;
+                $js['status'] = 0;
                 $js['msg'] = "Horário indisponível!";
                 echo json_encode($js);
                 exit();
@@ -1131,23 +1127,25 @@ final class ClienteController
             $agendamentos = new Agendamento();
             $agendamentos->insertAgendamento($campos);
     
-            // Envia emails de confirmação
+          
+           
             $this->enviarEmailConfirmacao($nomeCliente, $emailCliente, $nomeServico, $data, $hora, $nomeBarbeiro, $nomeBarbearia);
-            $this->enviarEmailNotificacaoBarbeiro($nomeBarbeiro, $emailBarbeiro, $nomeServico, $data, $hora, $nomeCliente, $nomeBarbearia, $observacao);
-    
-           $js['status'] = 1;
-                    $js['msg'] = "Agendado com sucesso!";
-                    $js['redirecionar_pagina'] = URL_BASE."admin/minha-agenda";
-                    echo json_encode($js);
-                    exit();
+            $this->enviarEmailNotificacaoBarbeiro($emailBarbeiro, $nomeServico, $data, $hora, $nomeCliente, $nomeBarbearia, $observacao, $nomeBarbeiro);
+            
+            $js['status'] = 1;
+            $js['msg'] = 'Agendado com sucesso!';
+            $js['redirecionar_pagina'] = URL_BASE."admin/minha-agenda";
+            echo json_encode($js);
+            exit();
     
         } catch (Exception $e) {
             $js['status'] = 0;
-                    $js['msg'] = 'Erro ao agendar Horário. Tente novamente!';
-                    echo json_encode($js);
-                    exit();
+            $js['msg'] = 'Erro ao agendar Horário. Tente novamente!';
+            echo json_encode($js);
+            exit();
         }
     }
+    
     
     private function enviarEmailConfirmacao($nomeCliente, $emailCliente, $nomeServico, $data, $hora, $nomeBarbeiro, $nomeBarbearia) {
         $assunto = "Confirmação de Agendamento!";
@@ -1190,11 +1188,10 @@ final class ClienteController
         </body>
         </html>
         ";
-    
-        mail($emailCliente, $assunto, $mensagem, $this->getEmailHeaders($nomeBarbearia));
+        $this->enviarEmailApi($emailCliente, $assunto, $mensagem, $nomeBarbearia, $nomeCliente);
     }
     
-    private function enviarEmailNotificacaoBarbeiro($nomeBarbeiro, $emailBarbeiro, $nomeServico, $data, $hora, $nomeCliente, $nomeBarbearia,$observacao) {
+    private function enviarEmailNotificacaoBarbeiro($emailBarbeiro, $nomeServico, $data, $hora, $nomeCliente, $nomeBarbearia,$observacao,$nomeBarbeiro) {
         $assunto = "Novo Agendamento!";
         $mensagem = "
         <!DOCTYPE html>
@@ -1202,7 +1199,7 @@ final class ClienteController
         <head>
             <meta charset='UTF-8'>
             <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-            <title>Agendamento Concluído</title>
+            <title>Novo Agendamento</title>
             <style>
                 body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
                 .container { width: 100%; max-width: 600px; margin: 0 auto; background-color: #ffffff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 20px; box-sizing: border-box; }
@@ -1215,7 +1212,7 @@ final class ClienteController
         <body>
             <div class='container'>
                 <div class='header'>
-                    <h1>Agendamento Concluído</h1>
+                    <h1>Novo Agendamento!</h1>
                 </div>
                 <div class='content'>
                     <p>Olá, $nomeBarbeiro</p>
@@ -1235,14 +1232,105 @@ final class ClienteController
         </body>
         </html>
         ";
-    
-        mail($emailBarbeiro, $assunto, $mensagem, $this->getEmailHeaders($nomeBarbearia));
+        $this->enviarEmailApi($emailBarbeiro, $assunto, $mensagem, $nomeBarbearia, $nomeBarbeiro);
+   
     }
-    
-    private function getEmailHeaders($nomeBarbearia) {
-        return 'MIME-Version: 1.0' . "\r\n" .
-               'Content-type: text/html; charset=UTF-8' . "\r\n" .
-               'From: ' . $nomeBarbearia . ' <no-reply@exclusivebarbershop.com.br>' . "\r\n";
+
+
+    private function enviarEmailApi($emailDestino, $assunto, $mensagem, $nomeBarbearia, $nomeDestino) {
+       // URL da API 
+        $url = "api.iagentesmtp.com.br/api/v3/send/";
+
+        // Dados do usuário - Iagente: https://www.iagente.com.br/solicitacao-conta-smtp/origin/celke 
+        // Recomendado salvar em variáveis de ambiente: https://celke.com.br/artigo/como-usar-variaveis-de-ambiente-env-no-php
+        $apiUsuario = 'contato@exclusivebarbershop.com.br';
+        $apiChave = '3rjn1o3m7fme2f12c84v4109fri262r950f932827u96cj1be';
+
+        // Dados do e-mail
+        $dados = [
+            "api_user" => $apiUsuario,
+            "api_key" => $apiChave,
+            "to" => [ 
+                [
+                    // Destinatário
+                    "email" => $emailDestino,
+                    "name" =>  $nomeDestino
+                ]
+            ],
+            "from" => [
+                // E-mail utilizado para enviar e Remetente
+                "name" => $nomeBarbearia,
+                "email" => "contato@exclusivebarbershop.com.br",
+                "reply_to" => "contato@exclusivebarbershop.com.br",
+            ],
+            "subject" => $assunto,
+            "html" => $mensagem,
+            "text" => "",
+            "campanhaid"  => "2",
+            "addheaders" =>
+            [
+                "x-priority" => "1"
+            ],
+        ];
+
+        // A função curl_init() inicializa uma nova sessão
+        $ch = curl_init($url);
+
+        // Configurar a requisição POST
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($dados));
+
+        // Definir os cabeçalhos da requisição
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [('Content-Type: application/json')]);
+
+        // Configurar para receber a resposta da requisição como uma string
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // Executar a requisição
+        $resposta = curl_exec($ch);
+
+        // // Verificar se ocorreu algum erro
+        // if (curl_errno($ch)) {
+        //     $js['status'] = 0;
+        //     $js['msg'] = 'Erro: cURL: ' . curl_errno($ch);
+        //     echo json_encode($js);
+        //     exit();
+        // } else {
+        //     // Decodificar a resposta JSON
+        //     $dadosResposta = json_decode($resposta, true);
+
+        //     // Verificar o campo "status" na resposta para determinar o resultado
+        //     if ($dadosResposta && isset($dadosResposta['status'])) {
+
+        //         // Enviado e-mail com sucesso
+        //         if ($dadosResposta['status'] === 'ok') {
+        //             $js['status'] = 1;
+        //             $js['msg'] = 'E-mail enviando com sucesso!';
+        //             $js['redirecionar_pagina'] = URL_BASE."admin/minha-agenda";
+        //             echo json_encode($js);
+        //             exit();
+        //             // Recomendado salvar no banco de dados: https://celke.com.br/artigo/crud-como-criar-o-formulario-cadastrar-com-php-e-pdo
+        //         } elseif ($dadosResposta['status'] === 'failed') {
+        //             $js['status'] = 0;
+        //             $js['msg'] = 'Erro: Mensagem não enviada! Mensagem: ' . $dadosResposta['message'];
+        //             echo json_encode($js);
+        //             exit();
+        //         } else {
+        //             // Erro a Iagente enviou a resposta com status inválido
+        //             $js['status'] = 0;
+        //             $js['msg'] = 'Erro: A Iagente retornou status desconhecido!';
+        //             echo json_encode($js);
+        //             exit();
+        //         }
+        //     } else {
+        //         // Erro a Iagente não enviou a resposta com status
+        //         $js['status'] = 0;
+        //         $js['msg'] = 'Erro: Não obteve resposta da Iagente!';
+        //         echo json_encode($js);
+        //         exit();
+        //     }
+        //}
+
     }
     public function perfil_cliente(
         ServerRequestInterface $request, 
