@@ -824,7 +824,9 @@ final class ClienteController
 
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
-        
+        $config = new Configuracao();
+        $dataLibera = $config->getConfig('dataLibera');
+
         $servicos = new Servico();
         $consultaServicos  = $servicos->selectServico('*', array('*'));
 
@@ -840,7 +842,8 @@ final class ClienteController
             'nome_logo' => $nome_logo_site,
             'usuario' => $usuario,
             'servico' => $consultaServicos,
-            'cliente' => $consultaClientes
+            'cliente' => $consultaClientes,
+            'dataLibera' => $dataLibera
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/agenda");
         return $renderer->render($response, "agenda_cliente.php", $data);
@@ -882,6 +885,7 @@ final class ClienteController
         
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
+        
 
         $usuario = $_SESSION['usuario_logado'];
 
@@ -891,6 +895,7 @@ final class ClienteController
             'usuario' => $usuario,
             'agendamentos_futuros' => $agendamentos_futuros,
             'agendamentos_passados' => $agendamentos_passados,
+           
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/agenda");
         return $renderer->render($response, "minha_agenda.php", $data);
@@ -914,15 +919,7 @@ final class ClienteController
                 $tempoServico = $params['tempoServico'];
                 $idServico = $params['idServico'];
     
-
-                $config = new Configuracao();
-                $dataLibera = $config->getConfig('dataLibera');
-                if($dataLibera < $data){
-                    $js['status'] = 0;
-                    $js['msg'] = "Permitido somente até ". $dataLibera ."!";
-                    echo json_encode($js);
-                    exit();
-                }
+                
                 $servico = new Servico();
                 $resultado = $servico->selectServico('*', array('id' => $idServico));
                 if (!empty($resultado)) {
@@ -1045,6 +1042,8 @@ final class ClienteController
                 }
     
                 $horarios = $horariosPorBarbeiro;
+            
+
             }
         }
     

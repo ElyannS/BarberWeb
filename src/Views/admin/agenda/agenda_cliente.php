@@ -26,10 +26,11 @@
                         <button id="mostrarHorarios">VER HORÁRIOS</button>
                     </label>
                 </div>
+                <input type="hidden" id="dataLibera" value="<?=$data['informacoes']['dataLibera']?>">
                 <div class="alertaAviso">
 
                 </div>
-               
+                
                 <div class="containerHorarios">
                     <div class="itensHorarios">
                        

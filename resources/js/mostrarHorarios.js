@@ -67,48 +67,23 @@ $(document).ready(function(){
             var dataAtual = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
             dataAtual.setHours(0, 0, 0, 0); 
             var dataFormatada = dataAtual.toISOString().split('T')[0];
-
-            if( data < dataFormatada){
-                var text = "<p>Selecione uma data válida!</p>";
-                $('.alertaAviso').empty(); 
-                $('.alertaAviso').append(text);
-                $('.alertaAviso').addClass('mostrar');
-                setTimeout(function() {
-                    $('.alertaAviso').removeClass('mostrar');
-                    $('.alertaAviso').empty(); 
-                }, 5000);
-            } else{
-                if( tempoInput === 'sel'){
-                    var text = "<p>Selecione um serviço!</p>";
+            var dataLibera = $('#dataLibera').val();
+            if (data && dataLibera) {
+                // Converter strings para objetos Date
+                var dataClienteObj = new Date(data);
+                var dataLiberaObj = new Date(dataLibera);
+        
+                if( dataClienteObj >= dataLiberaObj ){
+                    var text = "<p>Permitido somente até "+ formatarData(dataLibera) + "!</p>";
                     $('.alertaAviso').empty(); 
                     $('.alertaAviso').append(text);
                     $('.alertaAviso').addClass('mostrar');
+                    $('.itensHorarios').empty();
                     setTimeout(function() {
                         $('.alertaAviso').removeClass('mostrar');
                         $('.alertaAviso').empty(); 
                     }, 5000);
                 } else{
-                    var parts = tempoInput.split(';');
-                    var tempoServico = parts[0];
-                    var idServico = parts[1];
-                    
-                    mostrarHorarios(data, tempoServico, idServico);
-                }
-            }
-        });
-        
-        
-            $('#servicoCliente').change(function(){
-                var input =  $('#valueIn').val();
-                if(input == 'CHANGE'){
-                    var data = $('#dataCliente').val();
-                    var tempoInput = $('#servicoCliente').val();
-        
-        
-                    var dataAtual = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
-                    dataAtual.setHours(0, 0, 0, 0); 
-                    var dataFormatada = dataAtual.toISOString().split('T')[0];
-        
                     if( data < dataFormatada){
                         var text = "<p>Selecione uma data válida!</p>";
                         $('.alertaAviso').empty(); 
@@ -132,9 +107,102 @@ $(document).ready(function(){
                             var parts = tempoInput.split(';');
                             var tempoServico = parts[0];
                             var idServico = parts[1];
-                    
+                            
                             mostrarHorarios(data, tempoServico, idServico);
                         }
+                    }
+                }
+            } 
+            function formatarData(data) {
+                var dateObj = new Date(data);
+                var dia = dateObj.getDate();
+                var mes = dateObj.getMonth() + 1; // Meses são indexados de 0 a 11
+                var ano = dateObj.getFullYear();
+        
+                // Adiciona zero à esquerda se o dia ou mês for menor que 10
+                if (dia < 10) {
+                    dia = '0' + dia;
+                }
+                if (mes < 10) {
+                    mes = '0' + mes;
+                }
+        
+                return dia + '-' + mes + '-' + ano;
+            }
+        });
+        
+        
+            $('#servicoCliente').change(function(){
+                var input =  $('#valueIn').val();
+                if(input == 'CHANGE'){
+                    var data = $('#dataCliente').val();
+                    var tempoInput = $('#servicoCliente').val();
+                    $('#valueIn').val('CHANGE');
+
+                    var dataAtual = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
+                    dataAtual.setHours(0, 0, 0, 0); 
+                    var dataFormatada = dataAtual.toISOString().split('T')[0];
+                    var dataLibera = $('#dataLibera').val();
+                    if (data && dataLibera) {
+                        // Converter strings para objetos Date
+                        var dataClienteObj = new Date(data);
+                        var dataLiberaObj = new Date(dataLibera);
+                
+                        if( dataClienteObj >= dataLiberaObj ){
+                            var text = "<p>Permitido somente até "+ formatarData(dataLibera) + "!</p>";
+                            $('.alertaAviso').empty(); 
+                            $('.alertaAviso').append(text);
+                            $('.alertaAviso').addClass('mostrar');
+                            $('.itensHorarios').empty();
+                            setTimeout(function() {
+                                $('.alertaAviso').removeClass('mostrar');
+                                $('.alertaAviso').empty(); 
+                            }, 5000);
+                        } else{
+                            if( data < dataFormatada){
+                                var text = "<p>Selecione uma data válida!</p>";
+                                $('.alertaAviso').empty(); 
+                                $('.alertaAviso').append(text);
+                                $('.alertaAviso').addClass('mostrar');
+                                setTimeout(function() {
+                                    $('.alertaAviso').removeClass('mostrar');
+                                    $('.alertaAviso').empty(); 
+                                }, 5000);
+                            } else{
+                                if( tempoInput === 'sel'){
+                                    var text = "<p>Selecione um serviço!</p>";
+                                    $('.alertaAviso').empty(); 
+                                    $('.alertaAviso').append(text);
+                                    $('.alertaAviso').addClass('mostrar');
+                                    setTimeout(function() {
+                                        $('.alertaAviso').removeClass('mostrar');
+                                        $('.alertaAviso').empty(); 
+                                    }, 5000);
+                                } else{
+                                    var parts = tempoInput.split(';');
+                                    var tempoServico = parts[0];
+                                    var idServico = parts[1];
+                                    
+                                    mostrarHorarios(data, tempoServico, idServico);
+                                }
+                            }
+                        }
+                    } 
+                    function formatarData(data) {
+                        var dateObj = new Date(data);
+                        var dia = dateObj.getDate();
+                        var mes = dateObj.getMonth() + 1; // Meses são indexados de 0 a 11
+                        var ano = dateObj.getFullYear();
+                
+                        // Adiciona zero à esquerda se o dia ou mês for menor que 10
+                        if (dia < 10) {
+                            dia = '0' + dia;
+                        }
+                        if (mes < 10) {
+                            mes = '0' + mes;
+                        }
+                
+                        return dia + '-' + mes + '-' + ano;
                     }
                 }
             });
