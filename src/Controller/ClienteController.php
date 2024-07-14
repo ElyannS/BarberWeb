@@ -918,6 +918,15 @@ final class ClienteController
                 $tempoServico = $params['tempoServico'];
                 $idServico = $params['idServico'];
     
+
+                $config = new Configuracao();
+                $dataLibera = $config->getConfig('dataLibera');
+                if($dataLibera < $data){
+                    $js['status'] = 0;
+                    $js['msg'] = "Permitido somente até ". $dataLibera ."!";
+                    echo json_encode($js);
+                    exit();
+                }
                 $servico = new Servico();
                 $resultado = $servico->selectServico('*', array('id' => $idServico));
                 if (!empty($resultado)) {

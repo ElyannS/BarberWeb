@@ -10,6 +10,7 @@ class Configuracao extends Model {
 		"id",
 		"nome",
 		"valor",
+		"dataLibera",
 		"data_cadastro"
 	];
 

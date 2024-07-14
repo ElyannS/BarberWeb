@@ -151,6 +151,7 @@ final class AdminController
         $args
     ) {
         $nome_site = $request->getParsedBody()['nome_site'];
+        $dataLibera = $request->getParsedBody()['dataLibera'];
         
         $nome_logo_site = "";
         $logo_atualizar = false;
@@ -195,7 +196,13 @@ final class AdminController
             );
             $config->updateConfiguracao($campos, array('nome' => 'nome_site'));
         }
-   
+        if ($dataLibera !== "") {
+            $campos = array(
+                'nome' => 'dataLibera',
+                'valor' => $dataLibera
+            );
+            $config->updateConfiguracao($campos, array('nome' => 'dataLibera'));
+        }
         
         if ($logo_atualizar) {
             $campos = array(

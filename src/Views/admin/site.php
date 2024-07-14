@@ -12,10 +12,16 @@
         </div>
         <div class="form light">
             <form action="<?=URL_BASE?>admin/site_update" method="post" class="form_ajax" enctype="multipart/form-data">
-            <div class="row">
+                <div class="row">
                     <label>
                         Nome Barbearia
                         <input type="text" name="nome_site" value="<?=$data['informacoes']['info']['nome_site']?>">
+                    </label>
+                </div>
+                <div class="row">
+                    <label>
+                        Data de antecedência
+                        <input type="date" name="dataLibera" value="<?=$data['informacoes']['info']['dataLibera']?>">
                     </label>
                 </div>
                 <div class="row">
