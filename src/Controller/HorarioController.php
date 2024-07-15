@@ -185,13 +185,13 @@ final class HorarioController
     {
         $data = '';
         $horarios = [];
-        Usuario::verificarLogin();
-        $idBarbeiro = $_SESSION['usuario_logado']['id'];
+        $idBarbeiro = '';
 
         if ($request->getMethod() === 'POST') {
             $params = $request->getParsedBody();
-            if (isset($params['data'])) {
+            if (isset($params['data'] ) && isset($params['idBarbeiro'])) {
                 $data = $params['data'];
+                $idBarbeiro = $params['idBarbeiro'];
                 
                 $diaSemana = date('w', strtotime($data));
                 if ($diaSemana == 0) {
