@@ -31,6 +31,21 @@ final class AdminController
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN);
         return $renderer->render($response, "admin_login.php", $data);
     }
+    public function links(
+        ServerRequestInterface $request, 
+        ResponseInterface $response,
+        $args
+    ) {
+        
+        $config = new Configuracao();
+        $nome_logo_site = $config->getConfig('logo_site');
+
+        $data['informacoes'] = array(
+            'nome_logo' => $nome_logo_site
+        );
+        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN);
+        return $renderer->render($response, "links.php", $data);
+    }
     public function verificar_login(
         ServerRequestInterface $request, 
         ResponseInterface $response,

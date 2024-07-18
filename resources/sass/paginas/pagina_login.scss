@@ -32,7 +32,7 @@
             }
             .backg{
                 background-color: #1d1d1d !important; 
-                @include desktop{
+                @include desktop{ 
                     max-width: 700px !important;
                 }
                 form{

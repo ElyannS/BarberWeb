@@ -1,6 +1,9 @@
 <?php
 use Slim\App;
 return function (App $app) {
+    // LINKS
+    $app->get('/links', '\App\Controller\AdminController:links');
+    
     //CONTROLADOR ADMIN
     $app->get('/admin-login', '\App\Controller\AdminController:login');
     $app->get('/dashboard', '\App\Controller\AdminController:dashboard');
@@ -103,4 +106,9 @@ return function (App $app) {
     $app->post('/enviar_formulario_contato', '\App\Controller\HomeController:enviar_formulario_contato');
     $app->post('/enviar_formulario_orcamento', '\App\Controller\HomeController:enviar_formulario_orcamento');
     $app->get('/{any}', '\App\Controller\HomeController:page');
+
+
+
+
+  
 };
