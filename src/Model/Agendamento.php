@@ -43,7 +43,7 @@ class Agendamento extends Model {
     public function selectAgendamentoCliente($id_cliente): array
     {
         $sql = "SELECT agendamento.*, servicos.titulo AS nome_servico,
-         usuarios.nome AS nome_barbeiro FROM agendamento 
+         usuarios.nome AS nome_barbeiro, usuarios.telefone AS telefone_barbeiro FROM agendamento 
         INNER JOIN servicos ON agendamento.servico_id = servicos.id 
         INNER JOIN usuarios ON agendamento.barbeiro_id = usuarios.id
         WHERE agendamento.id_cliente = :id_cliente ";

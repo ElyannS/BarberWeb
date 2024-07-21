@@ -12,6 +12,7 @@ class Barbeiro extends Model {
 		"id_servico",
 		"cargo",
         "imagem_principal",
+		"telefone",
         "status"
 	];
 

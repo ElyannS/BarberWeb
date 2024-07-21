@@ -1394,7 +1394,9 @@ final class ClienteController
                 
             $imagem_atualizar = true;
                 if ($foto_usuario->getError() === UPLOAD_ERR_OK) {
-                    unlink($nome_imagem_atual);
+                    if($nome_foto_usuario == 'usuariopadrao.png'){
+                        unlink($nome_imagem_atual);
+                    }
 
                     $extensao = pathinfo($foto_usuario->getClientFilename(), PATHINFO_EXTENSION);
     
@@ -1444,7 +1446,7 @@ final class ClienteController
 
        $agendamentos = new Agendamento;
        $agendamentos->deleteAgendamento('id', $id);
-
+      
        header('Location: '.URL_BASE.'admin/minha-agenda');
        exit();
     }

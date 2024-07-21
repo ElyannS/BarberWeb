@@ -29,6 +29,12 @@
                 </div>
                 <div class="row">
                     <label>
+                        Telefone
+                        <input type="tel" placeholder="51997610285" name="telefone" required>
+                    </label>
+                </div>
+                <div class="row">
+                    <label>
                         Senha
                         <input type="password" name="password" required>
                     </label>

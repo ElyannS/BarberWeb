@@ -25,6 +25,12 @@
                         </label>
                 </div>
                 <div class="row">
+                    <label>
+                        Telefone
+                        <input type="tel" name="telefone" placeholder="51997610285" value="<?=$data['informacoes']['usuario']['telefone']?>">
+                    </label>
+                </div>
+                <div class="row">
                         <label>
                             Comissão %
                             <input type="number" name="comissao" required value="<?=$data['informacoes']['usuario']['comissao']?>">

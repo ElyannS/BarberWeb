@@ -245,8 +245,8 @@ final class AdminController
         $senha = $request->getParsedBody()['senha'];
         $confirmar_senha = $request->getParsedBody()['confirmar_senha'];
         $nome_imagem_atual = $request->getParsedBody()['nome_imagem_atual'];
+        $telefone = $request->getParsedBody()['telefone'];
         
-
         $alterar_senha = false;
 
        
@@ -295,7 +295,8 @@ final class AdminController
             'nome' => $nome,
             'email' => $email,
             'data_cadastro' => date('Y-m-d'),
-            'comissao' => $comissao
+            'comissao' => $comissao,
+            'telefone' => $telefone
         );
         if($imagem_atualizar) {
             $campos['foto_usuario'] = $nome_foto_usuario;

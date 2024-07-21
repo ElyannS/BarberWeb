@@ -9,7 +9,7 @@
         </div>
         <div class="agendamentosCliente">
             <div class="itensAgen">
-       
+            <div id="aviso"></div>
                 <?php foreach($data['informacoes']['agendamentos_futuros'] as $agendamentos ){ ?>
                     <div class="itemAgend">
                         <div class="agendaTopo">
@@ -20,6 +20,7 @@
                             <span class="horaClient">
                                 <i class="fa-solid fa-user-clock"></i>
                                 <?=date('H:i', strtotime($agendamentos['data_agendamento']))?>, <?=date('d-m-Y', strtotime($agendamentos['data_agendamento']))?>
+                                <input type="hidden" id="horaAnteCanc" value="<?=date('H:i', strtotime($agendamentos['data_agendamento']))?>">
                             </span>
                             <span class="servicoMarcado">
                                 <img class="icon_svg" src="<?=URL_BASE?>resources/imagens/servico1.svg">
@@ -33,8 +34,7 @@
                                 <div class="topo">
                                     <div class="btn displayBtn" id="btn<?=$agendamentos['id']?>">
                                         <button id="CancelarHorario" value="<?=$agendamentos['id']?>">Cancelar Agendamento</button>
-                                        <a href="https://wa.me/5551997610285?text=Olá!%20Estou%20entrando%20em%20contato%20pelo%20motivo%20do%20meu%20agendamento%20pelo%20app.
-">Chamar no Whats <i class="fa-brands fa-whatsapp"></i></a>
+                                        <a href="https://wa.me/55<?=$agendamentos['telefone_barbeiro']?>?text=Olá,%20Tudo%20bem?%20Meu%20agendamento%20é%20as%20<?=date('H:i', strtotime($agendamentos['data_agendamento']))?>%20no%20dia%20<?=date('d-m-Y', strtotime($agendamentos['data_agendamento']))?>%20com%20o%20barbeiro%20<?=$agendamentos['nome_barbeiro']?>.">Chamar no Whats <i class="fa-brands fa-whatsapp"></i></a>
                                     </div>
                                     <div class="btn CancelAganda" id="Cancel<?=$agendamentos['id']?>">
                                         <form action="<?=URL_BASE?>admin/agendacliente_delete" method="post">

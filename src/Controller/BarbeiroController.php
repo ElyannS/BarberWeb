@@ -195,7 +195,7 @@ final class BarbeiroController
         $status = $request->getParsedBody()['ativo'];
         $type =  $type = isset($parsedBody['gestor']);
         $password = $request->getParsedBody()['password'];
-    
+        $telefone = $request->getParsedBody()['telefone'];
         $nome_imagem_principal = "";
     
         if($request->getUploadedFiles()['imagem_principal']) {
@@ -224,6 +224,7 @@ final class BarbeiroController
         $campos = array(
             'nome' => $nome,
             'email' => $email,
+            'telefone' => $telefone,
             'foto_usuario' => $nome_imagem_principal,
             'status' => $status,
             'type' => $gestor,
@@ -294,7 +295,7 @@ final class BarbeiroController
         $email = $request->getParsedBody()['email'];
         $status = $request->getParsedBody()['ativo'];
         $type = $request->getParsedBody()['gestor'];
-
+        $telefone = $request->getParsedBody()['telefone'];
         $nome_imagem_atual = $request->getParsedBody()['nome_imagem_atual'];
 
         $imagem_atualizar = false;
@@ -338,6 +339,7 @@ final class BarbeiroController
             'status' => $status,
             'email' => $email,
             'type' => $gestor,
+            'telefone' => $telefone,
         );
         if($imagem_atualizar) {
             $campos['foto_usuario'] = $nome_imagem_principal;

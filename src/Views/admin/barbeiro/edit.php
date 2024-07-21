@@ -32,6 +32,12 @@
                 </div>
                 <div class="row">
                     <label>
+                        Telefone
+                        <input type="tel" placeholder="51997610285" name="telefone" value="<?=$data['informacoes']['barbeiro']['telefone']?>">
+                    </label>
+                </div>
+                <div class="row">
+                    <label>
                         Imagem Pricipal
                         <input type="file" name="foto_usuario" accept="image/*">
                     </label>
