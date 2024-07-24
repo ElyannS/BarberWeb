@@ -349,14 +349,25 @@ body.admin{
 						font-size: 14px;
 						height: 61px;
 						&.id{
+							display: table-cell;
+							margin-left: 0px;
 							img{
 								width: 50px;
 							}
 							@include desktop{
-								display: table-cell;
+								display: flex;
 								width: 5%;
 								text-align: center;
-								
+								align-items: center;
+							}
+						}
+						.codigoProduto{
+							h1{
+								font-size: 18px;
+								font-family: 'Montserrat Bold';
+								@include desktop{
+									margin-left: 18px;
+								}
 							}
 						}
 						&.acao{
@@ -443,12 +454,20 @@ body.admin{
 								font-weight: Bold;
 								margin-top: 7px;
 							}
+							.prod{
+								font-size: 1em !important;
+								margin-top: 0px !important;
+								margin-left: 5px;
+							}
 							.valor-ser{
 								font-size: .8em;
 								color: $color_destaque;
 								.span-clock{
 									margin-left: 30%;
 								}
+							}
+							.vlr{
+								margin-left: 5px;
 							}
 							@include desktop{
 								padding-left: 10px;

@@ -96,6 +96,14 @@ return function (App $app) {
     $app->post('/admin/horarios_barbeiro_update', '\App\Controller\HorarioBarbeiroController:horarios_barbeiro_update');
 
 
+    //CONTROLADOR PRODUTOS
+    $app->get('/admin/produtos', '\App\Controller\ProdutoController:produtos');
+    $app->get('/admin/produtos-create', '\App\Controller\ProdutoController:produtos_create');
+    $app->get('/admin/produtos-edit/{id}', '\App\Controller\ProdutoController:produtos_edit');
+    $app->post('/admin/produtos_insert', '\App\Controller\ProdutoController:produtos_insert');
+    $app->post('/admin/produtos_update', '\App\Controller\ProdutoController:produtos_update');
+    $app->post('/admin/produtos_delete', '\App\Controller\ProdutoController:produtos_delete');
+
     //ROTAS DO WEB SITE
     $app->get('/', '\App\Controller\HomeController:home');
     $app->get('/a-rlbs-motors', '\App\Controller\HomeController:a_rlbs_motors');

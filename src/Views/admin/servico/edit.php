@@ -63,8 +63,4 @@
             </form>
         </div>
 </section>
-<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
-<script>
-    CKEDITOR.replace( 'descricao' );
-</script>
 <?=$this->fetch('../commons/footer.php')?>

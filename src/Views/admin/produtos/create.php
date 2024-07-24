@@ -4,50 +4,50 @@
     <div class="titulo_pagina light-color">
             <div class="titulo-migalha">
                 <i class="fa-solid fa-circle"></i>
-                <p>Novo - Serviço</p>
+                <p>Novo - Produto</p>
             </div>
             <div class="topo">
                 &nbsp;
             </div> 
         </div>
         <div class="form light">
-            <form action="<?=URL_BASE?>admin/servicos_insert" method="post" enctype="multipart/form-data">
+            <form action="<?=URL_BASE?>admin/produtos_insert" method="post" enctype="multipart/form-data">
                 <div class="row">
                     <div class="w-80">
                         <label>
-                            Título*
-                            <input type="text" name="titulo" required>
-                        </label>
-                    </div>
-                    <div class="w-20">
-                    <label>
-                            Data*
-                            <input type="date" name="data" required>
+                            Descrição*
+                            <input type="text" name="descricao" required>
                         </label>
                     </div>
                 </div>
                 <div class="row">
                     <label>
-                        Valor
-                        <input type="text" name="valor" >
+                        Código de Barras
+                        <input type="text" name="barras" >
                     </label>
                     
                 </div>
                 <div class="row">
                     <label>
-                        Imagem Pricipal*
-                        <input type="file" name="imagem_principal" required accept="image/*">
+                        Estoque
+                        <input type="text" name="estoque" >
+                    </label>
+                    
+                </div>
+                
+                <div class="row">
+                    <label>
+                        Preço de Custo
+                        <input type="text" name="vlrCusto" >
                     </label>
                     
                 </div>
                 <div class="row">
                     <label>
-                        Tempo do Serviço
-                        <select name="tempo_servico" required>
-                            <option value="30">30 min</option>
-                            <option value="60">1 hora</option>
-                        </select>
+                        Preço de Venda
+                        <input type="text" name="vlrVenda" >
                     </label>
+                    
                 </div>
                 <div class="row">
                     <button type="submit">Salvar</button>
