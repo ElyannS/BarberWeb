@@ -46,7 +46,7 @@ final class VendaController
         $usuario = $_SESSION['usuario_logado'];
 
         $data['informacoes'] = array(
-            'menu_active' => 'produtos',
+            'menu_active' => 'vendas',
             'lista' => $lista,
             'paginaAtual' => $paginaAtual,
             'proximaPagina' => $proximaPagina,
@@ -54,16 +54,16 @@ final class VendaController
             'nome_logo' => $nome_logo_site,
             'usuario' => $usuario
         );
-        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/produtos");
-        return $renderer->render($response, "produtos.php", $data);
+        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/vendas");
+        return $renderer->render($response, "vendas.php", $data);
     }
-    public function produtos_create(
+    public function vendas_create(
         ServerRequestInterface $request, 
         ResponseInterface $response,
         $args
     ) {
         Usuario::verificarLogin();
-        $produtos = new Venda();
+        $vendas = new Venda();
 
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
@@ -71,25 +71,25 @@ final class VendaController
         $usuario = $_SESSION['usuario_logado'];
 
         $data['informacoes'] = array(
-            'menu_active' => 'produtos',
+            'menu_active' => 'vendas',
             'nome_logo' => $nome_logo_site,
             'usuario' => $usuario
         );
-        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/produtos");
+        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/vendas");
         return $renderer->render($response, "create.php", $data);
     }
-    public function produtos_edit(
+    public function vendas_edit(
         ServerRequestInterface $request, 
         ResponseInterface $response,
         $args
     ) {
         Usuario::verificarLogin();
-        $produtos = new Venda();
+        $vendas = new Venda();
 
         $id = $args['id'];
 
 
-        $resultado = $produtos->selectVenda('*', array('id' => $id))[0];
+        $resultado = $vendas->selectVenda('*', array('id' => $id))[0];
 
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
@@ -97,15 +97,15 @@ final class VendaController
         $usuario = $_SESSION['usuario_logado'];
 
         $data['informacoes'] = array(
-            'menu_active' => 'produtos',
-            'produtos' => $resultado,
+            'menu_active' => 'vendas',
+            'vendas' => $resultado,
             'nome_logo' => $nome_logo_site,
             'usuario' => $usuario
         );
-        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/produtos");
+        $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/vendas");
         return $renderer->render($response, "edit.php", $data);
     }
-    public function produtos_insert(
+    public function vendas_insert(
         ServerRequestInterface $request, 
         ResponseInterface $response,
         $args
@@ -126,10 +126,10 @@ final class VendaController
             'estoque' => $estoque
         );
         
-        $produtos = new Venda();
-        $produtos->insertVenda($campos);
+        $vendas = new Venda();
+        $vendas->insertVenda($campos);
     
-        header('Location: '.URL_BASE.'admin/produtos');
+        header('Location: '.URL_BASE.'admin/vendas');
         exit();
     }
     
@@ -137,7 +137,7 @@ final class VendaController
 
 //UPDATE SERVIÇOS
 
-public function produtos_update(
+public function vendas_update(
     ServerRequestInterface $request, 
     ResponseInterface $response,
     $args
@@ -160,26 +160,26 @@ public function produtos_update(
     );
     
 
-    $produtos = new Venda();
-    $produtos->updateVenda($campos, array('id' => $id));
+    $vendas = new Venda();
+    $vendas->updateVenda($campos, array('id' => $id));
     
-    header('Location: '.URL_BASE.'admin/produtos');
+    header('Location: '.URL_BASE.'admin/vendas');
     exit();
 }
 
 
-    public function produtos_delete(
+    public function vendas_delete(
         ServerRequestInterface $request, 
         ResponseInterface $response,
         $args
     ) {
        $id = $request->getParsedBody()['id'];
 
-       $produtos = new Venda();
+       $vendas = new Venda();
 
-       $produtos->deleteVenda('id', $id);
+       $vendas->deleteVenda('id', $id);
 
-       header('Location: '.URL_BASE.'admin/produtos');
+       header('Location: '.URL_BASE.'admin/vendas');
        exit();
     }
 
