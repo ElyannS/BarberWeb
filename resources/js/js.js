@@ -172,23 +172,34 @@ $('.itemAgend').on('click', '#confirmarCancelar', function() {
     });
   }
   $('#btn-agendar').on('click' , function(){
-      $('.agenda-top .form').toggleClass('active');
+      $('.agenda-top .formA').toggleClass('active');
       $('body.admin .conteudo').addClass('back');
   });
-
+  $('#btn-bloquear').on('click' , function(){
+    $('.agenda-top .formB').toggleClass('activeBloquear');
+    $('body.admin .conteudo').addClass('back');
+  });
 
   $('.close').on('click' , function() {
     $('body.admin .container-popup').toggleClass('active');
     $('body.admin .conteudo').toggleClass('back');
   });
-
-  $('.close-form').on('click' , function() {
-    $('.agenda-top .form').toggleClass('active');
+  $('.close-formA').on('click' , function() {
+    $('.agenda-top .formA').toggleClass('active');
     $('body.admin .container-popup').toggleClass('active');
     $('body.admin .conteudo').toggleClass('back')
     var selectElement = $('#horariosDisponiveis');
     selectElement.empty();
   });
+
+  $('.close-formB').on('click' , function() {
+    $('.agenda-top .formB').toggleClass('active');
+    $('body.admin .container-popup').toggleClass('active');
+    $('body.admin .conteudo').toggleClass('back')
+    var selectElement = $('#horariosDisponiveis');
+    selectElement.empty();
+  });
+ 
 
 
   $('#selectHora1').on('change', function() {
