@@ -106,8 +106,12 @@ $('.itemAgend').on('click', '#confirmarCancelar', function() {
     $('#data').val(dataInput);
     $('#data').attr('disabled', 'disabled');
 
-    var selectElement = $('#horariosDisponiveis');
+    $('#data2').val(dataInput);
+    $('#data01').val(dataInput);
+    $('#data01').attr('disabled', 'disabled');
 
+
+    var selectElement = $('#horariosDisponiveis');
    
     if (selectElement.find('option[value="' + valorSelecionado + '"]').length === 0) {
         var novaOpcao = $('<option></option>').attr('value', valorSelecionado).text(valorSelecionado);
@@ -115,10 +119,23 @@ $('.itemAgend').on('click', '#confirmarCancelar', function() {
     }
     
     selectElement.val(valorSelecionado);
+
+
+    var selectElements = $('#horariosDisponivel');
+   
+    if (selectElements.find('option[value="' + valorSelecionado + '"]').length === 0) {
+        var novaOpcao = $('<option></option>').attr('value', valorSelecionado).text(valorSelecionado);
+        selectElements.append(novaOpcao);
+    }
+    
+    selectElements.val(valorSelecionado);
     
     var idBarber = $('#idBarbeiro').val();
     $('#selectBarbeiro').val(idBarber);
                  
+    var idBarbeiro = $('#idBarbeiro').val();
+    $('#selectBarbeiro1').val(idBarbeiro);
+
     $('body.admin .container-popup').toggleClass('active');
     $('body.admin .conteudo').toggleClass('back');
   });
@@ -193,10 +210,10 @@ $('.itemAgend').on('click', '#confirmarCancelar', function() {
   });
 
   $('.close-formB').on('click' , function() {
-    $('.agenda-top .formB').toggleClass('active');
+    $('.agenda-top .formB').toggleClass('activeBloquear');
     $('body.admin .container-popup').toggleClass('active');
     $('body.admin .conteudo').toggleClass('back')
-    var selectElement = $('#horariosDisponiveis');
+    var selectElement = $('#horariosDisponivel');
     selectElement.empty();
   });
  

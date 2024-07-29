@@ -136,7 +136,12 @@ final class AgendamentoController
                                 if($agendamento['nome_cliente'] === 'sem cadastro'){
                                     $semCadastro = ' - '. $agendamento['descricao'];
                                 }
-                                $agendamentoNome = $agendamento['nome_cliente'].' - '.$agendamento['nome_servico'] . $contato . ' ' . $semCadastro;
+                                if($agendamento['nome_cliente'] === 'BLOQUEADO'){
+                                    $nomeServico = '';
+                                } else{
+                                    $nomeServico = ' - ' .$agendamento['nome_servico'];
+                                }
+                                $agendamentoNome = $agendamento['nome_cliente'] . $nomeServico . $contato . ' ' . $semCadastro;
                                 $nomeServico = $agendamento['nome_servico'];
                                 $idAgendamento = $agendamento['id'];
                                 $descricao = $agendamento['descricao'];
@@ -303,6 +308,76 @@ final class AgendamentoController
 
 
         
+    }
+    public function agendamentos_insert_bloquear(
+        ServerRequestInterface $request, 
+        ResponseInterface $response,
+        $args
+    )  {
+        $id_cliente = $request->getParsedBody()['id_cliente'];
+        $data = date('Y-m-d', strtotime($request->getParsedBody()['date']));
+        $time = date('H:i', strtotime($request->getParsedBody()['time']));
+        $select_barbeiro = $request->getParsedBody()['select_barbeiro1'];
+        $selectServico = $request->getParsedBody()['select_servico'];
+        $datetime = $data . ' ' . $time;
+
+        $agendamentos_verificar = new Agendamento();
+        $numero_agendamentos = count($agendamentos_verificar->selectAgendamentoVerificar($datetime, $select_barbeiro));
+       
+
+
+    
+
+        if ($numero_agendamentos > 0) {
+            $js['status'] = 0;
+            $js['msg'] = "Conflito de horários!";
+            echo json_encode($js);
+            exit();
+        } else {
+            if($selectServico == '3'){
+                $campos = array(
+                    'barbeiro_id' => $select_barbeiro,
+                    'servico_id' => $selectServico,
+                    'data_agendamento' => $datetime,
+                    'id_cliente' => $id_cliente
+                );
+                
+                $agendamentos = new Agendamento();
+                $agendamentos->insertAgendamento($campos);
+    
+                $js['status'] = 1;
+                $js['msg'] = "Bloqueado com sucesso!";
+                $js['redirecionar_pagina'] = URL_BASE.'admin/agendamentos';
+                echo json_encode($js);
+                exit();
+            }
+            if($selectServico == '2'){
+                $agendamentos_verificar = new Agendamento();
+                $consultaAgendamentos = count($agendamentos_verificar->selectAgendamentoVerificar(date('Y-m-d H:i', strtotime('+30 minutes', strtotime($datetime))), $select_barbeiro));
+                if($consultaAgendamentos > 0){
+                    $js['status'] = 0;
+                    $js['msg'] = "Conflito de horários!";
+                    echo json_encode($js);
+                    exit();
+                } else{
+                    $campos = array(
+                        'barbeiro_id' => $select_barbeiro,
+                        'servico_id' => $selectServico,
+                        'data_agendamento' => $datetime,
+                        'id_cliente' => $id_cliente
+                    );
+                
+                    $agendamentos = new Agendamento();
+                    $agendamentos->insertAgendamento($campos);
+        
+                    $js['status'] = 1;
+                    $js['msg'] = "Bloqueado com sucesso!";
+                    $js['redirecionar_pagina'] = URL_BASE.'admin/agendamentos';
+                    echo json_encode($js);
+                    exit();
+                }
+            } 
+        }
     }
     public function agendamentos_insert_publica(
         ServerRequestInterface $request, 

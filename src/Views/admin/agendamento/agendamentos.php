@@ -111,13 +111,10 @@
                     <div class="close-popup">
                         <i class="fa-solid fa-xmark close-formB"></i>
                     </div>
-                    <form action="<?=URL_BASE?>admin/agendamentos_insert" class="form_ajax" id="form_create" method="POST" enctype="multipart/form-data">
+                    <form action="<?=URL_BASE?>admin/agendamentos_insert_bloquear" class="form_ajax" id="form_create" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <label>
-                                Nome Cliente
-                                <select  class="js-example-basic-single" name="id_cliente">
-                                    <option value="100006">Bloqueado</option>
-                                </select>
+                               <input type="hidden" name="id_cliente" value="6">
                             </label>
                         </div>
                         <div class="row">
@@ -133,25 +130,21 @@
                             <div class="w-20">
                                 <label for="data">
                                     Data
-                                    <input type="date" id="data" name="data">
-                                    <input type="hidden" id="data1" name="date">
+                                    <input type="date" id="data01" name="data">
+                                    <input type="hidden" id="data2" name="date">
                                 </label>
                             </div>
                         </div>
                         <div class="row">
                             <label>
                                 Horário
-                                <select name="time" id="horariosDisponiveis"></select>
-                            </label>
-                        </div>
-                        <div class="row">
-                            <label>
-                                <input name="select_barbeiro" id="selectBarbeiro" type="hidden">
+                                <select name="time" id="horariosDisponivel"></select>
                             </label>
                         </div>
                         <div class="row">
                             <button type="submit" id="">Bloquear</button>
                         </div>
+                        <input name="select_barbeiro1" id="selectBarbeiro1" type="hidden">
                     </form>
                 </div>
             </div>

@@ -72,6 +72,7 @@ return function (App $app) {
     $app->post('/admin/atualizar_horarios', '\App\Controller\AgendamentoController:atualizar_horarios');
     $app->post('/admin/atualizar_data', '\App\Controller\AgendamentoController:atualizar_data');
     $app->post('/admin/agendamentos_insert', '\App\Controller\AgendamentoController:agendamentos_insert');
+    $app->post('/admin/agendamentos_insert_bloquear', '\App\Controller\AgendamentoController:agendamentos_insert_bloquear');
     $app->post('/admin/agendamentos_update', '\App\Controller\AgendamentoController:agendamentos_update');
     $app->post('/admin/agendamentos_delete', '\App\Controller\AgendamentoController:agendamentos_delete');
 
