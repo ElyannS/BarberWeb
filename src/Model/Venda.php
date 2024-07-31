@@ -5,42 +5,40 @@ use App\Model\Model;
 
 class Venda extends Model {
 	
-	private $table = "produtos";
+	private $table = "vendas";
 	protected $fields = [
 		"id",
-		"descricao",
-		"barras",
-		"estoque",
-        "vlrCusto",
-        "vlrVenda"
+		"dataVenda",
+		"nomeCliente",
+        "forma_pagamento"
 	];
 
-	function insertProduto($campos)
+	function insertVenda($campos)
 	{
 		$this->insert($this->table, $campos);
 	}
 
-	function updateProduto($valores, $where)
+	function updateVenda($valores, $where)
 	{	
 		$this->update($this->table, $valores, $where);
 	}
 
-	function deleteProduto($coluna, $valor)
+	function deleteVenda($coluna, $valor)
 	{
 		$this->delete($this->table, $coluna, $valor);
 	}
 
-	function selectProduto($campos, $where):array
+	function selectVenda($campos, $where):array
 	{
 		return $this->select($this->table, $campos, $where);
 	}
-	function selectProdutosPage($limit, $offset)
+	function selectVendasPage($limit, $offset)
 	{
 		$sql = "SELECT * FROM ".$this->table." ORDER BY id DESC LIMIT ".$offset.", ".$limit;
 
 		return $this->querySelect($sql);
 	}
-	function selectProdutosPesquisa($pesquisa)
+	function selectVendasPesquisa($pesquisa)
 	{
 		$sql = "SELECT * FROM ".$this->table." WHERE descricao LIKE '%".$pesquisa."%' ORDER BY id DESC";
 

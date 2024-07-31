@@ -116,7 +116,7 @@
                         </li>
                     <?php } ?>
                     <?php if($data['informacoes']['usuario']['type'] == '1'){ ?>
-                        <li class="<?=($data['informacoes']['menu_active'] === 'caixa') ? 'active' : ''?>">
+                        <li class="<?=($data['informacoes']['menu_active'] === 'produtos') ? 'active' : ''?>">
                             <a href="<?=URL_BASE?>admin/produtos">
                             <i class="fa-solid fa-bag-shopping"></i>
                                 Produtos

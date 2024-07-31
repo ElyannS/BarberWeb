@@ -22,14 +22,6 @@ return function (App $app) {
     $app->post('/admin/servicos_update', '\App\Controller\ServicoController:servicos_update');
     $app->post('/admin/servicos_delete', '\App\Controller\ServicoController:servicos_delete');
 
-    //CONTROLADOR VENDAS
-    $app->get('/admin/vendas', '\App\Controller\VendaController:vendas');
-    $app->get('/admin/vendas-create', '\App\Controller\VendaController:vendas_create');
-    $app->get('/admin/vendas-edit/{id}', '\App\Controller\VendaController:vendas_edit');
-    $app->post('/admin/vendas_insert', '\App\Controller\VendaController:vendas_insert');
-    $app->post('/admin/vendas_update', '\App\Controller\VendaController:vendas_update');
-    $app->post('/admin/vendas_delete', '\App\Controller\VendaController:vendas_delete');
-
 
     //CONTROLADOR BARBEIROS
     $app->get('/admin/barbeiros', '\App\Controller\BarbeiroController:barbeiros');
@@ -87,6 +79,17 @@ return function (App $app) {
    $app->post('/admin/caixa_delete', '\App\Controller\CaixaController:caixa_delete');
    $app->post('/admin/caixa_total_delete', '\App\Controller\CaixaController:caixa_total_delete');
    $app->post('/admin/gerar_relatorio', '\App\Controller\CaixaController:gerar_relatorio');
+
+
+    //CONTROLADOR VENDAS
+    $app->get('/admin/vendas', '\App\Controller\VendaController:vendas');
+    $app->get('/admin/vendas-create', '\App\Controller\VendaController:vendas_create');
+    $app->get('/admin/vendas-edit/{id}', '\App\Controller\VendaController:vendas_edit');
+    $app->post('/admin/vendas_insert', '\App\Controller\VendasController:vendas_insert');
+    $app->get('/admin/vendas-edit-data/{id}', '\App\Controller\VendaController:vendas_edit_data');
+    $app->post('/admin/vendas_update', '\App\Controller\VendaController:vendas_update');
+    $app->post('/admin/vendas_delete', '\App\Controller\VendaController:vendas_delete');
+    $app->post('/admin/vendas_total_delete', '\App\Controller\VendaController:vendas_total_delete');
 
     //CONTROLADOR HORÁRIO
     $app->get('/admin/horarios', '\App\Controller\HorarioController:horarios');

@@ -144,17 +144,17 @@
     position: fixed;
     font-family: 'Montserrat Medium'; 
     color: #ffffff;
-   display: none;
+    display: none;
     label{
         width: 100%;
         display: block;
         font-family: 'Montserrat Medium';
-        margin-top: 15px;
+        margin-top: 10px;
         color: #ffffff;
         text-align: start;
         input{
-            margin-top: 10px;
-            margin-bottom: 10px;
+            margin-top: 0px;
+            margin-bottom: 0px;
             height: 40px;
             border: 1px solid #000;
             border-radius: 10px;
@@ -176,7 +176,7 @@
         color: #000;
         display: block;
         transition: .30s;
-        margin-top: 22px;
+        margin-top: 15px;
         cursor: pointer;
         &:hover{
             background-color: #222;
@@ -191,7 +191,6 @@
         left: 50%;
         transform: translate(-50%, -50%);
         background-color: #fff;
-        padding: 20px;
         border: 1px solid #ccc;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         text-align: center;
@@ -208,7 +207,6 @@
             margin: 0 auto;
             width: 80%;
             text-align: center;
-            padding-bottom: 10px;
             z-index: 2;
             text-align: start;
             @include tablet{
@@ -269,7 +267,9 @@
             color: #e6e6e6;
             cursor: pointer;
             i{
-                font-size: 2em;
+                font-size: 1.5em;
+                padding-right: 5px;
+                padding-top: 3px;
             }
             &:hover{
                 color: $color_destaque;
