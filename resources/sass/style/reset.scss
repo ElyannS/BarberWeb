@@ -453,6 +453,17 @@ body.admin{
 								font-size: 1.2em;
 								font-weight: Bold;
 								margin-top: 7px;
+								align-items: center;
+								display: flex;
+								img{
+									width: 30px;
+									height: 30px;
+									border-radius: 10px;
+									background-color: #a2a2a2;
+								}
+								div{
+									margin: 0 0 5px 0;
+								}
 							}
 							.prod{
 								font-size: 1em !important;

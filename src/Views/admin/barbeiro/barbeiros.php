@@ -22,7 +22,8 @@
                        
                         <td class="titulo_item">
                             <div class="titulo-ser">
-                                <?=$barbeiros['nome']?>
+                                <img src="<?=URL_BASE?><?=$barbeiros['foto_usuario']?>" alt="">
+                                <div><?=$barbeiros['nome']?></div>
                             </div>
                         </td>
                         <?php if($data['informacoes']['usuario']['type'] === '1'){ ?>

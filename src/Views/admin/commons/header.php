@@ -40,7 +40,12 @@
                                     <input type="date" id="dataMarcada" class="hidden"/>
                                 <?php }?>
                             <?php }?>
-                            <img src="<?=URL_BASE.$_SESSION['usuario_logado']['foto_usuario']?>">
+                            <?php if($_SESSION['usuario_logado']['type'] != '3'){?>
+                                <a href="<?=URL_BASE?>admin/perfil"><img src="<?=URL_BASE.$_SESSION['usuario_logado']['foto_usuario']?>"></a>
+                            <?php }?>
+                            <?php if($_SESSION['usuario_logado']['type'] == '3'){?>
+                                <a href="<?=URL_BASE?>admin/perfil-cliente"><img src="<?=URL_BASE.$_SESSION['usuario_logado']['foto_usuario']?>"></a>
+                            <?php }?>
                         </li>
                     </ul>
                 </div>
