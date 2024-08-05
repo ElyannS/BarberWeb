@@ -324,7 +324,7 @@ final class AgendamentoController
         $agendamentos_verificar = new Agendamento();
         $numero_agendamentos = count($agendamentos_verificar->selectAgendamentoVerificar($datetime, $select_barbeiro));
        
-
+ 
 
     
 

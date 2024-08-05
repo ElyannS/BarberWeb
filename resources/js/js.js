@@ -9,34 +9,34 @@ $(document).ready(function(){
     }
   });
 
-  $('.itemAgend').on('click', '#CancelarHorario', function() {
-    var timeInput = $(this).closest('.itemAgend').find('#horaAnteCanc').val();
-    var currentTime = getCurrentTime();
-    var inputTimeParts = timeInput.split(':');
-    var inputTime = new Date();
-    inputTime.setHours(parseInt(inputTimeParts[0]), parseInt(inputTimeParts[1]), 0, 0);
+//   $('.itemAgend').on('click', '#CancelarHorario', function() {
+//     var timeInput = $(this).closest('.itemAgend').find('#horaAnteCanc').val();
+//     var currentTime = getCurrentTime();
+//     var inputTimeParts = timeInput.split(':');
+//     var inputTime = new Date();
+//     inputTime.setHours(parseInt(inputTimeParts[0]), parseInt(inputTimeParts[1]), 0, 0);
   
-    var oneHourBeforeInputTime = new Date(inputTime.getTime() - 60 * 60 * 1000);
+//     var oneHourBeforeInputTime = new Date(inputTime.getTime() - 60 * 60 * 1000);
   
-    if (currentTime <= oneHourBeforeInputTime){
-      var cancel = $(this).val();
-      $('#btn' + cancel).css('display', 'none');
-      $('#Cancel' + cancel).css('display', 'flex');
-    }else{
-      var text = "<p>Cancelamento não permitido. Apenas com 1 hora de antecedência.";
-      $('#aviso').empty(); 
-      $('#aviso').append(text);
-      $('#aviso').addClass('mostrar');
+//     if (currentTime < oneHourBeforeInputTime){
+//       var cancel = $(this).val();
+//       $('#btn' + cancel).css('display', 'none');
+//       $('#Cancel' + cancel).css('display', 'flex');
+//     }else{
+//       var text = "<p>Cancelamento não permitido. Apenas com 1 hora de antecedência.";
+//       $('#aviso').empty(); 
+//       $('#aviso').append(text);
+//       $('#aviso').addClass('mostrar');
   
-      setTimeout(function() {
-        $('#aviso').removeClass('mostrar');
-      }, 5000);
-    }
-      function getCurrentTime() {
-        return new Date();
-      }
+//       setTimeout(function() {
+//         $('#aviso').removeClass('mostrar');
+//       }, 5000);
+//     }
+//       function getCurrentTime() {
+//         return new Date();
+//       }
 
-});
+// });
 
 $('.itemAgend').on('click', '#confirmarCancelar', function() {
     var cancel = $(this).val();
