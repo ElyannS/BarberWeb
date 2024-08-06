@@ -4,26 +4,26 @@
         <div class="titulo_pagina">
             <div class="titulo-migalha">
                 <i class="fa-solid fa-circle"></i>
-                <p>Vendas</p>
+                <p>Venda</p>
             </div>
             <div class="topo">
             <div class="form_pesquisa d-none">
-                    <form action="<?=URL_BASE?>admin/vendas" method="GET">
+                    <form action="<?=URL_BASE?>admin/venda" method="GET">
                         <input type="text" name="pesquisa" placeholder="Digita uma data...">
                         <button type="submit">Pesquisar</button>
                     </form>
                 </div>
                 <div class="btn">
-                    <a href="<?=URL_BASE?>admin/vendas-relatorio">Relatório</a>
+                    <a href="<?=URL_BASE?>admin/venda-relatorio">Relatório</a>
                 </div>
                 <div class="btn">
-                    <a href="<?=URL_BASE?>admin/vendas-create"> Vender</a>
+                    <a href="<?=URL_BASE?>admin/venda-create">Adicionar Venda</a>
                 </div>
             </div> 
         </div>
         <div class="topo flex">
             <div class="form_pesquisa">
-                <form action="<?=URL_BASE?>admin/vendas" method="GET">
+                <form action="<?=URL_BASE?>admin/venda" method="GET">
                     <input type="text" name="pesquisa" placeholder="Digita uma data...">
                     <button type="submit">Pesquisar</button>
                 </form>
@@ -41,11 +41,11 @@
                    
                      <td class="acaoCaixa topo">
                         <div class="btn">
-                            <a href="<?=URL_BASE?>admin/caixa-edit-data/<?=$caixa['data']?>">Editar caixa <i class="far fa-edit"></i></a>
+                            <a href="<?=URL_BASE?>admin/venda-edit-data/<?=$caixa['data']?>">Editar venda <i class="far fa-edit"></i></a>
                         </div>
                          
 
-                         <form action="<?=URL_BASE?>admin/caixa_total_delete" method="post">
+                         <form action="<?=URL_BASE?>admin/venda_total_delete" method="post">
                              <input type="hidden" name="data" value="<?=$caixa['data']?>">
                              <button type="submit" class="colorBlack"><i class="fa-solid fa-trash"></i></i></button>
                          </form>

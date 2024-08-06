@@ -35,16 +35,21 @@
                 <div class="row">
                     <label>
                         Preço de Custo
-                        <input type="number" name="vlrCusto" value="<?=$data['informacoes']['produtos']['vlrCusto']?>">
+                        <input type="number" step="0.01" name="vlrCusto" value="<?=$data['informacoes']['produtos']['vlrCusto']?>">
                     </label>
                 </div>
                 <div class="row">
                     <label>
                         Preço de Venda
-                        <input type="number" name="vlrVenda" value="<?=$data['informacoes']['produtos']['vlrVenda']?>">
+                        <input type="number" step="0.01" name="vlrVenda" value="<?=$data['informacoes']['produtos']['vlrVenda']?>">
                     </label>
                 </div>
-               
+                <div class="row">
+                    <label> 
+                        Lucro
+                        <input type="number" step="0.01" value="<?=$data['informacoes']['produtos']['lucro']?>">
+                    </label>
+                </div>
                 <div class="row">
                     <button type="submit">Salvar</button>
                 </div>

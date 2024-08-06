@@ -4,12 +4,12 @@
         <div class="titulo_pagina">
             <div class="titulo-migalha">
                 <i class="fa-solid fa-circle"></i>
-                <p>Caixa - Editar Informações</p>
+                <p>Venda - Editar Informações</p>
             </div>
         </div>
         
         <div class="form">
-            <form action="<?=URL_BASE?>admin/caixa_update" method="post" enctype="multipart/form-data">
+            <form action="<?=URL_BASE?>admin/venda_update" method="post" enctype="multipart/form-data">
             <div class="row">
                     <div class="w-80">
                     <input type="hidden" name="id" value="<?=$data['informacoes']['lista']['id']?>">
@@ -28,19 +28,23 @@
                 <div class="row">
                     <label >
                         Valor em Dinheiro
-                        <input id="dinheiro-edit"  type="text" name="dinheiro" placeholder="Dinheiro" value="<?=$data['informacoes']['lista']['dinheiro']?>">
+                        <input id="dinheiro-edit" step="0.01"  type="number" name="dinheiro" placeholder="Dinheiro" value="<?=$data['informacoes']['lista']['dinheiro']?>">
                     </label>
                 </div>
                 <div class="row">
                     <label>
-                        Valor em Pix
-                        <input id="pix-edit" type="text" name="pix" placeholder="Pix"  value="<?=$data['informacoes']['lista']['pix']?>">
+                        Produto
+                       <select name="id_produto" id="">
+                            <?php foreach($data['informacoes']['produto'] as $produtos){?>
+                                <option value="<?=$produtos['id']?>" <?= ($data['informacoes']['lista']['id_produto'] === $produtos['id']) ? 'selected="selected"' : '' ?>><?=$produtos['descricao']?></option>
+                            <?php }?>
+                       </select>
                     </label>
                 </div>
                 <div class="row">
                     <label >
-                        Valor em Cartão
-                        <input id="cartao-edit" type="text" name="cartao" placeholder="Cartão" value="<?=$data['informacoes']['lista']['cartao']?>">
+                        Quantidade
+                        <input id="cartao-edit" type="numbers" name="quantidade" value="<?=$data['informacoes']['lista']['quantidade']?>">
                     </label>
                 </div>
                
@@ -55,5 +59,4 @@
     </div>
         
 </section>
-<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
 <?=$this->fetch('../commons/footer.php')?>

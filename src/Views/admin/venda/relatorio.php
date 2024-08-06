@@ -55,8 +55,4 @@
 //seta a data atual 
      document.getElementById("campoData").value = value='<?php echo date("Y-m-d"); ?>';
 </script>
-<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
-<script>
-    CKEDITOR.replace( 'descricao' );
-</script>
 <?=$this->fetch('../commons/footer.php', $data)?>

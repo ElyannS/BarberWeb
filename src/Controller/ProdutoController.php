@@ -19,7 +19,21 @@ final class ProdutoController
     ) {
         Usuario::verificarLogin();
         $produtos = new Produto();
-
+        $resultadoProduto = $produtos->selectProduto('*' , array('1'=>'1'));
+        
+        $totalLucroEstoque = 0;
+        $totalValorEstoque = 0;
+        
+        foreach ($resultadoProduto as $registro) {
+            // Cálculo do lucro total do estoque
+            $lucroPorProduto = $registro['lucro'] * $registro['estoque'];
+            $totalLucroEstoque += $lucroPorProduto;
+        
+            // Cálculo do valor total do estoque com base no valor de venda
+            $valorVendaPorProduto = $registro['vlrVenda'] * $registro['estoque'];
+            $totalValorEstoque += $valorVendaPorProduto;
+        }
+        
         if(isset($_GET['pesquisa']) && $_GET['pesquisa'] !== ''){
             $lista = $produtos->selectProdutosPesquisa($_GET['pesquisa']);
             $paginaAtual = 1;
@@ -52,7 +66,9 @@ final class ProdutoController
             'proximaPagina' => $proximaPagina,
             'paginaAnterior' => $paginaAnterior,
             'nome_logo' => $nome_logo_site,
-            'usuario' => $usuario
+            'usuario' => $usuario,
+            'lucro' => $totalLucroEstoque,
+            'valorEstoque' => $totalValorEstoque
         );
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/produtos");
         return $renderer->render($response, "produtos.php", $data);
@@ -116,14 +132,15 @@ final class ProdutoController
         $vlrCusto = isset($parsedBody['vlrCusto']) ? $parsedBody['vlrCusto'] : 0.0;
         $vlrVenda = isset($parsedBody['vlrVenda']) ? $parsedBody['vlrVenda'] : 0.0;
         $estoque = isset($parsedBody['estoque']) ? $parsedBody['estoque'] : 0;
-    
+        $lucro = $vlrVenda - $vlrCusto;
     
         $campos = array(
             'descricao' => $descr,
             'barras' => $barras,
             'vlrCusto' => $vlrCusto,
             'vlrVenda' => $vlrVenda,
-            'estoque' => $estoque
+            'estoque' => $estoque,
+            'lucro' => $lucro
         );
         
         $produtos = new Produto();
@@ -149,14 +166,15 @@ public function produtos_update(
     $vlrCusto = isset($parsedBody['vlrCusto']) ? $parsedBody['vlrCusto'] : 0.0;
     $vlrVenda = isset($parsedBody['vlrVenda']) ? $parsedBody['vlrVenda'] : 0.0;
     $estoque = isset($parsedBody['estoque']) ? $parsedBody['estoque'] : 0;
-    
+    $lucro = $vlrVenda - $vlrCusto;
   
     $campos = array(
         'descricao' => $descr,
         'barras' => $barras,
         'vlrCusto' => $vlrCusto,
         'vlrVenda' => $vlrVenda,
-        'estoque' => $estoque
+        'estoque' => $estoque,
+        'lucro' => $lucro
     );
     
 

@@ -8,14 +8,16 @@ class Venda extends Model {
 	private $table = "vendas";
 	protected $fields = [
 		"id",
-		"dataVenda",
-		"nomeCliente",
+		"nome_cliente",
+		"data",
+		"id_produto",
+		"quantidade",
+		"dinheiro"
 	];
 
-	public function insertVenda($campos)
+	function insertVenda($campos)
 	{
-		$this->insertChat($this->table, $campos);
-		return $this->lastInsertId(); // Retorna o ID da venda recém-criada
+		$this->insert($this->table, $campos);
 	}
 
 	function updateVenda($valores, $where)
@@ -38,11 +40,43 @@ class Venda extends Model {
 
 		return $this->querySelect($sql);
 	}
-	function selectVendasPesquisa($pesquisa)
+	function selectVendaPesquisa($pesquisa)
 	{
-		$sql = "SELECT * FROM ".$this->table." WHERE nomeCliente LIKE '%".$pesquisa."%' ORDER BY id DESC";
-
+		$pesquisa = $this->sanitize($pesquisa);
+	
+	
+		$sql = "
+			SELECT *
+			FROM " . $this->table . " AS c
+			INNER JOIN (
+				SELECT MAX(id) AS max_id
+				FROM " . $this->table . "
+				WHERE data LIKE '%" . $pesquisa . "%' 
+				GROUP BY data
+			) AS sub ON c.id = sub.max_id
+			ORDER BY c.id DESC
+		";
 		return $this->querySelect($sql);
 	}
-	
+	private function sanitize($input)
+	{
+		return htmlspecialchars(strip_tags($input));
+	}
+	function selectPorData($data): array
+	{
+		$sql = "SELECT vendas.*, produtos.descricao AS nome_produto
+        FROM vendas
+        INNER JOIN produtos ON vendas.id_produto = produtos.id
+        WHERE vendas.data = :data";
+		$stmt = $this->querySelect($sql, array(':data' => $data));
+		return $stmt;
+
+	}
 }
+
+
+// 			SELECT agendamento.*, servicos.titulo AS nome_servico,
+//          usuarios.nome AS nome_barbeiro, usuarios.telefone AS telefone_barbeiro FROM agendamento 
+//         INNER JOIN servicos ON agendamento.servico_id = servicos.id 
+//         INNER JOIN usuarios ON agendamento.barbeiro_id = usuarios.id
+//         WHERE agendamento.id_cliente = :id_cliente ";

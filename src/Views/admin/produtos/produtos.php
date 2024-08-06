@@ -61,6 +61,11 @@
                     <a href="<?=$data['informacoes']['proximaPagina'] ?>"> <i class="fas fa-arrow-circle-right"></i></a>
                 <?php }?>
             </div>
+
+            <div>
+            <h1>valor de lucro <?=$data['informacoes']['lucro']?></h1>
+            <h1>valor estoque <?=$data['informacoes']['valorEstoque']?></h1>
+            </div>
         </div>
     </div>
 </section>

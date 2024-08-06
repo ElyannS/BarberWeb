@@ -9,7 +9,7 @@
         </div>
     
         <div class="form">
-            <form action="<?=URL_BASE?>admin/caixa_insert" method="post" enctype="multipart/form-data">
+            <form action="<?=URL_BASE?>admin/venda_insert" method="post" enctype="multipart/form-data">
                 <div class="row">
                     <div class="w-80">
                         <label>
@@ -25,25 +25,28 @@
                     </div>
                 </div>
                 <div class="row">
+                    <label>
+                        Produto
+                       <select name="id_produto" id="">
+                            <?php foreach($data['informacoes']['produto'] as $produtos){?>
+                                <option value="<?=$produtos['id']?>"><?=$produtos['descricao']?></option>
+                            <?php }?>
+                       </select>
+                    </label>
+                </div>
+                <div class="row">
+                    <label>
+                        Quantidade
+                        <input  type="number" name="quantidade" value="1" placeholder="Quantidade">
+                    </label>
+                </div>
                 <div class="row">
                     <label class="dinheiro">
                         Valor em Dinheiro
                         <input  type="text" name="dinheiro" placeholder="Dinheiro">
                     </label>
-                </div>
+                </div>               
                 <div class="row">
-                    <label class="pix">
-                        Valor em Pix
-                        <input type="text" name="pix" placeholder="Pix">
-                    </label>
-                </div>
-                <div class="row">
-                    <label class="cartao">
-                        Valor em Cartão
-                        <input type="text" name="cartao" placeholder="Cartão">
-                    </label>
-                </div>
-                
                 <div class="row">
                     <button type="submit">Salvar</button>
                 </div>
@@ -57,8 +60,8 @@
                         <td class="actions">AÇÕES</td>
                         <td class="client-name">NOME CLIENTE</td>
                         <td class="cash">DINHEIRO</td>
-                        <td class="pix">PIX</td>
-                        <td class="card">CARTÃO</td>
+                        <td class="pix">QUANT</td>
+                        <td class="card">PRODUTO</td>
                         <td class="date">DATA</td>
                     </tr>
                 </thead>
@@ -71,10 +74,10 @@
                             <td class="actions action-cell">
                                 <div class="action-buttons">
                                     <div class="buttonCaixa">
-                                        <a href="<?=URL_BASE?>admin/caixa-edit/<?=$caixa['id']?>">Editar</a>
+                                        <a href="<?=URL_BASE?>admin/venda-edit/<?=$caixa['id']?>">Editar</a>
                                     </div>
                                     <div class="buttonCaixa">
-                                        <form action="<?=URL_BASE?>admin/caixa_delete" id="deleteForm" method="post">
+                                        <form action="<?=URL_BASE?>admin/venda_delete" id="deleteForm" method="post">
                                             <input type="hidden" name="id" value="<?=$caixa['id']?>">
                                             <button type="submit">Excluir</button>
                                         </form>
@@ -83,8 +86,8 @@
                             </td>
                             <td class="client-name"><?=$caixa['nome_cliente']?></td>
                             <td class="cash-amount"><?=$caixa['dinheiro']?></td>
-                            <td class="pix-amount"><?=$caixa['pix']?></td>
-                            <td class="card-amount"><?=$caixa['cartao']?></td>
+                            <td class="pix-amount"><?=$caixa['quantidade']?></td>
+                            <td class="card-amount"><?=$caixa['nome_produto']?></td>
                             <td class="date"><?=date("d/m/Y", strtotime($caixa['data']))?></td>
                         </tr>
                     <?php }?>
@@ -92,26 +95,10 @@
             </table>
             <div class="total">
                 <div class="total-section">
-                    Valor total do Dinheiro: R$ <?=$data['informacoes']['valorDinheiro']?>
-                </div>
-                <div class="total-section">
-                    Valor total do Pix: R$ <?=$data['informacoes']['valorPix']?>
-                </div>
-                <div class="total-section">
-                    Valor total do Cartão: R$ <?=$data['informacoes']['valorCartao']?>
-                </div>
-                <div class="total-section">
                     Valor total do dia: R$ <?=$data['informacoes']['valorDoDia']?>
-                </div>
-                <div class="total-section">
-                    Valor Comissão do dia: R$ <?=$data['informacoes']['valorComissao']?>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
-<script>
-    CKEDITOR.replace( 'descricao' );
-</script>
 <?=$this->fetch('../commons/footer.php')?>

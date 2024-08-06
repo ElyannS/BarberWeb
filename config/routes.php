@@ -82,14 +82,14 @@ return function (App $app) {
 
 
     //CONTROLADOR VENDAS
-    $app->get('/admin/vendas', '\App\Controller\VendaController:vendas');
-    $app->get('/admin/vendas-create', '\App\Controller\VendaController:vendas_create');
-    $app->get('/admin/vendas-edit/{id}', '\App\Controller\VendaController:vendas_edit');
-    $app->post('/admin/vendas_insert', '\App\Controller\VendaController:vendas_insert');
-    $app->get('/admin/vendas-edit-data/{id}', '\App\Controller\VendaController:vendas_edit_data');
-    $app->post('/admin/vendas_update', '\App\Controller\VendaController:vendas_update');
-    $app->post('/admin/vendas_delete', '\App\Controller\VendaController:vendas_delete');
-    $app->post('/admin/vendas_total_delete', '\App\Controller\VendaController:vendas_total_delete');
+    $app->get('/admin/venda', '\App\Controller\VendaController:venda');
+    $app->get('/admin/venda-create', '\App\Controller\VendaController:venda_create');
+    $app->get('/admin/venda-edit/{id}', '\App\Controller\VendaController:venda_edit');
+    $app->post('/admin/venda_insert', '\App\Controller\VendaController:venda_insert');
+    $app->get('/admin/venda-edit-data/{id}', '\App\Controller\VendaController:venda_edit_data');
+    $app->post('/admin/venda_update', '\App\Controller\VendaController:venda_update');
+    $app->post('/admin/venda_delete', '\App\Controller\VendaController:venda_delete');
+    $app->post('/admin/venda_total_delete', '\App\Controller\VendaController:venda_total_delete');
 
     //CONTROLADOR HORÁRIO
     $app->get('/admin/horarios', '\App\Controller\HorarioController:horarios');

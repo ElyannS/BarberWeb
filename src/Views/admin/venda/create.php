@@ -8,7 +8,7 @@
             </div>
         </div>
         <div class="form">
-            <form action="<?=URL_BASE?>admin/vendas_insert" method="post" enctype="multipart/form-data">
+            <form action="<?=URL_BASE?>admin/venda_insert" method="post" enctype="multipart/form-data">
                 <div class="row">
                     <div class="w-80">
                         <label>
@@ -25,36 +25,26 @@
                 </div>
                 <div class="row">
                     <label>
-                        Selecione o Produto
-                        <Select name="idProduto">
-                            <option value="1">cerveja</option>
-                        </Select>
+                        Produto
+                       <select name="id_produto" id="">
+                            <?php foreach($data['informacoes']['produto'] as $produtos){?>
+                                <option value="<?=$produtos['id']?>"><?=$produtos['descricao']?></option>
+                            <?php }?>
+                       </select>
                     </label>
                 </div>
                 <div class="row">
-                    <label class="cartao">
+                    <label>
                         Quantidade
-                        <input type="number" value="1" name="quantidade" placeholder="Quantidade">
+                        <input  type="number" name="quantidade" value="1" placeholder="Quantidade">
                     </label>
                 </div>
                 <div class="row">
                     <label class="dinheiro">
                         Valor em Dinheiro
-                        <input  type="number" step="0.01" id="dinProduto" name="dinheiroProduto" placeholder="Dinheiro">
+                        <input  type="number" step="0.01" name="dinheiro" placeholder="Dinheiro">
                     </label>
-                </div>
-                <div class="row">
-                    <label class="pix">
-                        Valor em Pix
-                        <input type="number" step="0.01" id="pixProduto" name="pixProduto" placeholder="Pix">
-                    </label>
-                </div>
-                <div class="row">
-                    <label class="cartao">
-                        Valor em Cartão
-                        <input type="number" step="0.01" id="cartProduto" name="cartaoProduto" placeholder="Cartão">
-                    </label>
-                </div>
+                </div>                
                 <div class="row">
                     <button type="submit">Salvar</button>
                 </div>
@@ -63,7 +53,7 @@
     </div>
 </section>
 <script>    
-    //seta a data atual
+//seta a data atual
      document.getElementById("campoData").value = value='<?php echo date("Y-m-d"); ?>';
 </script>
 <?=$this->fetch('../commons/footer.php', $data)?>
