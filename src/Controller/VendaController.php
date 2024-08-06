@@ -8,6 +8,7 @@ use Slim\Views\PhpRenderer;
 use App\Model\Usuario;
 use App\Model\Configuracao;
 use App\Model\Venda;
+use App\Model\Comanda;
 
 final class VendaController 
 {
@@ -110,25 +111,38 @@ final class VendaController
         ResponseInterface $response,
         $args
     ) {
-        $parsedBody = $request->getParsedBody();
-        $descr = $parsedBody['descricao'] ?? '';
-        $barras = $parsedBody['barras'] ?? '';
-        $vlrCusto = isset($parsedBody['vlrCusto']) ? $parsedBody['vlrCusto'] : 0.0;
-        $vlrVenda = isset($parsedBody['vlrVenda']) ? $parsedBody['vlrVenda'] : 0.0;
-        $estoque = isset($parsedBody['estoque']) ? $parsedBody['estoque'] : 0;
-    
+        $nome_cliente = isset( $request->getParsedBody()['nome_cliente']);
+        $date = date('Y-m-d', strtotime($request->getParsedBody()['data']));
+        $idProduto = isset( $request->getParsedBody()['idProduto']);
+        $quantidade = isset( $request->getParsedBody()['quantidade']);
+        $dinheiroProduto = isset( $request->getParsedBody()['dinheiroProduto']);
+        $pixProduto = isset( $request->getParsedBody()['pixProduto']);
+        $cartaoProduto = isset( $request->getParsedBody()['cartaoProduto']);
     
         $campos = array(
-            'descricao' => $descr,
-            'barras' => $barras,
-            'vlrCusto' => $vlrCusto,
-            'vlrVenda' => $vlrVenda,
-            'estoque' => $estoque
+            'nomeCliente' => $nome_cliente,
+            'dataVenda' => $date, 
         );
         
         $vendas = new Venda();
-        $vendas->insertVenda($campos);
-    
+        $id_venda = $vendas->insertVenda($campos);
+
+
+        
+
+        $camposComanda = array(
+            'id_venda' => $id_venda,
+            'id_produto' => $idProduto,
+            'quantidade' => $quantidade,
+            'dinheiro' => $dinheiroProduto,
+            'pix' => $pixProduto,
+            'cartao' => $cartaoProduto
+        );
+        
+        $comanda = new Comanda();
+        $comanda->insertComanda($camposComanda);
+
+        
         header('Location: '.URL_BASE.'admin/vendas');
         exit();
     }

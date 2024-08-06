@@ -4,7 +4,7 @@
         <div class="titulo_pagina">
             <div class="titulo-migalha">
                 <i class="fa-solid fa-circle"></i>
-                <p>Caixa - Novo</p>
+                <p>Nova Venda</p>
             </div>
         </div>
         <div class="form">
@@ -25,62 +25,34 @@
                 </div>
                 <div class="row">
                     <label>
-                        Serviço
-                        <input type="checkbox">
-                        Produto
-                        <input type="checkbox">
-                    </label>
-                </div>
-                <div class="row">
-                    <label>
-                        Selecione o Serviço
-                        <Select>
-                            <option value="">corte</option>
-                        </Select>
-                    </label>
-                </div>
-                <div class="row">
-                    <label class="dinheiro">
-                        Valor em Dinheiro
-                        <input  type="text" name="dinheiro" placeholder="Dinheiro">
-                    </label>
-                </div>
-                <div class="row">
-                    <label class="pix">
-                        Valor em Pix
-                        <input type="text" name="pix" placeholder="Pix">
-                    </label>
-                </div>
-                <div class="row">
-                    <label class="cartao">
-                        Valor em Cartão
-                        <input type="text" name="cartao" placeholder="Cartão">
-                    </label>
-                </div>
-                <div class="row">
-                    <label>
                         Selecione o Produto
-                        <Select>
-                            <option value="">cerveja</option>
+                        <Select name="idProduto">
+                            <option value="1">cerveja</option>
                         </Select>
+                    </label>
+                </div>
+                <div class="row">
+                    <label class="cartao">
+                        Quantidade
+                        <input type="number" value="1" name="quantidade" placeholder="Quantidade">
                     </label>
                 </div>
                 <div class="row">
                     <label class="dinheiro">
                         Valor em Dinheiro
-                        <input  type="text" name="dinheiro" placeholder="Dinheiro">
+                        <input  type="number" step="0.01" id="dinProduto" name="dinheiroProduto" placeholder="Dinheiro">
                     </label>
                 </div>
                 <div class="row">
                     <label class="pix">
                         Valor em Pix
-                        <input type="text" name="pix" placeholder="Pix">
+                        <input type="number" step="0.01" id="pixProduto" name="pixProduto" placeholder="Pix">
                     </label>
                 </div>
                 <div class="row">
                     <label class="cartao">
                         Valor em Cartão
-                        <input type="text" name="cartao" placeholder="Cartão">
+                        <input type="number" step="0.01" id="cartProduto" name="cartaoProduto" placeholder="Cartão">
                     </label>
                 </div>
                 <div class="row">
@@ -91,11 +63,7 @@
     </div>
 </section>
 <script>    
-//seta a data atual
+    //seta a data atual
      document.getElementById("campoData").value = value='<?php echo date("Y-m-d"); ?>';
-</script>
-<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
-<script>
-    CKEDITOR.replace( 'descricao' );
 </script>
 <?=$this->fetch('../commons/footer.php', $data)?>

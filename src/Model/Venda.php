@@ -10,12 +10,12 @@ class Venda extends Model {
 		"id",
 		"dataVenda",
 		"nomeCliente",
-        "forma_pagamento"
 	];
 
-	function insertVenda($campos)
+	public function insertVenda($campos)
 	{
-		$this->insert($this->table, $campos);
+		$this->insertChat($this->table, $campos);
+		return $this->lastInsertId(); // Retorna o ID da venda recém-criada
 	}
 
 	function updateVenda($valores, $where)
@@ -40,7 +40,7 @@ class Venda extends Model {
 	}
 	function selectVendasPesquisa($pesquisa)
 	{
-		$sql = "SELECT * FROM ".$this->table." WHERE descricao LIKE '%".$pesquisa."%' ORDER BY id DESC";
+		$sql = "SELECT * FROM ".$this->table." WHERE nomeCliente LIKE '%".$pesquisa."%' ORDER BY id DESC";
 
 		return $this->querySelect($sql);
 	}

@@ -62,7 +62,7 @@ class Sql {
 
 		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 	}
-
+	
 	public function select($table, $campos, $where):array
 	{	
 
@@ -132,7 +132,47 @@ class Sql {
 		$this->query("INSERT INTO $table ($sqlColunas) VALUES ($sqlCampos)", $parans);
 
 	}
+	public function insertChat($table, $data)
+{
+    // Inicializa as variáveis para colunas e valores
+    $sqlColunas = "";
+    $sqlCampos = "";
+    $parans = []; // Array para armazenar os valores dos parâmetros
 
+    // Garante que $data seja um array
+    $data = !is_array($data) ? [$data] : $data;
+
+    // Obtem o número total de itens no array de dados
+    $total = count($data);
+    $count = 0;
+
+    foreach ($data as $key => $value) {
+        // Adiciona o nome da coluna e o placeholder
+        $sqlColunas .= $key;
+        $sqlCampos .= ":" . $key;
+
+        // Adiciona o parâmetro ao array
+        $parans[':' . $key] = $value;
+
+        // Adiciona uma vírgula se não for o último item
+        if (++$count < $total) {
+            $sqlColunas .= ", ";
+            $sqlCampos .= ", ";
+        }
+    }
+
+    // Monta a query SQL
+    $sql = "INSERT INTO $table ($sqlColunas) VALUES ($sqlCampos)";
+
+    // Executa a query com os parâmetros
+    $this->query($sql, $parans);
+}
+
+
+	public function lastInsertId()
+	{
+		return $this->conn->lastInsertId();
+	}
 	public function delete($table, $coluna, $valor)
 	{
 		$this->query("DELETE FROM $table WHERE $coluna = :valor", array(

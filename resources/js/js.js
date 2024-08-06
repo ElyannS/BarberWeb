@@ -1,6 +1,4 @@
 $(document).ready(function(){
-
-
   $('#gestor').on('click', function(){
     if($('#gestor').val() === '1'){
       $('#gestor').val('2');
@@ -8,6 +6,9 @@ $(document).ready(function(){
       $('#gestor').val('1');
     }
   });
+
+
+
 
 //   $('.itemAgend').on('click', '#CancelarHorario', function() {
 //     var timeInput = $(this).closest('.itemAgend').find('#horaAnteCanc').val();
