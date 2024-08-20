@@ -11,7 +11,8 @@ class Agendamento extends Model {
         "servico_id",
         "data_agendamento",
         "id_cliente",
-        "descricao"
+        "descricao",
+        "type"
     ];
 
     public function insertAgendamento($campos)

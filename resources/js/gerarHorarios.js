@@ -114,9 +114,12 @@ $(document).ready(function() {
                     var nomeAgendamento = horarios[i].nome;
                     var idAgendamento = horarios[i].idAgendamento;
                     var servico = horarios[i].servico;
+                    var type = horarios[i].type;
 
                     var celula = $('#horario-' + horario.replace(':', '-').replace(' ', '-'));
-
+                    if(type == 1) {
+                        celula.addClass('encaixe');
+                    }
                     if (nomeAgendamento) {
                         celula.addClass('marcado');
                         if (servico == 'Corte e barba') {

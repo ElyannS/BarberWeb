@@ -42,8 +42,83 @@
                 </div>
 
                 <div id="tabelaHorarios">
-
-                    
+                <table class="horarios-table">
+                    <tbody>
+                        <tr>
+                            <th class="tr">02:00</th>
+                            <td>
+                                <div class="td selectTd" id="horario-02-00">
+                                    <a href="agendamentos-edit/undefined"></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="tr">02:30</th>
+                            <td>
+                                <div class="td selectTd" id="horario-02-30">
+                                    <a href="agendamentos-edit/undefined"></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="tr">03:00</th>
+                            <td>
+                                <div class="td selectTd" id="horario-03-00">
+                                    <a href="agendamentos-edit/undefined"></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="tr">03:30</th>
+                            <td>
+                                <div class="td selectTd marcado marcado-corte-barba" id="horario-03-30">
+                                    <a href="agendamentos-edit/160">João Paulo - Corte e barba - 51 997610285 </a>
+                                </div>
+                                <div class="td encaixe marcado" id="horario-03-30">
+                                    <a href="agendamentos-edit/160">João Paulo - Corte e barba - 51 997610285 </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="tr">04:00</th>
+                            <td>
+                                <div class="td selectTd" id="horario-04-00">
+                                    <a href="agendamentos-edit/undefined"></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="tr">04:30</th>
+                            <td>
+                                <div class="td selectTd" id="horario-04-30">
+                                    <a href="agendamentos-edit/undefined"></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="tr">05:00</th>
+                            <td>
+                                <div class="td selectTd" id="horario-05-00">
+                                    <a href="agendamentos-edit/undefined"></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="tr">05:30</th>
+                            <td>
+                                <div class="td selectTd" id="horario-05-30">
+                                    <a href="agendamentos-edit/undefined"></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="tr">06:00</th><td><div class="td selectTd" id="horario-06-00">
+                                <a href="agendamentos-edit/undefined"></a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="tr">06:30</th><td><div class="td selectTd" id="horario-06-30"><a href="agendamentos-edit/undefined"></a></div></td></tr><tr><th class="tr">07:00</th><td><div class="td selectTd" id="horario-07-00"><a href="agendamentos-edit/undefined"></a></div></td></tr><tr><th class="tr">07:30</th><td><div class="td selectTd" id="horario-07-30"><a href="agendamentos-edit/undefined"></a></div></td></tr><tr><th class="tr">08:00</th><td><div class="td selectTd" id="horario-08-00"><a href="agendamentos-edit/undefined"></a></div></td></tr><tr><th class="tr">08:30</th><td><div class="td selectTd" id="horario-08-30"><a href="agendamentos-edit/undefined"></a></div></td></tr></tbody></table>
                 </div>
                 <div id="aviso">
 

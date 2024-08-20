@@ -123,6 +123,7 @@ final class AgendamentoController
                     $nomeServico = '';
                     $idAgendamento = '';
                     $descricao = '';
+                    $type = '';
                     
                     if (in_array($horario, $horariosIndisponiveis)) {
                         foreach ($consultaAgendamentos as $agendamento) {
@@ -145,13 +146,14 @@ final class AgendamentoController
                                 $nomeServico = $agendamento['nome_servico'];
                                 $idAgendamento = $agendamento['id'];
                                 $descricao = $agendamento['descricao'];
+                                $type = $agendamento['type'];
                                 break;
                             }
                         }
                     }
 
                     if ($agendamentoEncontrado) {
-                        $horarios[] = ['horario' => $horario, 'nome' => $agendamentoNome, 'servico' => $nomeServico, 'idAgendamento' => $idAgendamento, 'descricao' => $descricao];
+                        $horarios[] = ['horario' => $horario, 'nome' => $agendamentoNome, 'servico' => $nomeServico, 'idAgendamento' => $idAgendamento, 'descricao' => $descricao, 'type' => $type];
                     } else {
                         $horarios[] = ['horario' => $horario, 'nome' => ''];
                     }
