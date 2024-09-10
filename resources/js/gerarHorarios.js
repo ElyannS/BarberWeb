@@ -98,61 +98,73 @@ $(document).ready(function() {
         }
 
         function atualizarHorariosMarcados(data, idBarbeiro) {
-        $.ajax({
-            url: '/BarberWeb/admin/atualizar_data',
-            type: 'POST',
-            data: {
-                data: data,
-                idBarbeiro: idBarbeiro
-            },
-            dataType: 'json',
+            $.ajax({
+                url: '/BarberWeb/admin/atualizar_data',
+                type: 'POST',
+                data: {
+                    data: data,
+                    idBarbeiro: idBarbeiro
+                },
+                dataType: 'json',
                 success: function(response) {
-                var horarios = response.horarios;
-
-                for (var i = 0; i < horarios.length; i++) {
-                    var horario = horarios[i].horario;
-                    var nomeAgendamento = horarios[i].nome;
-                    var idAgendamento = horarios[i].idAgendamento;
-                    var servico = horarios[i].servico;
-                    var type = horarios[i].type;
-
-                    var celula = $('#horario-' + horario.replace(':', '-').replace(' ', '-'));
-                    if(type == 1) {
-                        celula.addClass('encaixe');
-                    }
-                    if (nomeAgendamento) {
-                        celula.addClass('marcado');
-                        if (servico == 'Corte e barba') {
-                            celula.addClass('marcado-corte-barba');
+                    var horarios = response.horarios;
+        
+                    for (var i = 0; i < horarios.length; i++) {
+                        var horario = horarios[i].horario;
+                        var nomeAgendamento = horarios[i].nome;
+                        var idAgendamento = horarios[i].idAgendamento;
+                        var servico = horarios[i].servico;
+                        var type = horarios[i].type;
+        
+                        // Seleciona a célula correspondente ao horário
+                        var celula = $('#horario-' + horario.replace(':', '-').replace(' ', '-'));
+        
+                        // Cria ou seleciona um contêiner para múltiplos agendamentos
+                        var containerAgendamentos = celula.find('.agendamentos');
+                        if (containerAgendamentos.length === 0) {
+                            containerAgendamentos = $('<div class="agendamentos"></div>');
+                            celula.append(containerAgendamentos);
                         }
+        
+                        // Define classes para encaixe e serviços
+                        if (type == 1) {
+                            celula.addClass('encaixe');
+                        }
+        
+                        if (nomeAgendamento) {
+                            celula.addClass('marcado');
+                            if (servico == 'Corte e barba') {
+                                celula.addClass('marcado-corte-barba');
+                            }
+                        }
+        
+                        // Cria o link para o agendamento e o adiciona ao contêiner
+                        var linkAgendamento = $('<a></a>');
+                        linkAgendamento.attr('href', 'agendamentos-edit/' + idAgendamento);
+                        linkAgendamento.text(nomeAgendamento);
+        
+                        containerAgendamentos.append(linkAgendamento);
                     }
-
-                    var linkAgendamento = $('<a></a>');
-                    linkAgendamento.attr('href', 'agendamentos-edit/' + idAgendamento);
-                    linkAgendamento.text(nomeAgendamento);
-
-                    celula.append(linkAgendamento);
-                }
                 },
                 error: function(xhr, status, error) {
-                if (xhr.responseText) {
-                    try {
-                        var response = JSON.parse(xhr.responseText);
-                        if (response.hasOwnProperty('error')) {
-                            alert('Erro: ' + response.error);
-                        } else {
-                            alert('Ocorreu um erro na requisição.');
+                    if (xhr.responseText) {
+                        try {
+                            var response = JSON.parse(xhr.responseText);
+                            if (response.hasOwnProperty('error')) {
+                                alert('Erro: ' + response.error);
+                            } else {
+                                alert('Ocorreu um erro na requisição.');
+                            }
+                        } catch (e) {
+                            alert('Ocorreu um erro na requisição: ' + error);
                         }
-                    } catch (e) {
+                    } else {
                         alert('Ocorreu um erro na requisição: ' + error);
                     }
-                } else {
-                    alert('Ocorreu um erro na requisição: ' + error);
-                }
                 }
             });
         }
-
+        
         $('#dataMarcada').change(function() {
             var data = $('#dataMarcada').val();
             var idBarbeiro = $('#idBarbeiro').val();
@@ -161,7 +173,7 @@ $(document).ready(function() {
                 atualizarHorariosMarcados(data, idBarbeiro);
             }, 200); // Pequeno atraso de 0.2 segundos
         });
-
+        
         $('#idBarbeiro').change(function() {
             var data = $('#dataMarcada').val();
             var idBarbeiro = $('#idBarbeiro').val();
@@ -170,7 +182,7 @@ $(document).ready(function() {
                 atualizarHorariosMarcados(data, idBarbeiro);
             }, 200); // Pequeno atraso de 0.2 segundos
         });
-
+        
         var dataInicial = $('#dataMarcada').val();
         var idBarbeiro = $('#idBarbeiro').val();
         atualizarData(dataInicial, idBarbeiro);
