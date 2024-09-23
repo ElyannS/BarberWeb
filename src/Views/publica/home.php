@@ -18,9 +18,9 @@
 	
 
 	<?php
-    $data['slider_servicos'] = true;
-    echo $this->fetch('commons/servicos.php', $data);
-?>
+		$data['slider_servicos'] = true;
+		echo $this->fetch('commons/servicos.php', $data);
+	?>
 	
 	<section class="call_to_action">
 			<video autoplay loop muted src="<?=URL_BASE?>resources/imagens/videos/video.mp4"></video>
@@ -30,7 +30,7 @@
 				</div>
 				<div class="btn">
 					<?php
-						if (isset($data['servicos']) && count($data['servicos']) > 0) { ?>
+						if (isset($data['servicos']) && is_array($data['servicos']) && count($data['servicos']) > 0) { ?>
 							<a href="<?=URL_BASE.$data['servicos'][0]['url_amigavel']."#formulario_orcamento"?>"></i>Fazer Orçamento</a>
 					<?php } ?>
 				</div>
@@ -77,69 +77,6 @@
 
 	<?=$this->fetch('commons/clientes.php', $data)?>
 
-	<section class="marcas">
-		<div class="container">
-			<div class="galeria"> 
-				<div class="item">
-					<img src="<?=URL_BASE?>resources/imagens/marcas/logo_audi.png">
-				</div>
-				<div class="item">
-					<img src="<?=URL_BASE?>resources/imagens/marcas/logo_bmw.png">
-				</div>
-				<div class="item">
-					<img src="<?=URL_BASE?>resources/imagens/marcas/logo_chevrolet.png">
-				</div>
-				<div class="item">
-					<img src="<?=URL_BASE?>resources/imagens/marcas/logo_citroen.png">
-				</div>
-				<div class="item">
-					<img src="<?=URL_BASE?>resources/imagens/marcas/logo_fiat.png">
-				</div>
-				<div class="item">
-					<img src="<?=URL_BASE?>resources/imagens/marcas/logo_ford.png">
-				</div>
-				<div class="item">
-					<img src="<?=URL_BASE?>resources/imagens/marcas/logo_honda.png">
-				</div>
-				<div class="item">
-					<img src="<?=URL_BASE?>resources/imagens/marcas/logo_hyundai.png">
-				</div>
-				<div class="item">
-					<img src="<?=URL_BASE?>resources/imagens/marcas/logo_jac.png">
-				</div>
-				<div class="item">
-					<img src="<?=URL_BASE?>resources/imagens/marcas/logo_land_rover.png">
-				</div>
-				<div class="item">
-					<img src="<?=URL_BASE?>resources/imagens/marcas/logo_mercedes.png">
-				</div>
-				<div class="item">
-					<img src="<?=URL_BASE?>resources/imagens/marcas/logo_mitsubishi.png">
-				</div>
-				<div class="item">
-					<img src="<?=URL_BASE?>resources/imagens/marcas/logo_nissan.png">
-				</div>
-				<div class="item">
-					<img src="<?=URL_BASE?>resources/imagens/marcas/logo_peugeot.png">
-				</div>
-				<div class="item">
-					<img src="<?=URL_BASE?>resources/imagens/marcas/logo_renault.png">
-				</div>
-				<div class="item">
-					<img src="<?=URL_BASE?>resources/imagens/marcas/logo_suzuki.png">
-				</div>
-				<div class="item">
-					<img src="<?=URL_BASE?>resources/imagens/marcas/logo_toyota.png">
-				</div>
-				<div class="item">
-					<img src="<?=URL_BASE?>resources/imagens/marcas/logo_volkswagen.png">
-				</div>
-				<div class="item">
-					<img src="<?=URL_BASE?>resources/imagens/marcas/logo_volvo.png">
-				</div>
-			</div>
-		</div>
-	</section>
 
 	<section class="noticias">
 		<div class="container">
@@ -152,7 +89,7 @@
 				reprehenderit eaque animi illum autem tempore.
 			</div>
 			<div class="itens">
-				<?php foreach($data['blogs'] as $blog){?>
+				<?php foreach($dat['blogs'] as $blog){?>
 					<div class="item">
 						<div class="img">
 							<img src="<?=URL_BASE.$blog['imagem_principal']?>">
@@ -164,7 +101,7 @@
 							<div class="titulo">
 								<h2><?=$blog['titulo']?></h2>
 							</div>
-							<div class="link">
+							<div class="linkSite">
 								<a href="<?=URL_BASE.$blog['url_amigavel']?>">Saiba Mais</a>
 							</div>
 						</div>

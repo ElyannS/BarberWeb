@@ -76,95 +76,97 @@ header{
                 }
             }
         }
-        .header-logo{
-                
-            img{
-                display: block;
-                margin: 0 auto;
-                max-width: 100%;
+        .logo-menu{
+            .header-logo{
+                    
+                img{
+                    display: block;
+                    margin: 0 auto;
+                    max-width: 100%;
+                }
             }
-        }
-        .header-bottom{
-            display: inline-flex;
-            width: auto;
-            flex-direction: row-reverse;
-            justify-content: space-between;
-
-            .bar{
-                font-size: 35px;
-                z-index: 2;
-                cursor: pointer;
-                
-                &:hover{
+            .header-bottom{
+                display: inline-flex;
+                width: auto;
+                flex-direction: row-reverse;
+                justify-content: space-between;
+    
+                .bar{
+                    font-size: 35px;
+                    z-index: 2;
+                    cursor: pointer;
+                    
+                    &:hover{
+                        i{
+                            color: $color_destaque_hover;
+                        }
+                    }
                     i{
-                        color: $color_destaque_hover;
+                        transition: .30s;
+                        
                     }
                 }
-                i{
+                .menu{
+                    width: 100%;
+                    height: calc(100vh - 110px);
+                    position: absolute;
+                    top: 110px;
+                    left: -100%;
                     transition: .30s;
-                    
-                }
-            }
-            .menu{
-                width: 100%;
-                height: calc(100vh - 110px);
-                position: absolute;
-                top: 110px;
-                left: -100%;
-                transition: .30s;
-                background-color: $color_destaque;
-                overflow: auto;        
-                padding: 20px 25px;        
-                &.active{ 
-                    left: 0;
-                }
-                ul{
-                    li{
-                        margin-bottom: 10px;
-
-                        a{
-                            transition: .30s;
-                            font-size: 1em;
-                            font-family: 'Montserrat Bold';
-                        }
-                        &:hover{
+                    background-color: $color_destaque;
+                    overflow: auto;        
+                    padding: 20px 25px;        
+                    &.active{ 
+                        left: 0;
+                    }
+                    ul{
+                        li{
+                            margin-bottom: 10px;
+    
                             a{
-                                color: $color_destaque_hover;
+                                transition: .30s;
+                                font-size: 1em;
+                                font-family: 'Montserrat Bold';
+                            }
+                            &:hover{
+                                a{
+                                    color: $color_destaque_hover;
+                                }
                             }
                         }
                     }
-                }
-                @include tablet{
-                    top: 50px;
-                }
-            }
-            @include desktop{
-                width: 100%;
-                justify-content: center;
-                margin-top: 20px;
-
-                .bar{
-                    display: none;
-                }
-                .menu{
-                    top: 0px;
-                    left: 0px;
-                    position: relative;
-                    height: auto;
-                    padding: 20px 0px;
-                    max-width: 970px;
-                    overflow: initial;
-                   
-                    ul{
-                        width: 100%;
-                        display: inline-flex;
-                        justify-content: space-between;
-
-                        li{
-                            margin-bottom: 0px;
-                        }
+                    @include tablet{
+                        top: 50px;
                     }
-
+                }
+                @include desktop{
+                    width: 100%;
+                    justify-content: center;
+                    margin-top: 20px;
+    
+                    .bar{
+                        display: none;
+                    }
+                    .menu{
+                        top: 0px;
+                        left: 0px;
+                        position: none;
+                        height: auto;
+                        padding: 20px 0px;
+                        max-width: 970px;
+                        overflow: initial;
+                       
+                        ul{
+                            width: 100%;
+                            display: inline-flex;
+                            justify-content: space-between;
+    
+                            li{
+                                margin-bottom: 0px;
+                            }
+                        }
+    
+                    }
                 }
             }
         }

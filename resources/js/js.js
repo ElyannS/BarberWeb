@@ -309,4 +309,36 @@ $('.itemAgend').on('click', '#confirmarCancelar', function() {
 });
 
 
+$('.banners .itens').slick({
+  autoplay: true,
+  autoplaySpeed: 5000,
+  infinite: true,
+  prevArrow:  '<button class="slick-prev"><i class="fa-solid fa-chevron-left"></.</button>',
+  nextArrow:  '<button class="slick-next"><i class="fa-solid fa-chevron-right"></.</button>'
+})
+$('.servicos.slider .itens').slick({
+  infinite: true,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  arrows: false,
+  dots: true,
+  autoplay: true,
+  autoplaySpeed: 3000,
+  responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
   
+    ]
+});

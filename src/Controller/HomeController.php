@@ -31,13 +31,7 @@ final class HomeController
 
         $servicos = new Servico();
         $data['servicos'] = $servicos->selectServico('*', array('status' => 's'));
-
-        $recomendacoes = new Recomendacao();
-        $data['recomendacoes'] = $recomendacoes->selectRecomendacao('*', array('status' => 's'));
-
-        $blogs = new Blog();
-        $data['blogs'] = $blogs->selectBlog('*', array('status' => 's'));
-
+       
         $data['informacoes'] = array(
             'pagina' => $info,
         );
@@ -66,10 +60,9 @@ final class HomeController
         }
         $info['nome_site'] = "A RLBS Motor - ".$info['nome_site'];
 
-        $recomendacoes = new Recomendacao();
+        
 
-        $data['recomendacoes'] = $recomendacoes->selectRecomendacao('*', array('status' => 's'));
-
+     
         $data['informacoes'] = array(
             'title' => 'A RLBS Motors',
             'descricao' => 'Aqui vem a descricao da página institucional',

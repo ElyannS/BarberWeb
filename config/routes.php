@@ -117,7 +117,7 @@ return function (App $app) {
     $app->post('/admin/produtos_delete', '\App\Controller\ProdutoController:produtos_delete');
 
     //ROTAS DO WEB SITE
-    $app->get('/', '\App\Controller\HomeController:home');
+    $app->get('/home', '\App\Controller\HomeController:home');
     $app->get('/a-rlbs-motors', '\App\Controller\HomeController:a_rlbs_motors');
     $app->get('/servicos', '\App\Controller\HomeController:servicos');
     $app->get('/videos', '\App\Controller\HomeController:videos');

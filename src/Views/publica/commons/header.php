@@ -49,29 +49,26 @@
                     <?php } ?>
                 </div>
             </div>
-           
-            <div class="header-logo">
-                <a href="<?=URL_BASE?>">
-                    <img src="<?=URL_BASE.$data['informacoes']['pagina']['logo_site']?>">
-                </a>
-            </div>
-            <div class="header-bottom">
-                
-                <div class="bar">
-                    <i class="fa-solid fa-bars"></i>
-                </div>
-                <div class="menu">
-                    <ul>
-                        <li><a href="<?=URL_BASE?>">Home</a></li>
-                        <li><a href="<?=URL_BASE?>a-rlbs-motors">A RLBS Motors</a></li>
-                        <li><a href="<?=URL_BASE?>servicos">Serviços</a></li>
-                        <li><a href="<?=URL_BASE?>videos">Vídeos</a></li>
-                        <li><a href="<?=URL_BASE?>blog">Blog</a></li>
-                        <li><a href="<?=URL_BASE?>fale-conosco">Fale Conosco</a></li>
-                    </ul>
-                </div>
-
-
-            </div>
+           <div class="logo-menu">
+               <div class="header-logo">
+                   <a href="<?=URL_BASE?>">
+                       <img src="<?=URL_BASE.$data['informacoes']['pagina']['logo_site']?>">
+                   </a>
+               </div>
+               <div class="header-bottom">
+                   <div class="bar">
+                       <i class="fa-solid fa-bars"></i>
+                   </div>
+                   <div class="menu">
+                       <ul>
+                           <li><a href="<?=URL_BASE?>">Home</a></li>
+                           <li><a href="<?=URL_BASE?>a-rlbs-motors">A Exclusive</a></li>
+                           <li><a href="<?=URL_BASE?>servicos">Serviços</a></li>
+                           <li><a href="<?=URL_BASE?>videos">Agendar</a></li>
+                           <li><a href="<?=URL_BASE?>fale-conosco">Fale Conosco</a></li>
+                       </ul>
+                   </div>
+               </div>
+           </div>
         </div>
 	</header>

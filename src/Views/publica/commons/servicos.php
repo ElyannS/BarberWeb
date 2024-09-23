@@ -21,7 +21,7 @@
 							<div class="descricao">
 								<?=substr(strip_tags($servico['descricao']), 0, 80)?>...
 							</div>
-							<div class="link">
+							<div class="linkSite">
 								<a href="<?=URL_BASE.$servico['url_amigavel']?>">Saiba Mais</a>
 							</div>
 						</div>
