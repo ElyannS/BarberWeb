@@ -14,7 +14,7 @@
                         <select name="servico" id="servicoCliente" >
                             <option value="sel">Selecione um opção</option>
                             <?php foreach ($data['informacoes']['servico'] as $servico) {?>
-                                <option value="<?=$servico['tempo_servico']?>;<?=$servico['id']?>"><?=$servico['titulo']?></option>
+                                <option value="<?=$servico['tempo_servico']?>;<?=$servico['id']?>"><?=$servico['titulo']?> - R$ <?=$servico['valor']?></option>
                             <?php }?>
                         </select>
                     </label>
