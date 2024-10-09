@@ -19,6 +19,12 @@ $(document).ready(function(){
                     
                     $('.itensHorarios').empty();
                     $.each(horarios, function(barbeiro, dadosBarbeiro) {
+                        const horariosHtml = dadosBarbeiro.horarios.length > 0 
+                            ? dadosBarbeiro.horarios.map(horario => 
+                                `<span class="span">${horario}</span>`
+                              ).join('')
+                            : '<p class="sem-horarios">Nenhum horário disponível</p>';
+                    
                         const barbeiroHtml = `
                             <div class="item">
                                 <div class="nomeBarbeiro">
@@ -26,13 +32,14 @@ $(document).ready(function(){
                                     <p>${barbeiro}</p>
                                 </div>
                                 <div class="horariosBarbeiros" id="pegaDados">
-                                    ${dadosBarbeiro.horarios.map(horario => `<span class="span" value="${barbeiro},${dadosBarbeiro.idBarbeiro},${dadosBarbeiro.idServico},${dadosBarbeiro.data},${dadosBarbeiro.nomeServico},${horario}">${horario}</span>`).join('')}
+                                    ${horariosHtml}
                                 </div>
                             </div>
                         `;
-                
+                        
                         $('.itensHorarios').append(barbeiroHtml);
                     });
+                    
                 },
                 
                 
