@@ -581,6 +581,12 @@ final class ClienteController
             echo json_encode($js);
             exit();
         }
+        if(strlen($senha) < 4) {
+            $js['status'] = 0;
+            $js['msg'] = 'A senha deve conter no mínimo 4 caracteres.';
+            echo json_encode($js);
+            exit();
+        }
         
         $clientes = new Cliente();
         $result = $clientes->selectCliente('*', array('email' => $email));
@@ -1236,6 +1242,95 @@ final class ClienteController
     }
 
 
+    private function enviarEmailConfirmacaoCancelamento($nomeCliente, $emailCliente, $nomeServico, $data, $hora, $nomeBarbeiro, $nomeBarbearia) {
+        $assunto = "Confirmação de Cancelamento!";
+        $mensagem = "
+        <!DOCTYPE html>
+        <html lang='pt-BR'>
+        <head>
+            <meta charset='UTF-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+            <title>Agendamento Cancelado</title>
+            <style>
+                body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                .container { width: 100%; max-width: 600px; margin: 0 auto; background-color: #ffffff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 20px; box-sizing: border-box; }
+                .header { background-color: #4CAF50; color: white; padding: 20px; text-align: center; }
+                .content { padding: 20px; text-align: center; }
+                .footer { margin-top: 20px; text-align: center; color: #777; }
+                .footer a { color: #4CAF50; text-decoration: none; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <div class='header'>
+                    <h1>Agendamento Cancelado</h1>
+                </div>
+                <div class='content'>
+                    <p>Olá, $nomeCliente</p>
+                    <p>Seu agendamento foi cancelado com sucesso!</p>
+                    <p>Aqui estão os detalhes do seu agendamento:</p>
+                    <p><strong>Data:</strong> $data</p>
+                    <p><strong>Horário:</strong> $hora</p>
+                    <p><strong>Serviço:</strong> $nomeServico</p>
+                    <p><strong>Barbeiro:</strong> $nomeBarbeiro</p>
+                    <p>Se você tiver alguma dúvida, por favor, entre em contato conosco.</p>
+                </div>
+                <div class='footer'>
+                    <p>Atenciosamente,<br>A Equipe $nomeBarbearia</p>
+                    <p><a href='https://exclusivebarbershop.com.br/minha-agenda'>Confira sua Agenda</a></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        ";
+        $this->enviarEmailApi($emailCliente, $assunto, $mensagem, $nomeBarbearia, $nomeCliente);
+    }
+
+
+    private function enviarEmailNotificacaoBarbeiroCancelamento($emailBarbeiro, $nomeServico, $data, $hora, $nomeCliente, $nomeBarbearia,$nomeBarbeiro) {
+        $assunto = "Cancelamento de Agendamento!";
+        $mensagem = "
+        <!DOCTYPE html>
+        <html lang='pt-BR'>
+        <head>
+            <meta charset='UTF-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+            <title>Cancelamento de Agendamento</title>
+            <style>
+                body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                .container { width: 100%; max-width: 600px; margin: 0 auto; background-color: #ffffff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 20px; box-sizing: border-box; }
+                .header { background-color: #4CAF50; color: white; padding: 20px; text-align: center; }
+                .content { padding: 20px; text-align: center; }
+                .footer { margin-top: 20px; text-align: center; color: #777; }
+                .footer a { color: #4CAF50; text-decoration: none; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <div class='header'>
+                    <h1>Cancelamento de Agendamento!</h1>
+                </div>
+                <div class='content'>
+                    <p>Olá, $nomeBarbeiro</p>
+                    <p>Cancelamento de agendamento!</p>
+                    <p>Aqui estão os detalhes do agendamento:</p>
+                    <p><strong>Data:</strong> $data</p>
+                    <p><strong>Horário:</strong> $hora</p>
+                    <p><strong>Serviço:</strong> $nomeServico</p>
+                    <p><strong>Cliente:</strong> $nomeCliente</p>
+                </div>
+                <div class='footer'>
+                    <p>Atenciosamente,<br>A Equipe $nomeBarbearia</p>
+                    <p><a href='https://exclusivebarbershop.com.br/admin-login'>Confira sua Agenda</a></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        ";
+        $this->enviarEmailApi($emailBarbeiro, $assunto, $mensagem, $nomeBarbearia, $nomeBarbeiro);
+   
+    }
+
     private function enviarEmailApi($emailDestino, $assunto, $mensagem, $nomeBarbearia, $nomeDestino) {
        // URL da API 
         $url = "api.iagentesmtp.com.br/api/v3/send/";
@@ -1288,47 +1383,6 @@ final class ClienteController
         // Executar a requisição
         $resposta = curl_exec($ch);
 
-        // // Verificar se ocorreu algum erro
-        // if (curl_errno($ch)) {
-        //     $js['status'] = 0;
-        //     $js['msg'] = 'Erro: cURL: ' . curl_errno($ch);
-        //     echo json_encode($js);
-        //     exit();
-        // } else {
-        //     // Decodificar a resposta JSON
-        //     $dadosResposta = json_decode($resposta, true);
-
-        //     // Verificar o campo "status" na resposta para determinar o resultado
-        //     if ($dadosResposta && isset($dadosResposta['status'])) {
-
-        //         // Enviado e-mail com sucesso
-        //         if ($dadosResposta['status'] === 'ok') {
-        //             $js['status'] = 1;
-        //             $js['msg'] = 'E-mail enviando com sucesso!';
-        //             $js['redirecionar_pagina'] = URL_BASE."admin/minha-agenda";
-        //             echo json_encode($js);
-        //             exit();
-        //             // Recomendado salvar no banco de dados: https://celke.com.br/artigo/crud-como-criar-o-formulario-cadastrar-com-php-e-pdo
-        //         } elseif ($dadosResposta['status'] === 'failed') {
-        //             $js['status'] = 0;
-        //             $js['msg'] = 'Erro: Mensagem não enviada! Mensagem: ' . $dadosResposta['message'];
-        //             echo json_encode($js);
-        //             exit();
-        //         } else {
-        //             // Erro a Iagente enviou a resposta com status inválido
-        //             $js['status'] = 0;
-        //             $js['msg'] = 'Erro: A Iagente retornou status desconhecido!';
-        //             echo json_encode($js);
-        //             exit();
-        //         }
-        //     } else {
-        //         // Erro a Iagente não enviou a resposta com status
-        //         $js['status'] = 0;
-        //         $js['msg'] = 'Erro: Não obteve resposta da Iagente!';
-        //         echo json_encode($js);
-        //         exit();
-        //     }
-        //}
 
     }
     public function perfil_cliente(
@@ -1444,12 +1498,57 @@ final class ClienteController
     ) {
        $id = $request->getParsedBody()['id'];
 
-       $agendamentos = new Agendamento;
-       $agendamentos->deleteAgendamento('id', $id);
-      
-       header('Location: '.URL_BASE.'admin/minha-agenda');
-       exit();
+       $config = new Configuracao();
+       $nomeBarbearia = $config->getConfig('nome_site');
+
+       Cliente::verificarLoginCliente();
+    
+       // Obtém o email do usuário logado
+       $emailUser = $_SESSION['usuario_logado']['email'];
+
+       $usuario = new Cliente();
+        $usuarioInfo = $usuario->selectCliente('*', ['email' => $emailUser]);
+        if (empty($usuarioInfo) || !is_array($usuarioInfo)) {
+            throw new Exception("Erro ao obter informações do cliente.");
+        }
+        $emailCliente = $usuarioInfo[0]['email'];
+
+       
+
+       $agendamentos = new Agendamento();
+
+       $resultado = $agendamentos->selectAgendamento($id);
+
+       if (!empty($resultado) && isset($resultado[0])) {
+        $nomeCliente = $resultado[0]['nome_cliente'];
+        $telefoneCliente = $resultado[0]['telefone_cliente'];
+        $nomeServico = $resultado[0]['nome_servico'];
+        $dataHora = $resultado[0]['data_agendamento']; 
+        $data = date('Y-m-d', strtotime($dataHora)); 
+        $hora = date('H:i:s', strtotime($dataHora)); 
+        $nomeBarbeiro = $resultado[0]['nome_barbeiro'];
+    } else {
+        // Caso não haja resultados
+        echo "Nenhum agendamento encontrado.";
+    }
+
+        $usuarios = new Usuario();
+        $infoBarbeiro = $usuarios->selectUsuario('*', ['nome' => $nomeBarbeiro]);
+        if (empty($infoBarbeiro) || !is_array($infoBarbeiro)) {
+            throw new Exception("Erro ao obter informações do barbeiro.");
+        }
+        $emailBarbeiro = $infoBarbeiro[0]['email'];
+
+        $agendamentos = new Agendamento;
+        $agendamentos->deleteAgendamento('id', $id);
+        if($agendamentos){
+            $this->enviarEmailConfirmacaoCancelamento($nomeCliente, $emailCliente, $nomeServico, $data, $hora, $nomeBarbeiro, $nomeBarbearia);
+            $this->enviarEmailNotificacaoBarbeiroCancelamento($emailBarbeiro, $nomeServico, $data, $hora, $nomeCliente, $nomeBarbearia, $nomeBarbeiro);
+        }
+        header('Location: '.URL_BASE.'admin/minha-agenda');
+        exit();
     }
 
 
+    
 }
