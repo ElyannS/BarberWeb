@@ -96,6 +96,18 @@ function gulpUglifyMostrarHorarios() {
  }
  gulp.task(gulpUglifyMostrarHorarios);
 
+
+ // Specific Task
+function gulpUglifyRelatorioDespesa() {
+	return gulp.src('resources/js/gerarRelatorioDespesa.js')
+		 .pipe(rename({ suffix: '.min' }))
+		 .pipe(gulp.dest('resources/js'))
+		 .pipe(uglify())
+		 .pipe(gulp.dest('resources/js'))
+		 .on('end', function() { log('gerarRelatorioDespesa minificado...') })
+ }
+ gulp.task(gulpUglifyRelatorioDespesa);
+
 //WATCHERS
 gulp.task('watch', () => {
 	gulp.watch('resources/sass/**/*.scss', gulp.series(gulpSass));
@@ -105,9 +117,10 @@ gulp.task('watch', () => {
 	gulp.watch('resources/js/gerarHorarios.js', gulp.series(gulpUglifyGerarHorarios));
 	gulp.watch('resources/js/gerarRelatorio.js', gulp.series(gulpUglifyGerarRelatorio));
 	gulp.watch('resources/js/mostrarHorarios.js', gulp.series(gulpUglifyMostrarHorarios));
+	gulp.watch('resources/js/gerarRelatorioDespesa.js', gulp.series(gulpUglifyRelatorioDespesa));
 });
 
 
 
 // Run multiple tasks
-gulp.task('start', gulp.series(gulpSass, gulpUglify, gulpUglifyMenu, gulpUglifyGerarData, gulpUglifyGerarHorarios, gulpUglifyGerarRelatorio, gulpUglifyMostrarHorarios));
+gulp.task('start', gulp.series(gulpSass, gulpUglify, gulpUglifyMenu, gulpUglifyGerarData, gulpUglifyGerarHorarios, gulpUglifyGerarRelatorio, gulpUglifyMostrarHorarios, gulpUglifyRelatorioDespesa));

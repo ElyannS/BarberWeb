@@ -144,6 +144,14 @@
                             </a>
                         </li>
                     <?php } ?>
+                    <?php if($data['informacoes']['usuario']['type'] != '3'){ ?>
+                        <li class="<?=($data['informacoes']['menu_active'] === 'despesa') ? 'active' : ''?>">
+                            <a href="<?=URL_BASE?>admin/despesa">
+                            <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                                Despesa
+                            </a>
+                        </li>
+                    <?php } ?>
 
                     <?php if($data['informacoes']['usuario']['type'] != '99'){ ?>
                         <li class="<?=($data['informacoes']['menu_active'] === 'barbeiros') ? 'active' : ''?>">

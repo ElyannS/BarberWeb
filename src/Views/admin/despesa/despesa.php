@@ -41,7 +41,7 @@
                    
                      <td class="acaoCaixa topo">
                         <div class="btn">
-                            <a href="<?=URL_BASE?>admin/despesa-edit-data/<?=$caixa['data']?>">Editar caixa <i class="far fa-edit"></i></a>
+                            <a href="<?=URL_BASE?>admin/despesa-edit-data/<?=$caixa['data']?>">Editar Despesa <i class="far fa-edit"></i></a>
                         </div>
                          
 

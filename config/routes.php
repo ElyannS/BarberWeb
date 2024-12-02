@@ -80,6 +80,17 @@ return function (App $app) {
    $app->post('/admin/caixa_total_delete', '\App\Controller\CaixaController:caixa_total_delete');
    $app->post('/admin/gerar_relatorio', '\App\Controller\CaixaController:gerar_relatorio');
 
+    //CONTROLADOR DESPESA
+    $app->get('/admin/despesa', '\App\Controller\DespesaController:despesa');
+    $app->get('/admin/despesa-create', '\App\Controller\DespesaController:despesa_create');
+    $app->get('/admin/despesa-relatorio', '\App\Controller\DespesaController:despesa_relatorio');
+    $app->get('/admin/despesa-edit/{id}', '\App\Controller\DespesaController:despesa_edit');
+    $app->post('/admin/despesa_insert', '\App\Controller\DespesaController:despesa_insert');
+    $app->get('/admin/despesa-edit-data/{id}', '\App\Controller\DespesaController:despesa_edit_data');
+    $app->post('/admin/despesa_update', '\App\Controller\DespesaController:despesa_update');
+    $app->post('/admin/despesa_delete', '\App\Controller\DespesaController:despesa_delete');
+    $app->post('/admin/despesa_total_delete', '\App\Controller\DespesaController:despesa_total_delete');
+    $app->post('/admin/gerar_relatorio_despesa', '\App\Controller\DespesaController:gerar_relatorio');
 
     //CONTROLADOR VENDAS
     $app->get('/admin/venda', '\App\Controller\VendaController:venda');

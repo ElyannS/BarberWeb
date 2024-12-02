@@ -13,13 +13,13 @@
                 <div class="w-49">
                     <label>
                         Período*
-                        <input id="campoData1" type="date" name="data" required>
+                        <input id="campoDataDespesa1" type="date" name="data" required>
                     </label>
                 </div>
                 <div class="w-49">
                     <label>
                         Período*
-                        <input id="campoData" type="date" name="data" required>
+                        <input id="campoDataDespesa" type="date" name="data" required>
                     </label>
                 </div>
             </div> 
@@ -44,15 +44,13 @@
                 <div class="total-section">
                     <h1 id="valorTotal"></h1>
                 </div>
-                <div class="total-section">
-                    <div id="comissao"></div>
-                </div>
             </div>
         </div>
     </div>
 </section>
 <script>    
 //seta a data atual 
-     document.getElementById("campoData").value = value='<?php echo date("Y-m-d"); ?>';
+     document.getElementById("campoDataDespesa").value = value='<?php echo date("Y-m-d"); ?>';
+     document.getElementById("campoDataDespesa1").value = value='<?php echo date("Y-m-d"); ?>';
 </script>
 <?=$this->fetch('../commons/footer.php', $data)?>

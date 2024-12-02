@@ -65,7 +65,7 @@ class Despesa extends Model {
 	}
 	function selectPorData($data, $barbeiroId): array
 	{
-		$sql = "SELECT * FROM despesa WHERE data = :data AND despesa.id_barbeiro = :barbeiroId";
+		$sql = "SELECT * FROM despesas WHERE data = :data AND despesas.id_barbeiro = :barbeiroId";
 		$stmt = $this->querySelect($sql, array(':data' => $data, ':barbeiroId' => $barbeiroId));
 		return $stmt;	
 	}

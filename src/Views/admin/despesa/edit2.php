@@ -55,7 +55,7 @@
                 <thead>
                     <tr>
                         <td class="actions">AÇÕES</td>
-                        <td class="client-name">NOME CLIENTE</td>
+                        <td class="client-name">NOME DESPESA</td>
                         <td class="cash">DINHEIRO</td>
                         <td class="pix">PIX</td>
                         <td class="card">CARTÃO</td>
@@ -71,17 +71,17 @@
                             <td class="actions action-cell">
                                 <div class="action-buttons">
                                     <div class="buttonCaixa">
-                                        <a href="<?=URL_BASE?>admin/caixa-edit/<?=$caixa['id']?>">Editar</a>
+                                        <a href="<?=URL_BASE?>admin/despesa-edit/<?=$caixa['id']?>">Editar</a>
                                     </div>
                                     <div class="buttonCaixa">
-                                        <form action="<?=URL_BASE?>admin/caixa_delete" id="deleteForm" method="post">
+                                        <form action="<?=URL_BASE?>admin/despesa_delete" id="deleteForm" method="post">
                                             <input type="hidden" name="id" value="<?=$caixa['id']?>">
                                             <button type="submit">Excluir</button>
                                         </form>
                                     </div>
                                 </div>
                             </td>
-                            <td class="client-name"><?=$caixa['nome_cliente']?></td>
+                            <td class="client-name"><?=$caixa['nome_despesa']?></td>
                             <td class="cash-amount"><?=$caixa['dinheiro']?></td>
                             <td class="pix-amount"><?=$caixa['pix']?></td>
                             <td class="card-amount"><?=$caixa['cartao']?></td>
@@ -101,17 +101,10 @@
                     Valor total do Cartão: R$ <?=$data['informacoes']['valorCartao']?>
                 </div>
                 <div class="total-section">
-                    Valor total do dia: R$ <?=$data['informacoes']['valorDoDia']?>
-                </div>
-                <div class="total-section">
-                    Valor Comissão do dia: R$ <?=$data['informacoes']['valorComissao']?>
+                    Valor total Despesa: R$ <?=$data['informacoes']['valorDoDia']?>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
-<script>
-    CKEDITOR.replace( 'descricao' );
-</script>
 <?=$this->fetch('../commons/footer.php')?>
