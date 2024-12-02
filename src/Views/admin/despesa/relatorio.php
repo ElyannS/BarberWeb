@@ -44,6 +44,9 @@
                 <div class="total-section">
                     <h1 id="valorTotal"></h1>
                 </div>
+                <div class="total-section">
+                    <div id="saldo"></div>
+                </div>
             </div>
         </div>
     </div>

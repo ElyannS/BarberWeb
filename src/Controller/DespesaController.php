@@ -6,6 +6,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\PhpRenderer;
 use App\Model\Despesa;
+use App\Model\Caixa;
 use App\Model\Usuario;
 use App\Model\Configuracao;
 
@@ -302,7 +303,18 @@ final class DespesaController {
                     }
                     
 
-                    $responseData = ['relatorio' => $valorTotal, 'atendimento' => $totalCaixa,'dinheiro' => $valorTotalDinheiro, 'pix' => $valorTotalPix, 'cartao' => $valorTotalCartao];
+                    $caixa = new Caixa();
+                    $consultaCaixa = $caixa->selectPorData($data1, $idBarbeiro);
+
+                    $valorCaixa = 0;
+                    $saldo = 0;
+                    foreach ($consultaCaixa as $registro) {
+                        $valorCaixa += $registro['dinheiro'] + $registro['pix'] + $registro['cartao'];
+                    }
+
+                    $saldo = $valorCaixa - $valorTotal;
+
+                    $responseData = ['relatorio' => $valorTotal, 'atendimento' => $totalCaixa,'dinheiro' => $valorTotalDinheiro, 'pix' => $valorTotalPix, 'cartao' => $valorTotalCartao, 'saldo' => $saldo];
                     $response = $response->withHeader('Content-Type', 'application/json');
                     $response->getBody()->write(json_encode($responseData));
                     return $response;
@@ -349,7 +361,21 @@ final class DespesaController {
                     }
                 }
 
-                $responseData = ['relatorio' => $relatorio,  'atendimento' => $totalCaixa , 'dinheiro' => $valorTotalDinheiro, 'pix' => $valorTotalPix, 'cartao' => $valorTotalCartao];
+                $valorCaixa = 0;
+                $saldo = 0;
+                
+                $caixa = new Caixa();
+                $sql = "SELECT SUM(dinheiro) + SUM(pix) + SUM(cartao) as valorTotal FROM caixa WHERE data BETWEEN '{$data1}' AND '{$data2}' AND caixa.id_barbeiro = '{$idBarbeiro}'";
+                $consultaCaixa = $caixa->querySelect($sql);
+
+                $valorCaixa = $consultaCaixa[0]['valorTotal'];
+
+                
+
+                $saldo = $valorCaixa - $relatorio;
+
+
+                $responseData = ['relatorio' => $relatorio,  'atendimento' => $totalCaixa , 'dinheiro' => $valorTotalDinheiro, 'pix' => $valorTotalPix, 'cartao' => $valorTotalCartao, 'saldo' => $saldo];
                 $response = $response->withHeader('Content-Type', 'application/json');
                 $response->getBody()->write(json_encode($responseData));
                 return $response;

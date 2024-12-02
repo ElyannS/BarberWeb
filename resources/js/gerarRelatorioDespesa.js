@@ -1,12 +1,12 @@
 $(document).ready(function(){
 
     var currentPagePath = window.location.pathname;
-    var specificPagePath = '/admin/despesa-relatorio';
+    var specificPagePath = '/BarberWeb/admin/despesa-relatorio';
  
     if (currentPagePath === specificPagePath) {
         function atualizarData(data1, data2) {
             $.ajax({
-                url: '/admin/gerar_relatorio_despesa',
+                url: '/BarberWeb/admin/gerar_relatorio_despesa',
                 type: 'POST',
                 data: { data1: data1, data2: data2 },
                 dataType: 'json',
@@ -19,12 +19,14 @@ $(document).ready(function(){
                     var dinheiroR = response.dinheiro;
                     var pixR = response.pix;
                     var cartaoR = response.cartao;
+                    var saldo = response.saldo;
 
                     $('h1#valorTotal').empty();
                     $('#relato').empty();
                     $('#dinheiroR').empty();
                     $('#pixR').empty();
                     $('#cartaoR').empty();
+                    $('#saldo').empty();
 
 
                     if (relatorio == null){
@@ -35,7 +37,8 @@ $(document).ready(function(){
                         $('#dinheiroR').append('Valor total do Dinheiro: R$ ' + dinheiroR);
                         $('#pixR').append('Valor total do Pix: R$ ' + pixR);
                         $('#cartaoR').append('Valor total do Cartão: R$ ' + cartaoR);
-    
+                        $('#saldo').append('Saldo: R$ ' + saldo);
+                      
                     }
                  
                 },  
