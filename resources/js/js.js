@@ -135,11 +135,11 @@ $('.itemAgend').on('click', '#confirmarCancelar', function() {
             aviso.html(response.msg);
           }
           if (response.status != '0') {
-            alerta.addClass('sucesso');
+            alerta.addClass('sucesso alert alert-success');
             $('#aviso').addClass('mostrar'); 
             $('#avisoSucesso').addClass('mostrarSucesso');
           } else {
-            alerta.addClass('erro');
+            alerta.addClass('erro alert alert-danger');
             aviso.removeClass('sucesso').addClass('erro');
             $('#aviso').addClass('mostrar'); 
           }
@@ -152,8 +152,8 @@ $('.itemAgend').on('click', '#confirmarCancelar', function() {
           setTimeout(
             function(){ 
               alerta.html("");
-              alerta.removeClass('sucesso');
-              alerta.removeClass('erro');
+              alerta.removeClass('sucesso alert alert-success');
+              alerta.removeClass('erro alert alert-danger');
 
               aviso.html("");
               aviso.removeClass('sucesso erro');
