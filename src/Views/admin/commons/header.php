@@ -60,7 +60,12 @@
                         <li>
                             <img src="<?=URL_BASE.$_SESSION['usuario_logado']['foto_usuario']?>">
                             <div class="name_user">
-                                <?=$_SESSION['usuario_logado']['nome']?>
+                                <?php if($data['informacoes']['usuario']['type'] == '1'){ ?>
+                                    <?=$_SESSION['usuario_logado']['nome']?>
+                                <?php } ?>
+                                <?php if($data['informacoes']['usuario']['type'] == '3'){ ?>
+                                    <?=$_SESSION['usuario_logado']['first_name']?>
+                                <?php } ?>
                             </div>
                         </li>
                     </ul>

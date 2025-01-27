@@ -14,8 +14,14 @@
             <form action="<?=URL_BASE?>admin/perfil_updateCliente" class="form_ajax" method="post" enctype="multipart/form-data">
                 <div class="row">
                     <label>
-                        Nome
-                        <input type="text" name="nome" required value="<?=$data['informacoes']['usuario']['nome']?>">
+                        Primeiro nome
+                        <input type="text" name="first_name" required value="<?=$data['informacoes']['usuario']['first_name']?>">
+                    </label>
+                </div>
+                <div class="row">
+                    <label>
+                        Ultimo nome
+                        <input type="text" name="last_name" required value="<?=$data['informacoes']['usuario']['last_name']?>">
                     </label>
                 </div>
                 <div class="row">

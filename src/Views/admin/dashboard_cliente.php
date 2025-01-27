@@ -2,7 +2,7 @@
 <section class="dashboard">
     <div class="container">
         <div class="logo">
-            <p>Bem-vindo, <?=$_SESSION['usuario_logado']['nome']?>!</p>
+            <p>Bem-vindo, <?=$_SESSION['usuario_logado']['first_name']?>!</p>
             <img src="<?=URL_BASE.$data['informacoes']['nome_logo']?>" alt="">
         </div>
         <div class="menu_pagina_inicial">

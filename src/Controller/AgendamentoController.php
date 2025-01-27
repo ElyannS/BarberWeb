@@ -131,10 +131,11 @@ final class AgendamentoController
                                 $agendamentoEncontrado = true;
                                 $contato = '';
                                 $semCadastro = '';
+                            
                                 if($agendamento['telefone_cliente']){
                                     $contato = ' - ' . $agendamento['telefone_cliente'];
                                 }
-                                if($agendamento['nome_cliente'] === 'sem cadastro'){
+                                if($agendamento['nome_cliente'] === 'sem cadastro '){
                                     $semCadastro = ' - '. $agendamento['descricao'];
                                 }
                                 if($agendamento['nome_cliente'] === 'BLOQUEADO'){
@@ -146,7 +147,6 @@ final class AgendamentoController
                                 $nomeServico = $agendamento['nome_servico'];
                                 $idAgendamento = $agendamento['id'];
                                 $descricao = $agendamento['descricao'];
-                                $type = $agendamento['type'];
                                 break;
                             }
                         }

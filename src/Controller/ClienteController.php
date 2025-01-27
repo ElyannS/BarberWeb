@@ -566,7 +566,8 @@ final class ClienteController
         ResponseInterface $response,
         $args
     ) {
-        $nome = $request->getParsedBody()['nome'];
+        $first_name = $request->getParsedBody()['first_name'];
+        $last_name = $request->getParsedBody()['last_name'];
         $email = $request->getParsedBody()['email'];
         $telefone = $request->getParsedBody()['telefone'];
         $senha = $request->getParsedBody()['senha'];
@@ -606,7 +607,8 @@ final class ClienteController
       
           
         $campos = array(
-            'nome' => $nome,
+            'first_name' => $first_name,
+            'last_name' => $last_name,
             'telefone' => $telefone,
             'foto_usuario' => 'resources/imagens/cliente/usuariopadrao.png',
             'type' => 3,
@@ -681,7 +683,7 @@ final class ClienteController
                             <h1>Bem-vindo!</h1>
                         </div>
                         <div class='content'>
-                            <p>Olá, $nome</p>
+                            <p>Olá, $first_name</p>
                             <p>Obrigado por se cadastrar em nossa barbearia. Para acessar a agenda, por favor, clique no botão abaixo:</p>
                              <a href='https://exclusivebarbershop.com.br/login-cliente' class='button'>Acessar</a>
                         </div>
@@ -697,10 +699,10 @@ final class ClienteController
             
 
             $destino = $email;
-            $assunto_email = "Agradecemos seu cadastro ".$nome."!";
+            $assunto_email = "Agradecemos seu cadastro ".$first_name."!";
 
           
-            $this->enviarEmailApi($destino, $assunto_email, $msgHtml, $nomeBarbearia, $nome);
+            $this->enviarEmailApi($destino, $assunto_email, $msgHtml, $nomeBarbearia, $first_name);
             
             if($results['enviarEmailApi'] = 'success'){
                 $js['status'] = 1;
@@ -731,7 +733,8 @@ final class ClienteController
         $args
     ) {
         $id = $request->getParsedBody()['id'];
-        $nome = $request->getParsedBody()['nome'];
+        $first_name = $request->getParsedBody()['first_name'];
+        $last_name = $request->getParsedBody()['last_name'];
         $email = $request->getParsedBody()['email'];
         $telefone = $request->getParsedBody()['telefone'];
         $password = $request->getParsedBody()['password'];
@@ -772,7 +775,8 @@ final class ClienteController
        
 
         $campos = array(
-            'nome' => $nome,
+            'first_name' => $first_name,
+            'last_name' => $last_name,
             'email' => $email,
             'telefone' => $telefone,
         );
@@ -1079,7 +1083,7 @@ final class ClienteController
                 throw new Exception("Erro ao obter informações do cliente.");
             }
             $idCliente = $usuarioInfo[0]['id'];
-            $nomeCliente = $usuarioInfo[0]['nome'];
+            $nomeCliente = $usuarioInfo[0]['first_name'] . ' ' . $usuarioInfo[0]['last_name'];
             $emailCliente = $usuarioInfo[0]['email'];
     
             // Obtém o nome da barbearia
@@ -1412,7 +1416,8 @@ final class ClienteController
         $args
     ) {
         $id = $request->getParsedBody()['id'];
-        $nome = $request->getParsedBody()['nome'];
+        $first_name = $request->getParsedBody()['first_name'];
+        $last_name = $request->getParsedBody()['last_name'];
         $email = $request->getParsedBody()['email'];
         $senha = $request->getParsedBody()['senha'];
         $confirmar_senha = $request->getParsedBody()['confirmar_senha'];
@@ -1466,7 +1471,8 @@ final class ClienteController
             }
         }
         $campos = array(
-            'nome' => $nome,
+            'first_name' => $first_name,
+            'last_name' => $last_name,
             'email' => $email,
         );
         if($imagem_atualizar) {
