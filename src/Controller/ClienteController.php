@@ -11,9 +11,6 @@ use App\Model\Configuracao;
 use App\Model\Agendamento;
 use App\Model\Servico;
 use App\Model\HorarioBarbeiro;
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
 
 
 final class ClienteController
@@ -1335,60 +1332,123 @@ final class ClienteController
    
     }
 
-    private function enviarEmailApi($emailDestino, $assunto, $mensagem, $nomeBarbearia, $nomeDestino) {
-       // URL da API 
-        $url = "api.iagentesmtp.com.br/api/v3/send/";
+    // private function enviarEmailApi($emailDestino, $assunto, $mensagem, $nomeBarbearia, $nomeDestino) {
+    //    // URL da API 
+    //     $url = "api.iagentesmtp.com.br/api/v3/send/";
 
-        // Dados do usuário - Iagente: https://www.iagente.com.br/solicitacao-conta-smtp/origin/celke 
-        // Recomendado salvar em variáveis de ambiente: https://celke.com.br/artigo/como-usar-variaveis-de-ambiente-env-no-php
-        $apiUsuario = 'contato@exclusivebarbershop.com.br';
-        $apiChave = '3rjn1o3m7fme2f12c84v4109fri262r950f932827u96cj1be';
+    //     // Dados do usuário - Iagente: https://www.iagente.com.br/solicitacao-conta-smtp/origin/celke 
+    //     // Recomendado salvar em variáveis de ambiente: https://celke.com.br/artigo/como-usar-variaveis-de-ambiente-env-no-php
+    //     $apiUsuario = 'contato@exclusivebarbershop.com.br';
+    //     $apiChave = '3rjn1o3m7fme2f12c84v4109fri262r950f932827u96cj1be';
 
+    //     // Dados do e-mail
+    //     $dados = [
+    //         "api_user" => $apiUsuario,
+    //         "api_key" => $apiChave,
+    //         "to" => [ 
+    //             [
+    //                 // Destinatário
+    //                 "email" => $emailDestino,
+    //                 "name" =>  $nomeDestino
+    //             ]
+    //         ],
+    //         "from" => [
+    //             // E-mail utilizado para enviar e Remetente
+    //             "name" => $nomeBarbearia,
+    //             "email" => "contato@exclusivebarbershop.com.br",
+    //             "reply_to" => "contato@exclusivebarbershop.com.br",
+    //         ],
+    //         "subject" => $assunto,
+    //         "html" => $mensagem,
+    //         "text" => "",
+    //         "campanhaid"  => "2",
+    //         "addheaders" =>
+    //         [
+    //             "x-priority" => "1"
+    //         ],
+    //     ];
+
+    //     // A função curl_init() inicializa uma nova sessão
+    //     $ch = curl_init($url);
+
+    //     // Configurar a requisição POST
+    //     curl_setopt($ch, CURLOPT_POST, 1);
+    //     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($dados));
+
+    //     // Definir os cabeçalhos da requisição
+    //     curl_setopt($ch, CURLOPT_HTTPHEADER, [('Content-Type: application/json')]);
+
+    //     // Configurar para receber a resposta da requisição como uma string
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    //     // Executar a requisição
+    //     $resposta = curl_exec($ch);
+
+
+    // }
+    private function enviarEmailApi($emailDestino, $assunto, $mensagem, $nomeBarbearia, $nomeDestino)
+    {
+        // URL da API do MailerSend
+        $url = "https://api.mailersend.com/v1/email";
+    
+        // Token de autenticação
+        $apiToken = 'mlsn.15f340984ea67fbe3308f63e28b0e7c20027e1f9bc091887faabac50cea00404';
+    
         // Dados do e-mail
         $dados = [
-            "api_user" => $apiUsuario,
-            "api_key" => $apiChave,
-            "to" => [ 
+            "from" => [
+                "email" => "info@exclusivebarbershop.com.br",
+                "name" => $nomeBarbearia
+            ],
+            "to" => [
                 [
-                    // Destinatário
                     "email" => $emailDestino,
-                    "name" =>  $nomeDestino
+                    "name" => $nomeDestino
                 ]
             ],
-            "from" => [
-                // E-mail utilizado para enviar e Remetente
-                "name" => $nomeBarbearia,
-                "email" => "contato@exclusivebarbershop.com.br",
-                "reply_to" => "contato@exclusivebarbershop.com.br",
-            ],
             "subject" => $assunto,
-            "html" => $mensagem,
-            "text" => "",
-            "campanhaid"  => "2",
-            "addheaders" =>
-            [
-                "x-priority" => "1"
-            ],
+            "text" => strip_tags($mensagem), // Conteúdo em texto puro
+            "html" => $mensagem // Conteúdo HTML
         ];
-
-        // A função curl_init() inicializa uma nova sessão
+    
+        // Inicializa a sessão cURL
         $ch = curl_init($url);
-
-        // Configurar a requisição POST
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($dados));
-
-        // Definir os cabeçalhos da requisição
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [('Content-Type: application/json')]);
-
-        // Configurar para receber a resposta da requisição como uma string
+    
+        // Configurações do cURL
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        // Executar a requisição
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $apiToken
+        ]);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($dados));
+    
+        // Executa a requisição e captura a resposta
         $resposta = curl_exec($ch);
-
-
+    
+        // Verifica erros
+        if (curl_errno($ch)) {
+            error_log('Erro ao enviar e-mail: ' . curl_error($ch));
+            curl_close($ch);
+            return false; // Indica falha no envio
+        }
+    
+        // Fecha a sessão cURL
+        curl_close($ch);
+    
+        // Decodifica a resposta para verificar sucesso
+        $respostaDecoded = json_decode($resposta, true);
+    
+        if (isset($respostaDecoded['error'])) {
+            error_log('Erro ao enviar e-mail: ' . $respostaDecoded['error']);
+            return false; // Indica falha no envio
+        }
+    
+        return true; // Indica sucesso no envio
     }
+    
+
+   
     public function perfil_cliente(
         ServerRequestInterface $request, 
         ResponseInterface $response,
