@@ -9,11 +9,17 @@
         </div>
        
         <div class="form">
-            <form action="<?=URL_BASE?>admin/clientes_update" method="post" enctype="multipart/form-data">
+            <form action="<?=URL_BASE?>admin/clientes_update" method="post" enctype="multipart/form-data" class="form_ajax">
                 <div class="row">
                     <label>
-                        Nome
-                        <input type="text" name="nome" required value="<?=$data['informacoes']['cliente']['nome']?>">
+                        Primeiro Nome
+                        <input type="text" name="first_name" required value="<?=$data['informacoes']['cliente']['first_name']?>">
+                    </label>
+                </div>
+                <div class="row">
+                    <label>
+                        Último Nome
+                        <input type="text" name="last_name" required value="<?=$data['informacoes']['cliente']['last_name']?>">
                     </label>
                 </div>
                 <div class="row">
@@ -59,8 +65,11 @@
                 <div class="row">
                     <button type="submit">Salvar</button>
                 </div>   
+               
                 <input type="hidden" name="id" value="<?=$data['informacoes']['cliente']['id']?>">
                 <input type="hidden" name="nome_imagem_atual" value="<?=$data['informacoes']['cliente']['foto_usuario']?>">
+                
+                <div class="alerta"> </div>
             </form>  
         </div>
 </section>

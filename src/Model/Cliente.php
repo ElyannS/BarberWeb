@@ -8,7 +8,7 @@ class Cliente extends Model {
 	private $table = "clientes";
 	protected $fields = [
 		"id",
-		"fist_nome",
+		"first_nome",
 		"last_nome",
 		"telefone",
 		"email",
@@ -52,8 +52,8 @@ class Cliente extends Model {
 	function selectClientesPesquisa($pesquisa)
 	{
 		$sql = "SELECT * FROM ".$this->table." 
-        WHERE first_nome LIKE '%".$pesquisa."%' 
-        OR last_nome LIKE '%".$pesquisa."%' 
+        WHERE first_name LIKE '%".$pesquisa."%' 
+        OR last_name LIKE '%".$pesquisa."%' 
         ORDER BY id DESC";
 
 		return $this->querySelect($sql);

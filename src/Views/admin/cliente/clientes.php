@@ -20,7 +20,7 @@
                 <?php } ?>
             </div>
         </div>
-        <div class="topo flex">
+        <div class="topo flex"> 
             <div class="form_pesquisa">
                 <form action="<?=URL_BASE?>admin/clientes" method="GET">
                     <input type="text" name="pesquisa" placeholder="Nome do cliente...">
@@ -37,7 +37,7 @@
                        
                         <td class="titulo_item">
                             <div class="titulo-ser">
-                                <?=$clientes['nome']?>
+                                <?=$clientes['first_name']?>
                             </div>
                         </td>
                         <?php if($data['informacoes']['usuario']['type'] === '1'){ ?>
@@ -69,6 +69,9 @@
                     <a href="<?=$data['informacoes']['proximaPagina'] ?>"> <i class="fas fa-arrow-circle-right"></i></a>
                 <?php }?>
             </div>
+        </div>
+        <div>
+            <?php echo $data['informacoes']['qtdCliente'] ?> clientes cadastrados.
         </div>
     </div>
 </section>

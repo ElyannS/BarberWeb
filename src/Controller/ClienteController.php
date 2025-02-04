@@ -424,7 +424,8 @@ final class ClienteController
 
             $lista = $clientes->selectClientesPage($limit, $offset);
         }
-      
+
+        $quantTotal = count($clientes->selectCliente('*' , array('1'=>'1')));
         $config = new Configuracao();
         $nome_logo_site = $config->getConfig('logo_site');
 
@@ -437,7 +438,8 @@ final class ClienteController
             'proximaPagina' => $proximaPagina,
             'paginaAnterior' => $paginaAnterior,
             'nome_logo' => $nome_logo_site,
-            'usuario' => $usuario
+            'usuario' => $usuario,
+            'qtdCliente' => $quantTotal
         );
 
         $renderer = new PhpRenderer(DIRETORIO_TEMPLATES_ADMIN."/cliente");
@@ -733,15 +735,28 @@ final class ClienteController
         $first_name = $request->getParsedBody()['first_name'];
         $last_name = $request->getParsedBody()['last_name'];
         $email = $request->getParsedBody()['email'];
-        $telefone = $request->getParsedBody()['telefone'];
-        $password = $request->getParsedBody()['password'];
+        $telefone = $request->getParsedBody()['telefone']; 
+        $senha = $request->getParsedBody()['senha'];
+        $confirmar_senha = $request->getParsedBody()['confirmar_senha'];
+      
 
-
+        if($senha !== $confirmar_senha){
+            $js['status'] = 0;
+            $js['msg'] = 'As senhas não são iguais.';
+            echo json_encode($js);
+            exit();
+        }
+        if(strlen($senha) < 4) {
+            $js['status'] = 0;
+            $js['msg'] = 'A senha deve conter no mínimo 4 caracteres.';
+            echo json_encode($js);
+            exit();
+        }
         $nome_imagem_atual = $request->getParsedBody()['nome_imagem_atual'];
 
         $imagem_atualizar = false;
 
-        if($request->getUploadedFiles()['foto_usuario']->getClientFilename() !== '') {
+        if (isset($uploadedFiles['foto_usuario']) && $uploadedFiles['foto_usuario']->getClientFilename() !== '') {
             $imagem_atualizar = true;
             $nome_imagem_principal = "";
 
@@ -777,7 +792,9 @@ final class ClienteController
             'email' => $email,
             'telefone' => $telefone,
         );
-        $campos['senha'] = password_hash($password, PASSWORD_DEFAULT, ["const"=>12]);
+        if($senha === $confirmar_senha){
+            $campos['senha'] = password_hash($senha, PASSWORD_DEFAULT, ["const"=>12]);
+        }
         
         if($imagem_atualizar) {
             $campos['foto_usuario'] = $nome_imagem_principal;
@@ -1332,60 +1349,7 @@ final class ClienteController
    
     }
 
-    // private function enviarEmailApi($emailDestino, $assunto, $mensagem, $nomeBarbearia, $nomeDestino) {
-    //    // URL da API 
-    //     $url = "api.iagentesmtp.com.br/api/v3/send/";
-
-    //     // Dados do usuário - Iagente: https://www.iagente.com.br/solicitacao-conta-smtp/origin/celke 
-    //     // Recomendado salvar em variáveis de ambiente: https://celke.com.br/artigo/como-usar-variaveis-de-ambiente-env-no-php
-    //     $apiUsuario = 'contato@exclusivebarbershop.com.br';
-    //     $apiChave = '3rjn1o3m7fme2f12c84v4109fri262r950f932827u96cj1be';
-
-    //     // Dados do e-mail
-    //     $dados = [
-    //         "api_user" => $apiUsuario,
-    //         "api_key" => $apiChave,
-    //         "to" => [ 
-    //             [
-    //                 // Destinatário
-    //                 "email" => $emailDestino,
-    //                 "name" =>  $nomeDestino
-    //             ]
-    //         ],
-    //         "from" => [
-    //             // E-mail utilizado para enviar e Remetente
-    //             "name" => $nomeBarbearia,
-    //             "email" => "contato@exclusivebarbershop.com.br",
-    //             "reply_to" => "contato@exclusivebarbershop.com.br",
-    //         ],
-    //         "subject" => $assunto,
-    //         "html" => $mensagem,
-    //         "text" => "",
-    //         "campanhaid"  => "2",
-    //         "addheaders" =>
-    //         [
-    //             "x-priority" => "1"
-    //         ],
-    //     ];
-
-    //     // A função curl_init() inicializa uma nova sessão
-    //     $ch = curl_init($url);
-
-    //     // Configurar a requisição POST
-    //     curl_setopt($ch, CURLOPT_POST, 1);
-    //     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($dados));
-
-    //     // Definir os cabeçalhos da requisição
-    //     curl_setopt($ch, CURLOPT_HTTPHEADER, [('Content-Type: application/json')]);
-
-    //     // Configurar para receber a resposta da requisição como uma string
-    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-    //     // Executar a requisição
-    //     $resposta = curl_exec($ch);
-
-
-    // }
+    
     private function enviarEmailApi($emailDestino, $assunto, $mensagem, $nomeBarbearia, $nomeDestino)
     {
         // URL da API do MailerSend

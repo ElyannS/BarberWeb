@@ -36,7 +36,7 @@
                 <tbody> 
                 <?php
                      
-                     foreach($data['informacoes']['lista'] as $caixa) {?>
+                foreach($data['informacoes']['lista'] as $caixa) {?>
                  <tr class="border-bottom">
                    
                      <td class="acaoCaixa topo">

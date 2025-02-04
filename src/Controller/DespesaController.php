@@ -270,6 +270,7 @@ final class DespesaController {
                     $usuario = new Usuario();
                     $usuarioInfo = $usuario->selectUsuario('*', ['email' => $emailUser]);
                     $idBarbeiro = $usuarioInfo[0]['id'];
+                    $comissao = $usuarioInfo[0]['comissao'];
 
                     $sql = "SELECT COUNT(*) AS total_caixa FROM despesas WHERE data = '$data1' AND despesas.id_barbeiro = '$idBarbeiro'";
                     $resultado = $despesa->querySelect($sql);
@@ -311,8 +312,8 @@ final class DespesaController {
                     foreach ($consultaCaixa as $registro) {
                         $valorCaixa += $registro['dinheiro'] + $registro['pix'] + $registro['cartao'];
                     }
-
-                    $saldo = $valorCaixa - $valorTotal;
+                    $resultCaixa = $valorCaixa * $comissao / 100;
+                    $saldo = $resultCaixa - $valorTotal;
 
                     $responseData = ['relatorio' => $valorTotal, 'atendimento' => $totalCaixa,'dinheiro' => $valorTotalDinheiro, 'pix' => $valorTotalPix, 'cartao' => $valorTotalCartao, 'saldo' => $saldo];
                     $response = $response->withHeader('Content-Type', 'application/json');
@@ -370,9 +371,8 @@ final class DespesaController {
 
                 $valorCaixa = $consultaCaixa[0]['valorTotal'];
 
-                
-
-                $saldo = $valorCaixa - $relatorio;
+                $resultCaixa = $valorCaixa * $comissao / 100;
+                $saldo = $resultCaixa - $relatorio;
 
 
                 $responseData = ['relatorio' => $relatorio,  'atendimento' => $totalCaixa , 'dinheiro' => $valorTotalDinheiro, 'pix' => $valorTotalPix, 'cartao' => $valorTotalCartao, 'saldo' => $saldo];

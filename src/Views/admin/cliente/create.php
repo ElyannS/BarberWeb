@@ -9,10 +9,16 @@
         </div>
         <div class="form">
             <form action="<?=URL_BASE?>admin/clientes_insert" method="post" enctype="multipart/form-data">
+            <div class="row">
+                    <label>
+                        Primeiro Nome
+                        <input type="text" name="first_name" required>
+                    </label>
+                </div>
                 <div class="row">
                     <label>
-                        Nome
-                        <input type="text" name="nome" required>
+                        Último nome
+                        <input type="text" name="last_name" required>
                     </label>
                 </div>
                 <div class="row">
