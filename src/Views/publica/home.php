@@ -1,20 +1,46 @@
 <?=$this->fetch('commons/header.php', $data)?>
 
-	<section class="banners">
-		<ul class="itens">
-		<li class="item">
-			<a href="#">
-				<img src="<?=URL_BASE?>resources/imagens/banner.png">
-			</a>
-		</li>
-		
-		<li class="item">
-			<a href="#">
-				<img src="<?=URL_BASE?>resources/imagens/banner.png">
-			</a>
-		</li>
-		</ul>
-	</section>
+	    <!-- slider section -->
+	<section class="slider_section ">
+      	<div id="customCarousel1" class="carousel slide" data-ride="carousel">
+			<div class="carousel-inner">
+				<div class="carousel-item <?php echo $ativo ?>">
+					<div class="container ">
+					<div class="row">
+						<div class="col-md-6 ">
+						<div class="detail-box">
+							<h1>Sua barba feita</h1>
+							<p>
+								alskdlksakds
+							</p>
+							<div class="btn-box">
+							<a href="http://api.whatsapp.com/send?1=pt_BR&phone=" target="_blank" class="btn1">
+								Contate-nos
+							</a>
+							</div>
+						</div>
+						</div>
+					</div>
+					</div>
+				</div>
+        	</div>
+			<div class="container">
+				<div class="carousel_btn-box">
+					<a class="carousel-control-prev" href="#customCarousel1" role="button" data-slide="prev">
+					<i class="fa fa-arrow-left" aria-hidden="true"></i>
+					<span class="sr-only">Previous</span>
+					</a>
+					<a class="carousel-control-next" href="#customCarousel1" role="button" data-slide="next">
+					<i class="fa fa-arrow-right" aria-hidden="true"></i>
+					<span class="sr-only">Next</span>
+					</a>
+				</div>
+			</div>
+      	</div>
+    </section>
+    <!-- end slider section -->
+
+
 	
 
 	<?php

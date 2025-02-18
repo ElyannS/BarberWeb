@@ -142,5 +142,11 @@
 	<script src="<?=URL_BASE?>resources/fonts/fontawesome/js/all.min.js"></script>
 	<script src="https://kit.fontawesome.com/9c14b7c190.js" crossorigin="anonymous"></script>
 	<script src="<?=URL_BASE?>resources/js/swipebox/jquery.swipebox.min.js"></script>
+
+
+	<script src="<?=URL_BASE?>resources/js/jquery.js"></script>
+    <script src="<?=URL_BASE?>resources/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 </body>
 </html>
